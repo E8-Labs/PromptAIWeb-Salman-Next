@@ -6,6 +6,10 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --app-primary: #00C28C;
+  --carousel-background: #001812;
+  --register-background: #050A08;
+  --bg-clear: transparent;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -24,4 +28,284 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+}
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, button, input {
+  margin: 0;
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+body{
+  max-height: 100vh;
+  max-width: 100vw;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#signuptextform::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: white;
+  opacity: 0.5; /* Firefox */
+}
+.bg-clear{
+  background-color: transparent;
+}
+.border-app-primary{
+  border: solid var(--app-primary);
+  border-width: 1;
+}
+.bg-app-primary{
+  background-color: var(--app-primary);
+}
+.bg-app-dark-green{
+  background-color: #050A08;
+}
+.bg-red{
+  background-color: red;
+}
+
+.bg-yellow{
+  background-color: yellow;
+}
+
+.bg-green{
+  background-color: green;
+}
+
+.bg-transparent{
+  background-color: transparent;
+}
+.bg-image{
+  background-color: rgb(24, 23, 23);
+  /* background-image: url('background-desktop.png'); */
+  height: 100vh;
+  width: 100vw;
+  object-fit: cover;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
+
+/* Text Coloring */
+.text-white{
+  color: white;
+}
+.text-app-primary{
+  color: var(--app-primary);
+}
+
+/* navbars */
+
+.top-nav-custom-class{
+  background-color: transparent;
+}
+
+/* buttons */
+.dbmenubtn{
+            
+  cursor: pointer;
+  vertical-align: middle;
+  justify-content: left;
+  align-items: center;
+  display: flex;
+  .icon{
+      background-color: transparent;
+  }
+  .button{
+
+       /* background-color: red; */
+      padding: 1rem;
+      background-color: transparent;
+      border: none;
+      font-size: 0.8rem;
+      cursor: pointer;
+      color: white;
+      text-align: left;
+  }
+}
+/* Profile Screen Buttons Menu */
+.btnmenu{
+
+}
+
+
+
+
+
+/* details div profile screen */
+.detailsdiv{
+  /* position: relative; */
+  /* // background-color: yellow; */
+  /* display: flex; */
+  /* flex-direction: row; */
+  .leftmenudiv{
+      /* height: 25vh; */
+      /* width: 13vw; */
+      background-color: #00C28C10;
+      display: flex;
+      padding-left: 2rem;
+      /* flex-direction: column; */
+      /* gap: 2.5rem; */
+      text-align: left;
+      justify-content: center;
+      /* align-items: left; */
+      border-radius: 1rem;
+      .btnmenu{
+          text-align: left;
+          background-color: transparent;
+          border: none;
+          color: white;
+          cursor: pointer;
+      }
+      .btnmenuselected{
+          text-align: left;
+          background-color: transparent;
+          border: none;
+          color: #00C28C;
+          cursor: pointer;
+      }
+      .logoutbtn{
+          color: #FF124B;
+      }
+  }
+}
+
+.left-div{
+  background-color: #c22700;
+  
+}
+.full-width{
+width: 100%;
+}
+.right-div{
+  height: 71vh;
+  width: 100%;
+  /* margin-top: 3rem; */
+  padding: 1.5rem;
+  background-color: var(--register-background);
+
+}
+/* .signin_signup_background{  background: url('background-desktop.png'); background-color: #050A08;   height: 100vh;  width: 100vw;  background-size: 100% 100%;  background-position: center;  background-repeat: no-repeat;} */
+.signup-signin-carousel{
+  height: 71vh;
+  width: 100%;
+  /* margin-top: 3rem; */
+  padding: 1.5rem;
+  background-color: var(--carousel-background);
+  /* align-items: center;
+  justify-content: center; */
+}
+.upload_image{text-align: center; margin-bottom: 3%; justify-content: 'center'; align-items: 'center';}
+/* @media (min-width: 992px) {
+  .bg-image {
+    margin-top: -58.59px;
+  }
+} */
+
+.title1-text{
+
+font-family: 'Rubik';
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.title2-text{
+font-family: 'Rubik';
+font-size: 15px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+}
+.paragraph-text{
+text-align: center;
+
+/* Alert text */
+font-family: Rubik;
+font-size: 10px;
+font-style: bold;
+font-weight: 500;
+line-height: normal;
+}
+
+/* <-- Signup screen> */
+.user-profile-image-border{ 
+  width: 110px;
+  height: 110px;
+  
+}
+.user-profile-image{
+  width: 100px;
+  height: 100px;
+}
+
+@media (min-width:1280px) and (max-width:1365px){
+  .signup-signin-carousel{
+    height: 71vh;
+    width: 100%;
+  }
+}
+
+@media (min-width:1152px) and (max-width:1279px){
+  .signup-signin-carousel{
+    height: 71vh;
+    width: 100%;
+  }
+}
+
+@media (max-width: 991px){
+  .top-nav-custom-class{
+    background-color: var(--carousel-background);
+  }
+}
+
+@media (max-width:768px){
+  .signup-signin-carousel{
+    height: 45vh;
+    width: 100%;
+  }
+  /* .upload_image{
+    width: 20px;
+    
+  }*/
+  .upload_image{text-align: center; margin-bottom: 3%; width: 50px;} 
+}
+
+@media (max-width:576px){
+  .userdetailsdivouter > .socialbtns{
+    gap: 0.5rem;
+}
+.userdetailsdivouter >.socialbtns > .img{
+  width: 1rem;
+  height: 1rem;
+}
+  .signin_signup_background{   background-color: #050A08;   height: 100vh;  width: 100vw;  background-size: 120% 120%;  background-position: center;  background-repeat: repeat;}
+  .signup-signin-carousel{
+    height: 45vh;
+    width: 100%;
+  }
+  .user-profile-image-border{
+    width: 85px;
+    height: 85px;
+    
+  }
+  .user-profile-image{
+    width: 75px;
+    height: 75px;
+
+  }
+  /* .upload_image{
+    width: 20px;
+    
+  }*/
+  .upload_image{text-align: center; margin-bottom: 3%; } 
 }

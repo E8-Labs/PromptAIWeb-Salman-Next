@@ -1,113 +1,352 @@
-import Image from 'next/image'
+// @ts-nocheck
+'use client'
+import { useRouter } from 'next/navigation';
+import { useState } from "react";
+// import AcmeLogo from '@/app/ui/acme-logo';
+// import { ArrowRightIcon } from '@heroicons/react/24/outline';
+// import styles from '@/app/ui/home.module.css'
+import { lusitana, poppins } from '@/app/ui/fonts';
 
-export default function Home() {
+import Image from 'next/image';
+
+
+import Link from 'next/link';
+
+import Slider from "react-slick";
+
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle";
+
+
+// own css files here
+// import "..";
+
+// import crossIcon from '../../assets/cross.svg'
+import ChatGptLogin from "@/app/ui/auth/ChatGptLogin";
+// import NotificationPermission from "./NotificationPermission";
+// import AddProfilePicture from "./AddProfilePicture";
+// import AddUsername from "./AddUsername";
+// import AddSocialLinks from "./AddSocialLinks";
+// import AddPassword from "./AddPassword";
+// import AddEmail from "@/app/ui/auth/AddEmail";
+import LoginAI from "@/app/ui/auth/LoginAI";
+
+import ApiPath from "@/app/lib/ApiPath";
+
+const sliderContent = [
+  {
+    id: "1",
+    heading: 'Prompt',
+    description: 'Empowering creators and users to harness the power of AI through our AI prompt marketplace.',
+  },
+  {
+    id: "2",
+    heading: 'Prompt 2',
+    description: 'Empowering creators and users to harness the power of AI through our AI prompt marketplace.',
+  },
+  {
+    id: "3",
+    heading: 'Prompt 3',
+    description: 'Empowering creators and users to harness the power of AI through our AI prompt marketplace.',
+  },
+  // Add more slider content as needed
+];
+
+export default function Page() {
+
+const router = useRouter();
+const [page, setPage] = useState("intro")
+const [file, setFile] = useState("")
+const [name, setName] = useState("")
+const [username, setUsername] = useState("")
+const [email, setEmail] = useState("")
+const [website, setWebsite] = useState("")
+const [youtube, setYoutube] = useState("")
+const [instagram, setInstagram] = useState("")
+const [password, setPassword] = useState("")
+const [imagePreviewUrl, setImagePreviewUrl] = useState("")
+
+const [index, setIndex] = useState(0)
+
+
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+
+  const mainStyle = {
+    backgroundImage: 'url("../background-desktop.png")',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+  };
+
+
+
+  //functions
+  function signinBtnTapped(){
+    setPage("login")
+  }
+  function registerBtnTapped(){
+     setPage("profile_image")
+  }
+  function getImage(imageUrl, file){
+      console.log("Image picked " + imageUrl)
+      setPage("email")
+      setFile(file)
+      setImagePreviewUrl(imageUrl)
+    }
+    function getUsername(username){
+      console.log("Username added " + username)
+      setPage("social_links")
+      setUsername(username)
+      
+    }
+
+    function getEmail(email){
+      console.log("email added " + email)
+      setPage("username")
+      setEmail(email)
+      
+    }
+
+    function getPassword(password){
+      console.log("Password added " + password)
+      setPage("signup")
+      setPassword(password)
+      
+      var formdata = new FormData();
+        formdata.append("username", username);
+        formdata.append("email", email);
+        formdata.append("password", password);
+        formdata.append("name", username);
+        formdata.append("youtube", youtube);
+        formdata.append("website", website);
+        formdata.append("instagram", instagram);
+        formdata.append("image", file);
+        const apiOption2 = {
+            method: "post",
+            body: formdata,
+            redirect: 'follow'
+        }
+        fetch("http://localhost:5001/api/users/register",apiOption2)
+        .then(function(res) {
+            return res.json();
+        }).then(resJson => {
+            // this.props.clickEvent("stap6");
+            if(resJson.status == true){
+                console.log("User created")
+                let Manin_data_wrap = resJson.data;
+                let Profile = Manin_data_wrap.user;
+                let profile_img = Profile.image_url;
+                localStorage.setItem(process.env.REACT_APP_LocalSavedUser, Manin_data_wrap);
+                console.log(Profile.image_url)
+                router.push("/dashboard")
+            }else{
+              toast(`Error: ${resJson.message}`);
+                // this.setState({ valid_email_address: "Email address is already registered" });
+                // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
+                // this.error_handaling();
+            }
+        })
+        .catch(error => {
+          console.log("User error " + error)
+          toast(`User logged in as ${error}`);
+            // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+            // this.error_handaling();
+        });
+    }
+
+
+    //login here
+    function getEmailPassword(email, password){
+      const apiParams = {
+        method: "post",
+        headers:{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body:JSON.stringify({
+            "email" :  email ,
+            "password" : password,
+        }),
+        redirect: 'follow'
+      }
+
+    fetch(ApiPath.LoginRoute,apiParams)
+    .then(function(res) {
+        return res.json();
+    }).then(resJson => {
+        // this.props.clickEvent("stap6");
+        if(resJson.status == true){
+            console.log("User Logged in")
+            toast(`Success: User logged in`);
+            let Manin_data_wrap = resJson.data;
+            let Profile = Manin_data_wrap.user;
+            let profile_img = Profile.image_url;
+            localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+            console.log(Profile.image_url)
+            router.push("/dashboard")
+            // const navigate = this.props.navigate;
+            // navigate("/prompts")
+            
+        }else{
+          console.log("Error login ", resJson.message)
+          toast(`Error: ${resJson.message}`);
+            // this.setState({ valid_email_address: "Email address is already registered" });
+            // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
+            // this.error_handaling();
+        }
+    })
+    .catch(error => {
+      console.log("User error " + error)
+      toast(`Error: ${error}`);
+        // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+        // this.error_handaling();
+    });
+    }
+
+
+    function getSocialLinks(web, insta, youtube){
+      console.log("Web added " + web)
+      this.setState({
+        page: "password",
+        website: web,
+        instagram: insta,
+        youtube: youtube
+      })
+    }
+    function nextPreviousBtnClicked (event){
+        // console.log("button clicked")
+        if(event.currentTarget.id === "next"){
+            console.log(event.currentTarget.id + " btn clicked")
+            if (this.state.index == 2){
+              this.setState({
+                index: 0
+              })
+            }
+            else{
+              this.setState({
+                index: this.state.index - 1
+              })
+                // setIndex(index + 1)
+            }
+        }
+        else{
+            console.log(event.currentTarget.id + " btn clicked")
+            if (this.state.index == 0){
+              this.setState({
+                index: 2
+              })
+            }
+            else{
+              this.setState({
+                index: this.state.index + 1
+              })
+                // setIndex(index + 1)
+            }
+        }
+    }
+
+    //functions end here
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+    <main className="flex min-h-screen flex-col p-6" style={mainStyle}>
+      {/* Header or other content can be added here if needed */}
+
+      <div className="bg-black rounded m-auto items-center justify-center flex flex-row h-2/5 w-3/5  shadow-lg">
+        <div className="flex-grow flex flex-col justify-center gap-6 rounded bg-gray-50 px-6 py-10 md:w-2/4 h-40vh md:px-20  bg-appgreen" style={{ height: '70vh', backgroundColor: "#001812" }}>
+          <Slider {...sliderSettings} className=" flex-grow flex" style={{ height: '50vh', flex: 1 }}>
+            {sliderContent.map((slide, index) => (
+              <div key={index} className="gap-4" style={{ height: '100vh', gap: '2rem', flexDirection: 'column', flex: 1 }}>
+                <h2 className="text-xl font-bold text-white">{slide.heading}</h2>
+                <p className="text-white">{slide.description}</p>
+              </div>
+            ))}
+          </Slider>
         </div>
-      </div>
 
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <div className="flex-grow flex items-center justify-center p-1 md:w-2/4  md:py-12 bg-black" style={{ height: '70vh' }}>
+          <div className=" flex items-center justify-center bg-blue" style={{width: '100%'}} >
 
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
+            {
+              page === "intro" && (
+                <ChatGptLogin signinBtnTapped={
+                  signinBtnTapped} registerBtnTapped={registerBtnTapped} />
+              )
+            }
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+            {
+              page === "login" && (
+                <LoginAI getEmailPassword={getEmailPassword} />
+                // <div> Hello there login </div>
+              )
+            }
+            {
+              page === "email" && (
+                // <AddEmail getEmail={this.getEmail.bind(this)} imagePreviewUrl={this.state.imagePreviewUrl} />
+                <div> Hello there email </div>
+              )
+            }
+            {/* {
+  this.state.page === "profile_image" &&(
+    <AddProfilePicture getImage={this.getImage.bind(this)}/>
   )
 }
+{
+  this.state.page === "username" &&(
+    <AddUsername imagePreviewUrl={this.state.imagePreviewUrl} getUsername={this.getUsername.bind(this)} />
+  )
+}
+{
+  this.state.page === "social_links" &&(
+    <AddSocialLinks imagePreviewUrl={this.state.imagePreviewUrl} username={this.state.username} getSocialLinks={this.getSocialLinks.bind(this)} />
+  )
+}
+{
+  this.state.page === "password" &&(
+    <AddPassword imagePreviewUrl={this.state.imagePreviewUrl} username={this.state.username} getPassword={this.getPassword.bind(this)} />
+  )
+} */}
+
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
+
+
+
+//  function BootstrapCarousel() {
+//   const  bootstrap  = sliderContent;
+//   const [index, setIndex] = useState(0);
+//   const handleSelect = (selectedIndex) => {
+//     setIndex(selectedIndex);
+//   };
+//   return (
+//     <Carousel activeIndex={index} onSelect={(index)=>{
+//       handleSelect(index)
+//     }}>
+//       {bootstrap.map((item) => (
+//         <Carousel.Item key={item.id} className={styles.itemP} interval={4000}>
+//           {/* <img src={item.imageUrl} alt="slides" /> */}
+//           <Carousel.Caption className={styles.caption}>
+//             <h3>{item.heading}</h3>
+//             <p>{item.description}</p>
+//             <button className="btn btn-danger">Visit Docs</button>
+//           </Carousel.Caption>
+//         </Carousel.Item>
+//       ))}
+//     </Carousel>
+//   );
+// }
