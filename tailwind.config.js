@@ -21,6 +21,17 @@ module.exports = {
           500: '#0070F3',
           600: '#2F6FEB',
         },
+        white:{
+          100: '#FFFFFF10',
+          200: '#FFFFFF20',
+          300: '#FFFFFF30',
+          400: '#FFFFFF40',
+          500: '#FFFFFF50',
+          600: '#FFFFFF60',
+          700: '#FFFFFF70',
+          800: '#FFFFFF80',
+          900: '#FFFFFF90',
+        },
         appgreen: "#001812",
         appgreenlight: "#00C28C"
       },
