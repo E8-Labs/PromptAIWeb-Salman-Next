@@ -58,7 +58,7 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
     }
   
     return (
-      <div className='flex flex-col    overflow-none mt-8' style={{width: '100%'}}>
+      <div className='flex flex-col    overflow-scroll mt-8' style={{width: '100%'}}>
             
             
             
@@ -67,7 +67,7 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
                     <form className='gap-sm-4 form flex flex-col  mx-auto justify-center items-center  w-11/12'>
                         
                         
-                        <textarea  className="flex bg-transparent custom-scrollbar" rows="15" type='text' placeholder={promptTextPlaceholder} 
+                        <textarea  className="flex bg-transparent custom-scrollbar" rows="12" type='text' placeholder={promptTextPlaceholder} 
                         
                             name='objective' onChange={e => {
                               let text = e.target.value;

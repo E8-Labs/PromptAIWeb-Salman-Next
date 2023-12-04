@@ -19,7 +19,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
       <Container1 className='container2 ' style={{width: '100%'}}>
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-        <div className='flex flex-col    overflow-none w-11/12 mt-8'>
+        <div className='flex flex-col    overflow-scroll w-11/12 mt-8'>
             <div className="flex h-50   justify-center gap-8  items-center justify-center">
                 
                 <div className={`flex text-white p-2 px-7 rounded-full ${privacy === 'Public' ? 'bg-white-200' : 'bg-transparent'} `} >
@@ -42,13 +42,13 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
             </div>
             
             
-            <div className="flex-col justify-center bg-blue-5000">
+            <div className="flex-col justify-center ">
                 <FormContainer className=''>
                     <form className='gap-sm-4 form '>
                         
                         <input className='inputtext' type='text' placeholder='Title' name='title' onChange={e => updateFormData({ title: e.target.value })}></input>
                         
-                        <textarea rows="10" type='text' placeholder='What’s the objective of the ai model you’re creating: ' 
+                        <textarea className='flex ' rows="7" type='text' placeholder='What’s the objective of the ai model you’re creating: ' 
                             name='objective' onChange={e => updateFormData({ description: e.target.value })}></textarea>
                         {
                             // this.getLoadingDiv()
@@ -75,7 +75,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-background-color: #00000020;
+// background-color: #00000020;
 .horizontalspacesmall{
     width: 0.5rem;
 }
@@ -157,7 +157,7 @@ const FormContainer = styled.div`
   }
   textarea {
     background-color: transparent;
-    padding: 1rem;
+    padding: 0.5rem;
     border: 0.1rem solid white;
     border-radius: 1.1rem;
     color: white;
@@ -171,7 +171,7 @@ const FormContainer = styled.div`
     
   }
   textarea{
-    rows: 10;
+    rows: 5;
   }
   button {
     width: 100%;

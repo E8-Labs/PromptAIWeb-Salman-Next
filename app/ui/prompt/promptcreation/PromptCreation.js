@@ -5,15 +5,16 @@ import PromptDescriptionForm from './PromptTextForm';
 import PromptCategoryForm from './PromptCategoryForm';
 import PromptEnrichForm from './PromptEnrichForm';
 import PromptOverViewForm from './PromptOverViewForm';
+import SetPromptQuestions from './SetPromptQuestions';
 
-const forms = [PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, PromptEnrichForm, PromptOverViewForm];
+const forms = [ PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, SetPromptQuestions, PromptOverViewForm];
 
 const MultiFormPopup = ({ onClose }) => {
   const [currentForm, setCurrentForm] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
     description: '',
-    promptText: '',
+    promptText: '', //prompt
     promptQuestions: [],
     privacy: 'public',
     hint: '',

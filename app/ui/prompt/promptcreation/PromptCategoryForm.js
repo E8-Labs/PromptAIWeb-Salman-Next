@@ -24,6 +24,7 @@ const subcategories = [
 
 const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
   
+  console.log(formData)
 
   const handleNext = () => {
     onNext();
@@ -37,7 +38,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
       <Container1 className='container2 ' style={{width: '100%'}}>
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-        <div className='flex flex-col    overflow-none w-11/12 mt-8'>
+        <div className='flex flex-col    overflow-scroll w-11/12 mt-8'>
             
             
             
@@ -102,7 +103,7 @@ display: flex;
 align-items: center;
 justify-content: center;
 flex-direction: column;
-background-color: #00000020;
+// background-color: #00000020;
 .horizontalspacesmall{
     width: 0.5rem;
 }
