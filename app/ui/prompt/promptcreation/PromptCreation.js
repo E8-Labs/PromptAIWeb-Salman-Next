@@ -1,7 +1,7 @@
 // components/MultiFormPopup.js
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PromptTitleForm from './PromptTitleForm';
-import PromptDescriptionForm from './PromptDescriptionForm';
+import PromptDescriptionForm from './PromptTextForm';
 import PromptCategoryForm from './PromptCategoryForm';
 import PromptEnrichForm from './PromptEnrichForm';
 import PromptOverViewForm from './PromptOverViewForm';
@@ -13,13 +13,14 @@ const MultiFormPopup = ({ onClose }) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
+    promptText: '',
+    promptQuestions: [],
     privacy: 'public',
     hint: '',
+    topic: '',
     categories: [],
     subcategories: [],
-    selection1: '',
-    selection2: '',
-    email: '',
+    subprompts: []
   });
 
   const handleNext = () => {
@@ -38,6 +39,11 @@ const MultiFormPopup = ({ onClose }) => {
   const updateFormData = (newData) => {
     setFormData({ ...formData, ...newData });
   };
+
+  useEffect(()=>{
+    console.log("New Form Data is ")
+    console.log(formData)
+  }, [formData])
 
   const FormComponent = forms[currentForm];
 

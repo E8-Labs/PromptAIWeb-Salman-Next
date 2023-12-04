@@ -302,13 +302,13 @@ export default function PromptsList() {
               
               
                 {
-                  !isPopupOpen &&(
+                  // !isPopupOpen &&(
                     <PromptsListDashboard prompts={prompts} handlePromptSelected={handlePromptSelected} handleAddAction={()=> {
                       console.log("Dialogue open")
                       setPopupOpen(true)
                       // onOpen();
                     }}/>
-                  )
+                  // )
                 }
                 <Modal
                   isOpen={isPopupOpen}

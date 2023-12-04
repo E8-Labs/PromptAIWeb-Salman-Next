@@ -19,10 +19,10 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
       <Container1 className='container2 ' style={{width: '100%'}}>
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-        <div className='flex flex-col    overflow-scroll w-11/12 mt-8'>
-            <div className="flex h-50   justify-center gap-12  items-center justify-center">
+        <div className='flex flex-col    overflow-none w-11/12 mt-8'>
+            <div className="flex h-50   justify-center gap-8  items-center justify-center">
                 
-                <div className={`flex text-white p-3 px-6 rounded ${privacy === 'Public' ? 'bg-white-200' : 'bg-transparent'} `} >
+                <div className={`flex text-white p-2 px-7 rounded-full ${privacy === 'Public' ? 'bg-white-200' : 'bg-transparent'} `} >
                     <button className='align-self-end ms-auto text-white' style={{backgroundColor: 'transparent', border: 'none'}}
                         onClick = {()=>{
                           console.log("Public selected")
@@ -31,7 +31,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                     >Public</button>
                 </div>
 
-                <div className={` flex text-white p-3 px-6 rounded ${privacy === 'Private' ? 'bg-white-200' : 'bg-transparent'}`}  >
+                <div className={` flex text-white p-2 px-7 rounded-full ${privacy === 'Private' ? 'bg-white-200' : 'bg-transparent'}`}  >
                     <button className='align-self-end ms-auto text-white' style={{backgroundColor: 'transparent', border: 'none'}}
                         onClick = {()=>{
                           console.log("Private selected")
@@ -50,16 +50,6 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                         
                         <textarea rows="10" type='text' placeholder='What’s the objective of the ai model you’re creating: ' 
                             name='objective' onChange={e => updateFormData({ description: e.target.value })}></textarea>
-
-                        
-
-                        
-
-                        
-
-                        
-                        
-
                         {
                             // this.getLoadingDiv()
                             // this.state.isLoading ? (this.getLoadingDiv()) : 
