@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import React, { useState, useEffect, useCallback } from "react";
 import styled from 'styled-components'
-
+import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
 
 const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
@@ -14,30 +14,44 @@ const privacyIcon = '/privacy.svg';
 const termIcon = '/terms.svg';
 import PromptItem from '../ui/prompt/PromptItem';
 
+// import {  Modal,   ModalContent,   ModalHeader,   ModalBody,   ModalFooter, Button, useDisclosure} from "@nextui-org/react";
+import Modal from 'react-modal';
 
 
 
-// import ReactModal from 'react-modal';
-// import { createPromptRoute, getPromptsRoute } from "../utils/APIRoutes";
-
-// import Grid from '@mui/material/Grid';
-// import ProfileBaseView from "../components/Profile/Profile";
-// import ChatContainer from "../components/Chat/ChatContainer";
-// import CreatePromptTitle from "./CreatePromptTitle";
 import axios from 'axios'
 import ApiPath from '../lib/ApiPath';
+import PromptsListDashboard from '../ui/prompt/PromptsListDashboard';
 
-function PromptsList() {
+
+
+
+export default function PromptsList() {
     const userImage = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRk9ereOPzUWlYLy1dLFUbRLodoiDsPuIuAUmo749NjSSsyZSyf"
     // const prompts = ["Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2"]
-  
+    const [isPopupOpen, setPopupOpen] = useState(false);
+    // NextJs Model library
+    // const {isOpen, onOpen, onOpenChange} = useDisclosure();
     // const navigate = useNavigate()
     const [menuSelected, setMenuSelected] = useState("dashboard")
     const [currentUser, setCurrentUser] = useState(undefined);
     const [role, setRole] = useState('user') // or coach
-    const [isCreatePromptOpen, setIsPopupOpen] = useState(false);
+    // const [isCreatePromptOpen, setIsPopupOpen] = useState(false);
     const [prompts, setPrompts] = useState([])
     const [prompt, setPrompt] = useState(null)
+
+    function openModal() {
+      setPopupOpen(true);
+    }
+  
+    function afterOpenModal() {
+      // references are now sync'd and can be accessed.
+      // subtitle.style.color = '#f00';
+    }
+  
+    function closeModal() {
+      setPopupOpen(false);
+    }
   
     const handleMenuClick = event => {
         console.log(event.currentTarget.id);
@@ -46,14 +60,14 @@ function PromptsList() {
           loadPrompts()
         }
       };
-      const closePopup = (event) => {
-        setIsPopupOpen(false)
+      const handleClosePopup = (event) => {
+        setPopupOpen(false)
         console.log("Popup closed")
       }
 
       const handleCreatePrompt = event => {
         console.log(event.currentTarget.id);
-        setIsPopupOpen(true)
+        setPopupOpen(true)
       };
 
       const handlePromptSelected = (prompt)=>{
@@ -149,24 +163,9 @@ function PromptsList() {
       }, [currentUser, role])
     return (
     <div className="container-fluid bg-app-dark-green overflow-none" style={{height: "100vh"}}>
+      
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-        {/* <ReactModal
-            isOpen={isCreatePromptOpen}
-            contentLabel="Create Prompt"
-            onRequestClose={()=>{setIsPopupOpen(false)}}
-            style={customStyles}
-            >
-            <CreatePromptTitle closePopup={closePopup} />
-      </ReactModal> */}
-      {/* <div className="modal fade" tabIndex={"-1"} role="dialog">
-        <div className="modal-dialog" role="document">
-            <div className="modal-content">
-                <div className="modal-body">
-                <CreatePromptTitle closePopup={closePopup} />
-                </div>
-            </div>
-        </div>
-      </div> */}
+        
       <div className="row mb-3" style={{height: "6vh"}}>
        
         <nav className="navbar navbar-expand-lg navbar-dark ">
@@ -299,28 +298,30 @@ function PromptsList() {
         }
         {
             menuSelected == "dashboard" &&(
-              // <div>This is main prompts list screen</div>
+              <div>
               
-              //tailwind
-                <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    {
-                      
-                        prompts.map((element, index) => {
-                        // <label>{element}</label>
-                        {
-                          console.log(element)
-                        }
-                            return(
-                                <div className="rounded bg-appgreen p-0 " key={element._id}>
-                                    <PromptItem className='promptitem' prompt={element}  itemSelected = {handlePromptSelected}></PromptItem>
-                                </div>
-                            // <Grid item xs={window.screen.availWidth < 720 ? 2 : 3}  className='griditem' key={element + index}>
-                            //     <PromptItem className='promptitem' title={element}></PromptItem>
-                            // </Grid>
-                            )
-                        })
-                    }
-                  </div>
+              
+                {
+                  !isPopupOpen &&(
+                    <PromptsListDashboard prompts={prompts} handlePromptSelected={handlePromptSelected} handleAddAction={()=> {
+                      console.log("Dialogue open")
+                      setPopupOpen(true)
+                      // onOpen();
+                    }}/>
+                  )
+                }
+                <Modal
+                  isOpen={isPopupOpen}
+                  onAfterOpen={afterOpenModal}
+                  onRequestClose={closeModal}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                >
+                  <MultiFormPopup onClose={()=>{
+                    setPopupOpen(false)
+                  }}/>
+                </Modal>
+                </div>
             ) 
         }
         {
@@ -341,133 +342,20 @@ function PromptsList() {
         }
         </div>
       </div>
+      
+
+      
     </div>
   )
 }
 
 const customStyles = {
     overlay:{
-        background: "000000"
+        background: "#00000090"
     },
     content: {
       background: "#00000090",
       border: "none"
     },
   };
-
-// const Container = styled.div`
-// height: 100vh;
-// width: 100vw;
-// display: grid;
-// grid-template-rows: 10% 90%;
-// align-items: center;
-// justify-content: left;
-// flex-direction: column;
-// background-color: #060c0a;
-// .horizontalspacesmall{
-//     width: 0.5rem;
-// }
-// .verticalspace{
-//     height: 2.5rem;
-// }
-// .titlediv{
-//     height: 100%;
-//     width: 100vw;
-//     background-color: #060c0a;
-//     display: flex;
-//     flex-direction: space-between;
-//     vertical-align: middle;
-//     flex-direction: row;
-//     padding: 1rem;
-//     h3{
-//         color: white;
-//     }
-
-//     .rightbtns{
-//         width: 100vw;
-//         gap: 1rem;
-//         display: flex;
-//         flex-direction: row;
-       
-//         justify-content: right;
-//         background-color: transparent;
-//         button{
-//             width: 2.5rem;
-//             height: 2.5rem;
-//             background-color: transparent;
-//             border: none;
-//             color: white;
-//             font-size: 1.4rem; /* Set a font size */
-//             cursor: pointer;
-//         }
-//         img{
-//             width: 2.4rem;
-//             height: 2.4rem;
-//             border-radius: 1.2rem;
-//             border: 0.1rem solid white;
-//             object-fit: cover;
-//             cursor: pointer;
-//         }
-//     }
-// }
-
-
-// .bottomdiv{
-//     height: 100%;
-//     width: 100vw;
-//     display: grid;
-//     grid-template-columns: 15% 80% 5%;
-//     background-color: transparent;
-//     .leftpane{
-//         padding: 1rem;
-//         display: flex;
-//         flex-direction: column;
-//         gap: 1.5rem;
-//         .menubtn{
-            
-//             cursor: pointer;
-//             vertical-align: middle;
-//             justify-content: left;
-//             align-items: center;
-//             display: flex;
-//             img{
-//                 background-color: transparent;
-//             }
-//             button{
-
-//                 // background-color: red;
-//                 padding: 1rem;
-//                 background-color: transparent;
-//                 border: none;
-//                 font-size: 0.8rem;
-//                 cursor: pointer;
-//                 color: white;
-//                 text-align: left;
-//             }
-//         }
-//     }
-    
-//     .rightpane{
-//         display: flex;
-//         // flex-direction: column;
-//         // grid-template-columns: 33% 33% 33%;
-//         background-color: transparent;
-//         overflow: scroll;
-//         color: white;
-
-//         .promptitem, .griditem{
-//             display: flex;
-//             align-items: center;
-//             justify-content: center;
-//             height: 40%;
-//         }
-//     }
-//     .extremerightdiv{
-//         background-color: red;
-//     }
-// }
-// `;
-
-export default PromptsList
-
 

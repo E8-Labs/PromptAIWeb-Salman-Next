@@ -21,7 +21,11 @@ module.exports = {
           500: '#0070F3',
           600: '#2F6FEB',
         },
-        appgreen: "#001812"
+        appgreen: "#001812",
+        appgreenlight: "#00C28C"
+      },
+      fontFamily: {
+        rubik: ['Rubik', 'sans-serif'],
       },
     },
   },
