@@ -19,7 +19,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
       <Container1 className='container2 ' style={{width: '100%'}}>
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-        <div className='flex flex-col    overflow-scroll w-11/12 mt-8'>
+        <div className='flex flex-col    overflow-hidden w-11/12 mt-8'>
             <div className="flex h-50   justify-center gap-8  items-center justify-center">
                 
                 <div className={`flex text-white p-2 px-7 rounded-full ${privacy === 'Public' ? 'bg-white-200' : 'bg-transparent'} `} >

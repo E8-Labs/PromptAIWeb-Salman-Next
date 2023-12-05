@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 
-const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
-  const { promptQuestions } = formData;
+const StackPromptTitleForm = ({ onNext, formData, updateFormData }) => {
+  const { title, description } = formData;
 
-  const [privacy, setPrivacy] = useState('Public')
+  
 
   const handleNext = () => {
     onNext();
@@ -14,37 +14,21 @@ const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
     onClose();
   };
 
-  const questionUpdated = (question, index, placeholder) => {
-    promptQuestions[index].placeholder = placeholder;
-    updateFormData({promptQuestions: promptQuestions})
-    // updateFormData({ hint: e.target.value })}
-  }
-
   return (
         
       <Container1 className='container2 ' style={{width: '100%'}}>
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-        <div className='flex flex-col    overflow-none w-11/12 mt-8'>
-            <div className="flex-col  h-50 overflow-hidden   justify-center gap-8  items-center justify-center">
-                {
-                    promptQuestions.map((item, index) => {
-                        return(
-                        <div className='flex flex-col p-1 px-2 mt-5' key={index} style={{ borderRadius: '15px', borderWidth: '2px', borderColor: '#00C28C' }}>
-                            <label className='flex-none text-rubik font-medium text-base mb-1 text-appgreenlight'  style={{ fontSize: '10px', marginBottom: '0.25rem' }}>
-                                {item.question}
-                            </label>
-                            <input className='inputtext' type='text' placeholder='Add placeholder text to show' name={item.question} onChange={(e) => questionUpdated(item, index, e.target.value) }></input>
-                        </div>
-                        )
-                    })
-                }
-            </div>
+        <div className='flex flex-col    overflow-scroll w-11/12 mt-8'>
             
-            
-            <div className="flex-col justify-center mt-10">
-                <div className=''>
+            <div className="flex-col justify-center ">
+                <FormContainer className=''>
                     <form className='gap-sm-4 form '>
+                        
+                        <input className='inputtext' type='text' placeholder='Title' name='title' onChange={e => updateFormData({ title: e.target.value })}></input>
+                        
+                        <textarea className='flex ' rows="7" type='text' placeholder='What’s the objective of the ai model you’re creating: ' 
+                            name='objective' onChange={e => updateFormData({ description: e.target.value })}></textarea>
                         {
                             // this.getLoadingDiv()
                             // this.state.isLoading ? (this.getLoadingDiv()) : 
@@ -52,7 +36,7 @@ const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
                         }
                         
                     </form>
-                </div>
+                </FormContainer>
             </div>
             
         </div>
@@ -62,7 +46,7 @@ const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
   );
 };
 
-export default SetPromptQuestions;
+export default StackPromptTitleForm;
 const Container1 = styled.div`
 height: 100%;
 width: 100%;
@@ -105,23 +89,69 @@ flex-direction: column;
 .backcontainer::-webkit-scrollbar {
     display: none;
 }
-.inputtext {
+
+`;
+
+
+const FormContainer = styled.div`
+//   height: 100%;
+//   width: 100%;
+//   display: flex;
+//   flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  align-items: center;
+  background-color: transparent;
+  
+
+  form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
     background-color: transparent;
-    padding: 0.1rem;
-    border: none;
-    border-radius: 0rem;
+    border-radius: 2rem;
+    padding: 2rem 2rem;
+    .categorydropdown{
+        background-color: transparent;
+        color: var(--app-primary);
+        padding-right: 1rem !important;
+    }
+    
+  }
+  .inputtext {
+    background-color: transparent;
+    padding: 1rem;
+    border: 0.1rem solid white;
+    border-radius: 1.1rem;
     color: white;
     width: 100%;
     font-size: 1rem;
     
     &:focus {
-      border: none;
+      border: 0.1rem solid #00C28C;
       outline: none;
     }
     
   }
-
-
+  textarea {
+    background-color: transparent;
+    padding: 0.5rem;
+    border: 0.1rem solid white;
+    border-radius: 1.1rem;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    
+    &:focus {
+      border: 0.1rem solid #00C28C;
+      outline: none;
+    }
+    
+  }
+  textarea{
+    rows: 5;
+  }
   button {
     width: 100%;
     padding: 2rem;
@@ -139,5 +169,5 @@ flex-direction: column;
       background-color: #00C28C;
     }
   }
+  
 `;
-

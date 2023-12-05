@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 
-const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
+const SetStackPromptQuestions = ({ onNext, formData, updateFormData }) => {
   const { promptQuestions } = formData;
 
   const [privacy, setPrivacy] = useState('Public')
@@ -26,7 +26,7 @@ const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
         <div className='flex flex-col    overflow-none w-11/12 mt-8'>
-            <div className="flex-col  h-50 overflow-hidden   justify-center gap-8  items-center justify-center">
+            <div className="flex-col  h-50 overflow-scroll   justify-center gap-8  items-center justify-center">
                 {
                     promptQuestions.map((item, index) => {
                         return(
@@ -62,7 +62,7 @@ const SetPromptQuestions = ({ onNext, formData, updateFormData }) => {
   );
 };
 
-export default SetPromptQuestions;
+export default SetStackPromptQuestions;
 const Container1 = styled.div`
 height: 100%;
 width: 100%;
