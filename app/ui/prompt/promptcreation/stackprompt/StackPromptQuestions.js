@@ -2,13 +2,13 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
 
-const SetStackPromptQuestions = ({ onNext, formData, updateFormData }) => {
+const SetStackPromptQuestions = ({formData, updateFormData, onPublish }) => {
   const { promptQuestions } = formData;
 
   const [privacy, setPrivacy] = useState('Public')
 
   const handleNext = () => {
-    onNext();
+    onPublish();
   };
   const handleClose = () => {
     onClose();

@@ -11,23 +11,28 @@ function PromptItem(props) {
     const prompt = props.prompt;
     const userImage = ""
     return (
-        <div key={prompt.id} className="bg-appgreen rounded p-4">
+        <div key={prompt.id} className="flex-col bg-appgreen rounded p-4 cursor:pointer" onClick={()=>{
+            props.itemSelected(prompt)
+        }}>
       {/* User Image */}
-      <div className="relative">
-        <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 absolute top-0 left-0" width={40} height={40}  style={{borderRadius: 20}}/>
-      </div>
+      
       
       {/* User Info */}
-      <div className="ml-10">
-        <p className="font-bold">{prompt.user.username}</p>
-        <p className="text-sm text-gray-500">3 min ago</p>
+      <div className="flex ml-2">
+        <div className="">
+          <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40}  style={{borderRadius: 20}}/>
+        </div>
+        <div className='flex-col ml-2'>
+            <p className="font-bold">{prompt.user.username}</p>
+            <p className="text-sm text-gray-500">3 min ago</p>
+        </div>
       </div>
 
       {/* Title */}
       <h3 className="text-lg font-bold mt-2">{prompt.title}</h3>
 
       {/* Description */}
-      <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.prompt}</p>
+      <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
 
       {/* Icons for Like, View, Comment */}
       <div className="flex mt-4 space-x-4">

@@ -30,6 +30,9 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
 
 *{
   margin: 0;

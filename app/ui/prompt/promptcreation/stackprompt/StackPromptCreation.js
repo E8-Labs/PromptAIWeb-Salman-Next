@@ -6,7 +6,7 @@ import SetStackPromptQuestions from './StackPromptQuestions';
 
 const forms = [ StackPromptTitleForm, StackPromptTextForm, SetStackPromptQuestions];
 
-const StackMultiFormPopup = ({ onClose }) => {
+const StackMultiFormPopup = ({ onClose, addSubPrompt }) => {
   const [currentForm, setCurrentForm] = useState(0);
   const [formData, setFormData] = useState({
     title: '',
@@ -31,7 +31,8 @@ const StackMultiFormPopup = ({ onClose }) => {
 
   const handlePublish = () => {
     // Implement publish logic here
-    onClose();
+    addSubPrompt(formData)
+    // onClose();
   };
 
   const updateFormData = (newData) => {
@@ -39,7 +40,7 @@ const StackMultiFormPopup = ({ onClose }) => {
   };
 
   useEffect(()=>{
-    console.log("New Form Data is ")
+    console.log("New Sub prompt is ")
     console.log(formData)
   }, [formData])
 

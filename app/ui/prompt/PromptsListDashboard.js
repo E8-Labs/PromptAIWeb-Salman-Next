@@ -1,9 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import PromptItem from './PromptItem'
 import Image from 'next/image';
 
 import Popup from 'reactjs-popup'; 
 import 'reactjs-popup/dist/index.css'; 
+import PromptChatView from './PromptChatView';
 
 const PlusIcon = "/whiteplusicon.svg";
 
@@ -11,8 +12,8 @@ const PlusIcon = "/whiteplusicon.svg";
 
 const PromptsListDashboard = (props) => {
     const prompts = props.prompts
-
-    
+    const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
+    const [chatViewVisible, setChatViewVisible] = useState(false)
 
     const categories = [
         { name: 'Content Writing', id: 1 },
@@ -35,11 +36,13 @@ const PromptsListDashboard = (props) => {
 
     const handlePromptSelected = (prompt)=>{
         console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
-        props.handlePromptSelected(prompt)
+        setChatViewVisible(!chatViewVisible)
+        // props.handlePromptSelected(prompt)
       }
   return (
     
     <div className="flex-col">
+        <PromptChatView chatViewVisible={chatViewVisible} />
         
         <div className='flex items-center justify-between p-4'>
         <div className='flex  gap-4  h-20 items-center'>
@@ -54,7 +57,7 @@ const PromptsListDashboard = (props) => {
                                     console.log(item)
                                 }
                                 return(
-                                    <option value={item.name}>{item.name}</option>
+                                    <option key={item.id} value={item.name}>{item.name}</option>
                                 )
                             })
                         }
@@ -81,13 +84,13 @@ const PromptsListDashboard = (props) => {
         </div>
 
 
-        <div className="flex items-center justify-center bg-appgreenlight p-4 px-5 w-50 gap-2" style={{borderRadius: '2rem'}} onClick={()=> {
+        <div className="flex items-center justify-center bg-appgreenlight p-4 px-5 w-50 gap-2 cursor:pointer" style={{borderRadius: '2rem'}} onClick={()=> {
             props.handleAddAction()
         }}>
         {/* Third View */}
         <Image src={PlusIcon} width={15} height={15}></Image>
-        <div className=''>
-          <p className="text-lg" >New Prompt</p>
+        <div className=' cursor:pointer'>
+          <p className="text-lg  cursor:pointer" >New Prompt</p>
         </div>
       </div>
 
@@ -101,7 +104,7 @@ const PromptsListDashboard = (props) => {
                           console.log(element)
                         }
                             return(
-                                <div className="rounded bg-appgreen p-0 " key={element._id}>
+                                <div className="rounded bg-appgreen p-0 " key={element.id}>
                                     <PromptItem className='promptitem' prompt={element}  itemSelected = {handlePromptSelected}></PromptItem>
                                 </div>
                             )
