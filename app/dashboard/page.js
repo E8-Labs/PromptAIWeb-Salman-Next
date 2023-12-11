@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import React, { useState, useEffect, useCallback } from "react";
 import styled from 'styled-components'
 import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
+import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
+import ReactModal from 'react-modal';
 
 const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
@@ -45,8 +47,6 @@ export default function PromptsList() {
     }
   
     function afterOpenModal() {
-      // references are now sync'd and can be accessed.
-      // subtitle.style.color = '#f00';
     }
   
     function closeModal() {

@@ -5,15 +5,26 @@ import Image from 'next/image';
 import Popup from 'reactjs-popup'; 
 import 'reactjs-popup/dist/index.css'; 
 import PromptChatView from './PromptChatView';
+import PromptChatQuestionsPopup from './PromptChatQuestions';
+import Modal from 'react-modal'
 
 const PlusIcon = "/whiteplusicon.svg";
 
-
+const customStyles = {
+    overlay:{
+        background: "#00000090"
+    },
+    content: {
+      background: "#00000090",
+      border: "none"
+    },
+  };
 
 const PromptsListDashboard = (props) => {
     const prompts = props.prompts
     const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
     const [chatViewVisible, setChatViewVisible] = useState(false)
+    const [promptQuestionDialogueVisible, setPromptQuestionDeialogueVisible] = useState(false)
 
     const categories = [
         { name: 'Content Writing', id: 1 },
@@ -34,15 +45,37 @@ const PromptsListDashboard = (props) => {
         { name: 'Marketing Sub 1', id: 6 },
       ];
 
+    function afterOpenModal() {
+
+    }
+  
+    function closeModal() {
+      setPromptQuestionDeialogueVisible(false);
+    }
+
     const handlePromptSelected = (prompt)=>{
         console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
-        setChatViewVisible(!chatViewVisible)
+        // setChatViewVisible(!chatViewVisible)
+        setCurrentSelectedPrompt(prompt)
+        setPromptQuestionDeialogueVisible(true)
         // props.handlePromptSelected(prompt)
       }
   return (
     
     <div className="flex-col">
         <PromptChatView chatViewVisible={chatViewVisible} />
+
+        <Modal
+                  isOpen={promptQuestionDialogueVisible}
+                  onAfterOpen={afterOpenModal}
+                  onRequestClose={closeModal}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                >
+                  <PromptChatQuestionsPopup onClose={()=>{
+                    setPromptQuestionDeialogueVisible(false)
+                  }} prompt={currentSelectedPrompt}/>
+                </Modal>
         
         <div className='flex items-center justify-between p-4'>
         <div className='flex  gap-4  h-20 items-center'>
