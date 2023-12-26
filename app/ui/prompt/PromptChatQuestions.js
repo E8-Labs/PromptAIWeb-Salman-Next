@@ -1,12 +1,27 @@
 // components/Form1.js
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-const PromptChatQuestionsPopup = ({prompt, onClose}) => {
+const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
     const [currentForm, setCurrentForm] = useState(0);
+    const[formComponent, setFormComponent] = useState([PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, 
+      PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion])
 
-    const handleNext = () => {
-        setCurrentForm(currentForm + 1);
+    // useEffect(()=> {
+    //   for(let i = 0; i < prompt.questions.length; i++){
+    //     PromptChatSingleQuestion
+    //   }
+    // })
+
+    const handleNext = (question) => {
+        prompt.questions[currentForm] = question
+        console.log(`Questions ${prompt.questions.length} currentForm ${currentForm}`)
+        if(currentForm < prompt.questions.length - 1){
+          setCurrentForm(currentForm + 1);
+        }
+        else{
+          handlePublish();
+        }
       };
     
       const handlePrevious = () => {
@@ -15,14 +30,16 @@ const PromptChatQuestionsPopup = ({prompt, onClose}) => {
     
       const handlePublish = () => {
         // Implement publish logic here
-        onClose(prompt);
+
+
+        onPublish(prompt);
       };
     
       const updateFormData = (newData) => {
         // setFormData({ ...formData, ...newData });
       };
 
-      const FormComponent = PromptChatSingleQuestion
+      const FormComponent = formComponent[currentForm]// PromptChatSingleQuestion
   return (
     <div className="multi-form-popup  flex w-11/12 xl:w-5/9 lg:w-7/12  mx-auto justify-center items-center my-auto  rounded" 
         style={{height: '70vh', borderRadius: '3rem'}}>
@@ -41,6 +58,7 @@ const PromptChatQuestionsPopup = ({prompt, onClose}) => {
             onNext={handleNext}
             onPrevious={handlePrevious}
             onPublish={handlePublish}
+            // value={prompt.questions[currentForm].answer}
             // formData={formData}
             // updateFormData={updateFormData}
             onClose={onClose}
@@ -63,7 +81,7 @@ export default PromptChatQuestionsPopup
 
 
 const PromptChatSingleQuestion = ({ onNext, onPrevious, question }) => {
-  const [anwer, setAnswer] = useState("")
+  const [answer, setAnswer] = useState("")
 
  
 
@@ -84,12 +102,12 @@ const PromptChatSingleQuestion = ({ onNext, onPrevious, question }) => {
         <div className='flex flex-col    overflow-hidden w-11/12 mt-8'>
             
             
-            
+            <label>{question.placeholder}</label>
             <div className="flex-col justify-center ">
                 <FormContainer className=''>
                     <form className='gap-sm-4 form '>
                         
-                        <input className='inputtext' type='text' placeholder={question.placeholder} name='question' onChange={e => setAnswer(e.target.value)}></input>
+                        <input className='inputtext' type='text' placeholder={question.placeholder} value={answer} name={question.question} onChange={e => setAnswer(e.target.value)}></input>
                         
                         {
                             // this.getLoadingDiv()

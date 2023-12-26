@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
 import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
 import ReactModal from 'react-modal';
+import PromptChatView from '../ui/prompt/PromptChatView';
 
 const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
@@ -42,6 +43,10 @@ export default function PromptsList() {
     const [prompts, setPrompts] = useState([])
     const [prompt, setPrompt] = useState(null)
 
+    const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(null)
+    const [chatViewVisible, setChatViewVisible] = useState(false)
+    const [currentChat, setCurrentChat] = useState(null)
+
     function openModal() {
       setPopupOpen(true);
     }
@@ -70,9 +75,10 @@ export default function PromptsList() {
         setPopupOpen(true)
       };
 
-      const handlePromptSelected = (prompt)=>{
-        console.log("Prompt in List " + prompt.title + " Clicked")
-        setPrompt(prompt)
+      const handlePromptSelected = (prompt, chat)=>{
+        console.log("Prompt page in List " + prompt.title + " Clicked")
+        setCurrentSelectedPrompt(prompt)
+        setCurrentChat(chat)
         setMenuSelected("chatgpt")
       }
 
@@ -271,9 +277,11 @@ export default function PromptsList() {
         <div className={"col-md-9 flex flex-col flex-grow  pb-6 " + (menuSelected === "chatgpt" ? "" : "overflow-y-auto")} style={{height: '100%'}} >
         {
             //disabled flow if the menu is chat gpt in the div above.
-            menuSelected == "chatgpt" && prompt !== null &&(
+            menuSelected == "chatgpt" && currentSelectedPrompt !== null && currentChat !== null &&(
                 // <ChatContainer prompt={prompt}/>
-                    <div>This is chat screen</div>
+                    // <div>This is chat screen</div>
+                    <PromptChatView chatViewVisible={true} newChat={true} chat={currentChat} prompt={currentSelectedPrompt}/>
+
             )
         }
         {

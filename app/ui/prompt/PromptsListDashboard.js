@@ -8,6 +8,9 @@ import PromptChatView from './PromptChatView';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
 
+import axios from 'axios';
+import ApiPath from '@/app/lib/ApiPath';
+
 const PlusIcon = "/whiteplusicon.svg";
 
 const customStyles = {
@@ -24,7 +27,10 @@ const PromptsListDashboard = (props) => {
     const prompts = props.prompts
     const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
     const [chatViewVisible, setChatViewVisible] = useState(false)
+    const [currentChat, setCurrentChat] = useState(null)
     const [promptQuestionDialogueVisible, setPromptQuestionDeialogueVisible] = useState(false)
+
+
 
     const categories = [
         { name: 'Content Writing', id: 1 },
@@ -55,26 +61,82 @@ const PromptsListDashboard = (props) => {
 
     const handlePromptSelected = (prompt)=>{
         console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
-        // setChatViewVisible(!chatViewVisible)
+        
         setCurrentSelectedPrompt(prompt)
-        setPromptQuestionDeialogueVisible(true)
+        if(prompt.questions.length == 0){
+          createChat(prompt)
+        }
+        else{
+          
+          setPromptQuestionDeialogueVisible(true)
+        }
         // props.handlePromptSelected(prompt)
       }
+
+      const createChat = (prompt) =>{
+        setCurrentSelectedPrompt(prompt)
+        setPromptQuestionDeialogueVisible(false)
+        console.log(JSON.stringify(prompt))
+        console.log("Length is " + prompt.questions.length);
+        let text = prompt.prompt;
+        for(let i = 0; i < prompt.questions.length; i++){
+            let q = prompt.questions[i];
+            text = text.replace(`[${q.question}]`, q.answer);
+        }
+        prompt.prompt = text;
+        // create chat api
+        const u = JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+        )
+        console.log(u)
+        const config = {
+            headers:{
+              "Authorization": "Bearer " + u.token,
+            }
+          };
+          const data = {promptId: currentSelectedPrompt.id};
+        axios.post(ApiPath.CreateChat, data, config)
+        .then(data => {
+            console.log("Chat create response")
+            console.log(data.data)
+            if (data.data.status){
+                let chat = data.data.data; //chat data
+                let isNew = true
+                if(data.data.message === "Chat already exists"){
+                    isNew = false;
+                }
+                chat.isNew = isNew
+                setCurrentChat(chat)
+                props.handlePromptSelected(prompt, chat)
+                // setChatViewVisible(true)
+            }
+            else{
+
+            }
+            
+
+        })
+        .catch(error => {
+            console.log(error)
+        })
+        console.log(text)
+    }
   return (
     
     <div className="flex-col">
-        <PromptChatView chatViewVisible={chatViewVisible} />
+        {/* <PromptChatView chatViewVisible={chatViewVisible} newChat={true} chat={currentChat} prompt={currentSelectedPrompt}/> */}
 
         <Modal
                   isOpen={promptQuestionDialogueVisible}
                   onAfterOpen={afterOpenModal}
                   onRequestClose={closeModal}
                   style={customStyles}
-                  contentLabel="Example Modal"
+                  contentLabel="Prompt Questions"
                 >
                   <PromptChatQuestionsPopup onClose={()=>{
                     setPromptQuestionDeialogueVisible(false)
-                  }} prompt={currentSelectedPrompt}/>
+
+                  }} prompt={currentSelectedPrompt} onPublish={createChat}/>
                 </Modal>
         
         <div className='flex items-center justify-between p-4'>
