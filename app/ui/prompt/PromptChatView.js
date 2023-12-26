@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react'
+import { styled } from 'styled-components';
 import Image from 'next/image'
 import axios from 'axios';
 import ApiPath from '@/app/lib/ApiPath';
+import ChatInput from './ChatInput';
 
 
 const artIcon = "/art.png";
@@ -341,19 +343,24 @@ const PromptChatView = (props) => {
       // await likeDislikePrompt(IntractionType.Flag, prompt.id, message.id)
     }
 
+    const handleSendMessage = async(msg)=>{
+        console.log("Send Message button in ChatINput clicked")
+        sendMessage({message: msg, from: "me", type: "text"});
+    }
+
 
   return (
-    <div className='relative'>
-          <div className={` flex flex-col fixed bottom-0 sm:right-10 right-20 w-9/12 rounded-lg py-4 shadow-lg`} style={{height: '100vh', backgroundColor: '#FFFFFF03'}}>
+    // <div className='relative '>
+          <div className={`bg-green flex flex-col  mx-auto h-full w-7/12 rounded-lg py-4 shadow-lg mb-15`} style={{height: '100vh', backgroundColor: '#FFFFFF03'}}>
 
-            <div className="flex flex-col w-full items-center overflow-y-auto mb-10">
+            <div className="flex flex-col w-full h-9/12   items-center overflow-y-auto mb-10 pb-10 mb-15">
                 {
                     messages.map((item, index) => {
                         
                             {
                                 return(
                                     
-                                        <div key={index} className={`flex w-full my-1   ${item.from == "me" ? "justify-center " : "justify-left"}`}>
+                                        <div key={index} className={`flex w-full my-1 `}>
                                             {
                                                 item.from === "me" ?(
                                                     <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
@@ -373,13 +380,16 @@ const PromptChatView = (props) => {
                     })
                 }
             </div>
+                <div className='h-20 bg-red'>
 
+                </div>
             
-            <div className="flex-none bg-gray-300 absolute bottom-0 w-full">
-                <textarea type="text" className="w-11/12 border text-black p-2 rounded" placeholder="Type here..." />
+            <div className="fixed bg-black rounded bottom-0 w-6/12 mx-auto" style={{height: '100px'}}>
+                {/* <textarea type="text" className=" border text-black p-2 rounded" placeholder="Type here..." /> */}
+                <ChatInput   handleSendMessage={handleSendMessage}></ChatInput>
             </div>
           </div>
-        </div>
+        // </div> 
   )
 }
 
@@ -390,7 +400,7 @@ export default PromptChatView
 const IncomingMessage = ({message}) => {
 
     return(
-        <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen`}>
+        <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15`}>
             <div className={`flex-col mx-1 p-2 w-11/12 my-1`} key={message.id}>
                 <div style={{ borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}>
                     <Image className=' rounded-full' src={artIcon}
@@ -409,3 +419,33 @@ const IncomingMessage = ({message}) => {
         </div> 
     )
 }
+
+const Container = styled.div`
+display: grid;
+gap: 0.1rem;
+overflow: hidden;
+grid-template-rows: 10% 80% 10%;
+padding-top: 1rem;
+.chat-header{
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    padding: 0 2rem;
+    .user-details{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        .avatar{
+            img{
+                height: 3rem;
+                width: 3rem;
+                border-radius: 1.5rem;
+
+            }
+        }
+        .username{
+            color: white;
+        }
+    }
+}
+`;
