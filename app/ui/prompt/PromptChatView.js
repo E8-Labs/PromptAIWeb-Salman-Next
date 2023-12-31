@@ -350,46 +350,11 @@ const PromptChatView = (props) => {
 
 
   return (
-    // <div className='relative '>
-          <div className={`bg-green flex flex-col  mx-auto h-full w-7/12 rounded-lg py-4 shadow-lg mb-15`} style={{height: '100vh', backgroundColor: '#FFFFFF03'}}>
-
-            <div className="flex flex-col w-full h-9/12   items-center overflow-y-auto mb-10 pb-10 mb-15">
-                {
-                    messages.map((item, index) => {
-                        
-                            {
-                                return(
-                                    
-                                        <div key={index} className={`flex w-full my-1 `}>
-                                            {
-                                                item.from === "me" ?(
-                                                    <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
-                                                        <p className='text-white'>{item.message}</p>
-                                                    </div>
-                                                ):
-                                                (
-                                                    <IncomingMessage message={item} />
-                                                )
-                                            }
-                                        </div>
-                                    
-                                )
-                            }    
-                            
-                        
-                    })
-                }
-            </div>
-                <div className='h-20 bg-red'>
-
-                </div>
-            
-            <div className="fixed bg-black rounded bottom-0 w-6/12 mx-auto" style={{height: '100px'}}>
-                {/* <textarea type="text" className=" border text-black p-2 rounded" placeholder="Type here..." /> */}
-                <ChatInput   handleSendMessage={handleSendMessage}></ChatInput>
-            </div>
-          </div>
-        // </div> 
+    <Container className='flex flex-col  mx-auto justify-center '>
+        <ChatHeader className='flex  h-50' username={prompt.user.username}  userImage={prompt.user.profile_image}/>
+        <MessagesList className='flex-grow ' messages={messages} />
+        <ChatInput className='w-full flex bg-red h-50' handleSendMessage={handleSendMessage}></ChatInput>
+    </Container>
   )
 }
 
@@ -420,17 +385,85 @@ const IncomingMessage = ({message}) => {
     )
 }
 
+
+const ChatHeader = ({username, userImage}) => {
+    return (
+        <div className="chat-header ">
+                <div className="user-details">
+                    <div className="avatar">
+                        <img src={userImage} alt="User">
+                        </img>
+                    </div>
+                    <div className='username'>
+                        <h3>
+                            {username}
+                        </h3>
+                    </div>
+                </div>
+            </div>
+    )
+}
+
+const MessagesList = ({messages}) => {
+
+    return(
+        <div className="messages-list  w-8/12   items-center overflow-y-auto mx-auto ">
+                {
+                    messages.map((item, index) => {
+                        
+                            {
+                                return(
+                                    
+                                        <div key={index} className={`flex w-full my-1 `}>
+                                            {
+                                                item.from === "me" ?(
+                                                    <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
+                                                        <p className='text-white'>{item.message}</p>
+                                                    </div>
+                                                ):
+                                                (
+                                                    <IncomingMessage message={item} />
+                                                )
+                                            }
+                                        </div>
+                                    
+                                )
+                            }    
+                            
+                        
+                    })
+                }
+            </div>
+    )
+}
+
 const Container = styled.div`
-display: grid;
+display: flex;
+flex-direction: column;
 gap: 0.1rem;
 overflow: hidden;
-grid-template-rows: 10% 80% 10%;
-padding-top: 1rem;
+width: 60%;
+// grid-template-rows: 10% 75% 10%;
+padding-top: 0.1rem;
+justify-content: center;
+align-items: center;
+background-color: transparent;
+// margin-x: auto;
+// text-align: center;
+margin-bottom: 1rem;
+
+.messages-list{
+  flex: 1;
+}
+
 .chat-header{
     display: flex;
     justify-content: left;
     align-items: left;
-    padding: 0 2rem;
+    padding: 0 0rem;
+    width: 66%;
+    // background-color: red;
+    justify-self: center;
     .user-details{
         display: flex;
         align-items: center;

@@ -8,12 +8,12 @@ const ViewItemIcon = '/viewsicon.svg'
 const MessageIcon = '/commenticon.svg'
 const LikePromptIcon = '/likeprompticon.png'
 
-function PromptItem(props) {
+function PromptSearchItem(props) {
     const prompt = props.prompt;
     const userImage = ""
     return (
 
-            <div className="flex flex-col h-72  bg-appgreen rounded p-4 cursor:pointer"  key={prompt.id} onClick={()=>{
+            <div className="flex flex-col h-62  bg-appgreen rounded p-4 cursor:pointer"  key={prompt.id} onClick={()=>{
                 props.itemSelected(prompt)
             }}> 
                 <div className="flex h-16 ">
@@ -26,11 +26,12 @@ function PromptItem(props) {
                     </div>
                 </div> {/* Specify the height and color for the top div */}
                 <div className="flex-grow ">
-                    <h3 className="text-lg font-bold mt-2  text-appgreenlight">{prompt.title}</h3>
+                    <h3 className="text-lg text-appgreenlight font-bold mt-2">{prompt.title}</h3>
                     <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
                 </div> {/* This div will take up all the remaining space */}
-                <div className="h-16 ">
-                <div className=" h-16 flex mt-4  justify-between">
+                <div className=" flex h-16  justify-end">
+                    <div className='flex  w-6/12'> </div>
+                <div className=" h-16 flex mt-4  justify-between gap-20">
                     {/* Your icon components for Like, View, Comment go here */}
                     <div className="cardbtn justify-center align-items-center">
                         <img src={LikePromptIcon} alt="Like Icon" />
@@ -187,4 +188,4 @@ const Container = styled.div`
     
 `;
 
-export default PromptItem
+export default PromptSearchItem

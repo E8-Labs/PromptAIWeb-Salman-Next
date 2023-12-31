@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import Image from 'next/image';
 
 import React, { useState, useEffect, useCallback } from "react";
 import styled from 'styled-components'
@@ -25,6 +26,7 @@ import Modal from 'react-modal';
 import axios from 'axios'
 import ApiPath from '../lib/ApiPath';
 import PromptsListDashboard from '../ui/prompt/PromptsListDashboard';
+import Promptsearch from '../ui/prompt/promptsearch';
 
 
 
@@ -172,19 +174,34 @@ export default function PromptsList() {
       
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         
-      <div className="row mb-3" style={{height: "6vh"}}>
+      <div className="row mb-3" style={{height: "4vh"}}>
        
-        <nav className="navbar navbar-expand-lg navbar-dark ">
+        <nav className="navbar navbar-expand-lg navbar-dark mt-5">
           <div className="container-fluid rounded">
-            <div className='justify-center my-auto p-4'>
-              <a className="" href="#"  style={{color: "white", fontSize: 26, fontWeight: 'bold'}}>Prompt.</a>
-              <a  href="#" style={{color: "#00C28C", fontSize: 26, fontWeight: 'bold'}}>ai</a>
+            <div className='justify-between  my-auto p-4  flex'>
+              <div className='flex'>
+                <a className="" href="#"  style={{color: "white", fontSize: 26, fontWeight: 'bold'}}>Prompt.</a>
+                <a  href="#" style={{color: "#00C28C", fontSize: 26, fontWeight: 'bold'}}>ai</a>
+              </div>
+
+              <div className=" flex justify-between align-center">
+                <div className="nav-item mx-4">
+                  <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button>
+                </div>
+                <div className="nav-item mx-4">
+                    <button className="btn text-white" id="notifications" onClick={handleMenuClick}><i className="fa fa-bell"></i></button>
+                </div>
+                <Image src={currentUser ? currentUser.user.profile_image : ""}
+                       alt={""} className="rounded-full w-8 h-8 " width={40} height={40}  style={{borderRadius: 20}}
+                    >
+                </Image>
+              </div>
             </div>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse justify-content-end top-nav-custom-class" id="navbarNav">
-              <ul className="navbar-nav">
+              <ul className="navbar-nav ">
 
                 <li className={"nav-item " + (role === "user" ? "d-none" : "") }>
                   <button className="btn text-white" id="createPrompt" onClick={handleCreatePrompt}
@@ -274,7 +291,7 @@ export default function PromptsList() {
                 </div>
             </div>
         </div>
-        <div className={"col-md-9 flex flex-col flex-grow  pb-6 " + (menuSelected === "chatgpt" ? "" : "overflow-y-auto")} style={{height: '100%'}} >
+        <div className={"col-md-9 flex flex-col flex-grow  pb-6 h-full " + ( (menuSelected === "chatgpt" || menuSelected === "search" ) ? "" : "overflow-y-auto")} style={{height: '100%'}} >
         {
             //disabled flow if the menu is chat gpt in the div above.
             menuSelected == "chatgpt" && currentSelectedPrompt !== null && currentChat !== null &&(
@@ -300,7 +317,7 @@ export default function PromptsList() {
             ) 
         }
         {
-            menuSelected == "search" &&(
+            menuSelected == "h" &&(
                 <div><h1>This is Search</h1></div>
             ) 
         }
@@ -346,6 +363,11 @@ export default function PromptsList() {
             menuSelected == "profile" &&(
               <div>This is profile screen</div>
                 // <ProfileBaseView user={currentUser}/>
+            ) 
+        }
+        {
+            menuSelected == "search" &&(
+              <Promptsearch />
             ) 
         }
         </div>
