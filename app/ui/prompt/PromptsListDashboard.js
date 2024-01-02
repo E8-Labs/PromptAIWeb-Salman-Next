@@ -60,24 +60,26 @@ const PromptsListDashboard = (props) => {
     }
 
     const handlePromptSelected = (prompt)=>{
-        console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
+        //console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
         
         setCurrentSelectedPrompt(prompt)
         if(prompt.questions.length == 0){
           createChat(prompt)
         }
         else{
-          
+          console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
           setPromptQuestionDeialogueVisible(true)
         }
         // props.handlePromptSelected(prompt)
       }
 
       const createChat = (prompt) =>{
+
         setCurrentSelectedPrompt(prompt)
         setPromptQuestionDeialogueVisible(false)
-        console.log(JSON.stringify(prompt))
-        console.log("Length is " + prompt.questions.length);
+        console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
+        //console.log(prompt)
+        //console.log("Length is " + prompt.questions.length);
         let text = prompt.prompt;
         for(let i = 0; i < prompt.questions.length; i++){
             let q = prompt.questions[i];
@@ -88,7 +90,7 @@ const PromptsListDashboard = (props) => {
         const u = JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
         )
-        console.log(u)
+        //console.log(u)
         const config = {
             headers:{
               "Authorization": "Bearer " + u.token,
@@ -97,8 +99,8 @@ const PromptsListDashboard = (props) => {
           const data = {promptId: currentSelectedPrompt.id};
         axios.post(ApiPath.CreateChat, data, config)
         .then(data => {
-            console.log("Chat create response")
-            console.log(data.data)
+            //console.log("Chat create response")
+            //console.log(data.data)
             if (data.data.status){
                 let chat = data.data.data; //chat data
                 let isNew = true
@@ -117,9 +119,9 @@ const PromptsListDashboard = (props) => {
 
         })
         .catch(error => {
-            console.log(error)
+            //console.log(error)
         })
-        console.log(text)
+        //console.log(text)
     }
   return (
     
@@ -149,7 +151,7 @@ const PromptsListDashboard = (props) => {
                         {
                             categories.map(item => {
                                 {
-                                    console.log(item)
+                                    //console.log(item)
                                 }
                                 return(
                                     <option key={item.id} value={item.name}>{item.name}</option>
@@ -167,7 +169,7 @@ const PromptsListDashboard = (props) => {
                         {
                             subcategories.map(item => {
                                 {
-                                    console.log(item)
+                                    //console.log(item)
                                 }
                                 return(
                                     <option value={item.name}>{item.name}</option>
@@ -196,7 +198,7 @@ const PromptsListDashboard = (props) => {
                         prompts.map((element, index) => {
                         // <label>{element}</label>
                         {
-                          console.log(element)
+                          //console.log(element)
                         }
                             return(
                                 <div className="rounded bg-appgreen p-0 " key={element.id}>

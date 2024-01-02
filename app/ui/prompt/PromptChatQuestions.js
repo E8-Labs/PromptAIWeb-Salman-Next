@@ -2,8 +2,11 @@
 import { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
-const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
+const PromptChatQuestionsPopup = (props) => {
+  // prompt, onClose, onPublish
+  
     const [currentForm, setCurrentForm] = useState(0);
+    const [prompt, setPrompt] = useState(props.prompt)
     const[formComponent, setFormComponent] = useState([PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, 
       PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion])
 
@@ -14,13 +17,33 @@ const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
     // })
 
     const handleNext = (question) => {
-        prompt.questions[currentForm] = question
-        console.log(`Questions ${prompt.questions.length} currentForm ${currentForm}`)
+      let p = prompt
+      prompt.questions[currentForm] = question
+      // let subs = p.subprompts;
+      // console.log("Total Subs ", subs.length)
+      // for(let i = subs.length - 1; i >= 0; i --){
+      //   console.log("Prompt " + subs[i].title + " | " + subs[i].parent_id)
+      //   if(subs[i].prompt_id == null){
+      //     console.log("Removing with null parent")
+      //     subs.splice(i, 1)
+      //   }
+      // }
+      // console.log("Total Subs after ", subs.length)
+      // p.subprompts = subs
+      // console.log("ChatQuestion: Setting Prompt Handle Next ", p)
+      // setPrompt((prevPrompt) => {
+      //   let subs = [...prevPrompt.subprompts];
+      
+      //   // ...
+      
+      //   return { ...prevPrompt, subprompts: subs };
+      // });
+        //console.log(`Questions ${prompt.questions.length} currentForm ${currentForm}`)
         if(currentForm < prompt.questions.length - 1){
           setCurrentForm(currentForm + 1);
         }
         else{
-          handlePublish();
+          handlePublish(prompt);
         }
       };
     
@@ -28,11 +51,12 @@ const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
         setCurrentForm(currentForm - 1);
       };
     
-      const handlePublish = () => {
+      const handlePublish = (p) => {
         // Implement publish logic here
 
-
-        onPublish(prompt);
+//console.log("Publishing prompt ", prompt)
+        console.log("ChatQuestion: Prompt after answers ", p)
+        props.onPublish(p);
       };
     
       const updateFormData = (newData) => {
@@ -40,6 +64,15 @@ const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
       };
 
       const FormComponent = formComponent[currentForm]// PromptChatSingleQuestion
+
+
+
+
+
+      useEffect(()=>{
+        console.log("ChatQuestion: Prompt changed", prompt)
+        console.log("ChatQuestion: Prompt in Prompt questionaire ", props.prompt)
+      }, [prompt])
   return (
     <div className="multi-form-popup  flex w-11/12 xl:w-5/9 lg:w-7/12  mx-auto justify-center items-center my-auto  rounded" 
         style={{height: '70vh', borderRadius: '3rem'}}>
@@ -47,7 +80,7 @@ const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
         <div className='flex justify-between ' style={{width: '100%'}}>
             <h1></h1>
             <h1 className='text-white'>{prompt.title}</h1>
-            <button className="close-button" onClick={onClose}>
+            <button className="close-button" onClick={props.onClose}>
               Close
             </button>
         </div>
@@ -61,7 +94,7 @@ const PromptChatQuestionsPopup = ({prompt, onClose, onPublish}) => {
             // value={prompt.questions[currentForm].answer}
             // formData={formData}
             // updateFormData={updateFormData}
-            onClose={onClose}
+            onClose={props.onClose}
             question={prompt.questions[currentForm]}
           />
         </div>

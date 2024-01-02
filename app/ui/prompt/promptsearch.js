@@ -77,6 +77,44 @@ function Promptsearch(props) {
      }
 
 
+
+     const loadPromptsTest = async(user) => {
+      // console.log("In Load Prompts. Remove return statement when implemented")
+            // console.log("Tokan in get Prompts " + user.token)
+          const config = {
+              headers:{
+                "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo3LCJmaXJzdG5hbWUiOiJOb2FoIiwibWlkZGxlbmFtZSI6Ik5haG9tIiwibGFzdG5hbWUiOiJOZWdhIiwicGhvbmUiOm51bGwsImVtYWlsIjoibm9haGRldmVsb3BlcnJAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkT1ZENmlOSEFQTGlHek1JN0F6SEYydXRRSDFSVUM5VDVoQlFoOTBpazVreDlINlBhWXNqMGkiLCJiaW8iOm51bGwsInByb2ZpbGVfaW1hZ2UiOiIiLCJmY21fdG9rZW4iOm51bGwsInBsYWlkX2FjY2Vzc190b2tlbiI6ImFjY2Vzcy1zYW5kYm94LWZmNGI5YmU4LWViYWYtNDQ1NS1hM2NjLWUzY2YxNThkZjJmNSIsInBsYWlkX3VzZXJfdG9rZW4iOiJ1c2VyLXNhbmRib3gtNTNiZjM2NmMtN2NjNS00ZjM1LWEwYzktMzJkN2RiN2VjM2EwIiwiY3JlYXRlZEF0IjoiMjAyMy0xMi0yM1QxNDoxMzo1MS4wMDBaIiwidXBkYXRlZEF0IjoiMjAyMy0xMi0yNFQwODoyNDo1NS4wMDBaIn0sImlhdCI6MTcwMzcwMjUzMiwiZXhwIjoxNzM1MjM4NTMyfQ.tajGctqLBd7VcOTvhVNIFt-4HqrVwymxs69IlnvEpxg",
+              }
+            };
+            var offset = 0;
+            // if(search == previousSearch){
+            //   offset = prompts.length
+            // }
+            // else{
+
+              
+            // }
+
+            const route = `http://192.168.100.11:8002/api/loans/get_admin_loans?offset=0`;
+            console.log(route)
+          axios.get(route, config)
+          .then(res=> {
+            console.log("Data is ")
+              console.log(res.data)
+              // setMessages(res.data.data)
+              
+              res.data.data.prompts.map((m, index) =>{
+                  setPrompts((prevState) =>
+                      [...prevState, m]
+                      )
+              })
+              setPreviousSearch(search)
+          })
+          .catch(err=> console.log(err))
+      
+      
+  }
+
     const loadPrompts = async(user) => {
         // console.log("In Load Prompts. Remove return statement when implemented")
               console.log("Tokan in get Prompts " + user.token)

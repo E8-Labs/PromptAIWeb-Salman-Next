@@ -61,7 +61,7 @@ export default function PromptsList() {
     }
   
     const handleMenuClick = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         setMenuSelected(event.currentTarget.id)
         if(event.currentTarget.id === "dashboard"){
           loadPrompts()
@@ -69,16 +69,16 @@ export default function PromptsList() {
       };
       const handleClosePopup = (event) => {
         setPopupOpen(false)
-        console.log("Popup closed")
+        //console.log("Popup closed")
       }
 
       const handleCreatePrompt = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         setPopupOpen(true)
       };
 
       const handlePromptSelected = (prompt, chat)=>{
-        console.log("Prompt page in List " + prompt.title + " Clicked")
+        //console.log("Prompt page in List " + prompt.title + " Clicked")
         setCurrentSelectedPrompt(prompt)
         setCurrentChat(chat)
         setMenuSelected("chatgpt")
@@ -88,8 +88,8 @@ export default function PromptsList() {
         if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
           navigate("/onboarding");
         } else {
-          console.log("User is saved in Dashboard")
-            console.log(process.env.REACT_APP_LocalSavedUser)
+          //console.log("User is saved in Dashboard")
+            //console.log(process.env.REACT_APP_LocalSavedUser)
 
           setCurrentUser(
 
@@ -104,7 +104,7 @@ export default function PromptsList() {
 
 
       const loadPrompts = () => {
-        console.log("In Load Prompts. Remove return statement when implemented")
+        //console.log("In Load Prompts. Remove return statement when implemented")
         // return 
             const user = JSON.parse(
                 localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
@@ -112,18 +112,18 @@ export default function PromptsList() {
               
             //   this.setState({currentUser: user})
             setCurrentUser(user)
-              console.log("Tokan in get Prompts " + user.token)
+              //console.log("Tokan in get Prompts " + user.token)
             const config = {
                 headers:{
                   "Authorization": "Bearer " + user.token,
                 }
               };
               const route = ApiPath.GetPromptsList + `?offset=${prompts.length}`;
-              console.log(route)
+              //console.log(route)
             axios.get(route, config)
             .then(res=> {
-              console.log("Data is ")
-                console.log(res.data.data.prompts)
+              //console.log("Data is ")
+                //console.log(res.data.data.prompts)
                 // setMessages(res.data.data)
                 
                 res.data.data.prompts.map((m, index) =>{
@@ -132,12 +132,14 @@ export default function PromptsList() {
                         )
                 })
             })
-            .catch(err=> console.log(err))
+            .catch(err=> {
+              console.log(err)
+            })
         
         
     }
     useEffect(()=>{
-        console.log("prompts loaded")
+        //console.log("prompts loaded")
         loadPrompts()
     }, [])
 
@@ -147,7 +149,7 @@ export default function PromptsList() {
             loadCurrentUser()
           }
           else{
-            console.log(currentUser.username)
+            //console.log(currentUser.username)
           }
       }, [])
 
@@ -158,13 +160,13 @@ export default function PromptsList() {
             loadCurrentUser()
           }
           else{
-            console.log(currentUser.username)
-            console.log("Current User Obtained " + currentUser.user.email)
+            //console.log(currentUser.username)
+            //console.log("Current User Obtained " + currentUser.user.email)
             if(currentUser.user.role === null || typeof(currentUser.user.role) === 'undefined'){
                 setRole("user")
             }
             else{
-                console.log("Setting user role " + currentUser.user.role)
+                //console.log("Setting user role " + currentUser.user.role)
                 setRole(currentUser.user.role)
             }
           }
@@ -329,7 +331,7 @@ export default function PromptsList() {
                 {
                   // !isPopupOpen &&(
                     <PromptsListDashboard prompts={prompts} handlePromptSelected={handlePromptSelected} handleAddAction={()=> {
-                      console.log("Dialogue open")
+                      //console.log("Dialogue open")
                       setPopupOpen(true)
                       // onOpen();
                     }}/>

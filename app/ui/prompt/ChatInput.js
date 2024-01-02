@@ -5,18 +5,39 @@ import styled from "styled-components";
 // import Picker from 'emoji-picker-react'
 import {IoMdSend} from "react-icons/io"
 import {BsEmojiSmileFill} from "react-icons/bs"
+import StackPromptsInput from "./StackPromptsInput";
 
 export default function ChatInput(props){
+    // console.log("Prompt in ChatInput ", props.chat)
+
+    const [chat, setChat] = useState(null)
 
     const [message, setMessage] = useState(null)
 
     const handleMessageChange = (e) => {
         setMessage(e.target.value);
     };
+
+
+    useEffect(()=>{
+        // console.log("Setting Chat in chatinput ", props.chat)
+        
+        setChat(props.chat)
+        
+    }, [])
+    useEffect(()=>{
+        if(chat){
+            // console.log("Chat is not null in ChatInput")
+        }
+        else{
+            // console.log("Chat is null in chatinput")
+        }
+    }, [chat])
     return(
         // <div className="flex">
-      <Container className=" border-2 border-white  rounded justify-self-center">
-        <div className="input-container">
+      <Container className=" justify-self-center border-2 border-white rounded">
+        {/* <StackPromptsInput prompt={props.prompt} chat={chat}/> */}
+        <div className="input-container  ">
         <textarea
              value={message}
           className="w-full  bg-transparent  rounded p-2 border-none focus:border-none rounded p-2 focus:outline-none"
