@@ -10,6 +10,8 @@ import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
 import ReactModal from 'react-modal';
 import PromptChatView from '../ui/prompt/PromptChatView';
 
+import UserProfileArea from '../ui/profile/UserProfileArea';
+
 const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
 const headphoneIcon = '/headphone.svg';
@@ -61,7 +63,7 @@ export default function PromptsList() {
     }
   
     const handleMenuClick = event => {
-        //console.log(event.currentTarget.id);
+        console.log(event.currentTarget.id);
         setMenuSelected(event.currentTarget.id)
         if(event.currentTarget.id === "dashboard"){
           loadPrompts()
@@ -193,8 +195,9 @@ export default function PromptsList() {
                 <div className="nav-item mx-4">
                     <button className="btn text-white" id="notifications" onClick={handleMenuClick}><i className="fa fa-bell"></i></button>
                 </div>
-                <Image src={currentUser ? currentUser.user.profile_image : ""}
+                <Image  id="myprofile" src={currentUser ? currentUser.user.profile_image : ""}
                        alt={""} className="rounded-full w-8 h-8 " width={40} height={40}  style={{borderRadius: 20}}
+                       onClick={handleMenuClick}
                     >
                 </Image>
               </div>
@@ -362,8 +365,10 @@ export default function PromptsList() {
             ) 
         }
         {
-            menuSelected == "profile" &&(
-              <div>This is profile screen</div>
+            menuSelected == "myprofile" &&(
+              <div className='h-full w-full '>
+                <UserProfileArea />
+              </div>
                 // <ProfileBaseView user={currentUser}/>
             ) 
         }
