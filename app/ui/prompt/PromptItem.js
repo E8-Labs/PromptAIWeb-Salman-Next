@@ -1,35 +1,73 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-
+import Button from '@mui/material/Button';
+import { Icon, SvgIcon, Snackbar } from '@mui/material';
 import Image from 'next/image'
 
 
 const ViewItemIcon = '/viewsicon.svg'
 const MessageIcon = '/commenticon.svg'
 const LikePromptIcon = '/likeprompticon.png'
+const SavePromptIcon = '/assets/saveprompticon.svg'
+import TurnedInIcon from '@mui/icons-material/TurnedIn'; // Save Icon
 
 function PromptItem(props) {
     const prompt = props.prompt;
+
+    const [snackBarOpen, setSnackbarOpen] = useState(false)
+    const [snackMessage, setSnackMessage] = useState("")
     const userImage = ""
+
+
+
+    const handleClose = () => {
+        setSnackbarOpen(false)
+        setSnackMessage("")
+    }
     return (
 
-            <div className="flex flex-col h-72  bg-appgreen rounded p-4 cursor:pointer"  key={prompt.id} onClick={()=>{
-                props.itemSelected(prompt)
-            }}> 
-                <div className="flex h-16 ">
+        <div className="flex flex-col h-72  bg-appgreen rounded p-4 cursor:pointer" key={prompt.id} >
+            <Snackbar
+                open={snackBarOpen}
+                autoHideDuration={4000}
+                onClose={handleClose}
+                message={snackMessage}
+            //   action={action}
+            />
+            <div className="flex h-16  pt-2 pl-1 justify-between">
+                <div className='flex' >
                     <div className="">
                         <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
                     </div>
                     <div className='flex-col ml-2'>
-                        <p className="font-bold">{prompt.user.username}</p>
-                        <p className="text-sm text-gray-500">3 min ago</p>
+                        <p className="font-bold" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{prompt.user.username}</p>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>3 min ago</p>
                     </div>
-                </div> {/* Specify the height and color for the top div */}
-                <div className="flex-grow ">
-                    <h3 className="text-lg font-bold mt-2  text-appgreenlight">{prompt.title}</h3>
-                    <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
-                </div> {/* This div will take up all the remaining space */}
-                <div className="h-16 ">
+                </div>
+                <div className='flex  justify-center item-center'>
+                    {/* <div className="flex border-2 justify-center items-center" style={{ borderColor: '#00C28C', backgroundColor: '#00C28C', borderRadius: '10px', height: '34px', width: '60px', padding: '10px' }}>
+                        <label className='namelabel ' style={{ color: '#FFF' }}>Buy</label>
+                    </div> */}
+                    <Button className='h-8' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={() => {
+                        console.log("Save Btn")
+                        setSnackMessage("Buy not implemented yet")
+                        setSnackbarOpen(true)
+                    }}>Buy</Button>
+                    {/* <div className="flex  justify-center items-center bg-red"> */}
+                    <SvgIcon src={TurnedInIcon} />
+                    {/* </div> */}
+                </div>
+            </div> {/* Specify the height and color for the top div */}
+            <div className="flex-grow " onClick={() => {
+                props.itemSelected(prompt)
+            }}>
+                <h3 className="text-lg font-bold mt-2  text-appgreenlight">{prompt.title}</h3>
+                <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
+            </div> {/* This div will take up all the remaining space */}
+            <div className="h-16 " onClick={() => {
+
+                props.itemSelected(prompt)
+            }}>
                 <div className=" h-16 flex mt-4  justify-between">
                     {/* Your icon components for Like, View, Comment go here */}
                     <div className="cardbtn justify-center align-items-center">
@@ -45,10 +83,10 @@ function PromptItem(props) {
                         <button>454</button>
                     </div>
                 </div>
-                </div> {/* Specify the height and color for the bottom div */}
-            </div>
-            
-            
+            </div> {/* Specify the height and color for the bottom div */}
+        </div>
+
+
 
     )
 
@@ -66,27 +104,27 @@ function PromptItem(props) {
 
 //             <div className='  bg-red flex-grow'>
 //                 {/* <div className='flex-col bg-green flex-grow'> */}
-                    // <h3 className="text-lg font-bold mt-2">{prompt.title}</h3>
-                    // <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
+// <h3 className="text-lg font-bold mt-2">{prompt.title}</h3>
+// <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
 //                 {/* </div> */}
 //             </div>
 
 //                 {/* Icons for Like, View, Comment */}
-                // <div className=" h-16 flex mt-4  justify-between">
-                //     {/* Your icon components for Like, View, Comment go here */}
-                //     <div className="cardbtn justify-center align-items-center">
-                //         <img src={LikePromptIcon} alt="Like Icon" />
-                //         <button>29k</button>
-                //     </div>
-                //     <div className="cardbtn">
-                //         <img src={ViewItemIcon} alt="View Icon" />
-                //         <button>29k</button>
-                //     </div>
-                //     <div className="cardbtn">
-                //         <img src={MessageIcon} alt="Message Icon" />
-                //         <button>454</button>
-                //     </div>
-                // </div> */}
+// <div className=" h-16 flex mt-4  justify-between">
+//     {/* Your icon components for Like, View, Comment go here */}
+//     <div className="cardbtn justify-center align-items-center">
+//         <img src={LikePromptIcon} alt="Like Icon" />
+//         <button>29k</button>
+//     </div>
+//     <div className="cardbtn">
+//         <img src={ViewItemIcon} alt="View Icon" />
+//         <button>29k</button>
+//     </div>
+//     <div className="cardbtn">
+//         <img src={MessageIcon} alt="Message Icon" />
+//         <button>454</button>
+//     </div>
+// </div> */}
 
 const Container = styled.div`
     height: 100%;
