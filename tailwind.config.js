@@ -34,7 +34,7 @@ module.exports = {
         },
         appgreen: "#001812",
         appgreenlight: "#00C28C",
-        white: '#FFFFFF'
+        // white: '#FFFFFF'
       },
       fontFamily: {
         rubik: ['Rubik', 'sans-serif'],

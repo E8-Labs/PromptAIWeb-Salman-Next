@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Modal from 'react-modal';
 import StackMultiFormPopup from './stackprompt/StackPromptCreation';
+import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import PendingSharpIcon from '@mui/icons-material/PendingSharp';
 
 
 import ApiPath from '@/app/lib/ApiPath';
@@ -83,7 +85,7 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
   }
 
   const handleNextBtnTap = async () => {
-    let cats = [{id: 1, "name": "Content Writing"}]
+    let cats = [{ id: 1, "name": "Content Writing" }]
     prompt.categories = cats;
     let data = {
       title: prompt.title,
@@ -99,66 +101,66 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
     console.log(data);
 
     let subs = []
-          if(subprompts){
-            for(let i = 0; i < subprompts.length; i++){
-                let p = subprompts[i]
-                let sub = {
-                    title: p.title,
-                    prompt: p.promptText,
-                    questions: prompt.promptQuestions
-                }
-                subs.push(sub)
-              }
-          }
-          data.subprompts = subs
+    if (subprompts) {
+      for (let i = 0; i < subprompts.length; i++) {
+        let p = subprompts[i]
+        let sub = {
+          title: p.title,
+          prompt: p.promptText,
+          questions: prompt.promptQuestions
+        }
+        subs.push(sub)
+      }
+    }
+    data.subprompts = subs
 
-          if(user){
-            try{
-              
-              console.log(user)
-              if(user){
-                const config = {
-                  headers:{
-                    "Authorization": "Bearer " + user.token,
-                  }
-                };
-                console.log("User obtained")
-                setIsLoading(true)
-                axios.post(ApiPath.CreatePrompt, data, config)
-                .then(data => {
-                  setIsLoading(false)
-                  console.log("Request processed")
-                  console.log(data.data)
-                
-                // let toast = Toast.show('Prompt created', {
-                //     duration: Toast.durations.LONG,
-                //   });
-                  if(data.data.status === true){
-                    // navigation.navigate("Dashboard")
+    if (user) {
+      try {
+
+        console.log(user)
+        if (user) {
+          const config = {
+            headers: {
+              "Authorization": "Bearer " + user.token,
+            }
+          };
+          console.log("User obtained")
+          setIsLoading(true)
+          axios.post(ApiPath.CreatePrompt, data, config)
+            .then(data => {
+              setIsLoading(false)
+              console.log("Request processed")
+              console.log(data.data)
+
+              // let toast = Toast.show('Prompt created', {
+              //     duration: Toast.durations.LONG,
+              //   });
+              if (data.data.status === true) {
+                // navigation.navigate("Dashboard")
                 //     name: 'PromptOverview',
                 // params: { prompt: parentPrompt },
                 // merge: true,
-                    closeModal()
-                  }
-                  else{
-                    console.log(data.data.message)
-                    // Alert.alert("Error " + data.data.message)
-                  }
-                }).catch(error =>{
-                    console.log("Exception ", error)
-                    setIsLoading(false)
-                    // Alert.alert("Error " + error)
-                  
-                })
+                closeModal()
               }
-            }
-            catch(error){
-              console.log("exception " + error)
-            }
-          }
-          else{
-            console.log("User not authenticated")
-          }
+              else {
+                console.log(data.data.message)
+                // Alert.alert("Error " + data.data.message)
+              }
+            }).catch(error => {
+              console.log("Exception ", error)
+              setIsLoading(false)
+              // Alert.alert("Error " + error)
+
+            })
+        }
+      }
+      catch (error) {
+        console.log("exception " + error)
+      }
+    }
+    else {
+      console.log("User not authenticated")
+    }
   };
 
   const handleAddNewPromptBtnTap = () => {
@@ -175,7 +177,7 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
   }
 
   return (
-    <div className='flex-col flex w-11/12  h-full overflow-hidden'>
+    <div className='flex-col flex w-full p-2 b h-full overflow-hidden'>
       <Modal
         isOpen={isPopupOpen}
         onAfterOpen={afterOpenModal}
@@ -205,29 +207,30 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center  " style={{ width: '100%', height: 360 }}>
+      <div className="flex items-center justify-center  w-full" style={{ width: '100%', height: 360 }}>
         <div className='overflow-y-auto  items-center ' style={{ width: '100%', height: '100%' }}>
           {
             subprompts.map((element, index) => (
-              <PromptOverViewTile key={index} prompt={element} showButton={index === subprompts.length - 1} addPromptAction={() => {
-                // Start stack prompt flow
-                console.log("Add Sub prompt here");
-                handleAddNewPromptBtnTap();
-              }} />
+              <PromptOverViewTile key={index} user={user} prompt={element} showButton={index === subprompts.length - 1}
+                addPromptAction={() => {
+                  // Start stack prompt flow
+                  console.log("Add Sub prompt here");
+                  handleAddNewPromptBtnTap();
+                }} />
             ))
           }
         </div>
       </div>
 
       <div className='flex w11/12 justify-end cursor-pointer mt-2'>
-            <div className="flex items-center justify-center bg-appgreenlight p-3 px-2 gap-2" style={{ borderRadius: '2rem', width: "10rem" }} onClick={() => {
-              handleNextBtnTap()
-            }}>
-              <div className=''>
-                <p className="text-lg" >Create Prompt</p>
-              </div>
-            </div>
+        <div className="flex items-center justify-center bg-appgreenlight p-3 px-2 gap-2" style={{ borderRadius: '2rem', width: "10rem" }} onClick={() => {
+          handleNextBtnTap()
+        }}>
+          <div className=''>
+            <p className="text-lg" >Create Prompt</p>
           </div>
+        </div>
+      </div>
     </div>
   );
 };
@@ -236,37 +239,93 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
 
 const PromptOverViewTile = ({ prompt, showButton, addPromptAction }) => {
 
+
+  const [user, setUser] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
   console.log("Details of prompt")
   console.log(prompt)
+
+  useEffect(() => {
+    // Fetch user data or perform other initial actions
+    loadCurrentUser()
+
+  }, []);
+
+  useEffect(() => {
+    console.log("User obtained ", user)
+  }, [user])
+
+
+  const loadCurrentUser = (async () => {
+    if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+      // navigate("/onboarding");
+    } else {
+      console.log("User is saved in Dashboard")
+      // console.log(process.env.REACT_APP_LocalSavedUser)
+
+      setUser(
+
+        JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+        )
+      );
+      //   loadUsers(currentUser.token);
+    }
+  });
   const handleLearnPromptClick = () => {
 
   }
+  
+  const handleClickMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   const handleAddAction = () => {
     addPromptAction();
   }
 
   return (
-    <div className='flex-col items-center justify-center'>
-      <div className='flex flex-col p-1 rounded-3xl  border-gray-100' style={{ borderWidth: '1px', borderColor: 'gray', height: '110px' }}>
+    <div className='flex-col items-center justify-center w-full'>
+      <div className='flex flex-col p-1 rounded-3xl  border-gray-100' style={{ borderWidth: '1px', borderColor: 'gray', height: '140px' }}>
         {/* First Row User Image and Name */}
-        <div className="flex gap-1 my-1 items-center px-2 cursor-pointer" >
+        <div className="flex gap-1 my-1 items-center px-2 cursor-pointer justify-between" >
 
-          <div style={{ borderRadius: '50%', overflow: 'hidden', width: '30px', height: '30px' }}>
-            <Image className=' rounded-full' src={artIcon}
-              objectFit="cover"
-              width="30"
-              height="30"
-            >
-            </Image>
-          </div>
-          <div className="flex-col justify-center items-center">
-            <p className="cursor-pointer underline bg-gray" onClick={handleLearnPromptClick}
-              style={{ fontSize: 12 }}>
-              @noah
-            </p>
+          <div className='flex'>
+            <div style={{ borderRadius: '50%', overflow: 'hidden', width: '30px', height: '30px' }}>
+              <Image className=' rounded-full' src={user ? user.user.profile_image : ''}
+                objectFit="cover"
+                width="30"
+                height="30"
+              >
+              </Image>
+            </div>
+            <div className="flex-col justify-center items-center">
+              <p className="cursor-pointer underline bg-gray" onClick={handleLearnPromptClick}
+                style={{ fontSize: 12 }}>
+                @{user ? user.user.username : ''}
+              </p>
 
+            </div>
           </div>
+          <IconButton onClick={handleClickMenu}>
+            <PendingSharpIcon style={{ color: 'white' }} />
+          </IconButton>
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleCloseMenu}
+            MenuListProps={{
+              'aria-labelledby': 'basic-button',
+            }}
+          >
+            <MenuItem onClick={handleCloseMenu}>Edit</MenuItem>
+            
+          </Menu>
         </div>
 
         <div className='px-2 cursor-pointer '>

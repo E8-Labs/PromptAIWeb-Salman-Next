@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use client'
 import { useRouter } from 'next/navigation';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import AcmeLogo from '@/app/ui/acme-logo';
 // import { ArrowRightIcon } from '@heroicons/react/24/outline';
 // import styles from '@/app/ui/home.module.css'
@@ -18,7 +18,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
 import { ToastContainer, toast } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle";
@@ -60,19 +60,19 @@ const sliderContent = [
 
 export default function Page() {
 
-const router = useRouter();
-const [page, setPage] = useState("intro")
-const [file, setFile] = useState("")
-const [name, setName] = useState("")
-const [username, setUsername] = useState("")
-const [email, setEmail] = useState("")
-const [website, setWebsite] = useState("")
-const [youtube, setYoutube] = useState("")
-const [instagram, setInstagram] = useState("")
-const [password, setPassword] = useState("")
-const [imagePreviewUrl, setImagePreviewUrl] = useState("")
+  const router = useRouter();
+  const [page, setPage] = useState("intro")
+  const [file, setFile] = useState("")
+  const [name, setName] = useState("")
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [website, setWebsite] = useState("")
+  const [youtube, setYoutube] = useState("")
+  const [instagram, setInstagram] = useState("")
+  const [password, setPassword] = useState("")
+  const [imagePreviewUrl, setImagePreviewUrl] = useState("")
 
-const [index, setIndex] = useState(0)
+  const [index, setIndex] = useState(0)
 
 
   const sliderSettings = {
@@ -90,174 +90,182 @@ const [index, setIndex] = useState(0)
     backgroundRepeat: 'no-repeat',
   };
 
-
+  useEffect(() => {
+    let u = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+    if (u){
+      let user = JSON.parse(u)
+      if(user){
+        router.push("/dashboard")
+      }
+    }
+  }, [])
 
   //functions
-  function signinBtnTapped(){
+  function signinBtnTapped() {
     setPage("login")
   }
-  function registerBtnTapped(){
-     setPage("profile_image")
+  function registerBtnTapped() {
+    setPage("profile_image")
   }
-  function getImage(imageUrl, file){
-      console.log("Image picked " + imageUrl)
-      setPage("email")
-      setFile(file)
-      setImagePreviewUrl(imageUrl)
+  function getImage(imageUrl, file) {
+    console.log("Image picked " + imageUrl)
+    setPage("email")
+    setFile(file)
+    setImagePreviewUrl(imageUrl)
+  }
+  function getUsername(username) {
+    console.log("Username added " + username)
+    setPage("social_links")
+    setUsername(username)
+
+  }
+
+  function getEmail(email) {
+    console.log("email added " + email)
+    setPage("username")
+    setEmail(email)
+
+  }
+
+  function getPassword(password) {
+    console.log("Password added " + password)
+    setPage("signup")
+    setPassword(password)
+
+    var formdata = new FormData();
+    formdata.append("username", username);
+    formdata.append("email", email);
+    formdata.append("password", password);
+    formdata.append("name", username);
+    formdata.append("youtube", youtube);
+    formdata.append("website", website);
+    formdata.append("instagram", instagram);
+    formdata.append("image", file);
+    const apiOption2 = {
+      method: "post",
+      body: formdata,
+      redirect: 'follow'
     }
-    function getUsername(username){
-      console.log("Username added " + username)
-      setPage("social_links")
-      setUsername(username)
-      
-    }
-
-    function getEmail(email){
-      console.log("email added " + email)
-      setPage("username")
-      setEmail(email)
-      
-    }
-
-    function getPassword(password){
-      console.log("Password added " + password)
-      setPage("signup")
-      setPassword(password)
-      
-      var formdata = new FormData();
-        formdata.append("username", username);
-        formdata.append("email", email);
-        formdata.append("password", password);
-        formdata.append("name", username);
-        formdata.append("youtube", youtube);
-        formdata.append("website", website);
-        formdata.append("instagram", instagram);
-        formdata.append("image", file);
-        const apiOption2 = {
-            method: "post",
-            body: formdata,
-            redirect: 'follow'
-        }
-        fetch("http://localhost:5001/api/users/register",apiOption2)
-        .then(function(res) {
-            return res.json();
-        }).then(resJson => {
-            // this.props.clickEvent("stap6");
-            if(resJson.status == true){
-                console.log("User created")
-                let Manin_data_wrap = resJson.data;
-                let Profile = Manin_data_wrap.user;
-                let profile_img = Profile.image_url;
-                localStorage.setItem(process.env.REACT_APP_LocalSavedUser, Manin_data_wrap);
-                console.log(Profile.image_url)
-                router.push("/dashboard")
-            }else{
-              toast(`Error: ${resJson.message}`);
-                // this.setState({ valid_email_address: "Email address is already registered" });
-                // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
-                // this.error_handaling();
-            }
-        })
-        .catch(error => {
-          console.log("User error " + error)
-          toast(`User logged in as ${error}`);
-            // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
-            // this.error_handaling();
-        });
-    }
-
-
-    //login here
-    function getEmailPassword(email, password){
-      const apiParams = {
-        method: "post",
-        headers:{
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body:JSON.stringify({
-            "email" :  email ,
-            "password" : password,
-        }),
-        redirect: 'follow'
-      }
-
-    fetch(ApiPath.LoginRoute,apiParams)
-    .then(function(res) {
+    fetch("http://localhost:5001/api/users/register", apiOption2)
+      .then(function (res) {
         return res.json();
-    }).then(resJson => {
+      }).then(resJson => {
         // this.props.clickEvent("stap6");
-        if(resJson.status == true){
-            console.log("User Logged in")
-            toast(`Success: User logged in`);
-            let Manin_data_wrap = resJson.data;
-            let Profile = Manin_data_wrap.user;
-            let profile_img = Profile.image_url;
-            localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
-            console.log(Profile.image_url)
-            router.push("/dashboard")
-            // const navigate = this.props.navigate;
-            // navigate("/prompts")
-            
-        }else{
-          console.log("Error login ", resJson.message)
+        if (resJson.status == true) {
+          console.log("User created")
+          let Manin_data_wrap = resJson.data;
+          let Profile = Manin_data_wrap.user;
+          let profile_img = Profile.image_url;
+          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, Manin_data_wrap);
+          console.log(Profile.image_url)
+          router.push("/dashboard")
+        } else {
           toast(`Error: ${resJson.message}`);
-            // this.setState({ valid_email_address: "Email address is already registered" });
-            // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
-            // this.error_handaling();
+          // this.setState({ valid_email_address: "Email address is already registered" });
+          // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
+          // this.error_handaling();
         }
-    })
-    .catch(error => {
-      console.log("User error " + error)
-      toast(`Error: ${error}`);
+      })
+      .catch(error => {
+        console.log("User error " + error)
+        toast(`User logged in as ${error}`);
         // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
         // this.error_handaling();
-    });
+      });
+  }
+
+
+  //login here
+  function getEmailPassword(email, password) {
+    const apiParams = {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "email": email,
+        "password": password,
+      }),
+      redirect: 'follow'
     }
 
+    fetch(ApiPath.LoginRoute, apiParams)
+      .then(function (res) {
+        return res.json();
+      }).then(resJson => {
+        // this.props.clickEvent("stap6");
+        if (resJson.status == true) {
+          console.log("User Logged in")
+          toast(`Success: User logged in`);
+          let Manin_data_wrap = resJson.data;
+          let Profile = Manin_data_wrap.user;
+          let profile_img = Profile.image_url;
+          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          console.log(Profile.image_url)
+          router.push("/dashboard")
+          // const navigate = this.props.navigate;
+          // navigate("/prompts")
 
-    function getSocialLinks(web, insta, youtube){
-      console.log("Web added " + web)
-      this.setState({
-        page: "password",
-        website: web,
-        instagram: insta,
-        youtube: youtube
+        } else {
+          console.log("Error login ", resJson.message)
+          toast(`Error: ${resJson.message}`);
+          // this.setState({ valid_email_address: "Email address is already registered" });
+          // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
+          // this.error_handaling();
+        }
       })
-    }
-    function nextPreviousBtnClicked (event){
-        // console.log("button clicked")
-        if(event.currentTarget.id === "next"){
-            console.log(event.currentTarget.id + " btn clicked")
-            if (this.state.index == 2){
-              this.setState({
-                index: 0
-              })
-            }
-            else{
-              this.setState({
-                index: this.state.index - 1
-              })
-                // setIndex(index + 1)
-            }
-        }
-        else{
-            console.log(event.currentTarget.id + " btn clicked")
-            if (this.state.index == 0){
-              this.setState({
-                index: 2
-              })
-            }
-            else{
-              this.setState({
-                index: this.state.index + 1
-              })
-                // setIndex(index + 1)
-            }
-        }
-    }
+      .catch(error => {
+        console.log("User error " + error)
+        toast(`Error: ${error}`);
+        // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+        // this.error_handaling();
+      });
+  }
 
-    //functions end here
+
+  function getSocialLinks(web, insta, youtube) {
+    console.log("Web added " + web)
+    this.setState({
+      page: "password",
+      website: web,
+      instagram: insta,
+      youtube: youtube
+    })
+  }
+  function nextPreviousBtnClicked(event) {
+    // console.log("button clicked")
+    if (event.currentTarget.id === "next") {
+      console.log(event.currentTarget.id + " btn clicked")
+      if (this.state.index == 2) {
+        this.setState({
+          index: 0
+        })
+      }
+      else {
+        this.setState({
+          index: this.state.index - 1
+        })
+        // setIndex(index + 1)
+      }
+    }
+    else {
+      console.log(event.currentTarget.id + " btn clicked")
+      if (this.state.index == 0) {
+        this.setState({
+          index: 2
+        })
+      }
+      else {
+        this.setState({
+          index: this.state.index + 1
+        })
+        // setIndex(index + 1)
+      }
+    }
+  }
+
+  //functions end here
 
   return (
     <main className="flex min-h-screen flex-col p-6" style={mainStyle}>
@@ -276,7 +284,7 @@ const [index, setIndex] = useState(0)
         </div>
 
         <div className="flex-grow flex items-center justify-center p-1 md:w-2/4  md:py-12 bg-black" style={{ height: '70vh' }}>
-          <div className=" flex items-center justify-center bg-blue" style={{width: '100%'}} >
+          <div className=" flex items-center justify-center bg-blue" style={{ width: '100%' }} >
 
             {
               page === "intro" && (

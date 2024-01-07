@@ -12,6 +12,9 @@ import PromptChatView from '../ui/prompt/PromptChatView';
 import ProfileBaseView from '../ui/profile/Profile';
 import UserProfileArea from '../ui/profile/UserProfileArea';
 
+import { IconButton } from '@mui/material';
+
+import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
 const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
 const headphoneIcon = '/headphone.svg';
@@ -34,6 +37,8 @@ import Promptsearch from '../ui/prompt/promptsearch';
 
 
 export default function PromptsList() {
+
+  const router = useRouter();
   const userImage = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRk9ereOPzUWlYLy1dLFUbRLodoiDsPuIuAUmo749NjSSsyZSyf"
   // const prompts = ["Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2", "Prompt1", "Promt2"]
   const [isPopupOpen, setPopupOpen] = useState(false);
@@ -67,6 +72,11 @@ export default function PromptsList() {
     setMenuSelected(event.currentTarget.id)
     if (event.currentTarget.id === "dashboard") {
       loadPrompts()
+    }
+    else if (event.currentTarget.id === "logout"){
+      //logout here
+      localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+      router.push("/")
     }
   };
   const handleClosePopup = (event) => {
@@ -295,6 +305,14 @@ export default function PromptsList() {
             <div className="col-md-12 dbmenubtn   p-2 gap-2" id="terms" onClick={handleMenuClick}>
               <img className="icon" src={termIcon}></img>
               <button className="button fs-6">Terms & conditions</button>
+            </div>
+            <div className="col-md-12 dbmenubtn   p-1 gap-2" id="logout" onClick={handleMenuClick}>
+              {/* <img className="icon" src={usersIcon} style={{color: 'red'}}></img> */}
+              <IconButton style={{color: 'red'}}>
+                <LogoutSharpIcon />
+              </IconButton>
+
+              <button className="button fs-4 " style={{color: 'red', fontSize: 15, fontWeight: 'bold'}}>Logout</button>
             </div>
           </div>
         </div>

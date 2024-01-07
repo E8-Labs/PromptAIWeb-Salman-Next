@@ -100,7 +100,7 @@ const PromptChatView = (props) => {
 
     const sendFirstPromptForNewChat = async (user) => {
       //console.log("Sending First Message uncomment below sendMessage function " + prompt)
-      // sendMessage({message: prompt.prompt, from: "me", type: MessageType.Prompt, title: prompt.title})
+      sendMessage({message: prompt.prompt, from: "me", type: MessageType.Prompt, title: prompt.title})
     }
 
     const u = JSON.parse(
@@ -369,7 +369,7 @@ const PromptChatView = (props) => {
         )
       }
       <ChatHeader className='flex  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
-      <MessagesList className='flex-grow ' messages={messages} />
+      <MessagesList className='flex-grow ' messages={messages} prompt={prompt}/>
       <div className='flex justify-left  w-8/12'>
         <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
           //send stacked sub prompt here
@@ -388,13 +388,13 @@ export default PromptChatView
 
 
 
-const IncomingMessage = ({ message }) => {
+const IncomingMessage = ({ message, prompt }) => {
 
   return (
     <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15`}>
       <div className={`flex-col mx-1 p-2 w-11/12 my-1`} key={message.id}>
         <div style={{ borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}>
-          <Image className=' rounded-full' src={artIcon}
+          <Image className=' rounded-full' src={prompt.user.profile_image}
             objectFit="cover"
             width="40"
             height="40"
@@ -430,8 +430,7 @@ const ChatHeader = ({ username, userImage }) => {
   )
 }
 
-const MessagesList = ({ messages }) => {
-
+const MessagesList = ({ messages, prompt }) => {
   return (
     <div className="messages-list  w-8/12   items-center overflow-y-auto mx-auto ">
       {
@@ -448,7 +447,7 @@ const MessagesList = ({ messages }) => {
                     </div>
                   ) :
                     (
-                      <IncomingMessage message={item} />
+                      <IncomingMessage message={item} prompt={prompt} />
                     )
                 }
               </div>

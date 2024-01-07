@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from '@mui/material/Button';
-import { Icon, SvgIcon, Snackbar } from '@mui/material';
+import { Icon, IconButton, Snackbar, Backdrop, CircularProgress } from '@mui/material';
 import Image from 'next/image'
 
 
@@ -16,6 +16,7 @@ function PromptItem(props) {
 
     const [snackBarOpen, setSnackbarOpen] = useState(false)
     const [snackMessage, setSnackMessage] = useState("")
+    const [loading, setLoading] = useState(false)
     const userImage = ""
 
 
@@ -24,6 +25,8 @@ function PromptItem(props) {
         setSnackbarOpen(false)
         setSnackMessage("")
     }
+
+    
     return (
 
         <div className="flex flex-col h-72  bg-appgreen rounded p-4 cursor:pointer" key={prompt.id} >
@@ -34,7 +37,7 @@ function PromptItem(props) {
                 message={snackMessage}
             //   action={action}
             />
-            <div className="flex h-16  pt-2 pl-1 justify-between">
+            <div className="flex h-16  pt-2 pl-1 justify-between items-center">
                 <div className='flex' >
                     <div className="">
                         <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
@@ -45,16 +48,17 @@ function PromptItem(props) {
                     </div>
                 </div>
                 <div className='flex  justify-center item-center'>
-                    {/* <div className="flex border-2 justify-center items-center" style={{ borderColor: '#00C28C', backgroundColor: '#00C28C', borderRadius: '10px', height: '34px', width: '60px', padding: '10px' }}>
-                        <label className='namelabel ' style={{ color: '#FFF' }}>Buy</label>
-                    </div> */}
-                    <Button className='h-8' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={() => {
+
+                    {/* <Button className='h-8' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={() => {
                         console.log("Save Btn")
                         setSnackMessage("Buy not implemented yet")
                         setSnackbarOpen(true)
-                    }}>Buy</Button>
+                    }}>Buy</Button> */}
                     {/* <div className="flex  justify-center items-center bg-red"> */}
-                    <SvgIcon src={TurnedInIcon} />
+                    <IconButton >
+                        <TurnedInIcon style={{ color: 'white' }} />
+                    </IconButton>
+
                     {/* </div> */}
                 </div>
             </div> {/* Specify the height and color for the top div */}
@@ -72,18 +76,19 @@ function PromptItem(props) {
                     {/* Your icon components for Like, View, Comment go here */}
                     <div className="cardbtn justify-center align-items-center">
                         <img src={LikePromptIcon} alt="Like Icon" />
-                        <button>29k</button>
+                        <button>{prompt.likes}</button>
                     </div>
                     <div className="cardbtn">
                         <img src={ViewItemIcon} alt="View Icon" />
-                        <button>29k</button>
+                        <button>{prompt.views}</button>
                     </div>
                     <div className="cardbtn">
                         <img src={MessageIcon} alt="Message Icon" />
-                        <button>454</button>
+                        <button>{prompt.usage}</button>
                     </div>
                 </div>
             </div> {/* Specify the height and color for the bottom div */}
+            
         </div>
 
 

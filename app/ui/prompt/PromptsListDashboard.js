@@ -1,12 +1,13 @@
 import React, {useState} from 'react'
 import PromptItem from './PromptItem'
 import Image from 'next/image';
-
+import { Backdrop, CircularProgress, Menu, MenuItem } from '@mui/material';
 import Popup from 'reactjs-popup'; 
 import 'reactjs-popup/dist/index.css'; 
 import PromptChatView from './PromptChatView';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
+import YouTubeLikeLoading from './LoadingView';
 
 import axios from 'axios';
 import ApiPath from '@/app/lib/ApiPath';
@@ -26,10 +27,12 @@ const customStyles = {
 const PromptsListDashboard = (props) => {
     const prompts = props.prompts
     const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
+    // const [promptMenu, setPromptMenu] = useState(false)
+    const [anchorEl, setAnchorEl] = React.useState(null);
     const [chatViewVisible, setChatViewVisible] = useState(false)
     const [currentChat, setCurrentChat] = useState(null)
     const [promptQuestionDialogueVisible, setPromptQuestionDeialogueVisible] = useState(false)
-
+    const [loading, setLoading] = useState(false)
 
 
     const categories = [
@@ -51,6 +54,10 @@ const PromptsListDashboard = (props) => {
         { name: 'Marketing Sub 1', id: 6 },
       ];
 
+    const handleLoadingClose = () => {
+        setLoading(false)
+    }
+
     function afterOpenModal() {
 
     }
@@ -58,6 +65,8 @@ const PromptsListDashboard = (props) => {
     function closeModal() {
       setPromptQuestionDeialogueVisible(false);
     }
+
+
 
     const handlePromptSelected = (prompt)=>{
         //console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
@@ -97,8 +106,10 @@ const PromptsListDashboard = (props) => {
             }
           };
           const data = {promptId: currentSelectedPrompt.id};
+          setLoading(true)
         axios.post(ApiPath.CreateChat, data, config)
         .then(data => {
+          setLoading(false)
             //console.log("Chat create response")
             //console.log(data.data)
             if (data.data.status){
@@ -113,7 +124,7 @@ const PromptsListDashboard = (props) => {
                 // setChatViewVisible(true)
             }
             else{
-
+              
             }
             
 
@@ -126,6 +137,13 @@ const PromptsListDashboard = (props) => {
   return (
     
     <div className="flex-col">
+      <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={loading}
+                onClick={handleLoadingClose}
+            >
+                <CircularProgress color="inherit" />
+            </Backdrop>
         {/* <PromptChatView chatViewVisible={chatViewVisible} newChat={true} chat={currentChat} prompt={currentSelectedPrompt}/> */}
 
         <Modal
@@ -192,7 +210,14 @@ const PromptsListDashboard = (props) => {
       </div>
 
         </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" >
+        {
+          prompts.length == 0 && (
+            <YouTubeLikeLoading />
+          )
+        }
+            {
+              prompts.length > 0 && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" >
                     {
                       
                         prompts.map((element, index) => {
@@ -202,12 +227,33 @@ const PromptsListDashboard = (props) => {
                         }
                             return(
                                 <div className="rounded bg-appgreen p-0 " key={element.id}>
-                                    <PromptItem className='promptitem' prompt={element}  itemSelected = {handlePromptSelected}></PromptItem>
+                                    <PromptItem className='promptitem' prompt={element}  itemSelected = {(item)=>{
+                                      handlePromptSelected(item)
+                                      // setAnchorEl(event.currentTarget);
+                                    }}></PromptItem>
+                                {/* <Menu
+                                  id="basic-menu"
+                                  anchorEl={anchorEl}
+                                  open={promptMenu}
+                                  onClose={handleClose}
+                                  MenuListProps={{
+                                    'aria-labelledby': 'basic-button',
+                                  }}
+                                >
+                                  <MenuItem onClick={() => {
+                                    handlePromptSelected(element)
+                                  }}>Use Prompt</MenuItem>
+                                  <MenuItem onClick={handleClose}>Close</MenuItem>
+                                  {/* <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+                                {/* </Menu> * */}
+                                
                                 </div>
                             )
                         })
                     }
-            </div>
+                </div>
+              )
+            }
 
     </div>
   )

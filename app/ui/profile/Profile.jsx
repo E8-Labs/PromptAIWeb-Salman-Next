@@ -135,7 +135,7 @@ export default function ProfileBaseView(props) {
                         prompts.map((element, index) => {
                         // <label>{element}</label>
                         {
-                          //console.log(element)
+                          console.log(element)
                         }
                             return(
                                 <div className="rounded bg-appgreen p-0 " key={element.id}>
