@@ -118,8 +118,10 @@ export default function PromptsList() {
   const loadPrompts = () => {
     //console.log("In Load Prompts. Remove return statement when implemented")
     // return 
+    let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+    console.log("User data stored is ", d)
     const user = JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      d
     )
 
     //   this.setState({currentUser: user})
@@ -321,7 +323,7 @@ export default function PromptsList() {
             //disabled flow if the menu is chat gpt in the div above.
             menuSelected == "chatgpt" && currentSelectedPrompt !== null && currentChat !== null && (
               // <ChatContainer prompt={prompt}/>
-              // <div>This is chat screen</div>
+              // <div>Th÷is is chat screen</div>
               <PromptChatView chatViewVisible={true} newChat={true} chat={currentChat} prompt={currentSelectedPrompt} />
 
             )

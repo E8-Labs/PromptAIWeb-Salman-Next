@@ -38,12 +38,14 @@ function PromptItem(props) {
             //   action={action}
             />
             <div className="flex h-16  pt-2 pl-1 justify-between items-center">
-                <div className='flex' >
+                <div className='flex' onClick={()=>{
+                    props.profileClicked()
+                }}>
                     <div className="">
                         <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
                     </div>
                     <div className='flex-col ml-2'>
-                        <p className="font-bold" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{prompt.user.username}</p>
+                        <p className="font-bold  text-white" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{prompt.user.username}</p>
                         <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>3 min ago</p>
                     </div>
                 </div>
@@ -66,7 +68,7 @@ function PromptItem(props) {
                 props.itemSelected(prompt)
             }}>
                 <h3 className="text-lg font-bold mt-2  text-appgreenlight">{prompt.title}</h3>
-                <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
+                <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5 text-white">{prompt.description}</p>
             </div> {/* This div will take up all the remaining space */}
             <div className="h-16 " onClick={() => {
 
@@ -76,15 +78,15 @@ function PromptItem(props) {
                     {/* Your icon components for Like, View, Comment go here */}
                     <div className="cardbtn justify-center align-items-center">
                         <img src={LikePromptIcon} alt="Like Icon" />
-                        <button>{prompt.likes}</button>
+                        <button className=' text-white'>{prompt.likes}</button>
                     </div>
                     <div className="cardbtn">
                         <img src={ViewItemIcon} alt="View Icon" />
-                        <button>{prompt.views}</button>
+                        <button className=' text-white'>{prompt.views}</button>
                     </div>
                     <div className="cardbtn">
                         <img src={MessageIcon} alt="Message Icon" />
-                        <button>{prompt.usage}</button>
+                        <button className=' text-white'>{prompt.usage}</button>
                     </div>
                 </div>
             </div> {/* Specify the height and color for the bottom div */}

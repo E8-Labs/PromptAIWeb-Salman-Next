@@ -45,31 +45,36 @@ export default function ProfileBaseView(props) {
       const loadPrompts = () => {
         //console.log("In Load Prompts. Remove return statement when implemented")
         // return 
-        const user = JSON.parse(
+        const u = JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
         )
     
         //   this.setState({currentUser: user})
-        setCurrentUser(user)
-        console.log("Token in get Prompts " + user)
+        setCurrentUser(u)
+        // console.log("Token in get Prompts " + u)
         const config = {
           headers: {
-            "Authorization": "Bearer " + user.token,
+            "Authorization": "Bearer " + u.token,
           }
         };
-        const route = ApiPath.GetPromptsList + `?offset=${prompts.length}`;
-        //console.log(route)
+        let otherUserProfileIdParameter = ""
+        if(user.token === ""){
+            otherUserProfileIdParameter = "&userid=" + user.user.id
+        }
+        const route = ApiPath.GetUserPrompts + `?offset=${prompts.length}${otherUserProfileIdParameter}`;
+        // console.log(route)
         axios.get(route, config)
           .then(res => {
-            //console.log("Data is ")
-            //console.log(res.data.data.prompts)
-            // setMessages(res.data.data)
+            // console.log("Data is ")
+            console.log(res.data)
+            // setMessages(res.data)
     
-            res.data.data.prompts.map((m, index) => {
+            res.data.data.map((m, index) => {
               setPrompts((prevState) =>
                 [...prevState, m]
               )
             })
+            // console.log("Prompts count is ", prompts.length)
           })
           .catch(err => {
             console.log(err)
@@ -129,13 +134,22 @@ export default function ProfileBaseView(props) {
                     </div>
                 </div>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" >
+            {/* {
+                user.token == "" &&(
+                    <div>
+                        Other user's profile
+                    </div>   
+                )
+            } */}
+            {/* {
+                user.token != "" &&( */}
+                    <div className={`  ${ user.token === "" ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'}`} >
                     {
                       
                         prompts.map((element, index) => {
                         // <label>{element}</label>
                         {
-                          console.log(element)
+                          console.log("Prompt in map is ", element)
                         }
                             return(
                                 <div className="rounded bg-appgreen p-0 " key={element.id}>
@@ -149,6 +163,8 @@ export default function ProfileBaseView(props) {
                         })
                     }
             </div>
+                {/* // ) */}
+            {/* // } */}
         </div>
     )
 }

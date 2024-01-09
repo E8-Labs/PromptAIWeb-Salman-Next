@@ -153,7 +153,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         // defaultValue={[categories[0]]}
         sx={{ "label": { color: "white" }, width: '80%', color: 'white', 'input': { color: 'white' } }}
         renderInput={(params) => (
-          <CustomTextField {...params} label="Categories" placeholder="Categories"
+          <CustomTextField {...params} label="Topics" placeholder="Topics"
             sx={{ "label": { color: "gray" }, color: 'white' }}
           />
         )}

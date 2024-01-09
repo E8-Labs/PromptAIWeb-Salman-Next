@@ -29,15 +29,16 @@ import "bootstrap/dist/js/bootstrap.bundle";
 
 // import crossIcon from '../../assets/cross.svg'
 import ChatGptLogin from "@/app/ui/auth/ChatGptLogin";
-// import NotificationPermission from "./NotificationPermission";
-// import AddProfilePicture from "./AddProfilePicture";
-// import AddUsername from "./AddUsername";
-// import AddSocialLinks from "./AddSocialLinks";
-// import AddPassword from "./AddPassword";
-// import AddEmail from "@/app/ui/auth/AddEmail";
+import NotificationPermission from './ui/auth/register/NotificationPermission';
+import AddProfilePicture from './ui/auth/register/AddProfilePicture';
+import AddUsername from './ui/auth/register/AddUsername';
+// impprt Ad
+import AddPassword from './ui/auth/register/AddPassword';
+import AddEmail from './ui/auth/register/AddEmail';
 import LoginAI from "@/app/ui/auth/LoginAI";
 
 import ApiPath from "@/app/lib/ApiPath";
+import AddSocialLinks from './ui/auth/register/AddSocialLinks';
 
 const sliderContent = [
   {
@@ -146,17 +147,17 @@ export default function Page() {
       body: formdata,
       redirect: 'follow'
     }
-    fetch("http://localhost:5001/api/users/register", apiOption2)
+    fetch(ApiPath.RegisterRoute, apiOption2)
       .then(function (res) {
         return res.json();
       }).then(resJson => {
         // this.props.clickEvent("stap6");
         if (resJson.status == true) {
-          console.log("User created")
+          console.log("User created", resJson.data)
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
           let profile_img = Profile.image_url;
-          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, Manin_data_wrap);
+          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
           console.log(Profile.image_url)
           router.push("/dashboard")
         } else {
@@ -226,44 +227,13 @@ export default function Page() {
 
   function getSocialLinks(web, insta, youtube) {
     console.log("Web added " + web)
-    this.setState({
-      page: "password",
-      website: web,
-      instagram: insta,
-      youtube: youtube
-    })
+    setWebsite(web)
+    setInstagram(insta)
+    setYoutube(youtube)
+    setPage("password")
+    
   }
-  function nextPreviousBtnClicked(event) {
-    // console.log("button clicked")
-    if (event.currentTarget.id === "next") {
-      console.log(event.currentTarget.id + " btn clicked")
-      if (this.state.index == 2) {
-        this.setState({
-          index: 0
-        })
-      }
-      else {
-        this.setState({
-          index: this.state.index - 1
-        })
-        // setIndex(index + 1)
-      }
-    }
-    else {
-      console.log(event.currentTarget.id + " btn clicked")
-      if (this.state.index == 0) {
-        this.setState({
-          index: 2
-        })
-      }
-      else {
-        this.setState({
-          index: this.state.index + 1
-        })
-        // setIndex(index + 1)
-      }
-    }
-  }
+  
 
   //functions end here
 
@@ -284,7 +254,7 @@ export default function Page() {
         </div>
 
         <div className="flex-grow flex items-center justify-center p-1 md:w-2/4  md:py-12 bg-black" style={{ height: '70vh' }}>
-          <div className=" flex items-center justify-center bg-blue" style={{ width: '100%' }} >
+          <div className=" flex items-center justify-center " style={{ width: '100%' }} >
 
             {
               page === "intro" && (
@@ -301,30 +271,30 @@ export default function Page() {
             }
             {
               page === "email" && (
-                // <AddEmail getEmail={this.getEmail.bind(this)} imagePreviewUrl={this.state.imagePreviewUrl} />
-                <div> Hello there email </div>
+                <AddEmail getEmail={getEmail} imagePreviewUrl={imagePreviewUrl} />
+                // <div> Hello there email </div>
               )
             }
-            {/* {
-  this.state.page === "profile_image" &&(
-    <AddProfilePicture getImage={this.getImage.bind(this)}/>
-  )
-}
-{
-  this.state.page === "username" &&(
-    <AddUsername imagePreviewUrl={this.state.imagePreviewUrl} getUsername={this.getUsername.bind(this)} />
-  )
-}
-{
-  this.state.page === "social_links" &&(
-    <AddSocialLinks imagePreviewUrl={this.state.imagePreviewUrl} username={this.state.username} getSocialLinks={this.getSocialLinks.bind(this)} />
-  )
-}
-{
-  this.state.page === "password" &&(
-    <AddPassword imagePreviewUrl={this.state.imagePreviewUrl} username={this.state.username} getPassword={this.getPassword.bind(this)} />
-  )
-} */}
+            {
+              page === "profile_image" && (
+                <AddProfilePicture className="h-full" getImage={getImage} />
+              )
+            }
+            {
+              page === "username" && (
+                <AddUsername imagePreviewUrl={imagePreviewUrl} getUsername={getUsername} />
+              )
+            }
+            {
+              page === "social_links" && (
+                <AddSocialLinks imagePreviewUrl={imagePreviewUrl} username={username} getSocialLinks={getSocialLinks} />
+              )
+            }
+            {
+              page === "password" && (
+                <AddPassword imagePreviewUrl={imagePreviewUrl} username={username} getPassword={getPassword} />
+              )
+            }
 
           </div>
         </div>
