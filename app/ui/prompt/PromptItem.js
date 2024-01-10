@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Button from '@mui/material/Button';
 import { Icon, IconButton, Snackbar, Backdrop, CircularProgress } from '@mui/material';
 import Image from 'next/image'
+import { poppins, rubik } from '../../ui/fonts'
 
 
 const ViewItemIcon = '/viewsicon.svg'
@@ -45,7 +46,7 @@ function PromptItem(props) {
                         <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
                     </div>
                     <div className='flex-col ml-2'>
-                        <p className="font-bold  text-white" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{prompt.user.username}</p>
+                        <p className={`font-bold  text-white ${rubik.className} antialiased`} >{prompt.user.username}</p>
                         <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>3 min ago</p>
                     </div>
                 </div>
