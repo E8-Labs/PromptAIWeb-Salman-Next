@@ -28,7 +28,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
     <Container1 className='container2 ' style={{ width: '100%' }}>
 
       {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-      <div className='flex flex-col    overflow-hidden w-11/12 mt-8'>
+      <div className='flex flex-col    overflow-hidden w-full md:w-11/12 mt-8'>
         <div className="flex h-50   justify-center gap-8  items-center justify-center">
 
           <div className={` flex justify-center items-center text-white p-1 px-4 border-2 border-white rounded-md ${privacy === 'Public' ? 'bg-white-200 border-emerald-400' : 'bg-transparent'} `} >
@@ -38,7 +38,13 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
               value="a"
               name="radio-buttons"
               inputProps={{ 'aria-label': 'A' }}
-              sx={{ color: 'white' }}
+              sx={{ color: 'white', '&, &.Mui-checked': {
+                color: '#00C28C',
+              }, }}
+              onChange={()=> {
+                console.log("Radio Public clicked")
+                setPrivacy("Public")
+              }}
             />
             <button className='align-self-end ms-auto text-white' style={{ backgroundColor: 'transparent', border: 'none' }}
               onClick={() => {
@@ -55,7 +61,13 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
               value="a"
               name="radio-buttons"
               inputProps={{ 'aria-label': 'A' }}
-              sx={{ color: 'white' }}
+              sx={{ color: 'white', '&, &.Mui-checked': {
+                color: '#00C28C',
+              }, }}
+              onChange={()=> {
+                console.log("Radio Public clicked")
+                setPrivacy("Private")
+              }}
             />
             <button className='align-self-end ms-auto text-white' style={{ backgroundColor: 'transparent', border: 'none' }}
               onClick={() => {
@@ -83,9 +95,10 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
               />
 
               <CustomTextField
+              style={{height: 120}}
                 required
                 multiline
-                maxRows={8}
+                maxRows={5}
                 id="outlined-required"
                 label="Description"
                 defaultValue=""

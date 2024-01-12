@@ -6,6 +6,8 @@ import PromptCategoryForm from './PromptCategoryForm';
 import PromptEnrichForm from './PromptEnrichForm';
 import PromptOverViewForm from './PromptOverViewForm';
 import SetPromptQuestions from './SetPromptQuestions';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { Button, IconButton } from '@mui/material';
 
 const forms = [ PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, SetPromptQuestions, PromptOverViewForm];
 
@@ -29,7 +31,12 @@ const MultiFormPopup = ({ onClose }) => {
   };
 
   const handlePrevious = () => {
-    setCurrentForm(currentForm - 1);
+    if(currentForm == 0){
+      onClose();
+    }
+    else{
+      setCurrentForm(currentForm - 1);
+    }
   };
 
   const handlePublish = () => {
@@ -49,12 +56,15 @@ const MultiFormPopup = ({ onClose }) => {
   const FormComponent = forms[currentForm];
 
   return (
-    <div className="multi-form-popup  flex w-11/12 xl:w-5/9 lg:w-5/12  mx-auto justify-center items-center my-auto  rounded" 
-        style={{height: '70vh', borderRadius: '3rem'}}>
-      <div className="flex  flex-col w-9/12 items-center bg-appgreen p-2  py-4 rounded-lg">
-        <div className='flex justify-between ' style={{width: '100%'}}>
-            <h1></h1>
-            <h1 className='text-white'>Create Prompt</h1>
+    //w-11/12 xl:w-5/9 lg:w-5/12
+    <div className="multi-form-popup bg-red flex w-full h-full md:w-[23rem] md:h-[40rem]   mx-auto justify-center items-center my-auto  rounded" 
+        style={{ borderRadius: '3rem'}}>
+      <div className="flex  flex-col w-full h-full items-center bg-appgreen p-2  py-4 rounded-lg">
+        <div className='flex justify-between items-center' style={{width: '100%'}}>
+            <IconButton onClick={handlePrevious}>
+              <ArrowBackIcon sx={{color: 'white'}}/>
+            </IconButton>
+            <h1 className='text-white text-lg' style={{fontWeight: 'bold', }}>Create New Prompt</h1>
             <button className="close-button" onClick={onClose}>
               Close
             </button>

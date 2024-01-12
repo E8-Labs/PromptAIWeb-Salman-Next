@@ -67,24 +67,15 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
 
 
       <div className="flex-col mx-auto justify-center bg-transparent items-center w-full ">
-        <FormContainer className=''>
-          <form className='gap-sm-4 form flex flex-col  mx-auto justify-center items-center  w-11/12'>
-
-
-            {/* <textarea className="flex bg-transparent custom-scrollbar" rows="12" type='text' placeholder={promptTextPlaceholder}
-
-              name='objective' onChange={e => {
-                let text = e.target.value;
-                setPromptText(text)
-                updateFormData({ promptText: e.target.value })
-              }}
-            ></textarea> */}
+        <div className=' p-2'>
+          {/* <form className='gap-sm-4 form flex flex-col  mx-auto justify-center items-center  w-11/12'> */}
 
             <CustomTextField
               required
               multiline
               focused
-              maxRows={12}
+              maxRows={15}
+              minRows={15}
               id="outlined-required"
               label="Description"
               defaultValue=""
@@ -113,8 +104,8 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
               <Button className='h-12' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={handleNext}>Continue</Button>
             </div>
 
-          </form>
-        </FormContainer>
+          {/* </form> */}
+        </div>
       </div>
 
     </div>

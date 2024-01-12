@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import PromptItem from './PromptItem'
 import Image from 'next/image';
-import { Backdrop, CircularProgress, Menu, MenuItem, Drawer, Box, Divider } from '@mui/material';
+import { Backdrop, CircularProgress, Menu, MenuItem, Drawer, Box, Divider, Autocomplete, Chip } from '@mui/material';
+import { CustomTextField } from '../customcomponents/CustomTextField';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import PromptChatView from './PromptChatView';
@@ -12,6 +13,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import axios from 'axios';
 import ApiPath from '@/app/lib/ApiPath';
 import ProfileBaseView from '../profile/Profile';
+import categories from '@/app/lib/categories';
 import {
   Grid,
   Card,
@@ -59,6 +61,9 @@ const PromptsListDashboard = (props) => {
   // const classes = useStyles()
   const prompts = props.prompts
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
+  const [categoriesSelected, setCategoriesSelected] = useState([])
+  const [subCategoriesSelected, setSubCategoriesSelected] = useState([])
+
   // const [promptMenu, setPromptMenu] = useState(false)
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [chatViewVisible, setChatViewVisible] = useState(false)
@@ -67,26 +72,12 @@ const PromptsListDashboard = (props) => {
   const [loading, setLoading] = useState(false)
 
   const [otherUserProfile, setOtherUserProfile] = useState(null)
+  const [topicsForCategories, setTopicsForCategories] = useState([])
 
 
-  const categories = [
-    { name: 'Content Writing', id: 1 },
-    { name: 'Lifestyle', id: 2 },
-    { name: 'Health & Wellness', id: 3 },
-    { name: 'Techonology', id: 4 },
-    { name: 'Enterpreneurship', id: 5 },
-    { name: 'Marketing', id: 6 },
-  ];
 
 
-  const subcategories = [
-    { name: 'Content Writing Sub 1', id: 1 },
-    { name: 'Lifestyle Sub 1', id: 2 },
-    { name: 'Health & Wellness Sub 1', id: 3 },
-    { name: 'Techonology Sub 1', id: 4 },
-    { name: 'Enterpreneurship Sub 1', id: 5 },
-    { name: 'Marketing Sub 1', id: 6 },
-  ];
+
 
   const handleLoadingClose = () => {
     setLoading(false)
@@ -220,45 +211,85 @@ const PromptsListDashboard = (props) => {
 
       <div className='flex items-center justify-between p-4'>
         <div className='flex  gap-4  h-20 items-center'>
-          <div className='flex flex-col p-1 px-2 w-60' style={{ borderRadius: '15px', borderWidth: '2px', borderColor: '#00C28C' }}>
-            <label className='flex-none text-rubik font-medium text-base mb-1' style={{ fontSize: '10px', marginBottom: '0.25rem' }}>
-              Category
-            </label>
-            <select className='flex-grow appearance-none rounded bg-transparent border-none focus:border-none focus:outline-none w-full'>
-              {
-                categories.map(item => {
-                  {
-                    //console.log(item)
-                  }
-                  return (
-                    <option key={item.id} value={item.name}>{item.name}</option>
-                  )
+          <Autocomplete
+            multiple
+            limitTags={2}
+            id="multiple-limit-tags"
+            options={categories}
+            getOptionLabel={(option) => option.name}
+            // defaultValue={[categories[0]]}
+            sx={{ "label": { color: "white" }, height: '40px', width: '15rem', color: 'white', 'input': { color: 'white' } }}
+            renderInput={(params) => (
+              <CustomTextField {...params} label="Categories" placeholder="Categories"
+                sx={{ "label": { color: "gray" }, color: 'white' }}
+              />
+            )}
+            ChipProps={{ color: 'primary' }}
+            onChange={(event, newValue) => {
+              console.log(newValue)
+              let array = []
+              newValue.forEach((item) => {
+                item.subcategories.forEach((topic) => {
+                  array = [...array, topic]
                 })
-              }
-            </select>
-          </div>
 
-          <div className='flex flex-col p-1 px-2 w-60' style={{ borderRadius: '15px', borderWidth: '2px', borderColor: '#00C28C' }}>
-            <label className='flex-none text-rubik font-medium text-base mb-1' style={{ fontSize: '10px', marginBottom: '0.25rem' }}>
-              Subategory
-            </label>
-            <select className='flex-grow appearance-none rounded bg-transparent border-none focus:border-none focus:outline-none w-full'>
-              {
-                subcategories.map(item => {
-                  {
-                    //console.log(item)
-                  }
-                  return (
-                    <option value={item.name}>{item.name}</option>
-                  )
-                })
-              }
-            </select>
-          </div>
+              })
+              console.log("Topics", array)
+              setTopicsForCategories(array)
+              setCategoriesSelected(newValue)
+            }}
+
+            renderTags={
+              (value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    className={'bg-appgreenlight text-lg'}
+                    variant="filled"
+                    sx={{ backgroundColor: '#00C28C', color: 'white' }}
+                    label={`${option.name}`}
+                    {...getTagProps({ index })}
+                  />
+                ))
+            }
+
+          />
+
+          <Autocomplete
+            multiple
+            limitTags={2}
+            id="multiple-limit-tags"
+            options={topicsForCategories}
+            getOptionLabel={(option) => option.name}
+            // defaultValue={[categories[0]]}
+            sx={{ "label": { color: "white" }, height: '40px', width: '15rem', color: 'white', 'input': { color: 'white' } }}
+            renderInput={(params) => (
+              <CustomTextField {...params} label="Topics" placeholder="Topics"
+                sx={{ "label": { color: "gray" }, color: 'white' }}
+              />
+            )}
+            ChipProps={{ color: 'primary' }}
+            onChange={(event, newValue) => {
+              console.log(newValue)
+              setSubCategoriesSelected(newValue)
+              // updateFormData({ categories: newValue })
+            }}
+            renderTags={
+              (value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    className={'bg-appgreenlight text-lg'}
+                    variant="filled"
+                    sx={{ backgroundColor: '#00C28C', color: 'white' }}
+                    label={`${option.name}`}
+                    {...getTagProps({ index })}
+                  />
+                ))
+            }
+          />
         </div>
 
 
-        <div className="flex items-center justify-center bg-appgreenlight p-3 md:rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl"  onClick={() => {
+        <div className="flex items-center justify-center bg-appgreenlight p-3 md:rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl" onClick={() => {
           props.handleAddAction()
         }}>
           {/* Third View */}
@@ -278,23 +309,23 @@ const PromptsListDashboard = (props) => {
       {
         prompts.length > 0 && (
           <div className=' overflow-y-auto'>
-          <InfiniteScroll
-            dataLength={prompts.length}
-            next={()=>{
-              console.log("Next data")
-            }}
-            hasMore={true}
-            scrollThreshold={1}
-            // loader={<LinearProgress />}
-            // Let's get rid of second scroll bar
-            style={{ overflow: "unset" }}
-          >
-            <Grid container spacing={4} className=''>
-              {prompts.map((prompt, index) => renderCards(prompt))}
-            </Grid>
-          </InfiniteScroll>
-        </div>
-          
+            <InfiniteScroll
+              dataLength={prompts.length}
+              next={() => {
+                console.log("Next data")
+              }}
+              hasMore={true}
+              scrollThreshold={1}
+              // loader={<LinearProgress />}
+              // Let's get rid of second scroll bar
+              style={{ overflow: "unset" }}
+            >
+              <Grid container spacing={4} className=''>
+                {prompts.map((prompt, index) => renderCards(prompt))}
+              </Grid>
+            </InfiniteScroll>
+          </div>
+
         )
       }
       <Drawer
