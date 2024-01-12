@@ -717,7 +717,7 @@ padding: 15px !important;
 
 /*----------- User Profile Banner Area Start  ----------*/
 .user-profile-banner {
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 10.73%, rgba(0, 0, 0, 0.575644) 100%, rgba(0, 0, 0, 0.78) 78.78%), url(../img/banner-bg.png);
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 10.73%, rgba(0, 0, 0, 0.575644) 100%, rgba(0, 0, 0, 0.78) 78.78%), url();
 border-radius: 31px;
     background-position: center;
     background-size: cover;

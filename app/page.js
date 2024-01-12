@@ -190,7 +190,7 @@ export default function Page() {
       }),
       redirect: 'follow'
     }
-
+console.log("Loging user")
     fetch(ApiPath.LoginRoute, apiParams)
       .then(function (res) {
         return res.json();

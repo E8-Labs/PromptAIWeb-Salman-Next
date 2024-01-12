@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-
+import moment from 'moment-timezone'
 import Image from 'next/image'
 
 
@@ -22,7 +22,7 @@ function PromptSearchItem(props) {
                     </div>
                     <div className='flex-col ml-2'>
                         <p className="font-bold">{prompt.user.username}</p>
-                        <p className="text-sm text-gray-500">3 min ago</p>
+                        <p className="text-sm text-gray-500">{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago.</p>
                     </div>
                 </div> {/* Specify the height and color for the top div */}
                 <div className="flex-grow ">

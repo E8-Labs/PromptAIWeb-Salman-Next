@@ -6,6 +6,7 @@ import ApiPath from '@/app/lib/ApiPath';
 import ChatInput from './ChatInput';
 import StackPromptsInput from "./StackPromptsInput";
 
+import '../../../public/assets/css/TypingAnimation.css';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
 
@@ -100,7 +101,7 @@ const PromptChatView = (props) => {
 
     const sendFirstPromptForNewChat = async (user) => {
       //console.log("Sending First Message uncomment below sendMessage function " + prompt)
-      sendMessage({message: prompt.prompt, from: "me", type: MessageType.Prompt, title: prompt.title})
+      sendMessage({ message: prompt.prompt, from: "me", type: MessageType.Prompt, title: prompt.title })
     }
 
     const u = JSON.parse(
@@ -141,12 +142,12 @@ const PromptChatView = (props) => {
   }, [canShowPromptHint, messages, chat])
 
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log("Subprompt set ChatView", subprompt)
-    if(subprompt != null){
+    if (subprompt != null) {
       setModalVisible(true)
     }
-   
+
   }, [subprompt])
 
   //logic to show stacked prompts
@@ -169,15 +170,15 @@ const PromptChatView = (props) => {
     let p = prompt
     //console.log("Use Prompt Now. Create Questionaire ", p)
     let text = p.prompt;
-        for(let i = 0; i < p.questions.length; i++){
-            let q = p.questions[i];
-            text = text.replace(`[${q.question}]`, q.answer);
-        }
-        p.prompt = text;
-        console.log("Subprompt text is ", text)
-        sendMessage({message: p.prompt, from: "me", type: MessageType.StackPrompt, title: p.title})
-        setSubprompt(null)
-        // updateStackedPromptIndex
+    for (let i = 0; i < p.questions.length; i++) {
+      let q = p.questions[i];
+      text = text.replace(`[${q.question}]`, q.answer);
+    }
+    p.prompt = text;
+    console.log("Subprompt text is ", text)
+    sendMessage({ message: p.prompt, from: "me", type: MessageType.StackPrompt, title: p.title })
+    setSubprompt(null)
+    // updateStackedPromptIndex
   }
 
   function afterOpenModal() {
@@ -236,7 +237,7 @@ const PromptChatView = (props) => {
         if (data.data.status) {
           let receieved = data.data.data.messages;
           let c = data.data.data.chat;
-          if(c){
+          if (c) {
             setChat(c)
           }
           let summary = data.data.summary
@@ -369,14 +370,14 @@ const PromptChatView = (props) => {
         )
       }
       <ChatHeader className='flex  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
-      <MessagesList className='flex-grow ' messages={messages} prompt={prompt}/>
+      <MessagesList className='flex-grow ' messages={messages} prompt={prompt} />
       <div className='flex justify-left  w-8/12'>
         <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
           //send stacked sub prompt here
           console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
           setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
           setModalVisible(true)
-          
+
         }} />
       </div>
       <ChatInput className='w-full flex bg-red h-50' handleSendMessage={handleSendMessage} ></ChatInput>
@@ -389,25 +390,44 @@ export default PromptChatView
 
 
 const IncomingMessage = ({ message, prompt }) => {
-
+  let loading = message.type === MessageType.Loading
   return (
-    <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15`}>
-      <div className={`flex-col mx-1 p-2 w-11/12 my-1`} key={message.id}>
-        <div style={{ borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}>
-          <Image className=' rounded-full' src={prompt.user.profile_image}
-            objectFit="cover"
-            width="40"
-            height="40"
-          >
-          </Image>
-        </div>
-        <div className='flex mt-3 ps-3 py-3'>
-          <p className='text-white'>{message.message}</p>
-        </div>
+    <>
+      {
+        !loading == true && (
+          <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15`}>
+            <div className={`flex-col mx-1 p-2 w-11/12 my-1`} key={message.id}>
+              <div style={{ borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}>
+                <Image className=' rounded-full' src={prompt.user.profile_image}
+                  objectFit="cover"
+                  width="40"
+                  height="40"
+                >
+                </Image>
+              </div>
+              <div className={`flex mt-3 ps-3 py-3 `}>
+                <p className='text-white'>{message.message}</p>
+              </div>
+              
 
-      </div>
-      <div className='mb-3 w-11/12 rounded' style={{ backgroundColor: 'white', height: '1px' }}></div>
-    </div>
+            </div>
+            <div className='mb-3 w-11/12 rounded' style={{ backgroundColor: 'white', height: '1px' }}></div>
+          </div>
+        )
+      }
+
+      {
+        loading && (
+          // <div></div>
+          <div className="typing-container bg-gray-500 w-50 h-20 rounded-full justify-center items-center">
+            {/* <div className="typing-box"></div> */}
+            <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
+            <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
+            <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
+          </div>
+        )
+      }
+    </>
   )
 }
 

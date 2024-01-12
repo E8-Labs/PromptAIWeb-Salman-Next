@@ -47,7 +47,7 @@ const UserProfileArea = (props) => {
                     <div className="row">
                         <div className="col-lg-12">
                             {/* <div className="user-profile-banner"  style={{ backgroundImage: `url(${props.BannerImage})` }}> */}
-                            <div className="user-profile-banner"  style={{ background: `linear-gradient(180deg,rgba(0,0,0,0) 10.73%,rgba(0,0,0,.575644) 100%,rgba(0,0,0,.78) 78.78%) center/cover,url(/banner-bg.png) center/cover` }}>
+                            <div className="user-profile-banner"  style={{ background: `linear-gradient(180deg,rgba(0,0,0,0) 10.73%,rgba(0,0,0,.575644) 100%,rgba(0,0,0,.78) 78.78%) center/cover,url() center/cover` }}>
                                 {props.UserID == localStorage.getItem('mongodb_userid')?
                                     <>
                                         <button onClick={handleFileChangeOpen} className="edit_banner" htmlFor="edit_banner">

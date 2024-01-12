@@ -8,10 +8,20 @@ import PromptChatView from './PromptChatView';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
 import YouTubeLikeLoading from './LoadingView';
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import axios from 'axios';
 import ApiPath from '@/app/lib/ApiPath';
 import ProfileBaseView from '../profile/Profile';
+import {
+  Grid,
+  Card,
+  Typography,
+  CardContent,
+  CardMedia,
+  capitalize
+} from '@mui/material';
+
+// import {makeStyles} from '@mui/styles';
 
 const PlusIcon = "/whiteplusicon.svg";
 
@@ -25,7 +35,28 @@ const customStyles = {
   },
 };
 
+// const useStyles = makeStyles({
+//   pokemonCardsArea: {
+//     paddingTop: "30px",
+//     paddingLeft: "15%",
+//     paddingRight: "15%",
+//     width: "100%"
+//   },
+//   pokemonImage: {
+//     height: "160px",
+//     width: "160px"
+//   },
+//   progress: {
+//     position: "fixed",
+//     top: "50%",
+//     left: "50%",
+//     marginTop: "-100px",
+//     marginLeft: "-100px"
+//   }
+// });
+
 const PromptsListDashboard = (props) => {
+  // const classes = useStyles()
   const prompts = props.prompts
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
   // const [promptMenu, setPromptMenu] = useState(false)
@@ -137,6 +168,31 @@ const PromptsListDashboard = (props) => {
       })
     //console.log(text)
   }
+
+
+
+  const renderCards = (prompt) => {
+
+    return (
+      <Grid key={prompt.id} item xs={12} sm={6} md={4} lg={3}>
+        <div className="rounded bg-appgreen p-0 " >
+          <PromptItem className='promptitem' prompt={prompt} itemSelected={(item) => {
+            handlePromptSelected(item)
+            // setAnchorEl(event.currentTarget);
+          }} profileClicked={() => {
+            setOtherUserProfile(prompt.user)
+            console.log("Profile tapped ", prompt.user.username)
+          }}></PromptItem>
+
+
+        </div>
+      </Grid>
+    );
+  };
+
+
+
+
   return (
 
     <div className="flex-col">
@@ -202,13 +258,13 @@ const PromptsListDashboard = (props) => {
         </div>
 
 
-        <div className="flex items-center justify-center bg-appgreenlight p-4 px-5 w-50 gap-2 cursor:pointer" style={{ borderRadius: '2rem' }} onClick={() => {
+        <div className="flex items-center justify-center bg-appgreenlight p-3 md:rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl"  onClick={() => {
           props.handleAddAction()
         }}>
           {/* Third View */}
           <Image src={PlusIcon} width={15} height={15}></Image>
           <div className=' cursor:pointer'>
-            <p className="text-lg  cursor:pointer" >New Prompt</p>
+            <p className="text-lg  cursor:pointer d-none md:d-inline " >New Prompt</p>
           </div>
         </div>
 
@@ -218,32 +274,27 @@ const PromptsListDashboard = (props) => {
           <YouTubeLikeLoading />
         )
       }
+
       {
         prompts.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4" >
-            {
-
-              prompts.map((element, index) => {
-                // <label>{element}</label>
-                {
-                  //console.log(element)
-                }
-                return (
-                  <div className="rounded bg-appgreen p-0 " key={element.id}>
-                    <PromptItem className='promptitem' prompt={element} itemSelected={(item) => {
-                      handlePromptSelected(item)
-                      // setAnchorEl(event.currentTarget);
-                    }} profileClicked={() => {
-                      setOtherUserProfile(element.user)
-                      console.log("Profile tapped ", element.user.username)
-                    }}></PromptItem>
-
-
-                  </div>
-                )
-              })
-            }
-          </div>
+          <div className=' overflow-y-auto'>
+          <InfiniteScroll
+            dataLength={prompts.length}
+            next={()=>{
+              console.log("Next data")
+            }}
+            hasMore={true}
+            scrollThreshold={1}
+            // loader={<LinearProgress />}
+            // Let's get rid of second scroll bar
+            style={{ overflow: "unset" }}
+          >
+            <Grid container spacing={4} className=''>
+              {prompts.map((prompt, index) => renderCards(prompt))}
+            </Grid>
+          </InfiniteScroll>
+        </div>
+          
         )
       }
       <Drawer

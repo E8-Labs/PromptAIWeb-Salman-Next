@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from 'next/image'
 
 import { Button } from "@mui/material";
+import axios from "axios";
 // import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components';
 // import banner from '../assets/bannerImage.png'
@@ -12,12 +13,21 @@ const twitterBtnIcon = '/assets/twitter.svg'
 const youtubeBtnIcon = '/assets/youtube.svg'
 const globeBtnIcon = '/assets/globe.svg'
 
+import ApiPath from "@/app/lib/ApiPath";
+
 
 export default function ProfileBannerView(props) {
-    const user = props.user;
+    const [user, setUser] = useState(props.user);
+    const [following, setFollowing] = useState(props.user.user.amIFollowing)
 
     const fileInputRef = useRef(null);
     const [UserImageError, setUserImageError] = useState('');
+
+    useEffect(()=>{
+        console.log("User object changed in Banner", user)
+        setFollowing(user.user.amIFollowing)
+    }, [user])
+
 
     const handleMenuClick = event => {
         console.log(event.currentTarget.id);
@@ -27,6 +37,7 @@ export default function ProfileBannerView(props) {
     function handleFileChangeOpen(event) {
         fileInputRef.current.click();
     }
+
     const handleFileChange = (event) => {
         setUserImageError('');
         const file = event.target.files[0];
@@ -45,58 +56,96 @@ export default function ProfileBannerView(props) {
             setUserImageError('Please select an image file.');
         }
     };
+
+
+    const handleFollowAction = () => {
+        //
+        let localData = localStorage.getItem(process.env.REACT_APP_LocalSavedUser);
+        let u = JSON.parse(localData)
+        if (!u) {
+            return
+        }
+
+
+        console.log("Sending follow request to server now", user.user.id)
+
+        const config = {
+            headers: {
+                "Authorization": "Bearer " + u.token,
+            }
+        };
+        const data = { userid: user.user.id };
+        console.log("Data is ", JSON.stringify(data))
+        axios.post(ApiPath.FollowUser, data, config)
+            .then(data => {
+                console.log("Follow User response")
+                console.log(data.data)
+
+                if (data.data.status) {
+                    let receieved = data.data.data;
+                    console.log("Follow response from server")
+
+                    if (user.user.amIFollowing) {
+                        user.user.amIFollowing = false;
+                        setFollowing(false)
+                    }
+                    else {
+                        user.user.amIFollowing = true;
+                        setFollowing(true)
+                    }
+
+
+                }
+                else {
+
+                }
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    }
+
+
     return (
         <Container className="w-full bg-green" style={{ width: "100%", }}>
             <div className="user-profile-banner" style={{ background: `linear-gradient(180deg,rgba(0,0,0,0) 10.73%,rgba(0,0,0,.575644) 100%,rgba(0,0,0,.78) 78.78%) center/cover,url(${bannerImage}) center/cover` }}>
                 {/* <img src={user.bannerImage} className="inner"/> */}
-                <button onClick={handleFileChangeOpen} className="edit_banner" htmlFor="edit_banner">
-                    <img src={editBtnIcon} alt="" />
+                <button onClick={handleFileChangeOpen} className={`absolute right-2 top-2 bg-black line-height-1 p-0 cursor-pointer border-none flex items-center justify-center w-8 h-8 rounded-full ${user.token === "" ? 'hidden' : ''}`} htmlFor="edit_banner">
+                    <img className={`${user.token === "" ? '' : ''}`} src={editBtnIcon} alt="" />
                 </button>
                 <input ref={fileInputRef} onChange={handleFileChange} id="edit_banner" className="file-upload" type="file" accept="image/*" />
                 <div className="row align-items-center">
                     <div className="col-lg-6 col-md-6">
                         <div className="user_pro  justify-between">
-                            <div className="flex">
-                            <Link href="#">
-                                {user.user.profile_image ?
-                                    <Image src={user.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
-                                    :
-                                    <img src="../assets/img/profile-pic.png" alt="" />
-                                }
-                                @{user.user.username}
-                            </Link>
-                            <div className="subscribe_btn">
-                                <div className="unfollow_btn">
-                                    {
-                                        // props.UserID != localStorage.getItem('mongodb_userid') ?
-                                        // (props.FollowStatus ?
-                                        // <Link to="#" onClick={unfollowers_request.bind(this)} >Unfollow</Link>
-                                        // :
-                                        <Button className='h-8' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={() => {
-                                            console.log("Follow here")
-                                        }} >Follow</Button>
-                                        // )
-                                        // :
-                                        // ''
+                            <div className="flex justify-center items-center pb-2 pl-2">
+                                <Link className="pr-3" href="#">
+                                    {user.user.profile_image ?
+                                        <Image src={user.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
+                                        :
+                                        <img src="../assets/img/profile-pic.png" alt="" />
                                     }
-                                </div>
-                            </div>
+                                    @{user.user.username}
+                                </Link>
+
+                                <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${user.token == "" ? '' : 'hidden'}`} variant="contained" onClick={() => {
+                                    console.log("Follow here")
+                                    handleFollowAction()
+                                }} >{following ? `UnFollow` : 'Follow'}</Button>
                             </div>
                             <div className="col-lg-6 col-md-6">
                                 <div className="user_info_wrap">
-                                    <div className="unfollow_btn">
-                                    </div>
+                                    
                                     <p style={{ cursor: 'pointer' }} onClick={() => {
                                         //Show Community
-                                    }} >{user.followers} Follower{user.followers > 1 && 's'}</p>
+                                    }} >{user.user.followers} Follower{user.user.followers > 1 && 's'}</p>
 
                                     <ul>
 
-                                        <li><Link target="_blank" href={user.instagram_url ? user.instagram_url : '/'}><img src={globeBtnIcon} alt="" /></Link></li>
+                                        <li><Link target="_blank" href={user.user.instagram_url ? user.user.instagram_url : '/'}><img src={globeBtnIcon} alt="" /></Link></li>
 
-                                        <li><Link target="_blank" href={user.youtube_url ? user.youtube_url : '/'}><img src={youtubeBtnIcon} alt="" /></Link></li>
+                                        <li><Link target="_blank" href={user.user.youtube_url ? user.user.youtube_url : '/'}><img src={youtubeBtnIcon} alt="" /></Link></li>
 
-                                        <li><Link target="_blank" href={user.tiktok_url ? user.tiktok_url : '/'}><img src={globeBtnIcon} alt="" /></Link></li>
+                                        <li><Link target="_blank" href={user.user.tiktok_url ? user.user.tiktok_url : '/'}><img src={globeBtnIcon} alt="" /></Link></li>
 
                                     </ul>
                                 </div>
@@ -110,37 +159,6 @@ export default function ProfileBannerView(props) {
                     </div>
 
                 </div>
-
-                {/* <div className="userdetailsdivouter">
-                    <div className="userdetailsdiv">
-                        <div className="imgdiv">
-                            <img src={user.userImage} />
-                        </div>
-                        <div className="horizontalspacingvsmall"></div>
-                        <div className="detailsdiv">
-                            <label className='namelabel text-white'>{user.name}</label>
-                        </div>
-                        <div className="horizontalspacingvsmall"></div>
-                        <div className="flex border-2 justify-center items-center" style={{ borderColor: '#00C28C', backgroundColor: '#00C28C10', borderRadius: '13px', height: '34px', width: '84px', padding: '10px' }}>
-                            <label className='namelabel ' style={{ color: '#00C28C' }}>Follow</label>
-                        </div>
-                    </div>
-
-                    <div className="socialbtns row gap-sm-3  me-2">
-                        <div className="col-sm-2 menubtn  justify-content-end ms-auto" id="twitter" onClick={handleMenuClick}>
-                            <p style={{ fontSize: '15px', fontWeight: 'bold' }}> 2200 followers</p>
-                        </div>
-                        <div className="col-sm-2 menubtn  justify-content-end ms-auto" id="twitter" onClick={handleMenuClick}>
-                            <img src={twitterBtnIcon}></img>
-                        </div>
-                        <div className="col-sm-2 menubtn " id="youtube" onClick={handleMenuClick}>
-                            <img src={youtubeBtnIcon}></img>
-                        </div>
-                        <div className="col-sm-2 menubtn" id="globe" onClick={handleMenuClick}>
-                            <img src={globeBtnIcon}></img>
-                        </div>
-                    </div>
-                </div> */}
 
             </div>
 
@@ -163,8 +181,6 @@ align-content: center;
     height: 8rem;
     width: 80%;
     
-    // background-color: red;
-    background-image: url("../../assets/bannerImage.png");
     
 
 
@@ -198,11 +214,11 @@ align-content: center;
 
     .user-profile-banner {
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 10.73%, rgba(0, 0, 0, 0.575644) 100%, rgba(0, 0, 0, 0.78) 78.78%), url(../banner-bg.png);
-        border-radius: 31px;
+        // border-radius: 31px;
         background-position: center;
         background-size: cover;
         border-radius: 30px;
-        padding: 15px 20px;
+        padding: 5px 5px;
         display: flex;
         align-items: flex-end;
         height: 165px;
@@ -309,7 +325,7 @@ align-content: center;
     }
     .user_info_wrap ul li {
         display: inline;
-        margin-left: 10px;
+        margin-left: 0px;
     }
     .user_info_wrap li a {
         display: inline-block;

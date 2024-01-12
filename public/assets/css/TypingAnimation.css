@@ -1,0 +1,47 @@
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+  
+    40% {
+      transform: translateY(-10px);
+    }
+  
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+  
+  .typing-container {
+    display: flex;
+    align-items: center; /* Align items to the bottom */
+    justify-content: flex-start; /* Justify content to the start (left) */
+    position: relative; /* Make it relative to position the tail */
+  }
+  
+  .typing-box {
+    position: absolute;
+    bottom: -15px; /* Adjust the value based on the tail size */
+    left: 5px; /* Adjust the value based on the tail size */
+    width: 280px;
+    height: 110px;
+    background-color: #00C28C; /* iMessage blue color */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 80%, 50% 100%, 0% 80%); /* Clip path for tail */
+    z-index: -1; /* Place the box behind the circles */
+    justify-content: 'center';
+    align-items: 'center';
+  }
+  
+  .typing-bubble {
+    width: 10px;
+    height: 10px;
+    background-color: #007bff; /* iMessage blue color */
+    border-radius: 50%;
+    margin: 0 5px;
+    animation: bounce 1s infinite;
+  }
+  
+  .animate-bounce {
+    animation: bounce 1s infinite;
+  }
+  

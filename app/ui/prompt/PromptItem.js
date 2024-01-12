@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import { Icon, IconButton, Snackbar, Backdrop, CircularProgress } from '@mui/material';
 import Image from 'next/image'
 import { poppins, rubik } from '../../ui/fonts'
-
+import moment from 'moment-timezone';
 
 const ViewItemIcon = '/viewsicon.svg'
 const MessageIcon = '/commenticon.svg'
@@ -47,7 +47,7 @@ function PromptItem(props) {
                     </div>
                     <div className='flex-col ml-2'>
                         <p className={`font-bold  text-white ${rubik.className} antialiased`} >{prompt.user.username}</p>
-                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>3 min ago</p>
+                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago</p>
                     </div>
                 </div>
                 <div className='flex  justify-center item-center'>
