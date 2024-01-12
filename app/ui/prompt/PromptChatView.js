@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { styled } from 'styled-components';
 import Image from 'next/image'
 import axios from 'axios';
@@ -52,6 +52,7 @@ const PromptChatView = (props) => {
   const [canShowPromptHint, setCanShowPromptHint] = useState(0) // 0 can not show, 1 can show, 2 already showing
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
+  const bottomRef = useRef(null);
   // //console.log("Prompt in ChatView ", props.prompt)
 
 
@@ -138,6 +139,7 @@ const PromptChatView = (props) => {
         }
       }
     }
+    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
     // createSummary()
   }, [canShowPromptHint, messages, chat])
 
@@ -350,7 +352,7 @@ const PromptChatView = (props) => {
 
 
   return (
-    <Container className='flex flex-col  mx-auto justify-center '>
+    <Container className='flex flex-col  mx-auto justify-center overflow-y-auto' style={{height: '100%'}}>
       {
         chat && (
           <Modal
@@ -370,7 +372,35 @@ const PromptChatView = (props) => {
         )
       }
       <ChatHeader className='flex  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
-      <MessagesList className='flex-grow ' messages={messages} prompt={prompt} />
+      {/* <MessagesList className='flex-grow ' messages={messages} prompt={prompt} ref={bottomRef}/> */}
+       <div className="messages-list  w-8/12   items-center overflow-y-auto mx-auto ">
+      {
+        messages.map((item, index) => {
+
+          {
+            return (
+
+              <div key={index} className={`flex w-full my-1 `}>
+                {
+                  item.from === "me" ? (
+                    <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
+                      <p className='text-white'>{item.message}</p>
+                    </div>
+                  ) :
+                    (
+                      <IncomingMessage message={item} prompt={prompt} />
+                    )
+                }
+              </div>
+
+            )
+          }
+
+
+        })
+      }
+      <div ref={bottomRef}></div>
+    </div>
       <div className='flex justify-left  w-8/12'>
         <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
           //send stacked sub prompt here

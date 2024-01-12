@@ -12,7 +12,7 @@ export default function page() {
     console.log(data) // Logs "search"
     localStorage.setItem("CURRENTCHAT", null)
   return (
-    <div>
+    <div className='h-90  overflow-auto' style={{height: '94%'}}>
       {
         data && (
             <PromptChatView chatViewVisible={data.chatViewVisible} newChat={data.newChat} chat={data.chat} prompt={data.prompt} />
