@@ -11,6 +11,9 @@ const MessageIcon = '/commenticon.svg'
 const LikePromptIcon = '/likeprompticon.png'
 const SavePromptIcon = '/assets/saveprompticon.svg'
 import TurnedInIcon from '@mui/icons-material/TurnedIn'; // Save Icon
+import TurnedInNotOutlinedIcon from '@mui/icons-material/TurnedInNotOutlined';
+
+moment.tz.setDefault('Etc/UTC');
 
 function PromptItem(props) {
     const prompt = props.prompt;
@@ -59,7 +62,7 @@ function PromptItem(props) {
                     }}>Buy</Button> */}
                     {/* <div className="flex  justify-center items-center bg-red"> */}
                     <IconButton >
-                        <TurnedInIcon style={{ color: 'white' }} />
+                        <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
                     </IconButton>
 
                     {/* </div> */}

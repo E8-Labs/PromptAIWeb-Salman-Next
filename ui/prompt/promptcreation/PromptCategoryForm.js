@@ -6,7 +6,7 @@ import { CustomTextField } from "../../customcomponents/CustomTextField";
 import { PageControl } from "../../customcomponents/PageControl";
 
 
-import categories from '@/app/lib/categories';
+import categories from '../../../lib/categories';
 
 
 

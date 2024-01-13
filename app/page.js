@@ -5,7 +5,9 @@ import { useEffect, useState } from "react";
 // import AcmeLogo from '@/app/ui/acme-logo';
 // import { ArrowRightIcon } from '@heroicons/react/24/outline';
 // import styles from '@/app/ui/home.module.css'
-import { lusitana, poppins } from '@/app/ui/fonts';
+import { lusitana, poppins } from '../ui/fonts';
+
+import { createTheme } from '@mui/material';
 
 import Image from 'next/image';
 
@@ -20,25 +22,39 @@ import 'slick-carousel/slick/slick-theme.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle";
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/js/bootstrap.bundle";
 
 
 // own css files here
 // import "..";
 
 // import crossIcon from '../../assets/cross.svg'
-import ChatGptLogin from "@/app/ui/auth/ChatGptLogin";
-import NotificationPermission from './ui/auth/register/NotificationPermission';
-import AddProfilePicture from './ui/auth/register/AddProfilePicture';
-import AddUsername from './ui/auth/register/AddUsername';
+import ChatGptLogin from "../ui/auth/ChatGptLogin";
+import NotificationPermission from '../ui/auth/register/NotificationPermission';
+import AddProfilePicture from '../ui/auth/register/AddProfilePicture';
+import AddUsername from '../ui/auth/register/AddUsername';
 // impprt Ad
-import AddPassword from './ui/auth/register/AddPassword';
-import AddEmail from './ui/auth/register/AddEmail';
-import LoginAI from "@/app/ui/auth/LoginAI";
+import AddPassword from '../ui/auth/register/AddPassword';
+import AddEmail from '../ui/auth/register/AddEmail';
+import LoginAI from "../ui/auth/LoginAI";
 
-import ApiPath from "@/app/lib/ApiPath";
-import AddSocialLinks from './ui/auth/register/AddSocialLinks';
+import ApiPath from "../lib/ApiPath";
+import AddSocialLinks from '../ui/auth/register/AddSocialLinks';
+
+
+const { palette } = createTheme();
+const { augmentColor } = palette;
+const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+const theme = createTheme({
+  palette: {
+    orange: createColor('#FFAD0E'),
+    orangeAlpha10: createColor('#FFAD0E10'),
+    apple: createColor('#5DBA40'),
+    steelBlue: createColor('#5C76B7'),
+    violet: createColor('#BC00A3'),
+  },
+});
 
 const sliderContent = [
   {
@@ -254,7 +270,7 @@ console.log("Loging user")
         </div>
 
         <div className="flex-grow flex items-center justify-center p-1 md:w-2/4  md:py-12 bg-black" style={{ height: '70vh' }}>
-          <div className=" flex items-center justify-center " style={{ width: '100%' }} >
+          <div className=" flex items-center h-full  p-2 justify-center " style={{ width: '100%' }} >
 
             {
               page === "intro" && (

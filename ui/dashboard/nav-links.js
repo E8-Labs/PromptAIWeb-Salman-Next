@@ -26,11 +26,11 @@ const termIcon = '/terms.svg';
 // Depending on the size of the application, this would be stored in a database.
 const links = [
   { name: 'Dashboard', href: '/dashboard', icon: dashboardLogo },
-  {
-    name: 'ChatGpt',
-    href: '/dashboard/invoices',
-    icon: userIcon,
-  },
+  // {
+  //   name: 'ChatGpt',
+  //   href: '/dashboard',
+  //   icon: userIcon,
+  // },
   { name: 'Customer Support', href: '/dashboard/support', icon: headphoneIcon },
   { name: 'Community Forums', href: '/dashboard/community', icon: headphoneIcon },
   { name: 'Privacy Policy', href: '/dashboard/privacy', icon: privacyIcon },

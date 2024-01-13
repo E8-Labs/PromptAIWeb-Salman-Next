@@ -7,10 +7,12 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import StackMultiFormPopup from './stackprompt/StackPromptCreation';
 import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 import PendingSharpIcon from '@mui/icons-material/PendingSharp';
+import SaveIcon from '@mui/icons-material/Save';
 
 
-import ApiPath from '@/app/lib/ApiPath';
+import ApiPath from '../../../lib/ApiPath';
 
 
 
@@ -19,7 +21,7 @@ const artIcon = "/art.png";
 const PlusIcon = "/whiteplusicon.svg";
 // Import other necessary components and styles from Tailwind CSS
 
-const PromptOverview = ({ onNext, formData, updateFormData }) => {
+const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
 
   const prompt = formData;
   const [subprompts, setSubPrompts] = useState([prompt]);
@@ -40,6 +42,7 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
     prompt.subprompts.forEach(element => {
       sub.push(element)
     });
+    console.log("Prompt is ", prompt)
     setSubPrompts(sub)
     console.log("Total Prompts")
     console.log(subprompts)
@@ -97,11 +100,10 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
       categories: cats,
       subcategories: cats
     }
-    console.log("Prompt data")
-    console.log(data);
+
 
     let subs = []
-    if (subprompts) {
+    if (subprompts && subprompts.length > 1) { // > 1 because the first prompt is the main prompt in the list
       for (let i = 0; i < subprompts.length; i++) {
         let p = subprompts[i]
         let sub = {
@@ -113,7 +115,9 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
       }
     }
     data.subprompts = subs
-
+    console.log("Prompt data")
+    console.log(data);
+    // setIsLoading(true)
     if (user) {
       try {
 
@@ -131,7 +135,7 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
               setIsLoading(false)
               console.log("Request processed")
               console.log(data.data)
-
+              onPublish()
               // let toast = Toast.show('Prompt created', {
               //     duration: Toast.durations.LONG,
               //   });
@@ -207,7 +211,7 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center  w-full" style={{ width: '100%', height: 360 }}>
+      <div className="flex items-center justify-center  w-full" style={{ width: '100%', height: "82%" }}>
         <div className='overflow-y-auto  items-center ' style={{ width: '100%', height: '100%' }}>
           {
             subprompts.map((element, index) => (
@@ -222,15 +226,28 @@ const PromptOverview = ({ onNext, formData, updateFormData }) => {
         </div>
       </div>
 
-      <div className='flex w11/12 justify-end cursor-pointer mt-2'>
+      {/* <div className='flex w11/12 justify-end cursor-pointer mt-2'>
         <div className="flex items-center justify-center bg-appgreenlight p-3 px-2 gap-2" style={{ borderRadius: '2rem', width: "10rem" }} onClick={() => {
           handleNextBtnTap()
         }}>
           <div className=''>
             <p className="text-lg" >Create Prompt</p>
           </div>
+          
         </div>
-      </div>
+      </div> */}
+      <LoadingButton onClick={()=>{
+        handleNextBtnTap()
+      }}
+          // className={'rounded-full'}
+            loading={isLoading}
+            // loadingPosition="start"
+            loadingIndicator="Creating...."
+            startIcon={<SaveIcon />}
+            variant="contained" style={{ backgroundColor: '#00C28C' }}
+          >
+            Create Prompt
+          </LoadingButton>
     </div>
   );
 };
@@ -276,7 +293,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction }) => {
   const handleLearnPromptClick = () => {
 
   }
-  
+
   const handleClickMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -324,7 +341,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction }) => {
             }}
           >
             <MenuItem onClick={handleCloseMenu}>Edit</MenuItem>
-            
+
           </Menu>
         </div>
 

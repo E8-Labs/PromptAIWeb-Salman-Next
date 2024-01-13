@@ -1,6 +1,6 @@
 import React from 'react';
-import SideNav from '@/app/ui/dashboard/sidenav';
-import TopNav from '../ui/dashboard/topnav';
+import SideNav from '../../ui/dashboard/sidenav';
+import TopNav from '../../ui/dashboard/topnav';
 
 export default function Layout({ children }) {
   return (

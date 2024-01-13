@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, Component } from "react";
 
 //Images
 import ProfileCropping from './ProfileCropping';
+import { Button } from "@mui/material";
 const background = '/banner-bg.png'
 const crossIcon = '/assets/cross.svg'
 const upload_image = '/assets/upload_image.svg';
@@ -14,7 +15,7 @@ class AddProfilePicture extends Component {
         this.state = {
             // Save Upload image
             file: '',
-            imagePreviewUrl: this.props.Team_imagePreviewUrl,
+            imagePreviewUrl: '/assets/profileplaceholder.svg',
             company_name:this.props.Team_Name,
             // Fome data erroe
             logo:"",
@@ -117,10 +118,10 @@ class AddProfilePicture extends Component {
         }
         return (
             
-            <div className="flex flex-grow  h-full" >
-                <div className="col-md-12  ">
-                    <div className="row  ms-auto"> 
-                        <div className="col justify-content-end">
+            <div className="flex-col flex-grow  h-full " >
+                {/* <div className="col-md-12  "> */}
+                    <div className="flex-row  ms-auto"> 
+                        <div className="flex-col justify-content-end">
                             <img src={crossIcon} alt=""></img>
                         </div>
                     </div>
@@ -129,13 +130,13 @@ class AddProfilePicture extends Component {
                         <form className="col-md-12 col-12 mx-3 mx-md-0 d-flex align-items-center justify-content-center">
                             <div className="row  d-flex align-items-center justify-content-center">
                                 <div className="col-md-12 fileUpload" style={{position: "relative", maxWidth: "300px",margin:"auto"}} >
-                                    <div className="upload_image" style={{margin:'0 auto',borderRadius:'100%',width:'82px',height:'80px',backgroundSize:'cover',backgroundImage: `url(${$imagePreview})`}}>
+                                    <div className="upload_image bg-gray-500" style={{margin:'0 auto',borderRadius:'100%',width:'82px',height:'80px',backgroundSize:'cover',backgroundImage: `url(${$imagePreview})`}}>
                                        
                                     </div>
                                 </div>
                                 <div className="col-auto singup_input mt-3" >
                                     
-                                    <label className="text-app-primary title2-text fs-5" htmlFor='input-file'> Upload Picture </label>
+                                    <label className="text-app-primary title2-text fs-5 cursor-pointer" htmlFor='input-file'> Upload Picture </label>
                                     
                                 </div>
                                 
@@ -148,16 +149,18 @@ class AddProfilePicture extends Component {
                         
                     </div>
 
-                    <div className="row d-flex align-items-end justify-content-center mt-5 " style={{maxHeight:"70%", minHeight: "60%"}}>
-                        <div className="col-6  d-flex align-items-center justify-content-center p-md-2 p-0 gap-1 bg-app-primary rounded-pill" onClick={this.nextBtnClicked.bind(this)}>
-                            <button className="btn btn-md d-flex align-items-center justify-content-center signinbtn   gap-0">
+                    <div className="flex d-flex align-items-center justify-content-center mt-5 " style={{maxHeight:"70%", minHeight: "60%"}}>
+                        <div className="" >
+                            <Button  variant='contained' 
+                            className="bg-appgreenlight w-40 h-12 rounded-lg hover:bg-appgreen" 
+                            sx={{bgcolor: '#00C28C'}} onClick={this.nextBtnClicked.bind(this)}>
                               <span className="fs-6 fw-bold text-white ">Next</span>
-                            </button>
+                            </Button>
                         </div>
                     </div>
                     
                     
-                </div>
+                {/* </div> */}
                 
             </div>
         

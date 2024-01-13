@@ -3,9 +3,9 @@ import React, { useState, useEffect, useCallback } from "react";
 // import { Link, Route, Routes } from 'react-router-dom';
 import { styled } from "styled-components";
 // import background from '../../assets/bg-image.png'
-import gptLogo from '../../../public/chatgpt.svg'
+// import gptLogo from '../../../public/chatgpt.svg'
 // import userIcon from '/user-icon-white.svg'
-import crossIcon from '../../../public/cross.svg'
+// import crossIcon from '../../../public/cross.svg'
 import Link from "next/link";
 import Image from "next/image";
 

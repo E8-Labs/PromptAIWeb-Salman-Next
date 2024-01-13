@@ -10,7 +10,7 @@ import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
 
 import axios from 'axios';
-import ApiPath from '@/app/lib/ApiPath';
+import ApiPath from '../../lib/ApiPath';
 import { useScroll } from 'framer-motion';
 import SearchBar from './Searchbar';
 

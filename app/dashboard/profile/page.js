@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState, useCallback} from 'react'
 import { useRouter } from 'next/navigation'
-import ProfileBaseView from '@/app/ui/profile/Profile';
+import ProfileBaseView from '../../../ui/profile/Profile';
 
 function page() {
 

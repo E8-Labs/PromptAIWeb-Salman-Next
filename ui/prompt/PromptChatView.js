@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from 'react'
 import { styled } from 'styled-components';
 import Image from 'next/image'
 import axios from 'axios';
-import ApiPath from '@/app/lib/ApiPath';
+import ApiPath from '../../lib/ApiPath';
 import ChatInput from './ChatInput';
 import StackPromptsInput from "./StackPromptsInput";
 
-import '../../../public/assets/css/TypingAnimation.css';
+import '../../public/assets/css/TypingAnimation.css';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
 

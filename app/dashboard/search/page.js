@@ -1,5 +1,5 @@
 'use client'
-import Promptsearch from '@/app/ui/prompt/promptsearch'
+import Promptsearch from '../../../ui/prompt/promptsearch'
 import React from 'react'
 
 function page() {

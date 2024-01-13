@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PromptItem from './PromptItem'
 import Image from 'next/image';
-import { Backdrop, CircularProgress, Menu, MenuItem, Drawer, Box, Divider, Autocomplete, Chip } from '@mui/material';
+import {
+  Backdrop, CircularProgress, Menu, MenuItem, Drawer, Box, Icon,
+  Divider, Autocomplete, Chip, Button, Stack, IconButton, createTheme
+} from '@mui/material';
 import { CustomTextField } from '../customcomponents/CustomTextField';
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -11,9 +14,9 @@ import Modal from 'react-modal'
 import YouTubeLikeLoading from './LoadingView';
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from 'axios';
-import ApiPath from '@/app/lib/ApiPath';
+import ApiPath from '../../lib/ApiPath';
 import ProfileBaseView from '../profile/Profile';
-import categories from '@/app/lib/categories';
+import categories from '../../lib/categories';
 import {
   Grid,
   Card,
@@ -22,6 +25,7 @@ import {
   CardMedia,
   capitalize
 } from '@mui/material';
+import TurnedInIcon from '@mui/icons-material/TurnedIn'; // Save Icon
 
 // import {makeStyles} from '@mui/styles';
 
@@ -37,29 +41,24 @@ const customStyles = {
   },
 };
 
-// const useStyles = makeStyles({
-//   pokemonCardsArea: {
-//     paddingTop: "30px",
-//     paddingLeft: "15%",
-//     paddingRight: "15%",
-//     width: "100%"
-//   },
-//   pokemonImage: {
-//     height: "160px",
-//     width: "160px"
-//   },
-//   progress: {
-//     position: "fixed",
-//     top: "50%",
-//     left: "50%",
-//     marginTop: "-100px",
-//     marginLeft: "-100px"
-//   }
-// });
+
+
 
 const PromptsListDashboard = (props) => {
   // const classes = useStyles()
+  const starIcon = (
+    <Icon>
+      <img alt="all" src="/assets/star.svg" />
+    </Icon>
+  );
+  const createdIcon = (
+    <Icon>
+      <img alt="all" src="/assets/created.svg" />
+    </Icon>
+  );
   const prompts = props.prompts
+  
+  const [isLoadingPrompts, setIsLoadingPrompts] = useState(props.isLoadingPrompts);
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
   const [categoriesSelected, setCategoriesSelected] = useState([])
   const [subCategoriesSelected, setSubCategoriesSelected] = useState([])
@@ -78,6 +77,9 @@ const PromptsListDashboard = (props) => {
 
 
 
+  useEffect(() => {
+    console.log("IsLoading ", props.isLoadingPrompts)
+  }, [props.isLoadingPrompts])
 
   const handleLoadingClose = () => {
     setLoading(false)
@@ -186,7 +188,7 @@ const PromptsListDashboard = (props) => {
 
   return (
 
-    <div className="flex-col">
+    <Stack className="flex-col overflow-y-none">
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -209,16 +211,64 @@ const PromptsListDashboard = (props) => {
         }} prompt={currentSelectedPrompt} onPublish={createChat} />
       </Modal>
 
-      <div className='flex items-center justify-between p-4'>
-        <div className='flex  gap-4  h-20 items-center'>
+      
+      <div className='flex items-center flex-grow justify-between items-start p-4'>
+        
+      <Stack direction={'row'} className='gap-3'>
+        <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={starIcon} style={{
+          // borderRadius: '20%',
+          backgroundColor: `${props.promptListMenuSelected === "All" ? '#FFAD0E30' : '#FFAD0E00'}`,
+          // padding: "18px 36px",
+
+          fontSize: "14px",
+          fontWeight: 600
+        }} onClick={() => props.setSelectedMenu("All")}>
+          All
+        </Button>
+
+        <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={<TurnedInIcon />} style={{
+          // borderRadius: '20%',
+          backgroundColor: `${props.promptListMenuSelected === "Saved" ? '#FFAD0E30' : '#FFAD0E00'}`,
+          // padding: "18px 36px",
+
+          fontSize: "14px",
+          fontWeight: 600
+        }} onClick={() => props.setSelectedMenu("Saved")}>
+          Saved
+        </Button>
+
+        <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={createdIcon} style={{
+          // borderRadius: '20%',
+          backgroundColor: `${props.promptListMenuSelected === "Created" ? '#FFAD0E30' : '#FFAD0E00'}`,
+          // padding: "18px 36px",
+
+          fontSize: "14px",
+          fontWeight: 600
+        }} onClick={() => props.setSelectedMenu("Created")}>
+          Created
+        </Button>
+      </Stack>
+
+        <div className="flex items-center justify-center bg-appgreenlight p-3 md:rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl" onClick={() => {
+          props.handleAddAction()
+        }}>
+          {/* Third View */}
+          <Image src={PlusIcon} width={15} height={15}></Image>
+          <div className=' cursor:pointer'>
+            <p className="text-lg  cursor:pointer d-none md:d-inline " >New Prompt</p>
+          </div>
+        </div>
+
+      </div>
+      <div className={`flex flex-grow  gap-4   items-center ${props.promptListMenuSelected === "All" ? "" : "hidden"}`}>
           <Autocomplete
             multiple
-            limitTags={2}
+            limitTags={1}
             id="multiple-limit-tags"
             options={categories}
             getOptionLabel={(option) => option.name}
             // defaultValue={[categories[0]]}
-            sx={{ "label": { color: "white" }, height: '40px', width: '15rem', color: 'white', 'input': { color: 'white' } }}
+            sx={{ "label": { color: "white" }, height: '40px', maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
             renderInput={(params) => (
               <CustomTextField {...params} label="Categories" placeholder="Categories"
                 sx={{ "label": { color: "gray" }, color: 'white' }}
@@ -237,6 +287,7 @@ const PromptsListDashboard = (props) => {
               console.log("Topics", array)
               setTopicsForCategories(array)
               setCategoriesSelected(newValue)
+              props.setCategoriesSelected(newValue)
             }}
 
             renderTags={
@@ -256,12 +307,12 @@ const PromptsListDashboard = (props) => {
 
           <Autocomplete
             multiple
-            limitTags={2}
+            limitTags={1}
             id="multiple-limit-tags"
             options={topicsForCategories}
             getOptionLabel={(option) => option.name}
             // defaultValue={[categories[0]]}
-            sx={{ "label": { color: "white" }, height: '40px', width: '15rem', color: 'white', 'input': { color: 'white' } }}
+            sx={{ "label": { color: "white" }, height: '40px', maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
             renderInput={(params) => (
               <CustomTextField {...params} label="Topics" placeholder="Topics"
                 sx={{ "label": { color: "gray" }, color: 'white' }}
@@ -271,6 +322,7 @@ const PromptsListDashboard = (props) => {
             onChange={(event, newValue) => {
               console.log(newValue)
               setSubCategoriesSelected(newValue)
+              props.setSubCategoriesSelected(newValue)
               // updateFormData({ categories: newValue })
             }}
             renderTags={
@@ -287,28 +339,15 @@ const PromptsListDashboard = (props) => {
             }
           />
         </div>
-
-
-        <div className="flex items-center justify-center bg-appgreenlight p-3 md:rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl" onClick={() => {
-          props.handleAddAction()
-        }}>
-          {/* Third View */}
-          <Image src={PlusIcon} width={15} height={15}></Image>
-          <div className=' cursor:pointer'>
-            <p className="text-lg  cursor:pointer d-none md:d-inline " >New Prompt</p>
-          </div>
-        </div>
-
-      </div>
       {
-        prompts.length == 0 && (
+        props.isLoadingPrompts && (
           <YouTubeLikeLoading />
         )
       }
 
       {
         prompts.length > 0 && (
-          <div className=' overflow-y-auto'>
+          <div className=' overflow-y-auto  mt-3 pr-2 py-6' style={{height: '80vh'}}>
             <InfiniteScroll
               dataLength={prompts.length}
               next={() => {
@@ -326,6 +365,17 @@ const PromptsListDashboard = (props) => {
             </InfiniteScroll>
           </div>
 
+        )
+      }
+      {
+        (!props.isLoadingPrompts && prompts.length == 0) && (
+
+          <div className='flex justify-center items-center w-full' style={{ height: '70vh' }}>
+
+            <Typography variant="h6" gutterBottom sx={{ color: '#ffffff50' }}>
+              No prompts to show
+            </Typography>
+          </div>
         )
       }
       <Drawer
@@ -362,7 +412,7 @@ const PromptsListDashboard = (props) => {
         </Box>
 
       </Drawer>
-    </div>
+    </Stack>
   )
 }
 

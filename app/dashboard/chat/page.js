@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import PromptChatView from '@/app/ui/prompt/PromptChatView'
+import PromptChatView from '../../../ui/prompt/PromptChatView'
 import { useSearchParams } from 'next/navigation'
 
 export default function page() {

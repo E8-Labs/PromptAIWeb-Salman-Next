@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 const upload_image = '/upload_image.svg';
 
 
-import ApiPath from "@/app/lib/ApiPath";
+import ApiPath from "../../lib/ApiPath";
 
 function LoginAI(props) {
 

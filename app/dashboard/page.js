@@ -5,12 +5,12 @@ import Image from 'next/image';
 
 import React, { useState, useEffect, useCallback } from "react";
 import styled from 'styled-components'
-import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
-import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
+import MultiFormPopup from '../../ui/prompt/promptcreation/PromptCreation';
+import PromptChatQuestionsPopup from '../../ui/prompt/PromptChatQuestions';
 import ReactModal from 'react-modal';
-import PromptChatView from '../ui/prompt/PromptChatView';
-import ProfileBaseView from '../ui/profile/Profile';
-import UserProfileArea from '../ui/profile/UserProfileArea';
+import PromptChatView from '../../ui/prompt/PromptChatView';
+import ProfileBaseView from '../../ui/profile/Profile';
+import UserProfileArea from '../../ui/profile/UserProfileArea';
 
 import { IconButton } from '@mui/material';
 
@@ -21,7 +21,7 @@ const headphoneIcon = '/headphone.svg';
 const usersIcon = '/users.svg';
 const privacyIcon = '/privacy.svg';
 const termIcon = '/terms.svg';
-import PromptItem from '../ui/prompt/PromptItem';
+import PromptItem from '../../ui/prompt/PromptItem';
 
 // import {  Modal,   ModalContent,   ModalHeader,   ModalBody,   ModalFooter, Button, useDisclosure} from "@nextui-org/react";
 import Modal from 'react-modal';
@@ -29,9 +29,9 @@ import Modal from 'react-modal';
 
 
 import axios from 'axios'
-import ApiPath from '../lib/ApiPath';
-import PromptsListDashboard from '../ui/prompt/PromptsListDashboard';
-import Promptsearch from '../ui/prompt/promptsearch';
+import ApiPath from '../../lib/ApiPath';
+import PromptsListDashboard from '../../ui/prompt/PromptsListDashboard';
+import Promptsearch from '../../ui/prompt/promptsearch';
 
 
 
@@ -48,13 +48,20 @@ export default function PromptsList() {
   const [menuSelected, setMenuSelected] = useState("dashboard")
   const [currentUser, setCurrentUser] = useState(undefined);
   const [role, setRole] = useState('user') // or coach
-  // const [isCreatePromptOpen, setIsPopupOpen] = useState(false);
+  const [isLoadingPrompts, setIsLoadingPrompts] = useState(true);
   const [prompts, setPrompts] = useState([])
+  const [savedPrompts, setSavedPrompts] = useState([])
+  const [createdPrompts, setCreatedPrompts] = useState([])
   const [prompt, setPrompt] = useState(null)
 
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(null)
   const [chatViewVisible, setChatViewVisible] = useState(false)
   const [currentChat, setCurrentChat] = useState(null)
+  //Categories and subcategories selected to fetch the list
+  const [categoriesSelected, setCategoriesSelected] = useState([])
+  const [subCategoriesSelected, setSubCategoriesSelected] = useState([])
+
+  const [promptListMenuSelected, setPromptListMenuSelected] = useState("All")  // Saved, Created
 
   function openModal() {
     setPopupOpen(true);
@@ -73,7 +80,7 @@ export default function PromptsList() {
     if (event.currentTarget.id === "dashboard") {
       loadPrompts()
     }
-    else if (event.currentTarget.id === "logout"){
+    else if (event.currentTarget.id === "logout") {
       //logout here
       localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
       router.push("/")
@@ -94,9 +101,9 @@ export default function PromptsList() {
     setCurrentSelectedPrompt(prompt)
     setCurrentChat(chat)
     setMenuSelected("chatgpt")
-    let data = {chatViewVisible: true, newChat: true, prompt: prompt, chat: chat}
+    let data = { chatViewVisible: true, newChat: true, prompt: prompt, chat: chat }
     localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
-    router.push( "/dashboard/chat?chatid=" + chat.id)
+    router.push("/dashboard/chat?chatid=" + chat.id)
   }
 
   const loadCurrentUser = useCallback(async () => {
@@ -116,40 +123,99 @@ export default function PromptsList() {
     }
   });
 
+//return particular list for menu
+//if selected = All, return prompts, if created return createdPrompts, if Saved return savedPrompts
+  const getCurrentPromptsForMenu = () =>{
+    if(promptListMenuSelected == "All"){
+      return prompts
+    }
+    else if(promptListMenuSelected == "Created"){
+      return createdPrompts
+    }
+    else if(promptListMenuSelected == "Saved"){
+      return savedPrompts
+    }
+  }
 
-
-  const loadPrompts = () => {
+  const loadPrompts = (isFirstLoading = false) => {
     //console.log("In Load Prompts. Remove return statement when implemented")
     // return 
+    // if(isLoadingPrompts){
+    //   return
+    // }
     let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
     console.log("User data stored is ", d)
     const user = JSON.parse(
       d
     )
 
+    let categoriesString = ""
+    let comma = ""
+    for (let i = 0; i < categoriesSelected.length; i++) {
+      let cat = categoriesSelected[i]
+      categoriesString = categoriesString + comma + `${cat.id}`
+      comma = ","
+    }
+    // console.log("Categories string is ", categoriesString)
+
+
+    let subcategoriesString = ""
+    comma = ""
+    for (let i = 0; i < subCategoriesSelected.length; i++) {
+      let cat = subCategoriesSelected[i]
+      subcategoriesString = subcategoriesString + comma + `${cat.id}`
+      comma = ","
+    }
+    // console.log("Subcategories string is ", subcategoriesString)
+    comma = ""
     //   this.setState({currentUser: user})
     setCurrentUser(user)
-    console.log("Tokan in get Prompts " + user)
+    console.log("Token in get Prompts " + user)
     const config = {
       headers: {
         "Authorization": "Bearer " + user.token,
       }
     };
-    const route = ApiPath.GetPromptsList + `?offset=${prompts.length}`;
-    //console.log(route)
+    let route = ApiPath.GetPromptsList + `?offset=${isFirstLoading ? '0' : `${prompts.length}`}&categoriesString=${categoriesString}&subCategoriesString=${subcategoriesString}`;
+    if(promptListMenuSelected == "Created"){
+      route = ApiPath.GetUserPrompts + `?offset=${createdPrompts.length}`
+    }
+    console.log(route)
+    setIsLoadingPrompts(true)
     axios.get(route, config)
       .then(res => {
-        //console.log("Data is ")
+        setIsLoadingPrompts(false)
+        console.log("Data is ")
         //console.log(res.data.data.prompts)
-        // setMessages(res.data.data)
-
-        res.data.data.prompts.map((m, index) => {
-          setPrompts((prevState) =>
-            [...prevState, m]
-          )
-        })
+        // console.log(res.data)
+        if(promptListMenuSelected == "All"){
+          console.log("All Prompts ",res.data)
+          res.data.data.prompts.map((m, index) => {
+            setPrompts((prevState) =>
+              [...prevState, m]
+            )
+          })
+        }
+        else if(promptListMenuSelected == "Created"){
+          console.log("Created Prompts ",res.data)
+          res.data.data.map((m, index) => {
+            setCreatedPrompts((prevState) =>
+              [...prevState, m]
+            )
+          })
+        }
+        else if(promptListMenuSelected == "Saved"){
+          console.log("Saved Prompts ",res.data)
+          res.data.data.prompts.map((m, index) => {
+            setSavedPrompts((prevState) =>
+              [...prevState, m]
+            )
+          })
+        }
+        
       })
       .catch(err => {
+        setIsLoadingPrompts(false)
         console.log(err)
       })
 
@@ -157,8 +223,9 @@ export default function PromptsList() {
   }
   useEffect(() => {
     //console.log("prompts loaded")
-    loadPrompts()
-  }, [])
+    setPrompts([])
+    loadPrompts(true) // isFirstLoading = true
+  }, [promptListMenuSelected])
 
 
   useEffect(() => {
@@ -169,6 +236,12 @@ export default function PromptsList() {
       //console.log(currentUser.username)
     }
   }, [])
+
+  useEffect(() => {
+    console.log("Categories and subcategories selected. Loading New Prompts")
+    setPrompts([])
+    loadPrompts()
+  }, [categoriesSelected, subCategoriesSelected])
 
 
   useEffect(() => {
@@ -189,93 +262,50 @@ export default function PromptsList() {
     }
   }, [currentUser, role])
   return (
-    <div className=" overflow-y-none  h-full" style={{height: '100vh'}}>
+    <div className=" overflow-y-none  h-full" style={{ height: '100vh' }}>
 
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
 
-      
+
 
       <div className="row md:p-1 overflow-y-none" style={{ height: "100%" }}>
-        <div className=" col-sm-2 col-md-3 d-none d-md-inline flex flex-grow flex-col float-left hidden" style={{ height: '100%' }}>
-          <div className="row d-flex justify-content-between">
-            <div>
-              <div className="col-sm-12  dbmenubtn  p-2 gap-2" id="dashboard" onClick={handleMenuClick}>
-                <img className="icon" src={dashboardLogo}></img>
-                <button className="button fs-6">Dashboard</button>
-              </div>
-              <div className="col-md-12 dbmenubtn   p-2 gap-2" id="chatgpt" onClick={handleMenuClick}>
-                <img className="icon" src={userIcon}></img>
-                <button className="button fs-6">ChatGPT</button>
-              </div>
-            </div>
-            <div className="col-md-12 dbmenubtn   p-2 gap-2" id="support" onClick={handleMenuClick}>
-              <img className="icon" src={headphoneIcon}></img>
-              <button className="button fs-6">Customer Support</button>
-            </div>
-            <div className="col-md-12 dbmenubtn   p-2 gap-2" id="community" onClick={handleMenuClick}>
-              <img className="icon" src={usersIcon}></img>
-              <button className="button fs-6">Community Forum</button>
-            </div>
-            <div className="col-md-12 dbmenubtn   p-2 gap-2" id="privacy" onClick={handleMenuClick}>
-              <img className="icon" src={privacyIcon}></img>
-              <button className="button fs-6">Privacy Policy</button>
-            </div>
-            <div className="col-md-12 dbmenubtn   p-2 gap-2" id="terms" onClick={handleMenuClick}>
-              <img className="icon" src={termIcon}></img>
-              <button className="button fs-6">Terms & conditions</button>
-            </div>
-            <div className="col-md-12 dbmenubtn   p-1 gap-2" id="logout" onClick={handleMenuClick}>
-              {/* <img className="icon" src={usersIcon} style={{color: 'red'}}></img> */}
-              <IconButton style={{color: 'red'}}>
-                <LogoutSharpIcon />
-              </IconButton>
 
-              <button className="button fs-4 " style={{color: 'red', fontSize: 15, fontWeight: 'bold'}}>Logout</button>
-            </div>
+        <div className={"col-md-9 flex flex-col flex-grow  pb-6 h-full overflow-y-none"} style={{ height: '100%' }} >
+
+          <div className=' overflow-y-none '>
+
+            <PromptsListDashboard promptListMenuSelected={promptListMenuSelected} setSelectedMenu={setPromptListMenuSelected} prompts={getCurrentPromptsForMenu()} handlePromptSelected={handlePromptSelected} isLoadingPrompts={isLoadingPrompts} handleAddAction={() => {
+              //console.log("Dialogue open")
+              setPopupOpen(true)
+              // onOpen();
+            }}
+              setCategoriesSelected={(categories) => {
+                setCategoriesSelected(categories)
+                // setPrompts([])
+                // loadPrompts()
+              }}
+              setSubCategoriesSelected={(categories) => {
+                setSubCategoriesSelected(categories)
+                // setPrompts([])
+                // loadPrompts()
+              }} />
+            <Modal
+              isOpen={isPopupOpen}
+              onAfterOpen={afterOpenModal}
+              onRequestClose={closeModal}
+              style={customStyles}
+              contentLabel="Example Modal"
+            >
+              <MultiFormPopup onClose={() => {
+                loadPrompts()
+                setPopupOpen(false)
+              }} />
+            </Modal>
           </div>
-        </div>
-        <div className={"col-md-9 flex flex-col flex-grow  pb-6 h-full overflow-y-none" } style={{ height: '100%' }} >
-          {/* {
-            //disabled flow if the menu is chat gpt in the div above.
-            menuSelected == "chatgpt" && currentSelectedPrompt !== null && currentChat !== null && (
-              // <ChatContainer prompt={prompt}/>
-              // <div>Th÷is is chat screen</div>
-              <PromptChatView chatViewVisible={true} newChat={true} chat={currentChat} prompt={currentSelectedPrompt} />
-
-            )
-          } */}
-          
-          {
-            // menuSelected == "dashboard" && (
-              <div className=' overflow-y-scroll '>
 
 
-                {
-                  // !isPopupOpen &&(
-                  <PromptsListDashboard prompts={prompts} handlePromptSelected={handlePromptSelected} handleAddAction={() => {
-                    //console.log("Dialogue open")
-                    setPopupOpen(true)
-                    // onOpen();
-                  }} />
-                  // )
-                }
-                <Modal
-                  isOpen={isPopupOpen}
-                  onAfterOpen={afterOpenModal}
-                  onRequestClose={closeModal}
-                  style={customStyles}
-                  contentLabel="Example Modal"
-                >
-                  <MultiFormPopup onClose={() => {
-                    setPopupOpen(false)
-                  }} />
-                </Modal>
-              </div>
-            // )
-          }
-          
-          
-          
+
+
         </div>
       </div>
 

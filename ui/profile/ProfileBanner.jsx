@@ -13,7 +13,7 @@ const twitterBtnIcon = '/assets/twitter.svg'
 const youtubeBtnIcon = '/assets/youtube.svg'
 const globeBtnIcon = '/assets/globe.svg'
 
-import ApiPath from "@/app/lib/ApiPath";
+import ApiPath from "../../lib/ApiPath";
 
 
 export default function ProfileBannerView(props) {

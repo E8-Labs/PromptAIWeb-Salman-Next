@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import Image from 'next/image'
-import NavLinks from '@/app/ui/dashboard/nav-links';
+// import NavLinks from '@/app/ui/dashboard/nav-links';
 // import AcmeLogo from '@/app/ui/acme-logo';
 import { PowerIcon } from '@heroicons/react/24/outline';
 import { useEffect, useState, useCallback } from 'react';
@@ -43,7 +43,7 @@ export default function TopNav() {
     }, [])
 
     return (
-        <div className="flex h-50 flex-col px-3 py-1 md:px-2 ">
+        <div className="flex h-50 flex-col px-3 py-2 md:px-2 ">
             <div className="rightdiv min-w-screen w-full flex flex-row justify-end align-center ">
                 <div className="nav-item mx-4">
                     <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button>

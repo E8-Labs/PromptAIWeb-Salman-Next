@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.1.1",
     "@mui/icons-material": "^5.15.3",
+    "@mui/lab": "^5.0.0-alpha.160",
     "@mui/material": "^5.15.3",
     "@nextui-org/react": "^2.2.9",
     "axios": "^1.6.2",

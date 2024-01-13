@@ -1,4 +1,4 @@
-import { poppins, inter } from './ui/fonts'
+import { poppins, inter } from '../ui/fonts'
 import './globals.css'
 
 export const metadata = {
