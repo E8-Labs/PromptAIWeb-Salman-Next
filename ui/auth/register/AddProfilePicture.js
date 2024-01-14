@@ -126,15 +126,15 @@ class AddProfilePicture extends Component {
                         </div>
                     </div>
                     
-                    <div className="row row-cols-1 mt-md-5 gap-2  mt-5 d-flex align-items-center justify-content-center">
-                        <form className="col-md-12 col-12 mx-3 mx-md-0 d-flex align-items-center justify-content-center">
-                            <div className="row  d-flex align-items-center justify-content-center">
-                                <div className="col-md-12 fileUpload" style={{position: "relative", maxWidth: "300px",margin:"auto"}} >
+                    <div className="flex  gap-2  mt-5  items-center justify-center">
+                        <form className="flex-col mx-3 md:mx-0 flex items-center justify-center">
+                            <div className="flex-col gap-2  flex align-center justify-center">
+                                <div className="flex-col mt-3 fileUpload" style={{position: "relative", maxWidth: "300px",margin:"auto"}} >
                                     <div className="upload_image bg-gray-500" style={{margin:'0 auto',borderRadius:'100%',width:'82px',height:'80px',backgroundSize:'cover',backgroundImage: `url(${$imagePreview})`}}>
                                        
                                     </div>
                                 </div>
-                                <div className="col-auto singup_input mt-3" >
+                                <div className="flex-col singup_input pt-5" >
                                     
                                     <label className="text-app-primary title2-text fs-5 cursor-pointer" htmlFor='input-file'> Upload Picture </label>
                                     
@@ -149,11 +149,13 @@ class AddProfilePicture extends Component {
                         
                     </div>
 
-                    <div className="flex d-flex align-items-center justify-content-center mt-5 " style={{maxHeight:"70%", minHeight: "60%"}}>
+                    <div className="flex  items-center justify-center mt-5 " style={{maxHeight:"70%", minHeight: "60%"}}>
                         <div className="" >
                             <Button  variant='contained' 
                             className="bg-appgreenlight w-40 h-12 rounded-lg hover:bg-appgreen" 
-                            sx={{bgcolor: '#00C28C'}} onClick={this.nextBtnClicked.bind(this)}>
+                            sx={{bgcolor: '#00C28C', padding: 2, paddingX: 8, borderRadius: 10, ":hover":{
+                                backgroundColor: "#001812"
+                            }}} onClick={this.nextBtnClicked.bind(this)}>
                               <span className="fs-6 fw-bold text-white ">Next</span>
                             </Button>
                         </div>

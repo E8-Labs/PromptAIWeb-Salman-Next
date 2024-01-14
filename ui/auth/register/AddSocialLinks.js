@@ -1,4 +1,9 @@
 import React, { useState, useEffect, useCallback, Component } from "react";
+import { CustomTextField } from "@/ui/customcomponents/CustomTextField";
+import { Button, IconButton, Stack } from "@mui/material";
+import { PageControl } from "@/ui/customcomponents/PageControl";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const background = '/banner-bg.png'
 const crossIcon = '/assets/cross.svg'
@@ -19,10 +24,10 @@ class AddSocialLinks extends Component {
             instagram: '',
             password: '',
             // Fome data erroe
-            logo:"",
-            valid_logo : "",
+            logo: "",
+            valid_logo: "",
             change_logo: 0,// this.props.change_logo,
-            valid_username : "", 
+            valid_username: "",
         };
         // add form value
         this.username = React.createRef();
@@ -35,53 +40,53 @@ class AddSocialLinks extends Component {
 
     //     let reader = new FileReader();
     //     let file = e.target.files[0];
-    
+
     //     reader.onloadend = () => {
     //         this.setState({
     //             file: file,
     //             imagePreviewUrl: reader.result
     //         });
     //     }
-    
+
     //     reader.readAsDataURL(file)
     // }
     //
-    handleKeyPress(e){
-        if(e.target.name == "username"){
-            this.setState({ 
-                username : e.target.value,
-                valid_username: "" 
+    handleKeyPress(e) {
+        if (e.target.name == "username") {
+            this.setState({
+                username: e.target.value,
+                valid_username: ""
             });
         }
     }
     //Fome submit function
-    Save_company_data(event){
+    Save_company_data(event) {
         event.preventDefault();
 
         let log = false;
-       
-        if(this.state.imagePreviewUrl == ""){
+
+        if (this.state.imagePreviewUrl == "") {
             this.setState({ valid_logo: "Please upload a profile picture" });
             log = true;
-        }     
+        }
 
-        if(!this.username.current.value){
+        if (!this.username.current.value) {
             this.setState({ valid_username: "Please enter a company name" });
             log = true;
         }
-       
-        if(log === true){ 
-            return 
+
+        if (log === true) {
+            return
         }
 
         this.state.username = this.username.current.value;
-        this.setState({username: this.state.username});
+        this.setState({ username: this.state.username });
         this.props.savedata(this.state.file, this.state.imagePreviewUrl, this.state.username);
 
         this.props.clickEvent("Team_member_stap3");
     }
 
-    handleChangeWeb(event){
+    handleChangeWeb(event) {
         event.preventDefault()
         console.log("Web changed " + event.target.value)
         this.setState({
@@ -89,7 +94,12 @@ class AddSocialLinks extends Component {
         })
     }
 
-    handleChangeInsta(event){
+    handleBackButton(event){
+        event.preventDefault()
+        console.log("Handle back button")
+    }
+
+    handleChangeInsta(event) {
         event.preventDefault()
         console.log("Insta changed " + event.target.value)
         this.setState({
@@ -97,7 +107,7 @@ class AddSocialLinks extends Component {
         })
     }
 
-    handleChangeYoutube(event){
+    handleChangeYoutube(event) {
         event.preventDefault()
         console.log("Youtube changed " + event.target.value)
         this.setState({
@@ -105,14 +115,14 @@ class AddSocialLinks extends Component {
         })
     }
 
-    nextBtnClicked(){
+    nextBtnClicked() {
         this.props.getSocialLinks(this.state.website, this.state.instagram, this.state.youtube)
     }
 
-    
+
 
     render() {
-        let {imagePreviewUrl} = this.state;
+        let { imagePreviewUrl } = this.state;
         let $imagePreview = null;
         if (imagePreviewUrl) {
             //   $imagePreview = (<img src={imagePreviewUrl} />);
@@ -123,57 +133,66 @@ class AddSocialLinks extends Component {
         }
         return (
             <>
-            <div className="row align-items-center align-content-start " style={{height: "100%"}}>
-                <div className="col-md-12">
-                    <div className="row  ms-auto  "  style={{height: "20%"}}> 
-                        <div className="col justify-content-end">
-                            <img src={crossIcon} alt=""></img>
+                <div className="felx flex-col " style={{ height: "100%" }}>
+                    <Stack className=" flex flex-grow h-12" direction={'row'}>
+                        <IconButton onClick={this.handleBackButton.bind(this)}>
+                            <ArrowBackIcon sx={{color: 'white'}}/>
+                        </IconButton>
+                    </Stack>
+                    <div className="flex justify-content-center mt-sm-5">
+                        <div className="  user-profile-image-border d-flex  border-app-primary rounded-circle  align-items-center justify-content-center"
+                            style={{ width: "90px", height: "90px" }}>
+                            <img className="rounded-circle user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
                         </div>
                     </div>
-                    
-                    <div className="row justify-content-center mt-sm-5">
-                        <div className="  user-profile-image-border d-flex  border-app-primary rounded-circle  align-items-center justify-content-center"  
-                            style={{width: "110px", height: "110px"}}>
-                            <img className="rounded-circle user-profile-image" src={imagePreviewUrl}  /> 
-                        </div>
-                    </div>
-                    <div className="row justify-content-center">
-                        <div className="col-auto singup_input mt-3" >
-                            <label className="text-white title2-text fs-5"> Create a username </label>
-                        </div>
-                    </div>
-                    <div className="row row-cols-1 mt-md-5 gap-2  mt-5 d-flex align-items-center justify-content-center">
-                        <form className="col-md-12 col-12 mx-2 mx-md-0 d-flex align-items-center justify-content-center">
-                            <div className="row align-items-center justify-content-center  gap-md-4 gap-2" style={{minWidth: "100%"}}>
-                            <input type="text" id="signuptextform" class="form-control border border-white text-white" placeholder="Website" 
-                                style={{background: "transparent", minWidth: "60%", maxWidth: "75%"}} onChange={this.handleChangeWeb.bind(this)}/>
+                    <div className="flex flex-col  flex-grow gap-2 w-full justify-center items-center mt-3 px-6">
 
-                            <input type="text" id="signuptextform" class="form-control border border-white text-white" placeholder="Instagram" 
-                                style={{background: "transparent", minWidth: "60%", maxWidth: "75%"}} onChange={this.handleChangeInsta.bind(this)}/>
+                        <CustomTextField
 
-                            <input type="text" id="signuptextform" class="form-control border border-white text-white" placeholder="Youtube" 
-                                style={{background: "transparent", minWidth: "60%", maxWidth: "75%"}} onChange={this.handleChangeYoutube.bind(this)}/>
-                                
-                            </div>
-                        </form>
-                        
-                        
-                    </div>
+                            required
+                            id="outlined-required"
+                            label="Website"
+                            defaultValue=""
+                            placeholder='Web Url'
+                            sx={{ "label": { color: "gray" }, width: '100%' }}
+                            onChange={this.handleChangeInsta.bind(this)}
+                        />
+                        <CustomTextField
 
-                    <div className="row d-flex align-items-end justify-content-center mt-5 " style={{maxHeight:"70%", minHeight: "60%"}}>
-                        <div className="col-6  d-flex align-items-center justify-content-center p-md-2 p-0 gap-1 bg-app-primary rounded-pill"
-                                onClick={this.nextBtnClicked.bind(this)}>
-                            <button className="btn btn-md d-flex align-items-center justify-content-center signinbtn   gap-0">
-                              <span className="fs-6 fw-bold text-white ">Next</span>
-                            </button>
+                            required
+                            id="outlined-required"
+                            label="Youtube Url"
+                            defaultValue=""
+                            placeholder='Youtube Url'
+                            sx={{ "label": { color: "gray" }, width: '100%' }}
+                            onChange={this.handleChangeYoutube.bind(this)}
+                        />
+                        <CustomTextField
+
+                            required
+                            id="outlined-required"
+                            label="Insta Url"
+                            defaultValue=""
+                            placeholder='Insta Url'
+                            sx={{ "label": { color: "gray" }, width: '100%' }}
+                            onChange={this.handleChangeInsta.bind(this)}
+                        />
+
+                        <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
+                            <Stack direction={'row'} className='' >
+                                <PageControl selectedIndex={3} pages={5} />
+                            </Stack>
+                            <div class="invisible ">020000000000</div>
+                            <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}
+                                sx={{
+                                    bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
+                                        backgroundColor: "#001812"
+                                    }
+                                }} onClick={this.nextBtnClicked.bind(this)}>Continue</Button>
                         </div>
                     </div>
-                    
-                    
                 </div>
-                
-            </div>
-        </>
+            </>
         );
     }
 }
