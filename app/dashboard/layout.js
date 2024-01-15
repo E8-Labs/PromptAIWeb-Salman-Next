@@ -1,6 +1,8 @@
 import React from 'react';
 import SideNav from '../../ui/dashboard/sidenav';
 import TopNav from '../../ui/dashboard/topnav';
+// import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default function Layout({ children }) {
   return (

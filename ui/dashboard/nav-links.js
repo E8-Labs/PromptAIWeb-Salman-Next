@@ -12,6 +12,8 @@ import { usePathname } from 'next/navigation';
 
 import Link from 'next/link';
 import clsx from 'clsx';
+// import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
@@ -43,7 +45,7 @@ export default function NavLinks() {
   console.log("Pathname is ", pathName)
 
   return (
-    <div className='bg-black gap-5'>
+    <div className='bg-appgreen gap-5 w-full'>
       {links.map((link) => {
         const LinkIcon = link.icon;
         return (
@@ -54,7 +56,7 @@ export default function NavLinks() {
               
             }}
             className={clsx(
-              'flex h-[48px] grow items-center justify-center gap-2 rounded-md  p-5 text-sm font-medium hover:bg-appgreen hover:text-white md:flex-none md:justify-start md:p-2 md:px-3 bg-black',
+              'flex h-[48px]  grow items-center justify-center gap-2 rounded-md  p-5 text-sm font-medium hover:bg-appgreen hover:text-white md:flex-none md:justify-start md:p-2 md:px-3 bg-appgreen',
               {
                 'bg-red text-white': pathName === link.href,
               },

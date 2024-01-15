@@ -212,7 +212,7 @@ const PromptsListDashboard = (props) => {
       </Modal>
 
       
-      <div className='flex items-center flex-grow justify-between items-start p-4'>
+      <div className='flex flex-row items-center flex-grow justify-between items-start p-4 bg-red'>
         
       <Stack direction={'row'} className='gap-3'>
         <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={starIcon} style={{

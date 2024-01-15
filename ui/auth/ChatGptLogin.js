@@ -8,84 +8,85 @@ import { styled } from "styled-components";
 // import crossIcon from '../../../public/cross.svg'
 import Link from "next/link";
 import Image from "next/image";
+import { Button, Icon } from "@mui/material";
 
 // import { alignProperty } from "@mui/material/styles/cssUtils";
 
-function ChatGptLogin(props){
+function ChatGptLogin(props) {
+    const starIcon = (
+        <Icon>
+            <img alt="all" src="/user-icon-white.svg" />
+        </Icon>
+    );
     console.log(props)
     const [index, setIndex] = useState(0);
-    const nextPreviousBtnClicked = (event) =>{
+    const nextPreviousBtnClicked = (event) => {
         // console.log("button clicked")
-        if(event.currentTarget.id === "next"){
+        if (event.currentTarget.id === "next") {
             console.log(event.currentTarget.id + " btn clicked")
-            if (index == 2){
+            if (index == 2) {
                 setIndex(0)
             }
-            else{
+            else {
                 setIndex(index + 1)
             }
         }
-        else{
+        else {
             console.log(event.currentTarget.id + " btn clicked")
-            if (index == 0){
+            if (index == 0) {
                 setIndex(2)
             }
-            else{
-                setIndex(index +- 1)
+            else {
+                setIndex(index + - 1)
             }
         }
     }
 
-    const handleSigninBtnClick = (e)=>{
+    const handleSigninBtnClick = (e) => {
         props.signinBtnTapped()
     }
-    const handleRegisterBtnClick = (e)=> {
+    const handleRegisterBtnClick = (e) => {
         props.registerBtnTapped()
     }
-    return(
-        <div className="container" style={{width: '100%'}}>
-            <div className="row ">
-                <div className="col-md-12">
-                    {/* <div className="row row-cross-icon"> 
-                        <div className="col-sd-2 align-self-end">
-                            <img src={crossIcon} alt="Cancel"></img>
-                        </div>
-                    </div> */}
-                    <div className="row  my-md-5 gap-2  my-5 ">
-                        <div className="flex-grow flex  justify-center mx-auto p-0" >
-                            {/* <div className=" bg-blue-100 align-items-center justify-content-center"> */}
-                                {/* <img src={gptLogo} alt=""/> */}
-                                <Image className="" src="/chatgpt.svg" width={60} height={60} alt="Logo" />
-                            {/* </div> */}
-                        </div>
-                        <div className="col-12  flex-grow flex  justify-center mx-auto" >
-                            <h3 className="text-white text-start">Sign in with</h3>
-                        </div>
-                        <div className="col-auto flex-grow flex  justify-center mx-auto  " >
-                            <h3 className="text-start" style={{color:"var(--app-primary)"}}>Open AI</h3>
-                        </div>
+    return (
+        <div className="flex  w-full h-full justify-center items-center">
+            <div className="flex-col flex gap-2 h-96   justify-center items-center">
+                <div className="flex-col gap-2 my-4">
+                    <div className="flex-grow  flex justify-center mx-auto p-0">
+                        <Image className="" src="/chatgpt.svg" width={60} height={60} alt="Logo" />
                     </div>
-
-                    <div className="row flex-grow flex  justify-center mx-auto p-md-5" >
-                        <div className="mx-auto justify-center p-md-2 p-0 gap-1 bg-app-primary rounded-pill"
-                                onClick={e => handleSigninBtnClick(e)}>
-                            <button className="btn btn-md d-flex mx-auto justify-center gap-2 ">
-                            <Image className="btnicon" src="/user-icon-white.svg" width={20} height={20} />
-                              <span className="fs-6 fw-bold text-white">Sign In with OpenAI</span>
+                    <div className="flex-row flex justify-center gap-2">
+                        <h3 className="text-white text-right">Sign in with</h3>
+                        <h3 className="text-start" style={{ color: "var(--app-primary)" }}>Open AI</h3>
+                    </div>
+                </div>
+                <div className="flex w-full justify-center items-center">
+                    <Button variant="contained" startIcon={starIcon}
+                        sx={{
+                            bgcolor: '#00C28C', padding: 1.5, paddingX: 3, borderRadius: 8, ":hover": {
+                                bgcolor: "#001812"
+                            }
+                        }} onClick={handleSigninBtnClick}>Sign In with OpenAI</Button>
+                </div>
+                {/* <div className="row flex-grow flex justify-center ">
+                        <div className="flex    justify-center  p-0  md:p-4 bg-app-primary rounded-full"
+                            onClick={e => handleSigninBtnClick(e)}>
+                            <button className="flex flex-row  justify-center gap-2 items-center">
+                                <Image className="btnicon" src="/user-icon-white.svg" width={20} height={20} />
+                                <span className="text-white text-lg">Sign In with OpenAI</span>
                             </button>
                         </div>
+                    </div> */}
+
+                <div className="row my-5">
+                    <div className="flex items-center justify-center p-md-2 p-0 gap-1">
+                        <span className="mb-20 text-white">Don't have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
                     </div>
-                    <div className="row my-5">
-                        <div className="d-flex align-items-center justify-content-center p-md-2 p-0 gap-1">
-                            <span style={{ marginBottom:"20px", color: "white" }}>Don't have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} style={{fontWeight:"500"}}  variant="outline-success">Sign up now</Link></span>
-                            
-                        </div>
-                    </div>
-                    
                 </div>
-                
+
             </div>
         </div>
+
     )
 }
 

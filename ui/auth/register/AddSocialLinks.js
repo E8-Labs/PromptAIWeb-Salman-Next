@@ -180,7 +180,7 @@ class AddSocialLinks extends Component {
 
                         <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
                             <Stack direction={'row'} className='' >
-                                <PageControl selectedIndex={3} pages={5} />
+                                <PageControl selectedColor={"#00C28C"} selectedIndex={3} pages={5} />
                             </Stack>
                             <div class="invisible ">020000000000</div>
                             <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}

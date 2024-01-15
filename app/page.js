@@ -22,10 +22,10 @@ import 'slick-carousel/slick/slick-theme.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-// import "../node_modulesbootstrap/dist/js/bootstrap.bundle";
+// import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-
+ 
 // own css files here
 // import "..";
 
@@ -43,18 +43,18 @@ import ApiPath from "../lib/ApiPath";
 import AddSocialLinks from '../ui/auth/register/AddSocialLinks';
 
 
-const { palette } = createTheme();
-const { augmentColor } = palette;
-const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
-const theme = createTheme({
-  palette: {
-    orange: createColor('#FFAD0E'),
-    orangeAlpha10: createColor('#FFAD0E10'),
-    apple: createColor('#5DBA40'),
-    steelBlue: createColor('#5C76B7'),
-    violet: createColor('#BC00A3'),
-  },
-});
+// const { palette } = createTheme();
+// const { augmentColor } = palette;
+// const createColor = (mainColor) => augmentColor({ color: { main: mainColor } });
+// const theme = createTheme({
+//   palette: {
+//     orange: createColor('#FFAD0E'),
+//     orangeAlpha10: createColor('#FFAD0E10'),
+//     apple: createColor('#5DBA40'),
+//     steelBlue: createColor('#5C76B7'),
+//     violet: createColor('#BC00A3'),
+//   },
+// });
 
 const sliderContent = [
   {

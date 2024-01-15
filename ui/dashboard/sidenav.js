@@ -8,6 +8,9 @@ import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 const Logo = '/logo.png'
 
+// import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
 export default function SideNav() {
 const router = useRouter()
     const [currentUser, setCurrentUser] = useState(null)
@@ -38,7 +41,7 @@ const router = useRouter()
       }, [])
 
   return (
-    <div className="flex h-full flex-col px-3 py-1 md:px-2 bg-black">
+    <div className="flex h-full flex-col px-3 py-1 md:px-2 bg-appgreen">
         
       <Link
         className="mb-2 flex h-20 items-start justify-start rounded-md  p-4 md:h-40 "
@@ -49,11 +52,11 @@ const router = useRouter()
           <Image src={Logo} width={150} height={100}></Image>
         </div>
       </Link>
-      <div className="flex grow flex-row justify-between space-x-2 md:flex-col  md:space-x-0 md:space-y-2 bg-black">
+      <div className="flex grow flex-row justify-between space-x-2 md:flex-col  md:space-x-0 md:space-y-0 bg-appgreen">
         <NavLinks />
-        <div className="hidden h-auto w-full grow rounded-md md:block bg-black"></div>
+        <div className="hidden h-auto w-full grow rounded-md md:block bg-appgreen"></div>
         <form>
-          <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-black p-3 text-sm font-medium hover:bg-appgreen hover:text-white md:flex-none md:justify-start md:p-2 md:px-3"
+          <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-appgreen p-3 text-sm font-medium hover:bg-appgreen hover:text-white md:flex-none md:justify-start md:p-2 md:px-3"
             onClick={(event)=>{
               event.preventDefault()
               console.log("Logout here")
