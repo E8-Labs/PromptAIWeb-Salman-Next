@@ -149,13 +149,13 @@ export default function ProfileBaseView(props) {
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="flex  flex-col  flex-grow w-full h-full bg-black px-2">
 
       <ProfileBannerView user={user} />
 
-      <div className="flex gap-2 pt-5 justify-between">
+      {/*<div className="flex gap-2 pt-5 justify-between">
 
-        <div class="flex gap-2 pt-5" role="group" aria-label="First group">
+         <div class="flex gap-2 pt-5" role="group" aria-label="First group">
           <div style={{ height: '38px', paddingLeft: 15, paddingRight: 15, paddingTop: 10, paddingBottom: 10, background: 'rgba(14, 110, 255, 0.10)', borderRadius: 15, justifyContent: 'flex-start', alignItems: 'center', gap: 7, display: 'inline-flex' }}>
             <div style={{ width: 20, height: 20, paddingTop: 1.25, paddingBottom: 1.88, paddingLeft: 1.87, paddingRight: 1.25, justifyContent: 'center', alignItems: 'center', display: 'flex' }}>
               <img src={RecentIcon}></img>
@@ -168,30 +168,12 @@ export default function ProfileBaseView(props) {
             </div>
             <div style={{ color: 'white', fontSize: 15, fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>Popular</div>
           </div>
-        </div>
-        {/* <div className="pt-5" style={{  height: '100%', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 15, display: 'inline-flex' }}>
-                    <div style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 10, paddingBottom: 10, background: 'rgba(255, 255, 255, 0.10)', borderRadius: 15, justifyContent: 'flex-start', alignItems: 'center', gap: 7, display: 'flex' }}>
-                        <div style={{ color: 'white', fontSize: 15, fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>All</div>
-                    </div>
-                    <div style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 10, paddingBottom: 10, background: 'rgba(255, 18.06, 74.93, 0)', borderRadius: 15, justifyContent: 'flex-start', alignItems: 'center', gap: 7, display: 'flex' }}>
-                        <div style={{ color: 'white', fontSize: 15, fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>Free</div>
-                    </div>
-                    <div style={{ paddingLeft: 15, paddingRight: 15, paddingTop: 10, paddingBottom: 10, background: 'rgba(255, 18.06, 74.93, 0)', borderRadius: 15, justifyContent: 'flex-start', alignItems: 'center', gap: 7, display: 'flex' }}>
-                        <div style={{ color: 'white', fontSize: 15, fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>Paid</div>
-                    </div>
-                </div> */}
-      </div>
-      {/* {
-                user.token == "" &&(
-                    <div>
-                        Other user's profile
-                    </div>   
-                )
-            } */}
+        </div> 
+      </div>*/}
 
       {
         currentUser != null &&(
-          <div className={`overflow-y-scroll pb-6  ${user.user.id !== currentUser.user.id ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'}`} style={{ height: '70vh' }}>
+          <div className={`overflow-y-scroll py-6  ${user.user.id !== currentUser.user.id ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'}`} style={{  }}>
         {
 
           prompts.map((element, index) => {

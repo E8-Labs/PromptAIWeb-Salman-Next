@@ -9,6 +9,9 @@ import StackPromptsInput from "./StackPromptsInput";
 import '../../../../public/assets/css/TypingAnimation.css';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 import Modal from 'react-modal'
+import { IconButton, Typography } from '@mui/material';
+import Icons from '@/app/lib/Icons';
+import IntractionType from '@/app/lib/models/IntractionType';
 
 
 const artIcon = "/art.png";
@@ -19,12 +22,12 @@ const MessageType = Object.freeze({
   TextMessage: "TextMessage"
 })
 
-const IntractionType = Object.freeze({
-  Like: 'Like',
-  DisLike: 'DisLike',
-  View: "View",
-  Flag: "Flag"
-})
+// const IntractionType = Object.freeze({
+//   Like: 'Like',
+//   DisLike: 'DisLike',
+//   View: "View",
+//   Flag: "Flag"
+// })
 
 const PromptHintDisplayStatus = Object.freeze({
   NotShowing: 0,
@@ -139,7 +142,7 @@ const PromptChatView = (props) => {
         }
       }
     }
-    bottomRef.current?.scrollIntoView({behavior: 'smooth'});
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
     // createSummary()
   }, [canShowPromptHint, messages, chat])
 
@@ -246,9 +249,9 @@ const PromptChatView = (props) => {
           if (chat) {
             chat.summary = summary
           }
-          //console.log("Messages received from server")
-          //console.log("M1 ", receieved[0])
-          //console.log("M2 ", receieved[1])
+          console.log("Messages received from server")
+          console.log("M1 ", receieved[0])
+          console.log("M2 ", receieved[1])
           // setMessages(messages.filter(item => item.type !== MessageType.Loading)) // remove the loading message
           let newArray = messages.filter(item => (item.id !== 0 && item.type !== MessageType.Loading))//[...messages]
           // newArray.pop()
@@ -295,9 +298,11 @@ const PromptChatView = (props) => {
 
 
 
-  const likeDislikePrompt = async (vote, prompt, message) => {
-    //console.log("Like Dislike prompt", vote)
-    //console.log("Message id ", message)
+  const likeDislikePrompt = async (vote, prompt, messageid) => {
+    const data = { promptid: prompt.id, intractiontype: vote, messageid: messageid };
+    console.log("Like Dislike prompt", vote)
+    console.log("data", data)
+    // return
     const u = JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
     )
@@ -306,14 +311,25 @@ const PromptChatView = (props) => {
         "Authorization": "Bearer " + u.token,
       }
     };
-    const data = { promptid: prompt, intractiontype: vote, messageid: message };
+    
     let result = await axios.post(ApiPath.VotePrompt, data, config)
-    //console.log("Result Like Dislike")
-    //console.log(result)
+    console.log("Result Like Dislike")
+    console.log(result)
     if (result.data.status) {
-      //   let toast = Toast.show('Prompt ' + vote + "d", {
-      //     duration: Toast.durations.LONG,
-      //   });
+      let updatedList = messages.map(item => 
+        {
+          if (item.id == messageid){
+            if(vote === IntractionType.Like){
+              return {...item, liked: true}; //gets everything that was already in item, and updates "done"
+            }
+            else if(vote === IntractionType.DisLike){
+              return {...item, disliked: true}; //gets everything that was already in item, and updates "done"
+            }
+          }
+          return item; // else return unmodified item 
+        });
+        console.log("Messages new ",updatedList)
+        setMessages(updatedList)
     }
     else {
 
@@ -342,7 +358,7 @@ const PromptChatView = (props) => {
       setMessages(messages.filter(item => item.type !== MessageType.Loading))
     }
     //console.log("Flag prompt response", message)
-    // await likeDislikePrompt(IntractionType.Flag, prompt.id, message.id)
+    await likeDislikePrompt(IntractionType.Flag, prompt.id, message.id)
   }
 
   const handleSendMessage = async (msg) => {
@@ -351,8 +367,11 @@ const PromptChatView = (props) => {
   }
 
 
+  
+
+
   return (
-    <Container className='flex flex-col  mx-auto justify-center overflow-y-auto' style={{height: '100%'}}>
+    <Container className='flex flex-col h-full pb-3  mx-auto justify-center overflow-y-none bg-appgreen' style={{ height: '100%' }}>
       {
         chat && (
           <Modal
@@ -371,37 +390,39 @@ const PromptChatView = (props) => {
           </Modal>
         )
       }
-      <ChatHeader className='flex  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
+      <ChatHeader className='flex bg-blue-500  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
       {/* <MessagesList className='flex-grow ' messages={messages} prompt={prompt} ref={bottomRef}/> */}
-       <div className="messages-list  w-8/12   items-center overflow-y-auto mx-auto ">
-      {
-        messages.map((item, index) => {
+      <div className="flex flex-grow flex-col messages-list h-11/12   w-8/12   items-center overflow-y-auto mx-auto ">
+        {
+          messages.map((item, index) => {
 
-          {
-            return (
+            {
+              return (
 
-              <div key={index} className={`flex w-full my-1 `}>
-                {
-                  item.from === "me" ? (
-                    <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
-                      <p className='text-white'>{item.message}</p>
-                    </div>
-                  ) :
-                    (
-                      <IncomingMessage message={item} prompt={prompt} />
-                    )
-                }
-              </div>
+                <div key={index} className={`flex w-full my-1 `}>
+                  {
+                    item.from === "me" ? (
+                      <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
+                        <p className='text-white'>{item.message}</p>
+                      </div>
+                    ) :
+                      (
+                        <IncomingMessage voteAction={(vote)=>{
+                          likeDislikePrompt(vote, prompt, item.id)
+                        }} message={item} prompt={prompt} />
+                      )
+                  }
+                </div>
 
-            )
-          }
+              )
+            }
 
 
-        })
-      }
-      <div ref={bottomRef}></div>
-    </div>
-      <div className='flex justify-left  w-8/12'>
+          })
+        }
+        <div ref={bottomRef}></div>
+      </div>
+      <div className='flex flex-col justify-left  w-8/12 rounded-md bg-appgreen'>
         <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
           //send stacked sub prompt here
           console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
@@ -409,8 +430,11 @@ const PromptChatView = (props) => {
           setModalVisible(true)
 
         }} />
+        <div className=' flex flex-grow w-full justify-center items-center p-2'>
+          <ChatInput className=' h-50 flex  ' handleSendMessage={handleSendMessage} ></ChatInput>
+        </div>
       </div>
-      <ChatInput className='w-full flex bg-red h-50' handleSendMessage={handleSendMessage} ></ChatInput>
+
     </Container>
   )
 }
@@ -419,29 +443,73 @@ export default PromptChatView
 
 
 
-const IncomingMessage = ({ message, prompt }) => {
+const IncomingMessage = ({ message, prompt, voteAction }) => {
   let loading = message.type === MessageType.Loading
   return (
     <>
       {
         !loading == true && (
-          <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15`}>
-            <div className={`flex-col mx-1 p-2 w-11/12 my-1`} key={message.id}>
-              <div style={{ borderRadius: '50%', overflow: 'hidden', width: '40px', height: '40px' }}>
+          <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15 rounded`}>
+            <div className={`flex-col mx-1 p-2 w-full my-1`} key={message.id}>
+              <div className='flex flex-grow justify-between  w-full' style={{  }}>
                 <Image className=' rounded-full' src={prompt.user.profile_image}
                   objectFit="cover"
                   width="40"
                   height="40"
+                  style={{borderRadius: '50%'}}
                 >
                 </Image>
+                <IconButton sx={{ color: 'white' }} onClick={() => {
+                  
+                }}>
+                  <Icons.TurnedInIcon sx={{ color: 'white' }} />
+                </IconButton>
               </div>
               <div className={`flex mt-3 ps-3 py-3 `}>
                 <p className='text-white'>{message.message}</p>
               </div>
-              
+
 
             </div>
             <div className='mb-3 w-11/12 rounded' style={{ backgroundColor: 'white', height: '1px' }}></div>
+            <div className='flex w-full   justify-between items-center pb-2 px-2'>
+              <p className='  text-white w-6/7'>How would you like to rate this Answer?</p>
+              <div className='flex w-full  justify-end items-center'>
+                <IconButton onClick={() => {
+                    voteAction(IntractionType.Like)
+                  }}>
+                    {
+                      !message.liked &&(
+                        <Icons.ThumbUpOffAltIcon sx={{ color: 'white' }} />
+                      )
+                    }
+
+                    {
+                      message.liked &&(
+                        <Icons.ThumbUpIcon sx={{ color: 'white' }} />
+                      )
+                    }
+                </IconButton>
+
+                <IconButton onClick={() => {
+                  voteAction(IntractionType.DisLike)
+                  }}>
+                    {/* <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} /> */}
+                    {
+                      !message.disliked &&(
+                        <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} />
+                      )
+                    }
+
+                    {
+                      message.disliked &&(
+                        <Icons.ThumbDownIcon sx={{ color: 'white' }} />
+                      )
+                    }
+                </IconButton>
+              </div>
+            </div>
+
           </div>
         )
       }
@@ -464,7 +532,7 @@ const IncomingMessage = ({ message, prompt }) => {
 
 const ChatHeader = ({ username, userImage }) => {
   return (
-    <div className="chat-header ">
+    <div className="chat-header h-50  ">
       <div className="user-details">
         <div className="avatar">
           <img src={userImage} alt="User">
@@ -527,12 +595,11 @@ display: flex;
 flex-direction: column;
 gap: 0.1rem;
 overflow: hidden;
-width: 70%;
+width: 100%;
 // grid-template-rows: 10% 75% 10%;
 padding-top: 0.1rem;
 justify-content: center;
 align-items: center;
-background-color: transparent;
 // margin-x: auto;
 // text-align: center;
 margin-bottom: 1rem;

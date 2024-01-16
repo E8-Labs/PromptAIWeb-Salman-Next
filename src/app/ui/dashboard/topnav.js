@@ -3,9 +3,11 @@ import Link from 'next/link';
 import Image from 'next/image'
 // import NavLinks from '@/app/ui/dashboard/nav-links';
 // import AcmeLogo from '@/app/ui/acme-logo';
-import { PowerIcon } from '@heroicons/react/24/outline';
+
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { Icon, IconButton } from '@mui/material';
+import Icons from '@/app/lib/Icons';
 const Logo = '/logo.png'
 
 export default function TopNav() {
@@ -43,13 +45,19 @@ export default function TopNav() {
     }, [])
 
     return (
-        <div className="flex h-50 flex-col px-3 py-2 md:px-2 bg-black">
-            <div className="rightdiv min-w-screen w-full flex flex-row justify-end align-center ">
-                <div className="nav-item mx-4">
-                    <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button>
+        <div className="flex h-50 flex-col px-3 py-2 md:px-2 bg-appgreen">
+            <div className="rightdiv min-w-screen w-full flex flex-row justify-end items-center ">
+                <div className="nav-item ">
+                    {/* <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button> */}
+                    <IconButton id="search" color='white' onClick={handleMenuClick} sx={{color: 'white'}}>
+                        <Icons.SearchIcon />
+                    </IconButton>
                 </div>
-                <div className="nav-item mx-4">
-                    <button className="btn text-white" id="notifications" onClick={handleMenuClick}><i className="fa fa-bell"></i></button>
+                <div className="nav-item ">
+                    {/* <button className="btn text-white" id="notifications" onClick={handleMenuClick}><i className="fa fa-bell"></i></button> */}
+                    <IconButton id="notifications" color='white' onClick={handleMenuClick} sx={{color: 'white'}}>
+                        <Icons.NotificationsNoneIcon />
+                    </IconButton>
                 </div>
                 <Link href={{
                     pathname: '/dashboard/profile',

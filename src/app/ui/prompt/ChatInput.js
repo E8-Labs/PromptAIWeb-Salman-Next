@@ -40,7 +40,7 @@ export default function ChatInput(props){
         <div className="input-container  ">
         <textarea
              value={message}
-          className="w-full  bg-transparent  rounded p-2 border-none focus:border-none rounded p-2 focus:outline-none"
+          className="w-full text-white bg-transparent  rounded p-2 border-none focus:border-none rounded p-2 focus:outline-none"
           placeholder="Type your message..."
           onChange={handleMessageChange}
         ></textarea>
@@ -64,7 +64,7 @@ export default function ChatInput(props){
 const Container = styled.div`
 display: grid;
 grid-template-columns: 100%;
-width: 66%;
+width: 100%;
 align-items: center;
 justify-content: center;
 // background-color: transparent;

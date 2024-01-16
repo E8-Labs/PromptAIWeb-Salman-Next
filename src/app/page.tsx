@@ -114,7 +114,7 @@ export default function Page() {
     if (u){
       let user = JSON.parse(u)
       if(user){
-        // router.push("/dashboard")
+        router.push("/dashboard")
       }
     }
   }, [])

@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import PromptChatView from '../../../ui/prompt/PromptChatView'
+import PromptChatView from '../../ui/prompt/PromptChatView'
 import { useSearchParams } from 'next/navigation'
 
 export default function page() {
@@ -10,9 +10,9 @@ export default function page() {
    
     let data = JSON.parse(d)
     console.log(data) // Logs "search"
-    localStorage.setItem("CURRENTCHAT", null)
+    // localStorage.setItem("CURRENTCHAT", null)
   return (
-    <div className='h-90  overflow-auto' style={{height: '94%'}}>
+    <div className='h-full  overflow-none' style={{height: '100%'}}>
       {
         data && (
             <PromptChatView chatViewVisible={data.chatViewVisible} newChat={data.newChat} chat={data.chat} prompt={data.prompt} />

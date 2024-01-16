@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState, useCallback} from 'react'
 import { useRouter } from 'next/navigation'
-import ProfileBaseView from '../../../ui/profile/Profile';
+import ProfileBaseView from '../../ui/profile/Profile';
 
 function page() {
 
@@ -34,7 +34,7 @@ const [user, setUser] = useState(null)
 
     
   return (
-    <div>
+    <div className='flex h-full w-full'>
       {
         user != null &&(
             <ProfileBaseView  user={user}/>

@@ -21,7 +21,7 @@ function PromptSearchItem(props) {
                         <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
                     </div>
                     <div className='flex-col ml-2'>
-                        <p className="font-bold">{prompt.user.username}</p>
+                        <p className="font-bold text-white">{prompt.user.username}</p>
                         <p className="text-sm text-gray-500">{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago.</p>
                     </div>
                 </div> {/* Specify the height and color for the top div */}

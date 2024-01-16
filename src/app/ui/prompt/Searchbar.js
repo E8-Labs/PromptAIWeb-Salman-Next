@@ -14,7 +14,7 @@ const handleTextChange = (e)=>{
         <input
           type="text"
           placeholder="Search..."
-          className="w-full px-4 bg-transparent border-none focus:outline-none"
+          className="w-full px-4 bg-transparent border-none focus:outline-none text-white"
           onChange={handleTextChange}
         />
         <div className="mr-3">

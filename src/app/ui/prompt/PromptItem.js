@@ -30,7 +30,7 @@ function PromptItem(props) {
         setSnackMessage("")
     }
 
-    
+
     return (
 
         <div className="flex flex-col h-72  bg-appgreen rounded p-4 cursor:pointer" key={prompt.id} >
@@ -41,60 +41,55 @@ function PromptItem(props) {
                 message={snackMessage}
             //   action={action}
             />
-            <div className="flex h-16  pt-2 pl-1 justify-between items-center">
-                <div className='flex' onClick={()=>{
-                    props.profileClicked()
+            <div className='flex flex-wrap h-56 '>
+                <div className="flex h-16 w-full   pt-2 pl-1 justify-between items-center">
+                    <div className='flex' onClick={() => {
+                        props.profileClicked()
+                    }}>
+                        <div className="">
+                            <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
+                        </div>
+                        <div className='flex-col ml-2'>
+                            <p className={`font-bold  text-white  antialiased`} >{prompt.user.username}</p>
+                            <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago</p>
+                        </div>
+                    </div>
+                    <div className='flex  justify-center item-center'>
+
+                        
+                        <IconButton >
+                            <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
+                        </IconButton>
+                    </div>
+                </div> {/* Specify the height and color for the top div */}
+                <div className="flex-grow justify-start items-start h-36" onClick={() => {
+                    props.itemSelected(prompt)
                 }}>
-                    <div className="">
-                        <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
-                    </div>
-                    <div className='flex-col ml-2'>
-                        <p className={`font-bold  text-white  antialiased`} >{prompt.user.username}</p>
-                        <p className="text-sm text-gray-500" style={{ fontFamily: 'Rubik', fontWeight: '500', wordWrap: 'break-word' }}>{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago</p>
-                    </div>
+                    <h3 className="text-lg font-bold mt-2  text-appgreenlight">{prompt.title}</h3>
+                    <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-4 text-white">{prompt.description}</p>
                 </div>
-                <div className='flex  justify-center item-center'>
-
-                    {/* <Button className='h-8' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={() => {
-                        console.log("Save Btn")
-                        setSnackMessage("Buy not implemented yet")
-                        setSnackbarOpen(true)
-                    }}>Buy</Button> */}
-                    {/* <div className="flex  justify-center items-center bg-red"> */}
-                    <IconButton >
-                        <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
-                    </IconButton>
-
-                    {/* </div> */}
-                </div>
-            </div> {/* Specify the height and color for the top div */}
-            <div className="flex-grow " onClick={() => {
-                props.itemSelected(prompt)
-            }}>
-                <h3 className="text-lg font-bold mt-2  text-appgreenlight">{prompt.title}</h3>
-                <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5 text-white">{prompt.description}</p>
-            </div> {/* This div will take up all the remaining space */}
-            <div className="h-16 " onClick={() => {
+            </div>
+            <div className="h-16 mb-2 justify-center items-center" onClick={() => {
 
                 props.itemSelected(prompt)
             }}>
                 <div className=" h-16 flex mt-4  justify-between">
                     {/* Your icon components for Like, View, Comment go here */}
-                    <div className="cardbtn justify-center align-items-center">
+                    <div className="justify-center items-center">
                         <img src={LikePromptIcon} alt="Like Icon" />
                         <button className=' text-white'>{prompt.likes}</button>
                     </div>
-                    <div className="cardbtn">
+                    <div className="justify-center items-center">
                         <img src={ViewItemIcon} alt="View Icon" />
                         <button className=' text-white'>{prompt.views}</button>
                     </div>
-                    <div className="cardbtn">
+                    <div className="justify-center items-center">
                         <img src={MessageIcon} alt="Message Icon" />
                         <button className=' text-white'>{prompt.usage}</button>
                     </div>
                 </div>
             </div> {/* Specify the height and color for the bottom div */}
-            
+
         </div>
 
 
