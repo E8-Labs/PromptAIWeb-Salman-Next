@@ -3,7 +3,12 @@ import { TextField } from '@mui/material';
 import React from 'react';
 
 export const CustomTextField = style2(TextField)({
-    
+  '& MuiFilledInput-root':{
+    backgroundColor: 'red'
+  },
+  '& .MuiInputBase-root:has(> input:-webkit-autofill)': {
+    backgroundColor: 'blue'
+  },
     '& label.Mui-focused': {
       color: '#00C28C',
     },

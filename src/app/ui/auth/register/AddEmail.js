@@ -56,9 +56,10 @@ class AddEmail extends Component {
     //     reader.readAsDataURL(file)
     // }
     //
-    handleBackButton(event){
+    handleBackButton(event) {
         event.preventDefault()
         console.log("Handle back button")
+        this.props.backAction("profile_image")
     }
     handleKeyPress(e) {
         if (e.target.name == "username") {
@@ -120,15 +121,15 @@ class AddEmail extends Component {
 
             <Stack className='w-full h-full  gap-2' direction={'vertical'} style={{ width: '100%' }}>
                 <div className="flex-col flex-grow justify-center justify-center items-center mb-3">
-                <Stack className=" flex flex-grow h-12" direction={'row'}>
+                    <Stack className=" flex flex-grow h-12" direction={'row'}>
                         <IconButton onClick={this.handleBackButton.bind(this)}>
-                            <ArrowBackIcon sx={{color: 'white'}}/>
+                            <ArrowBackIcon sx={{ color: 'white' }} />
                         </IconButton>
                     </Stack>
-                    <div className="flex justify-content-center mt-sm-5">
-                        <div className="  user-profile-image-border d-flex  border-app-primary rounded-circle  align-items-center justify-content-center"
+                    <div className="flex justify-center rounded-full mt-sm-5">
+                        <div className="  user-profile-image-border d-flex border-2  border-appgreenlight rounded-full p-1 items-center justify-center"
                             style={{ width: "90px", height: "90px" }}>
-                            <img className="rounded-circle user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
+                            <img className="rounded-full user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
                         </div>
                     </div>
                     <div className='flex flex-col  flex-grow gap-2 w-full justify-center items-center mt-3 px-6'>
@@ -157,15 +158,17 @@ class AddEmail extends Component {
                                 <PageControl selectedColor={"#00C28C"} selectedIndex={1} pages={5} />
                             </Stack>
                             <div class="invisible ">020000000000</div>
-                            <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}
-                                sx={{
-                                    bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
-                                        backgroundColor: "#001812"
-                                    }
-                                }} onClick={this.nextBtnClicked.bind(this)}>Continue</Button>
+                            <div className="bg-appgreenlight rounded-full p-0">
+                                <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}
+                                    sx={{
+                                        bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
+                                            backgroundColor: "#001812"
+                                        }
+                                    }} onClick={this.nextBtnClicked.bind(this)}>Continue</Button>
+                            </div>
                         </div>
 
-                        
+
 
                         {/* </form> */}
                     </div>

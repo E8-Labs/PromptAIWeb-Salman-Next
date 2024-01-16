@@ -188,7 +188,7 @@ const PromptsListDashboard = (props) => {
 
   return (
 
-    <Stack className="flex-col overflow-y-none">
+    <div className=" flex-col h-full w-full overflow-y-none ">
       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
@@ -255,7 +255,7 @@ const PromptsListDashboard = (props) => {
           {/* Third View */}
           <Image src={PlusIcon} width={15} height={15}></Image>
           <div className=' cursor:pointer'>
-            <p className="text-lg  cursor:pointer d-none md:d-inline " >New Prompt</p>
+            <p className="text-lg text-white  cursor:pointer d-none md:d-inline " >New Prompt</p>
           </div>
         </div>
 
@@ -412,7 +412,7 @@ const PromptsListDashboard = (props) => {
         </Box>
 
       </Drawer>
-    </Stack>
+    </div>
   )
 }
 

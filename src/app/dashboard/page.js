@@ -272,7 +272,7 @@ export default function page() {
 
         {/* <div className="col-md-9 flex flex-col flex-grow pb-6 h-full overflow-y-none"> */}
 
-          <div className="overflow-y-none">
+          <div className="overflow-y-none  w-full">
             <PromptsListDashboard
               promptListMenuSelected={promptListMenuSelected}
               setSelectedMenu={setPromptListMenuSelected}

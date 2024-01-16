@@ -64,8 +64,8 @@ const router = useRouter()
               router.push("/");
             }}
           >
-            <PowerIcon className="w-6" />
-            <div className="hidden md:block">Sign Out</div>
+            <PowerIcon className="w-6" color="white"/>
+            <div className="hidden md:block text-white">Sign Out</div>
           </button>
         </form>
       </div>

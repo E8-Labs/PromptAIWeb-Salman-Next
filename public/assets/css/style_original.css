@@ -2582,7 +2582,7 @@ img.ai-10 {
     color: #00C28C;
     border: none;
     padding: 5px 10px;
-    text-transform: uppercase;
+    /* text-transform: uppercase; */
 }
 .history-table th {
     font-style: normal;

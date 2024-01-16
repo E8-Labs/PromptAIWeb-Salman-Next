@@ -128,12 +128,22 @@ export default function Page() {
   }
   function getImage(imageUrl, file) {
     console.log("Image picked " + imageUrl)
-    setPage("email")
-    setFile(file)
-    setImagePreviewUrl(imageUrl)
+    if(imageUrl === null){
+      toast(`Add Profile Picture`);
+    }
+    else{
+      setPage("email")
+      setFile(file)
+      setImagePreviewUrl(imageUrl)
+    }
+    
   }
   function getUsername(username) {
     console.log("Username added " + username)
+    if(username === null || username === ""){
+      toast(`Add username`);
+      return
+    }
     setPage("social_links")
     setUsername(username)
 
@@ -141,14 +151,25 @@ export default function Page() {
 
   function getEmail(email) {
     console.log("email added " + email)
+    if(email === null || email === ""){
+      toast(`Add email`);
+      return
+    }
     setPage("username")
     setEmail(email)
 
   }
 
+  function backAction(screen){
+    setPage(screen)
+  }
+
   function getPassword(password) {
     console.log("Password added " + password)
-    setPage("signup")
+    if(password === null || password === ""){
+      toast(`Add username`);
+      return
+    }
     setPassword(password)
 
     var formdata = new FormData();
@@ -165,10 +186,15 @@ export default function Page() {
       body: formdata,
       redirect: 'follow'
     }
+    setLoading(true)
+    // return
+    // setPage("signup")
     fetch(ApiPath.RegisterRoute, apiOption2)
       .then(function (res) {
+        setLoading(false)
         return res.json();
       }).then(resJson => {
+        setLoading(false)
         // this.props.clickEvent("stap6");
         if (resJson.status == true) {
           console.log("User created", resJson.data)
@@ -179,6 +205,7 @@ export default function Page() {
           console.log(Profile.image_url)
           router.push("/dashboard")
         } else {
+          setLoading(false)
           toast(`Error: ${resJson.message}`);
           // this.setState({ valid_email_address: "Email address is already registered" });
           // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
@@ -196,6 +223,14 @@ export default function Page() {
 
   //login here
   function getEmailPassword(email, password) {
+    if(email === null || email === ""){
+      toast(`Add email`);
+      return
+    }
+    if(password === null || password === ""){
+      toast(`Add password`);
+      return
+    }
     const apiParams = {
       method: "post",
       headers: {
@@ -287,42 +322,43 @@ setLoading(true)
 
             {
               page === "login" && (
-                <LoginAI loading={loading} getEmailPassword={getEmailPassword} />
+                <LoginAI backAction={backAction} loading={loading} getEmailPassword={getEmailPassword} />
                 // <div> Hello there login </div>
               )
             }
             
             {
               page === "email" && (
-                <AddEmail getEmail={getEmail} imagePreviewUrl={imagePreviewUrl} />
+                <AddEmail backAction={backAction} getEmail={getEmail} imagePreviewUrl={imagePreviewUrl} />
                 // <div> Hello there email </div>
               )
             }
             {
               page === "profile_image" && (
-                <AddProfilePicture className="h-full" getImage={getImage} />
+                <AddProfilePicture backAction={backAction} className="h-full" getImage={getImage} />
               )
             }
             
             {
               page === "username" && (
-                <AddUsername imagePreviewUrl={imagePreviewUrl} getUsername={getUsername} />
+                <AddUsername backAction={backAction} imagePreviewUrl={imagePreviewUrl} getUsername={getUsername} />
               )
             }
             {
               page === "social_links" && (
-                <AddSocialLinks imagePreviewUrl={imagePreviewUrl} username={username} getSocialLinks={getSocialLinks} />
+                <AddSocialLinks backAction={backAction} imagePreviewUrl={imagePreviewUrl} username={username} getSocialLinks={getSocialLinks} />
               )
             }
             {
               page === "password" && (
-                <AddPassword imagePreviewUrl={imagePreviewUrl} username={username} getPassword={getPassword} />
+                <AddPassword backAction={backAction} loading={loading} imagePreviewUrl={imagePreviewUrl} username={username} getPassword={getPassword} />
               )
             } {/* */}
 
           </div>
         </div>
       </div>
+      <ToastContainer />
     </main>
   );
 }

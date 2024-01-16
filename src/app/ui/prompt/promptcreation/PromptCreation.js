@@ -9,6 +9,8 @@ import SetPromptQuestions from './SetPromptQuestions';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, IconButton } from '@mui/material';
 
+import Icons from '../../../lib/Icons'
+
 const forms = [ PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, SetPromptQuestions, PromptOverViewForm];
 
 const MultiFormPopup = ({ onClose }) => {
@@ -62,12 +64,12 @@ const MultiFormPopup = ({ onClose }) => {
       <div className="flex  flex-col w-full h-full items-center bg-appgreen p-2  py-4 rounded-lg">
         <div className='flex justify-between items-center' style={{width: '100%'}}>
             <IconButton onClick={handlePrevious}>
-              <ArrowBackIcon sx={{color: 'white'}}/>
+              <Icons.ArrowBackIcon sx={{color: 'white'}}/>
             </IconButton>
             <h1 className='text-white text-lg' style={{fontWeight: 'bold', }}>Create New Prompt</h1>
-            <button className="close-button" onClick={onClose}>
-              Close
-            </button>
+            <IconButton className="close-button" onClick={onClose}>
+              <Icons.CloseIcon color='white' sx={{color: 'white'}}/>
+            </IconButton>
         </div>
 
         {/* ... (progress bar and other UI elements) */}

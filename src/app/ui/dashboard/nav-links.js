@@ -56,7 +56,7 @@ export default function NavLinks() {
               
             }}
             className={clsx(
-              'flex h-[48px] text-white  grow items-center justify-center gap-2 rounded-md  p-5 text-sm font-medium hover:bg-appgreenlight700 hover:text-white md:flex-none md:justify-start md:p-2 md:px-3 bg-appgreen',
+              'flex h-[48px] text-white  grow items-center justify-center gap-2 rounded-md  p-5 text-sm font-medium hover:bg-appgreenlight300 hover:text-white md:flex-none md:justify-start md:p-2 md:px-3 bg-appgreen ',
               {
                 'bg-red text-white': pathName === link.href,
               },

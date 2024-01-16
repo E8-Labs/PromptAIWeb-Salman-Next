@@ -30,6 +30,7 @@ const config: Config = {
         appgreen: "#001812",
         appgreenlight: "#00C28C",
         appgreenlight700: "#00C28C70",
+        appgreenlight300: "#00C28C30",
         // appgreenlight: {
         //   1000: "#00C28C",
         //   200: "#00C28C20"

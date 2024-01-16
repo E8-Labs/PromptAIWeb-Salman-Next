@@ -41,6 +41,7 @@ function LoginAI(props) {
     function handleBackButton(event) {
         event.preventDefault()
         console.log("Handle back button")
+        props.backAction("intro")
     }
     function nextBtnClicked() {
         // setLoading(true)

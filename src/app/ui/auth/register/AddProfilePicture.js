@@ -22,7 +22,7 @@ class AddProfilePicture extends Component {
         this.state = {
             // Save Upload image
             file: '',
-            imagePreviewUrl: '/assets/profileplaceholder.svg',
+            imagePreviewUrl: upload_image,//'/assets/profileplaceholder.svg',
             company_name: this.props.Team_Name,
             // Fome data erroe
             logo: "",
@@ -52,6 +52,9 @@ class AddProfilePicture extends Component {
     //     reader.readAsDataURL(file)
     // }
     //
+    backAction(){
+        this.props.backAction("intro")
+    }
     handleKeyPress(e) {
         if (e.target.name == "User_Name") {
             this.setState({
@@ -110,7 +113,12 @@ class AddProfilePicture extends Component {
     }
 
     nextBtnClicked() {
-        this.props.getImage(this.state.imagePreviewUrl, this.state.file)
+        if(this.state.imagePreviewUrl === upload_image){
+            this.props.getImage(null, this.state.file)
+        }
+        else{
+            this.props.getImage(this.state.imagePreviewUrl, this.state.file)
+        }
     }
 
     render() {
@@ -129,7 +137,9 @@ class AddProfilePicture extends Component {
                 {/* <div className="col-md-12  "> */}
                 <div className="flex-row  ms-auto">
                     <div className="flex-col justify-content-end">
-                        <img src={crossIcon} alt=""></img>
+                        <IconButton onClick={this.backAction.bind(this)}>
+                            <ArrowBackIcon sx={{ color: 'white' }} />
+                        </IconButton>
                     </div>
                 </div>
 
@@ -138,7 +148,7 @@ class AddProfilePicture extends Component {
                         <div className="flex-col gap-2 flex align-center justify-center">
                             <h6 className="text-white w-full">Get recognized, add a picture</h6>
                             <div className="flex-col mt-3 fileUpload" style={{ position: "relative", maxWidth: "300px", margin: "auto" }}>
-                                <div className="upload_image bg-gray-500" style={{ margin: '0 auto', borderRadius: 'full', width: '82px', height: '80px', backgroundSize: 'cover', backgroundImage: `url(${$imagePreview})` }}></div>
+                                <div className="upload_image bg-gray-500" style={{ margin: '0 auto', borderRadius: '50%', width: '100px', height: '100px', backgroundSize: 'cover', backgroundImage: `url(${$imagePreview})` }}></div>
                             </div>
                             <div className="flex flex-col justify-center items-center  pt-2">
                                 {/* <Button>Upload Picture</Button> */}
@@ -150,18 +160,22 @@ class AddProfilePicture extends Component {
                 </div>
 
                 <div className="flex flex-grow w-full mt-4 pt-4 px-6  justify-between  items-center">
-                            <Stack direction={'row'} className='' >
-                                <PageControl selectedColor={"#00C28C"} selectedIndex={1} pages={5} />
-                            </Stack>
-                            <div class="invisible ">020000000000</div>
-                            <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}
-                                sx={{
-                                    bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
-                                        backgroundColor: "#001812"
-                                    }
-                                }} onClick={this.nextBtnClicked.bind(this)}>Continue</Button>
-                        </div>
-                
+                    <Stack direction={'row'} className='' >
+                        <PageControl selectedColor={"#00C28C"} selectedIndex={1} pages={5} />
+                    </Stack>
+                    <div class="invisible ">020000000000</div>
+                    <div className="bg-appgreenlight rounded-full p-0">
+                        <Button variant="contained"  endIcon={<ArrowForwardIcon />}
+                            sx={{
+                                bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
+                                    backgroundColor: "#001812"
+                                }
+                            }} onClick={this.nextBtnClicked.bind(this)}>Continue
+                        </Button>
+                    </div>
+
+                </div>
+
 
 
                 {/* </div> */}
