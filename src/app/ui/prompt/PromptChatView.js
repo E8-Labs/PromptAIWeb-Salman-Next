@@ -170,7 +170,7 @@ const PromptChatView = (props) => {
 
 
   // use prompt 
-  const usePrompt = (prompt) => {
+  const makeUsePrompt = (prompt) => {
     setModalVisible(false)
     let p = prompt
     //console.log("Use Prompt Now. Create Questionaire ", p)
@@ -371,7 +371,7 @@ const PromptChatView = (props) => {
 
 
   return (
-    <Container className='flex flex-col h-full pb-3  mx-auto justify-center overflow-y-none bg-appgreen' style={{ height: '100%' }}>
+    <Container className='flex flex-col h-full pb-3  mx-auto justify-center overflow-y-none bg-black' style={{ height: '100%' }}>
       {
         chat && (
           <Modal
@@ -385,7 +385,7 @@ const PromptChatView = (props) => {
               setModalVisible(false)
 
             }} prompt={subprompt} onPublish={(prompt) => {
-              usePrompt(prompt)
+              makeUsePrompt(prompt)
             }} />
           </Modal>
         )

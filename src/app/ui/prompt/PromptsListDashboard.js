@@ -294,6 +294,7 @@ const PromptsListDashboard = (props) => {
               (value, getTagProps) =>
                 value.map((option, index) => (
                   <Chip
+                  key={option.id}
                     className={'bg-appgreenlight text-lg'}
                     variant="filled"
                     sx={{ backgroundColor: '#00C28C', color: 'white' }}
@@ -329,6 +330,7 @@ const PromptsListDashboard = (props) => {
               (value, getTagProps) =>
                 value.map((option, index) => (
                   <Chip
+                  key={option.id}
                     className={'bg-appgreenlight text-lg'}
                     variant="filled"
                     sx={{ backgroundColor: '#00C28C', color: 'white' }}

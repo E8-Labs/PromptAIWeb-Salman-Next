@@ -4,7 +4,7 @@ import Image from 'next/image'
 // import NavLinks from '@/app/ui/dashboard/nav-links';
 // import AcmeLogo from '@/app/ui/acme-logo';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Icon, IconButton } from '@mui/material';
 import Icons from '@/app/lib/Icons';
@@ -23,7 +23,7 @@ export default function TopNav() {
     }
     
 
-    const loadCurrentUser = useCallback(async () => {
+    const loadCurrentUser = async () => {
         if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
             navigate("/onboarding");
         } else {
@@ -38,7 +38,7 @@ export default function TopNav() {
             );
             //   loadUsers(currentUser.token);
         }
-    });
+    };
 
     useEffect(() => {
         loadCurrentUser()

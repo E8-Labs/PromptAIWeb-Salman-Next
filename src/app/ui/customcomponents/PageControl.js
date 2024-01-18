@@ -1,9 +1,12 @@
 import { Stack, Button, Box } from "@mui/material"
 
 export const PageControl = (props)=>{
-  let selectedColor = props.selectedColor || "#001812"
+  let selectedColor = props.selectedColor || "#00C28C"
   let unSelectedColor = props.unSelectedColor || "white"
     let selectedIndex = props.selectedIndex
+
+    let selectedCircleSize = 14
+    let unSelectedCircleSize = 8
     let pages = props.pages
   
     let height
@@ -14,11 +17,11 @@ export const PageControl = (props)=>{
           {(Array.from(new Array(pages))).map((item, index) => (
             
               index === selectedIndex ? (
-                <Box className='bg-appgreenlight' key={index} sx={{ width: 18, height: 18, bgcolor: selectedColor, borderRadius: 9}}>
+                <Box className='bg-appgreenlight' key={index} sx={{ width: selectedCircleSize, height: selectedCircleSize, bgcolor: selectedColor, borderRadius: selectedCircleSize / 9}}>
                 </Box>
               ): 
               (
-                <Box key={index} sx={{ width: 10, height: 10, bgcolor: unSelectedColor, borderRadius: 5}}>
+                <Box key={index} sx={{ width: unSelectedCircleSize, height: unSelectedCircleSize, bgcolor: unSelectedColor, borderRadius: unSelectedCircleSize / 2}}>
               </Box>
               )
             

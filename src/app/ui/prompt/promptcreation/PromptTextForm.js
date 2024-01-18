@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button, Stack } from "@mui/material";
 import { CustomTextField } from "../../customcomponents/CustomTextField";
 import { PageControl } from "../../customcomponents/PageControl";
+import Icons from "@/app/lib/Icons";
 
 
 const infoIcon = "/info icon green.png";
@@ -78,7 +79,7 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
               minRows={15}
               id="outlined-required"
               label="Description"
-              defaultValue=""
+              defaultValue={formData.promptText}
               placeholder= {promptTextPlaceholder}
               sx={{ "label": { color: "gray" }, width: '100%' }}
               onChange={e => {
@@ -96,13 +97,21 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
                 <div className="h-1 bg-white w-50"></div>
               </div>
             </div>
-            <div className="grid grid-cols-3  justify-center items-center">
-              <Stack direction={'row'} className='' >
-                <PageControl selectedIndex={currentIndex} pages={6} />
-              </Stack>
-              <div class="invisible ...">02</div>
-              <Button className='h-12' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={handleNext}>Continue</Button>
-            </div>
+            <div className="flex w-full  justify-between items-center">
+                <Stack direction={'row'} className='' >
+                  <PageControl selectedIndex={1} pages={6} />
+                </Stack>
+                {/* <div class="invisible ...">02</div> */}
+                <div className="bg-appgreenlight rounded-full p-0">
+                  <Button variant="contained" className="" endIcon={<Icons.ArrowForwardIcon />}
+                    sx={{
+                      bgcolor: '#00C28C', padding: 1.2, paddingX: 2, borderRadius: 10, ":hover": {
+                        backgroundColor: "#001812"
+                      }
+                    }} onClick={handleNext}>Continue</Button>
+                </div>
+
+              </div>
 
           {/* </form> */}
         </div>

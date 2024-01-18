@@ -1,7 +1,7 @@
 import React from 'react'
 // import YouTubeLikeLoading from '@/app/ui/prompt/LoadingView'
 
-function page() {
+function Page() {
   return (
     <div>
       {/* <YouTubeLikeLoading  loading={true}/> */}
@@ -9,4 +9,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

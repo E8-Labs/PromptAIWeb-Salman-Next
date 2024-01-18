@@ -1,16 +1,16 @@
 'use client'
-import React, {useEffect, useState, useCallback} from 'react'
+import React, {useEffect, useState} from 'react'
 import { useRouter } from 'next/navigation'
 import ProfileBaseView from '../../ui/profile/Profile';
 
-function page() {
+function Page() {
 
 const [user, setUser] = useState(null)
     // const router = useRouter()
     // const data = router.query;
     // console.log("data on profile ", data)
 
-    const loadCurrentUser = useCallback(async () => {
+    const loadCurrentUser = async () => {
         if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
         //   navigate("/onboarding");
         } else {
@@ -25,7 +25,7 @@ const [user, setUser] = useState(null)
           );
           //   loadUsers(currentUser.token);
         }
-      });
+      };
 
       useEffect(()=>{
         loadCurrentUser()
@@ -50,4 +50,4 @@ const [user, setUser] = useState(null)
   )
 }
 
-export default page
+export default Page

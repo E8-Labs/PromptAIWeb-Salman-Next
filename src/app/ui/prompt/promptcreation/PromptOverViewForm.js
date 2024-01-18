@@ -1,7 +1,7 @@
 // pages/promptOverview.js
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import Head from 'next/head';
+// import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Modal from 'react-modal';
@@ -9,6 +9,8 @@ import StackMultiFormPopup from './stackprompt/StackPromptCreation';
 import { Button, IconButton, Menu, MenuItem } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import PendingSharpIcon from '@mui/icons-material/PendingSharp';
+import EditPromptPopup from '../promptEditing/editprompt';
+import MultiFormPopup from './PromptCreation';
 import SaveIcon from '@mui/icons-material/Save';
 
 
@@ -33,7 +35,11 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isPopupOpen, setPopupOpen] = useState(false);
-
+  const [isEditPopupOpen, setEditPopupOpen] = useState(false);
+  const [promptSelecteToEdit, setPromptSelectedToEdit] = useState(null)
+  const [screenToEdit, setScreenToEdit] = useState(-1) // 0 = title, 1 = prompt, 3 = categories
+  const [promptSelectedToEditIndex, setPromptSelectedToEditIndex] = useState(-1) // 0 = title, 1 = prompt, 3 = categories
+  setPromptSelectedToEditIndex
   useEffect(() => {
     // Fetch user data or perform other initial actions
     loadCurrentUser()
@@ -87,18 +93,64 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
     setPopupOpen(false);
   }
 
+
+
+
+  //---------Editing Prompt Related-------------
+  function openEditModal() {
+    setEditPopupOpen(true);
+  }
+
+  function afterEditOpenModal() {
+    // references are now sync'd and can be accessed.
+    // subtitle.style.color = '#f00';
+  }
+
+  function closeEditModal() {
+    setEditPopupOpen(false);
+  }
+
+  function handleEditPrompt(screen, prompt, promptIndex){
+    console.log("Handle edit now")
+    setEditPopupOpen(true)
+    setScreenToEdit(screen)
+    setPromptSelectedToEdit(prompt)
+    setPromptSelectedToEditIndex(promptIndex)
+    handleCloseMenu()
+  }
+
+  function editPrompt(promptEdited, index, promptIndex) {
+    console.log("Index is ", promptSelectedToEditIndex)
+    console.log("New PRompt is ", promptEdited)
+    let prs = subprompts;
+    for (let i = 0; i < prs.length; i++) {
+      if (i == promptSelectedToEditIndex) {
+        prs[i] = promptEdited
+      }
+    }
+    
+    setSubPrompts(prs)
+    setEditPopupOpen(false)
+    setPromptSelectedToEdit(null)
+    setPromptSelectedToEditIndex(-1)
+    setScreenToEdit(-1)
+  }
+
   const handleNextBtnTap = async () => {
-    let cats = [{ id: 1, "name": "Content Writing" }]
-    prompt.categories = cats;
+    // let cats = [{ id: 1, "name": "Content Writing" }]
+    // prompt.categories = cats;
+    let firstPrompt = subprompts[0]
+    //we know that subprompts include the main prompt as the first item in the list
+    // so we use that to form our data to send to server.
     let data = {
-      title: prompt.title,
-      description: prompt.description,
-      prompt: prompt.promptText,
+      title: firstPrompt.title,
+      description: firstPrompt.description,
+      prompt: firstPrompt.promptText,
       model: "gpt-3",
-      is_public: prompt.privacy === "public",
-      questions: prompt.promptQuestions,
-      categories: cats,
-      subcategories: cats
+      is_public: firstPrompt.privacy === "public",
+      questions: firstPrompt.promptQuestions,
+      categories: firstPrompt.categories,
+      subcategories: firstPrompt.subcategories
     }
 
 
@@ -116,8 +168,9 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
     }
     data.subprompts = subs
     console.log("Prompt data")
-    console.log(data);
+    console.log(JSON.stringify(data));
     // setIsLoading(true)
+    // return
     if (user) {
       try {
 
@@ -182,20 +235,34 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
 
   return (
     <div className='flex-col flex w-full p-2 b h-full overflow-hidden'>
+      {/* Edit Prompt Popup */}
+      <Modal
+        isOpen={isEditPopupOpen}
+        onAfterOpen={afterEditOpenModal}
+        onRequestClose={closeEditModal}
+        style={customStyles}
+        contentLabel="Edit Prompt"
+      >
+        <EditPromptPopup onClose={() => {
+          setEditPopupOpen(false)
+        }} editPrompt={editPrompt} promptIndex={promptSelectedToEditIndex} screenIndex={screenToEdit} prompt={promptSelecteToEdit} />
+      </Modal>
+      
       <Modal
         isOpen={isPopupOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal"
+        contentLabel="Add Stacked Prompt"
       >
-        <StackMultiFormPopup onClose={() => {
-          setPopupOpen(false)
-        }} addSubPrompt={addSubPrompt} />
+        <MultiFormPopup onClose={() => {
+          loadPrompts();
+          setPopupOpen(false);
+        }} />
       </Modal>
       <div className='flex gap-2 mt-10 items-center'>
-        <h1 className='' style={{ fontSize: 18, fontWeight: 'BOLD' }}>Stack a prompt</h1>
-        <label className='' style={{ fontSize: 12, }}>{"(optional)"}</label>
+        <h1 className='text-white' style={{ fontSize: 18, fontWeight: 'BOLD' }}>Stack a prompt</h1>
+        <label className='text-white' style={{ fontSize: 12, }}>{"(optional)"}</label>
       </div>
       <div className="flex gap-1 my-1 items-center" style={{ width: '100%', marginLeft: -3 }}>
 
@@ -203,7 +270,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         >
         </Image>
         <div className="flex-col justify-center items-center">
-          <p className="cursor-pointer underline bg-gray" onClick={handleLearnPromptClick}
+          <p className="cursor-pointer underline bg-gray text-white" onClick={handleLearnPromptClick}
             style={{ fontSize: 12 }}>
             Learn more about prompts
           </p>
@@ -220,7 +287,9 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
                   // Start stack prompt flow
                   console.log("Add Sub prompt here");
                   handleAddNewPromptBtnTap();
-                }} />
+                }} editPromptAction={(screen, prompt) => {
+                  handleEditPrompt(screen, prompt, index)
+                }}/>
             ))
           }
         </div>
@@ -236,25 +305,25 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
           
         </div>
       </div> */}
-      <LoadingButton onClick={()=>{
+      <LoadingButton onClick={() => {
         handleNextBtnTap()
       }}
-          // className={'rounded-full'}
-            loading={isLoading}
-            // loadingPosition="start"
-            loadingIndicator="Creating...."
-            startIcon={<SaveIcon />}
-            variant="contained" style={{ backgroundColor: '#00C28C' }}
-          >
-            Create Prompt
-          </LoadingButton>
+        // className={'rounded-full'}
+        loading={isLoading}
+        // loadingPosition="start"
+        loadingIndicator="Creating...."
+        startIcon={<SaveIcon />}
+        variant="contained" style={{ backgroundColor: '#00C28C' }}
+      >
+        Create Prompt
+      </LoadingButton>
     </div>
   );
 };
 
 
 
-const PromptOverViewTile = ({ prompt, showButton, addPromptAction }) => {
+const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAction }) => {
 
 
   const [user, setUser] = useState(null)
@@ -321,7 +390,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction }) => {
               </Image>
             </div>
             <div className="flex-col justify-center items-center">
-              <p className="cursor-pointer underline bg-gray" onClick={handleLearnPromptClick}
+              <p className="cursor-pointer underline bg-gray text-white" onClick={handleLearnPromptClick}
                 style={{ fontSize: 12 }}>
                 @{user ? user.user.username : ''}
               </p>
@@ -340,13 +409,22 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction }) => {
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={handleCloseMenu}>Edit</MenuItem>
+            <MenuItem onClick={()=>{
+              console.log("Edit title")
+              editPromptAction(0, prompt)
+            }}>Edit Title & Description</MenuItem>
+            <MenuItem onClick={()=>{
+              editPromptAction(1, prompt)
+            }}>Edit Prompt</MenuItem>
+            <MenuItem onClick={()=>{
+              editPromptAction(3, prompt)
+            }}>Edit Categories</MenuItem>
 
           </Menu>
         </div>
 
         <div className='px-2 cursor-pointer '>
-          <h1 className='' style={{ fontSize: 16, fontWeight: 'BOLD' }}>{prompt.title}</h1>
+          <h1 className='text-white' style={{ fontSize: 16, fontWeight: 'BOLD' }}>{prompt.title}</h1>
           <p className="cursor-pointer bg-gray" onClick={handleLearnPromptClick}
             style={{ fontSize: 12 }}>
             {prompt.description}

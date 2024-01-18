@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
 import PromptChatView from '../../ui/prompt/PromptChatView'
-import { useSearchParams } from 'next/navigation'
+// import { useSearchParams } from 'next/navigation'
 
-export default function page() {
-    let searchParams = useSearchParams()
+export default function Page() {
+    // let searchParams = useSearchParams()
     let d = localStorage.getItem("CURRENTCHAT")
     console.log("Data is chat view is ")
    

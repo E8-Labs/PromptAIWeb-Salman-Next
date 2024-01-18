@@ -2,7 +2,7 @@
 import Promptsearch from '../../ui/prompt/promptsearch'
 import React from 'react'
 
-function page() {
+function Page() {
   return (
     <div className='overflow-y-auto h-full bg-black'>
       <Promptsearch />
@@ -11,4 +11,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { TextField, Radio, Stack, Button } from '@mui/material';
 import { CustomTextField } from '../../customcomponents/CustomTextField';
 import { PageControl } from '../../customcomponents/PageControl';
+import Icons from '@/app/lib/Icons';
 // import PageControl from 'react-native-page-control';
 // import { Radio } from '@mui/material';
 
@@ -17,7 +18,12 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
   const [privacy, setPrivacy] = useState('Public')
 
   const handleNext = () => {
+    // if(edit){
+
+    // }
+    // else{
     onNext();
+    // }
   };
   const handleClose = () => {
     onClose();
@@ -28,7 +34,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
     <Container1 className='container2 ' style={{ width: '100%' }}>
 
       {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-      <div className='flex flex-col    overflow-hidden w-full md:w-11/12 mt-8'>
+      <div className='flex flex-col    overflow-hidden w-full md:w-full mt-8'>
         <div className="flex h-50   justify-center gap-8  items-center justify-center">
 
           <div className={` flex justify-center items-center text-white p-1 px-4 border-2 border-white rounded-md ${privacy === 'Public' ? 'bg-white-200 border-emerald-400' : 'bg-transparent'} `} >
@@ -38,10 +44,12 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
               value="a"
               name="radio-buttons"
               inputProps={{ 'aria-label': 'A' }}
-              sx={{ color: 'white', '&, &.Mui-checked': {
-                color: '#00C28C',
-              }, }}
-              onChange={()=> {
+              sx={{
+                color: 'white', '&, &.Mui-checked': {
+                  color: '#00C28C',
+                },
+              }}
+              onChange={() => {
                 console.log("Radio Public clicked")
                 setPrivacy("Public")
               }}
@@ -61,10 +69,12 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
               value="a"
               name="radio-buttons"
               inputProps={{ 'aria-label': 'A' }}
-              sx={{ color: 'white', '&, &.Mui-checked': {
-                color: '#00C28C',
-              }, }}
-              onChange={()=> {
+              sx={{
+                color: 'white', '&, &.Mui-checked': {
+                  color: '#00C28C',
+                },
+              }}
+              onChange={() => {
                 console.log("Radio Public clicked")
                 setPrivacy("Private")
               }}
@@ -79,7 +89,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
         </div>
 
 
-        <div className="flex-col justify-center ">
+        <div className="flex-col justify-center w-full ">
           <FormContainer className=''>
             <form className='gap-sm-4 form '>
 
@@ -88,20 +98,20 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                 required
                 id="outlined-required"
                 label="Title"
-                defaultValue=""
+                defaultValue={formData.title}
                 placeholder='Title'
                 sx={{ "label": { color: "gray" } }}
                 onChange={e => updateFormData({ title: e.target.value })}
               />
 
               <CustomTextField
-              style={{height: 120}}
+                style={{ height: 120 }}
                 required
                 multiline
                 maxRows={5}
                 id="outlined-required"
                 label="Description"
-                defaultValue=""
+                defaultValue={formData.description}
                 placeholder='What’s the objective of the ai model you’re creating:'
                 sx={{ "label": { color: "gray" } }}
                 onChange={e => updateFormData({ description: e.target.value })}
@@ -110,12 +120,20 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
               {/* <Stack direction={'row'} >
                 
               </Stack> */}
-              <div className="grid grid-cols-3  justify-center items-center">
+              <div className="flex w-full  justify-between items-center">
                 <Stack direction={'row'} className='' >
-                  <PageControl selectedIndex={0} pages={6}/>
+                  <PageControl selectedIndex={0} pages={6} />
                 </Stack>
-                <div class="invisible ...">02</div>
-                <Button  className='h-12' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={handleNext}>Continue</Button>
+                {/* <div class="invisible ...">02</div> */}
+                <div className="bg-appgreenlight rounded-full p-0">
+                  <Button variant="contained" className="" endIcon={<Icons.ArrowForwardIcon />}
+                    sx={{
+                      bgcolor: '#00C28C', padding: 1.2, paddingX: 2, borderRadius: 10, ":hover": {
+                        backgroundColor: "#001812"
+                      }
+                    }} onClick={handleNext}>Continue</Button>
+                </div>
+
               </div>
 
             </form>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Component } from "react";
+import React, { useState, useEffect, Component } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CustomTextField } from "../../customcomponents/CustomTextField";
@@ -89,7 +89,7 @@ class AddEmail extends Component {
             return
         }
 
-        this.state.username = this.username.current.value;
+        // this.state.username = this.username.current.value;
         this.setState({ username: this.state.username });
         this.props.savedata(this.state.file, this.state.imagePreviewUrl, this.state.username);
 

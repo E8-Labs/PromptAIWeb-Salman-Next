@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components'
 import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
 import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
@@ -38,7 +38,7 @@ import Promptsearch from '../ui/prompt/promptsearch';
 
 
 
-export default function page() {
+export default function Page() {
 
   const router = useRouter();
   const userImage = "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRk9ereOPzUWlYLy1dLFUbRLodoiDsPuIuAUmo749NjSSsyZSyf"
@@ -108,7 +108,7 @@ export default function page() {
     router.push("/dashboard/chat?chatid=" + chat.id)
   }
 
-  const loadCurrentUser = useCallback(async () => {
+  const loadCurrentUser = async () => {
     if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
       navigate("/onboarding");
     } else {
@@ -123,7 +123,7 @@ export default function page() {
       );
       //   loadUsers(currentUser.token);
     }
-  });
+  };
 
   //return particular list for menu
   //if selected = All, return prompts, if created return createdPrompts, if Saved return savedPrompts
@@ -289,24 +289,25 @@ export default function page() {
                 setSubCategoriesSelected(categories);
               }}
             />
-            <Modal
+            
+          </div>
+
+        {/* </div> */}
+
+      {/* </div> */}
+      <Modal
               isOpen={isPopupOpen}
               onAfterOpen={afterOpenModal}
               onRequestClose={closeModal}
               style={customStyles}
-              contentLabel="Example Modal"
+              contentLabel="Add Prompt"
+              appElement={document.getElementById('body')}
             >
               <MultiFormPopup onClose={() => {
                 loadPrompts();
                 setPopupOpen(false);
               }} />
             </Modal>
-          </div>
-
-        {/* </div> */}
-
-      {/* </div> */}
-
     </div>
 
   )
@@ -314,11 +315,12 @@ export default function page() {
 
 const customStyles = {
   overlay: {
-    background: "#00000090"
+    background: "#00000090",
+    
   },
   content: {
     background: "#00000090",
-    border: "none"
+    border: "none",
   },
 };
 

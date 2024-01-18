@@ -1,5 +1,5 @@
 /* @client */
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 // import { Link, Route, Routes } from 'react-router-dom';
 // import { styled } from "styled-components";
 // import background from '../../assets/bg-image.png'
@@ -79,7 +79,7 @@ function ChatGptLogin(props) {
 </button> */}
                 <div className="row my-5 " >
                     <div className="flex items-center justify-center p-md-2 p-0 gap-1">
-                        <span className="mb-20 text-white">Don't have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
+                        <span className="mb-20 text-white">Dont have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
                     </div>
                 </div>
 

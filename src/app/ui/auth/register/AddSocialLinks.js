@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Component } from "react";
+import React, { useState, useEffect, Component } from "react";
 import { CustomTextField } from "../../customcomponents/CustomTextField";
 import { Button, Stack, IconButton } from "@mui/material";
 import { PageControl } from "../../customcomponents/PageControl";
@@ -79,8 +79,8 @@ class AddSocialLinks extends Component {
             return
         }
 
-        this.state.username = this.username.current.value;
-        this.setState({ username: this.state.username });
+        // this.state.username = this.username.current.value;
+        // this.setState({ username: this.state.username });
         this.props.savedata(this.state.file, this.state.imagePreviewUrl, this.state.username);
 
         this.props.clickEvent("Team_member_stap3");

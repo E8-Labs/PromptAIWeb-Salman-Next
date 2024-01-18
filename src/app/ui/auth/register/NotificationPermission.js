@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
 
 const background = '/banner-bg.png'
 const crossIcon = '/assets/cross.svg'
 const upload_image = '/assets/upload_image.svg';
-import { alignProperty } from "@mui/material/styles/cssUtils";
+// import { alignProperty } from "@mui/material/styles/cssUtils";
 
 function NotificationPermission(){
 

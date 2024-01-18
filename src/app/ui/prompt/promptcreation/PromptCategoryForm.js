@@ -4,6 +4,7 @@ import { styled } from 'styled-components';
 import { Button, Stack, Autocomplete, TextField, Chip } from "@mui/material";
 import { CustomTextField } from "../../customcomponents/CustomTextField";
 import { PageControl } from "../../customcomponents/PageControl";
+import Icons from '@/app/lib/Icons';
 
 
 import categories from '../../../lib/categories';
@@ -71,7 +72,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         id="multiple-limit-tags"
         options={categories}
         getOptionLabel={(option) => option.name}
-        // defaultValue={[categories[0]]}
+        defaultValue={formData.categories}
         sx={{ "label": { color: "white" }, width: '80%', color: 'white', 'input': { color: 'white' } }}
         renderInput={(params) => (
           <CustomTextField {...params} label="Categories" placeholder="Categories"
@@ -83,10 +84,10 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
           console.log(newValue)
           let array = []
           newValue.forEach((item) => {
-            item.subcategories.forEach((topic)=> {
+            item.subcategories.forEach((topic) => {
               array = [...array, topic]
             })
-            
+
           })
           console.log("Topics", array)
           setTopicsForCategories(array)
@@ -96,13 +97,14 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         renderTags={
           (value, getTagProps) =>
             value.map((option, index) => (
-                <Chip
-                    className={ 'bg-appgreenlight text-lg' }
-                    variant="filled"
-                    sx={{backgroundColor: '#00C28C', color: 'white'}}
-                    label={`${option.name}`}
-                    {...getTagProps({ index })}
-                />
+              <Chip
+              key={option.id}
+                className={'bg-appgreenlight text-lg'}
+                variant="filled"
+                sx={{ backgroundColor: '#00C28C', color: 'white' }}
+                label={`${option.name}`}
+                {...getTagProps({ index })}
+              />
             ))
         }
 
@@ -114,7 +116,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         id="multiple-limit-tags"
         options={topicsForCategories}
         getOptionLabel={(option) => option.name}
-        // defaultValue={[categories[0]]}
+        defaultValue={formData.subcategories}
         sx={{ "label": { color: "white" }, width: '80%', color: 'white', 'input': { color: 'white' } }}
         renderInput={(params) => (
           <CustomTextField {...params} label="Topics" placeholder="Topics"
@@ -124,28 +126,37 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         ChipProps={{ color: 'primary' }}
         onChange={(event, newValue) => {
           console.log(newValue)
-          updateFormData({ categories: newValue })
+          updateFormData({ subcategories: newValue })
         }}
         renderTags={
           (value, getTagProps) =>
             value.map((option, index) => (
-                <Chip
-                    className={ 'bg-appgreenlight text-lg' }
-                    variant="filled"
-                    sx={{backgroundColor: '#00C28C', color: 'white'}}
-                    label={`${option.name}`}
-                    {...getTagProps({ index })}
-                />
+              <Chip
+              key={option.id}
+                className={'bg-appgreenlight text-lg'}
+                variant="filled"
+                sx={{ backgroundColor: '#00C28C', color: 'white' }}
+                label={`${option.name}`}
+                {...getTagProps({ index })}
+              />
             ))
         }
       />
 
-      <div className="grid grid-cols-3  justify-center items-center">
+      <div className="flex w-full  justify-between items-center">
         <Stack direction={'row'} className='' >
           <PageControl selectedIndex={currentIndex} pages={6} />
         </Stack>
-        <div class="invisible ...">02</div>
-        <Button className='h-12' variant="contained" style={{ backgroundColor: '#00C28C' }} onClick={handleNext}>Continue</Button>
+        {/* <div class="invisible ...">02</div> */}
+        <div className="bg-appgreenlight rounded-full p-0">
+          <Button variant="contained" className="" endIcon={<Icons.ArrowForwardIcon />}
+            sx={{
+              bgcolor: '#00C28C', padding: 1.2, paddingX: 2, borderRadius: 10, ":hover": {
+                backgroundColor: "#001812"
+              }
+            }} onClick={handleNext}>Continue</Button>
+        </div>
+
       </div>
 
       {/* </form> */}

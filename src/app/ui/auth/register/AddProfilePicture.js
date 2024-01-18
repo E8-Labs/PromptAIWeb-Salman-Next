@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, Component } from "react";
+import React, { useState, useEffect, Component } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 // import { Link, Route, Routes } from 'react-router-dom';
@@ -83,8 +83,8 @@ class AddProfilePicture extends Component {
             return
         }
 
-        this.state.user_name = this.user_name.current.value;
-        this.setState({ user_name: this.state.user_name });
+        // this.state.user_name = this.user_name.current.value;
+        // this.setState({ user_name: this.state.user_name });
         this.props.savedata(this.state.file, this.state.imagePreviewUrl, this.state.user_name);
 
         this.props.clickEvent("Team_member_stap3");
