@@ -18,6 +18,16 @@ export default function ChatInput(props){
         setMessage(e.target.value);
     };
 
+     const _handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            console.log('Enter key');
+            e.preventDefault()
+            
+            props.handleSendMessage(message)
+            setMessage("")
+          }
+     }
+
 
     useEffect(()=>{
         // console.log("Setting Chat in chatinput ", props.chat)
@@ -38,7 +48,7 @@ export default function ChatInput(props){
       <Container className=" justify-self-center border-2 border-white rounded">
         {/* <StackPromptsInput prompt={props.prompt} chat={chat}/> */}
         <div className="input-container  ">
-        <textarea
+        <textarea onKeyDown={_handleKeyDown}
              value={message}
           className="w-full text-white bg-transparent  rounded p-2 border-none focus:border-none rounded p-2 focus:outline-none"
           placeholder="Type your message..."

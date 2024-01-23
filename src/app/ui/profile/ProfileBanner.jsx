@@ -4,9 +4,9 @@ import Image from 'next/image'
 
 import { Button } from "@mui/material";
 import axios from "axios";
-// import { Link, useNavigate } from 'react-router-dom'
+
 import styled from 'styled-components';
-// import banner from '../assets/bannerImage.png'
+
 const bannerImage = '/banner-bg.png'
 const editBtnIcon = '/assets/editbtn.svg'
 const twitterBtnIcon = '/assets/twitter.svg'

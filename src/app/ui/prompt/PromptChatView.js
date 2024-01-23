@@ -142,7 +142,13 @@ const PromptChatView = (props) => {
         }
       }
     }
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if(bottomRef){
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start'  });
+    }
+    else{
+      console.log("Bottom ref is null")
+    }
+    // bottomRef = useRef(null)
     // createSummary()
   }, [canShowPromptHint, messages, chat])
 
@@ -154,6 +160,12 @@ const PromptChatView = (props) => {
     }
 
   }, [subprompt])
+
+  useEffect(()=> {
+    console.log("---------------------------------------")
+    console.log("Use ref Changed")
+    console.log("---------------------------------------")
+  }, [bottomRef])
 
   //logic to show stacked prompts
   const updateStackedPromptIndex = (index) => {
@@ -371,7 +383,7 @@ const PromptChatView = (props) => {
 
 
   return (
-    <Container className='flex flex-col h-full pb-3  mx-auto justify-center overflow-y-none bg-black' style={{ height: '100%' }}>
+    <Container className='flex flex-col h-full pb-3  mx-auto justify-center overflow-y-none bg-black' style={{ height: '95%' }}>
       {
         chat && (
           <Modal
@@ -407,9 +419,9 @@ const PromptChatView = (props) => {
                       </div>
                     ) :
                       (
-                        <IncomingMessage voteAction={(vote)=>{
-                          likeDislikePrompt(vote, prompt, item.id)
-                        }} message={item} prompt={prompt} />
+                            <IncomingMessage ref={bottomRef} voteAction={(vote)=>{
+                              likeDislikePrompt(vote, prompt, item.id)
+                            }} message={item} prompt={prompt} />
                       )
                   }
                 </div>
