@@ -57,7 +57,11 @@ const PromptsListDashboard = (props) => {
     </Icon>
   );
   const prompts = props.prompts
-  
+
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(props.isLoadingPrompts);
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
   const [categoriesSelected, setCategoriesSelected] = useState([])
@@ -385,7 +389,7 @@ const PromptsListDashboard = (props) => {
           sx: {
             backgroundColor: "black",
             // elevation: 8,
-            boxShadow: "-1px 0px 15px 0px #00C28C30;"
+            // boxShadow: "-1px 0px 15px 0px #00C28C30;"
           }
         }}
         anchor={"right"}
@@ -395,7 +399,7 @@ const PromptsListDashboard = (props) => {
         }}
       >
         <Box
-          sx={{ width: 650, bgcolor: 'black', padding: 5 }}
+          sx={{ width: windowSize.width, bgcolor: 'black', padding: 5 }}
           // role="presentation"
           onClick={() => {
             // setOtherUserProfile(null)
@@ -405,7 +409,9 @@ const PromptsListDashboard = (props) => {
           {/* <p>This is side menu</p> */}
           {
             otherUserProfile != null && (
-              <ProfileBaseView user={{ user: otherUserProfile, token: "" }} />
+              <ProfileBaseView user={{ user: otherUserProfile, token: "" }} closeProfileView={()=> {
+                setOtherUserProfile(null)
+              }}/>
             )
           }
           {

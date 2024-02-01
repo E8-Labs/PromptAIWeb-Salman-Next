@@ -6,12 +6,16 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Modal from 'react-modal';
 import StackMultiFormPopup from './stackprompt/StackPromptCreation';
-import { Button, IconButton, Menu, MenuItem } from '@mui/material';
+import { Button, IconButton, Menu, MenuItem, Snackbar } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import PendingSharpIcon from '@mui/icons-material/PendingSharp';
 import EditPromptPopup from '../promptEditing/editprompt';
 import MultiFormPopup from './PromptCreation';
 import SaveIcon from '@mui/icons-material/Save';
+import CloseIcon from '@mui/icons-material/Close';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import ApiPath from '../../../lib/ApiPath';
@@ -33,6 +37,9 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   const [promptText, setPromptText] = useState('');
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [snackOpen, setSnackOpen] = useState(false)
+  const [snackMessage, setSnackMessage] = useState("")
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [isEditPopupOpen, setEditPopupOpen] = useState(false);
@@ -110,7 +117,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
     setEditPopupOpen(false);
   }
 
-  function handleEditPrompt(screen, prompt, promptIndex){
+  function handleEditPrompt(screen, prompt, promptIndex) {
     console.log("Handle edit now")
     setEditPopupOpen(true)
     setScreenToEdit(screen)
@@ -128,7 +135,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         prs[i] = promptEdited
       }
     }
-    
+
     setSubPrompts(prs)
     setEditPopupOpen(false)
     setPromptSelectedToEdit(null)
@@ -136,7 +143,28 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
     setScreenToEdit(-1)
   }
 
+  //snackbar
+
+  const action = (
+    <div>
+      
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={()=>{
+          setSnackOpen(false)
+        }}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </div>
+  );
+
   const handleNextBtnTap = async () => {
+    // setSnackMessage("Prompt Created")
+    //             setSnackOpen(true)
+    //             return
     // let cats = [{ id: 1, "name": "Content Writing" }]
     // prompt.categories = cats;
     let firstPrompt = subprompts[0]
@@ -197,6 +225,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
                 //     name: 'PromptOverview',
                 // params: { prompt: parentPrompt },
                 // merge: true,
+                setSnackMessage("Prompt Created")
+                setSnackOpen(true)
                 closeModal()
               }
               else {
@@ -235,6 +265,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
 
   return (
     <div className='flex-col flex w-full p-2 b h-full overflow-hidden'>
+      <ToastContainer />
       {/* Edit Prompt Popup */}
       <Modal
         isOpen={isEditPopupOpen}
@@ -247,7 +278,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
           setEditPopupOpen(false)
         }} editPrompt={editPrompt} promptIndex={promptSelectedToEditIndex} screenIndex={screenToEdit} prompt={promptSelecteToEdit} />
       </Modal>
-      
+
       <Modal
         isOpen={isPopupOpen}
         onAfterOpen={afterOpenModal}
@@ -255,11 +286,20 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         style={customStyles}
         contentLabel="Add Stacked Prompt"
       >
-        <MultiFormPopup onClose={() => {
-          loadPrompts();
-          setPopupOpen(false);
-        }} />
+        <StackMultiFormPopup onClose={() => {
+          setPopupOpen(false)
+        }} addSubPrompt={addSubPrompt} />
       </Modal>
+
+      <Snackbar
+        open={snackOpen}
+        autoHideDuration={3000}
+        onClose={()=>{
+
+        }}
+        message={snackMessage}
+        action={action}
+      />
       <div className='flex gap-2 mt-10 items-center'>
         <h1 className='text-white' style={{ fontSize: 18, fontWeight: 'BOLD' }}>Stack a prompt</h1>
         <label className='text-white' style={{ fontSize: 12, }}>{"(optional)"}</label>
@@ -289,7 +329,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
                   handleAddNewPromptBtnTap();
                 }} editPromptAction={(screen, prompt) => {
                   handleEditPrompt(screen, prompt, index)
-                }}/>
+                }} />
             ))
           }
         </div>
@@ -409,14 +449,14 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
               'aria-labelledby': 'basic-button',
             }}
           >
-            <MenuItem onClick={()=>{
+            <MenuItem onClick={() => {
               console.log("Edit title")
               editPromptAction(0, prompt)
             }}>Edit Title & Description</MenuItem>
-            <MenuItem onClick={()=>{
+            <MenuItem onClick={() => {
               editPromptAction(1, prompt)
             }}>Edit Prompt</MenuItem>
-            <MenuItem onClick={()=>{
+            <MenuItem onClick={() => {
               editPromptAction(3, prompt)
             }}>Edit Categories</MenuItem>
 

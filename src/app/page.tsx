@@ -87,6 +87,8 @@ export default function Page() {
   const [website, setWebsite] = useState("")
   const [youtube, setYoutube] = useState("")
   const [instagram, setInstagram] = useState("")
+  const [discord, setDiscord] = useState("")
+  const [tiktok, setTiktok] = useState("")
   const [password, setPassword] = useState("")
   const [imagePreviewUrl, setImagePreviewUrl] = useState("")
   const [loading, setLoading] = useState(false)
@@ -180,6 +182,8 @@ export default function Page() {
     formdata.append("youtube", youtube);
     formdata.append("website", website);
     formdata.append("instagram", instagram);
+    formdata.append("discord_url", discord);
+    formdata.append("tiktok_url", tiktok);
     formdata.append("image", file);
     const apiOption2 = {
       method: "post",
@@ -282,11 +286,13 @@ setLoading(true)
   }
 
 
-  function getSocialLinks(web, insta, youtube) {
+  function getSocialLinks(web, insta, youtube, discord, tiktok) {
     console.log("Web added " + web)
     setWebsite(web)
     setInstagram(insta)
     setYoutube(youtube)
+    setDiscord(discord)
+    setTiktok(tiktok)
     setPage("password")
     
   }
@@ -310,7 +316,7 @@ setLoading(true)
           </Slider>
         </div>
 
-        <div className="flex-grow flex items-center justify-center p-1 md:w-2/4  md:py-12 bg-black" style={{ height: '70vh' }}>
+        <div className="flex-grow flex items-center justify-center p-1 md:w-2/4   bg-black" style={{ height: '70vh' }}>
           <div className=" flex items-center h-full  p-2 justify-center " style={{ width: '100%' }} >
 
             {

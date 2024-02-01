@@ -1,5 +1,6 @@
 // Import necessary components from 'next/head'
 import Head from 'next/head';
+import Link from 'next/link';
 
 // Define the PrivacyPolicy component
 const PrivacyPolicy = () => {
@@ -150,7 +151,7 @@ const PrivacyPolicy = () => {
       </p>
 
       <p className="c0 pl-5">
-        <span className="c2">Users have the right to access, correct, and delete their personal data directly from the app theyre using or by requesting through our contact page on <a style={{ color: 'blue' }} href="https://www.myagentx.com/">AgentX.ai Contact Page</a>.<br /><br />
+        <span className="c2">Users have the right to access, correct, and delete their personal data directly from the app theyre using or by requesting through our contact page on <Link style={{ color: 'blue' }} href="https://www.myagentx.com/">AgentX.ai Contact Page</Link>.<br /><br />
         </span>
       </p>
 
@@ -163,7 +164,7 @@ const PrivacyPolicy = () => {
       </p>
 
       <p className="c0 pl-5">
-        <span className="c2">For any privacy-related inquiries or concerns, please reach out to us via our website at  <a style={{ color: 'blue' }} href="https://www.myagentx.com/">AgentX.ai Contact Page</a>.<br /><br />
+        <span className="c2">For any privacy-related inquiries or concerns, please reach out to us via our website at  <Link style={{ color: 'blue' }} href="https://www.myagentx.com/">AgentX.ai Contact Page</Link>.<br /><br />
         </span>
       </p>
 

@@ -435,13 +435,17 @@ const PromptChatView = (props) => {
         <div ref={bottomRef}></div>
       </div>
       <div className='flex flex-col justify-left  w-8/12 rounded-md bg-appgreen'>
-        <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
-          //send stacked sub prompt here
-          console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
-          setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
-          setModalVisible(true)
-
-        }} />
+        {
+          props.prompt.subprompts.length > 0 &&(
+            <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
+              //send stacked sub prompt here
+              console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
+              setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
+              setModalVisible(true)
+    
+            }} />
+          )
+        }
         <div className=' flex flex-grow w-full justify-center items-center p-2'>
           <ChatInput className=' h-50 flex  ' handleSendMessage={handleSendMessage} ></ChatInput>
         </div>
@@ -529,11 +533,11 @@ const IncomingMessage = ({ message, prompt, voteAction }) => {
       {
         loading && (
           // <div></div>
-          <div className="typing-container bg-gray-500 w-50 h-20 rounded-full justify-center items-center">
+          <div className="flex typing-container message-bubble bg-graybubble  rounded-full justify-center items-center mb-4" style={{width: '100px', height: '50px'}}>
             {/* <div className="typing-box"></div> */}
             <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
-            <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
-            <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
+            <div className={`typing-bubble ${loading ? 'animate-bounce2' : ''}`}></div>
+            <div className={`typing-bubble ${loading ? 'animate-bounce3' : ''}`}></div>
           </div>
         )
       }

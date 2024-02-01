@@ -109,6 +109,7 @@ class AddProfilePicture extends Component {
         let cropImage = data;
         let first_time = times;
         let filedata = this.dataURLtoFile(cropImage, "changeprofile.png");
+        console.log("Image File is ", filedata)
         this.setState({ imagePreviewUrl: cropImage, file: filedata, change_logo: first_time });
     }
 

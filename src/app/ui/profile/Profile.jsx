@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import ProfileBannerView from "./ProfileBanner";
 import PromptItem from "../prompt/PromptItem";
 import PromptItemMyprofile from "../prompt/promptitemmyprofile";
-import { Snackbar } from "@mui/material";
+import { IconButton, Snackbar } from "@mui/material";
 import axios from "axios";
+import Icons from "@/app/lib/Icons";
 
 import ApiPath from "../../lib/ApiPath";
 
@@ -150,7 +151,18 @@ export default function ProfileBaseView(props) {
 
   return (
     <div className="flex  flex-col  flex-grow w-full h-full bg-black px-2">
-
+      {
+        currentUser != null &&(
+          <div className={` ${user.user.id !== currentUser.user.id ? " " : 'hidden'}`} style={{}}>
+            <IconButton onClick={()=> {
+              props.closeProfileView()
+            }}>
+              <Icons.CloseIcon sx={{color: 'white'}}/>
+            </IconButton>
+          </div>
+        )
+      }
+      
       <ProfileBannerView user={user} />
 
       {/*<div className="flex gap-2 pt-5 justify-between">

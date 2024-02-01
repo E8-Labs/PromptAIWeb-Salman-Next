@@ -31,6 +31,7 @@ const config: Config = {
         appgreenlight: "#00C28C",
         appgreenlight700: "#00C28C70",
         appgreenlight300: "#00C28C30",
+        graybubble: "#c1c4c9"
         // appgreenlight: {
         //   1000: "#00C28C",
         //   200: "#00C28C20"

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components'
 import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
+import StackMultiFormPopup from '../ui/prompt/promptcreation/stackprompt/StackPromptCreation';
 import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
 import ReactModal from 'react-modal';
 import PromptChatView from '../ui/prompt/PromptChatView';
@@ -129,14 +130,30 @@ export default function Page() {
   //if selected = All, return prompts, if created return createdPrompts, if Saved return savedPrompts
   const getCurrentPromptsForMenu = () => {
     if (promptListMenuSelected == "All") {
-      return prompts
+      let pros = removeDuplicates(prompts, 'id');
+      return pros
     }
     else if (promptListMenuSelected == "Created") {
-      return createdPrompts
+      let pros = removeDuplicates(createdPrompts, 'id');
+      return pros
     }
     else if (promptListMenuSelected == "Saved") {
-      return savedPrompts
+      let pros = removeDuplicates(savedPrompts, 'id');
+      return pros
+      // return savedPrompts
     }
+  }
+
+  function removeDuplicates(arr, prop) {
+    const unique = arr.reduce((acc, current) => {
+      const x = acc.find(item => item[prop] === current[prop]);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+    return unique;
   }
 
   const loadPrompts = (isFirstLoading = false) => {
@@ -192,7 +209,9 @@ export default function Page() {
         // console.log(res.data)
         if (promptListMenuSelected == "All") {
           console.log("All Prompts ", res.data)
-          res.data.data.prompts.map((m, index) => {
+          let pros = removeDuplicates(res.data.data.prompts, 'id');
+
+          pros.map((m, index) => {
             setPrompts((prevState) =>
               [...prevState, m]
             )
@@ -319,6 +338,7 @@ const customStyles = {
     
   },
   content: {
+    
     background: "#00000090",
     border: "none",
   },

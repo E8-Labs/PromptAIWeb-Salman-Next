@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import Button from '@mui/material/Button';
+import Icons from '@/app/lib/Icons';
 import { Icon, IconButton, Snackbar, Backdrop, CircularProgress } from '@mui/material';
 import Image from 'next/image'
 // import { poppins, rubik } from '../../../app/'
@@ -75,8 +76,10 @@ function PromptItem(props) {
             }}>
                 <div className=" h-16 flex mt-4  justify-between">
                     {/* Your icon components for Like, View, Comment go here */}
-                    <div className="justify-center items-center">
-                        <img src={LikePromptIcon} alt="Like Icon" />
+                    <div className="flex flex-col justify-center items-center pb-3">
+                        <IconButton className=' p-0'>
+                            <Icons.ThumbUpIcon sx={{color: 'white', width: 20, height: 20}}/>
+                        </IconButton>
                         <button className=' text-white'>{prompt.likes}</button>
                     </div>
                     <div className="justify-center items-center">

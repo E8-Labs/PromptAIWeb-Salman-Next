@@ -47,9 +47,9 @@ const StackMultiFormPopup = ({ onClose, addSubPrompt }) => {
   const FormComponent = forms[currentForm];
 
   return (
-    <div className="multi-form-popup flex w-10/12 lg:w-9/12 xl:w-5/12 mx-auto justify-center items-center my-auto bg-appgreen rounded" 
-        style={{height: "75vh", borderRadius: '3rem'}}>
-      <div className="flex h-5/6  flex-col w-9/12 items-center">
+    <div className="multi-form-popup flex w-full h-full md:w-[23rem] md:h-[40rem] mx-auto justify-center items-center my-auto bg-appgreen rounded" 
+        style={{ borderRadius: '3rem'}}>
+      <div className="flex  flex-col w-full h-full items-center bg-appgreen p-2  py-4 rounded-lg">
         <div className='flex justify-between ' style={{width: '100%'}}>
             <h1></h1>
             <h1 className='text-white'>Create Prompt</h1>

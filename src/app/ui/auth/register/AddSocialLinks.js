@@ -94,7 +94,7 @@ class AddSocialLinks extends Component {
         })
     }
 
-    handleBackButton(event){
+    handleBackButton(event) {
         event.preventDefault()
         console.log("Handle back button")
         this.props.backAction("username")
@@ -116,8 +116,24 @@ class AddSocialLinks extends Component {
         })
     }
 
+    handleChangeDiscord(event) {
+        event.preventDefault()
+        console.log("Discord changed " + event.target.value)
+        this.setState({
+            discord: event.target.value
+        })
+    }
+
+    handleChangeTiktok(event) {
+        event.preventDefault()
+        console.log("Tiktok changed " + event.target.value)
+        this.setState({
+            tiktok: event.target.value
+        })
+    }
+
     nextBtnClicked() {
-        this.props.getSocialLinks(this.state.website, this.state.instagram, this.state.youtube)
+        this.props.getSocialLinks(this.state.website, this.state.instagram, this.state.youtube, this.state.discord, this.state.tiktok)
     }
 
 
@@ -133,14 +149,14 @@ class AddSocialLinks extends Component {
             $imagePreview = upload_image;
         }
         return (
-            <>
+            
                 <div className="felx flex-col " style={{ height: "100%" }}>
                     <Stack className=" flex flex-grow h-12" direction={'row'}>
                         <IconButton onClick={this.handleBackButton.bind(this)}>
-                            <ArrowBackIcon sx={{color: 'white'}}/>
+                            <ArrowBackIcon sx={{ color: 'white' }} />
                         </IconButton>
                     </Stack>
-                    <div className="flex justify-center rounded-full mt-sm-5">
+                    <div className="flex justify-center rounded-full">
                         <div className="  user-profile-image-border d-flex border-2  border-appgreenlight rounded-full p-1 items-center justify-center"
                             style={{ width: "90px", height: "90px" }}>
                             <img className="rounded-full user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
@@ -179,6 +195,28 @@ class AddSocialLinks extends Component {
                             onChange={this.handleChangeInsta.bind(this)}
                         />
 
+                        <CustomTextField
+
+                            required
+                            id="outlined-required"
+                            label="Discord Url"
+                            defaultValue=""
+                            placeholder='Discord Url'
+                            sx={{ "label": { color: "gray" }, width: '100%' }}
+                            onChange={this.handleChangeDiscord.bind(this)}
+                        />
+
+                        <CustomTextField
+
+                            required
+                            id="outlined-required"
+                            label="Tiktok Url"
+                            defaultValue=""
+                            placeholder='Tiktok Url'
+                            sx={{ "label": { color: "gray" }, width: '100%' }}
+                            onChange={this.handleChangeTiktok.bind(this)}
+                        />
+
                         <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
                             <Stack direction={'row'} className='' >
                                 <PageControl selectedColor={"#00C28C"} selectedIndex={3} pages={5} />
@@ -195,7 +233,7 @@ class AddSocialLinks extends Component {
                         </div>
                     </div>
                 </div>
-            </>
+            
         );
     }
 }
