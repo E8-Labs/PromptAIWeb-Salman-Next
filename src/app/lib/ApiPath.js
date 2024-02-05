@@ -3,6 +3,8 @@ const baseUrl = "http://178.16.143.212:5002/api/";
  
 const ApiPath = {
    LoginRoute: baseUrl + "users/login",
+   LoginRouteSocial: baseUrl + "users/social_login",
+   CheckUsernameRoute: baseUrl + "users/check_username",
    RegisterRoute: baseUrl + "users/register",
    UploadBannerRoute: baseUrl + "users/upload_banner",
    GetPromptsList: baseUrl + "prompts/get_prompts",

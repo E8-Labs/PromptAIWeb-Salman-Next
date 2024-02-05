@@ -120,6 +120,9 @@ const PromptChatView = (props) => {
     if (newChat && props.chat) {
       //console.log("Sending FirstPrompt")
       newChat = false;
+      //send custom event here
+      broadcastEvent('newChat', props.chat);
+    
       sendFirstPromptForNewChat(u)
     }
     else {
@@ -180,6 +183,14 @@ const PromptChatView = (props) => {
     }
   }
 
+
+  function broadcastEvent(eventName, data) {
+    // Create a custom event with the specified name and detail
+    const event = new CustomEvent(eventName, { detail: data });
+    // Dispatch the event on the window object, making it available throughout the application
+    window.dispatchEvent(event);
+    console.log("Event broadcasted from ChatView ", eventName)
+  }
 
   // use prompt 
   const makeUsePrompt = (prompt) => {
@@ -404,19 +415,21 @@ const PromptChatView = (props) => {
       }
       <ChatHeader className='flex bg-blue-500  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
       {/* <MessagesList className='flex-grow ' messages={messages} prompt={prompt} ref={bottomRef}/> */}
-      <div className="flex flex-grow flex-col messages-list h-11/12   w-8/12   items-center overflow-y-auto mx-auto ">
+      <div className="flex  flex-grow flex-col messages-list h-11/12   w-8/12   items-center overflow-y-auto mx-auto ">
         {
           messages.map((item, index) => {
 
             {
               return (
 
-                <div key={index} className={`flex w-full my-1 `}>
+                <div key={index} className={`flex w-full my-1 ${item.from === "me" ? "justify-end" : ""}`}>
                   {
                     item.from === "me" ? (
-                      <div className={`flex mx-1 p-4 w-10/12 my-1  rounded-lg  border-white`} key={item.id}>
-                        <p className='text-white'>{item.message}</p>
-                      </div>
+                      // <div className='justify-end '> 
+                        <div className={`flex mx-1 p-4  my-1 bg-appgreen  rounded-lg  border-white`} key={item.id}>
+                          <p className='text-white'>{item.message}</p>
+                        </div>
+                      // </div>
                     ) :
                       (
                             <IncomingMessage ref={bottomRef} voteAction={(vote)=>{

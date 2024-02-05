@@ -12,6 +12,8 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import ThumbDownOffAltIcon from '@mui/icons-material/ThumbDownOffAlt';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LanguageIcon from '@mui/icons-material/Language';
+import GoogleIcon from '@mui/icons-material/Google';
+import AppleIcon from '@mui/icons-material/Apple';
 
 import { Icon } from '@mui/material';
 
@@ -27,5 +29,5 @@ const StarIcon = (
   );
  const Icons = {ArrowForwardIcon, ArrowBackIcon, CloseIcon, StarIcon, CreatedIcon, TurnedInIcon, 
   SearchIcon, PowerIcon, NotificationsNoneIcon, ThumbUpOffAltIcon, ThumbUpIcon,
-  ThumbDownIcon, ThumbDownOffAltIcon, YouTubeIcon, LanguageIcon}
+  ThumbDownIcon, ThumbDownOffAltIcon, YouTubeIcon, LanguageIcon, GoogleIcon, AppleIcon}
  export default Icons;

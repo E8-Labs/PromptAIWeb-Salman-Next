@@ -9,6 +9,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Button, Icon } from "@mui/material";
+import { getMessaging, onMessage } from 'firebase/messaging';
+import { signInWithPopup } from 'firebase/auth'
+import {requestPermission, app, initMessaging, googleProvider, auth } from "./../../firebase"
+import Icons from '@/app/lib/Icons';
 
 // import { alignProperty } from "@mui/material/styles/cssUtils";
 
@@ -47,7 +51,47 @@ function ChatGptLogin(props) {
     }
     const handleRegisterBtnClick = (e) => {
         props.registerBtnTapped()
+        // e.preventDefault()
+        // requestPermission()
     }
+
+    const handleRegisterBtnClick2 = (e) => {
+        props.registerBtnTapped()
+    }
+
+    const handleSigninWithGoogleBtnClick = (e) => {
+        console.log("Sign in with google here")
+        signInWithPopup(auth, googleProvider).then((data) => {
+            let userData = {email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google"}
+            console.log("User data is ", userData)
+            props.registerWithSocial(userData)
+            // localStorage.setItem('email', data.user.email)
+            // setValue(data.user.email)
+            // console.log("user email is", data.user.email)
+        })
+    }
+
+    const handleSigninWithAppleBtnClick = (e) => {
+        console.log("Sign in with Apple here")
+    }
+
+
+
+    useEffect(() => {
+        if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
+          const messaging = getMessaging(app);
+          const unsubscribe = onMessage(messaging, (payload) => {
+            console.log('Foreground push notification received:', payload);
+            // Handle the received push notification while the app is in the foreground
+            // You can display a notification or update the UI based on the payload
+          });
+          return () => {
+            unsubscribe(); // Unsubscribe from the onMessage event
+          };
+        }
+      }, []);
+
+
     return (
         <div className="flex w-full h-full justify-center items-center">
             <div className="flex-col  flex gap-6 flex-grow h-full   justify-center items-center">
@@ -77,9 +121,29 @@ function ChatGptLogin(props) {
 <button style={{backgroundColor: 'red', height: 50, width: 120}}>
     Hello
 </button> */}
-                <div className="row my-5 " >
+                <div className="flex-col my-2 " >
                     <div className="flex items-center justify-center p-md-2 p-0 gap-1">
-                        <span className="mb-20 text-white">Dont have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
+                        <span className="mb-10 text-white">Dont have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
+                    </div>
+                    <div className="flex flex-col w-full items-center justify-center p-md-2 p-0 gap-1">
+                        <span className=" text-white">Or </span>
+                        
+                        <Button variant="contained" startIcon={<Icons.GoogleIcon />}
+                        sx={{
+                             padding: 1, paddingX: 1.3, borderRadius: 1, ":hover": {
+                                bgcolor: "#001812"
+                            }
+                        }} onClick={handleSigninWithGoogleBtnClick}>Sign In with Google</Button>
+
+                        <Button variant="contained" startIcon={<Icons.AppleIcon />}
+                        sx={{
+                            marginTop: 1,
+                            marginBottom: 3,
+                             padding: 1, paddingX: 1.3, borderRadius: 1, ":hover": {
+                                bgcolor: "#001812"
+                            }
+                        }} onClick={handleSigninWithAppleBtnClick}>Sign In with Apple</Button>
+                        
                     </div>
                 </div>
 

@@ -264,7 +264,7 @@ const PromptsListDashboard = (props) => {
         </div>
 
       </div>
-      <div className={`flex flex-grow  gap-4   items-center ${props.promptListMenuSelected === "All" ? "" : "hidden"}`}>
+      <div className={`flex flex-grow gap-4   items-center ${props.promptListMenuSelected === "All" ? "" : "hidden"}`}>
           <Autocomplete
             multiple
             limitTags={1}
@@ -272,7 +272,7 @@ const PromptsListDashboard = (props) => {
             options={categories}
             getOptionLabel={(option) => option.name}
             // defaultValue={[categories[0]]}
-            sx={{ "label": { color: "white" }, height: '40px', maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
+            sx={{ "label": { color: "white" }, maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
             renderInput={(params) => (
               <CustomTextField {...params} label="Categories" placeholder="Categories"
                 sx={{ "label": { color: "gray" }, color: 'white' }}
@@ -317,7 +317,7 @@ const PromptsListDashboard = (props) => {
             options={topicsForCategories}
             getOptionLabel={(option) => option.name}
             // defaultValue={[categories[0]]}
-            sx={{ "label": { color: "white" }, height: '40px', maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
+            sx={{ "label": { color: "white" }, maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
             renderInput={(params) => (
               <CustomTextField {...params} label="Topics" placeholder="Topics"
                 sx={{ "label": { color: "gray" }, color: 'white' }}

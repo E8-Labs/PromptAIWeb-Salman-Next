@@ -90,6 +90,8 @@ export default function Page() {
   const [discord, setDiscord] = useState("")
   const [tiktok, setTiktok] = useState("")
   const [password, setPassword] = useState("")
+  const [providerId, setProviderId] = useState("")
+  const [providerName, setProviderName] = useState("Email")
   const [imagePreviewUrl, setImagePreviewUrl] = useState("")
   const [loading, setLoading] = useState(false)
 
@@ -134,9 +136,14 @@ export default function Page() {
       toast(`Add Profile Picture`);
     }
     else{
-      setPage("email")
       setFile(file)
-      setImagePreviewUrl(imageUrl)
+        setImagePreviewUrl(imageUrl)
+      if(providerName === "Email"){
+        setPage("email")
+      }
+      else{
+        setPage("username")
+      }
     }
     
   }
@@ -174,6 +181,10 @@ export default function Page() {
     }
     setPassword(password)
 
+    registerUser(password)
+  }
+
+  function registerUser(password){
     var formdata = new FormData();
     formdata.append("username", username);
     formdata.append("email", email);
@@ -185,6 +196,10 @@ export default function Page() {
     formdata.append("discord_url", discord);
     formdata.append("tiktok_url", tiktok);
     formdata.append("image", file);
+    formdata.append("provider_id", providerId)
+    formdata.append("provider_name", providerName)
+    formdata.append("fcm_token", '')
+
     const apiOption2 = {
       method: "post",
       body: formdata,
@@ -293,10 +308,80 @@ setLoading(true)
     setYoutube(youtube)
     setDiscord(discord)
     setTiktok(tiktok)
-    setPage("password")
+    if(providerName === "Email"){
+      setPage("password")
+    }
+    else{
+      registerUser("")
+    }
     
   }
   
+
+  function registerWithSocial(userData){
+
+
+    setName(userData.name)
+    setEmail(userData.email)
+    setProviderId(userData.providerId)
+    setProviderName(userData.providerName)
+
+    //check social login exists
+
+    const apiParams = {
+      method: "post",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        "provider_id": userData.providerId,
+        "provider_name": userData.providerName,
+      }),
+      redirect: 'follow'
+    }
+console.log("Loging user", apiParams)
+setLoading(true)
+    fetch(ApiPath.LoginRouteSocial, apiParams)
+      .then(function (res) {
+        setLoading(false)
+        return res.json();
+      }).then(resJson => {
+        setLoading(false)
+        // this.props.clickEvent("stap6");
+        console.log(resJson)
+        if (resJson.status == true) {
+          console.log("User Logged in")
+          toast(`Success: User logged in`);
+          let Manin_data_wrap = resJson.data;
+          let Profile = Manin_data_wrap.user;
+          let profile_img = Profile.image_url;
+          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          console.log(Profile.image_url)
+          router.push("/dashboard")
+          // const navigate = this.props.navigate;
+          // navigate("/prompts")
+
+        } else {
+          console.log("Error login social ", resJson.message)
+          setPage("profile_image")
+          toast(`Error: ${resJson.message}`);
+          // this.setState({ valid_email_address: "Email address is already registered" });
+          // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
+          // this.error_handaling();
+        }
+      })
+      .catch(error => {
+        setLoading(false)
+        console.log("User error " + error)
+        toast(`Error: ${error}`);
+        // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+        // this.error_handaling();
+      });
+
+    
+
+  }
 
   //functions end here
 
@@ -322,7 +407,7 @@ setLoading(true)
             {
               page === "intro" && (
                 <ChatGptLogin signinBtnTapped={
-                  signinBtnTapped} registerBtnTapped={registerBtnTapped} />
+                  signinBtnTapped} registerBtnTapped={registerBtnTapped} registerWithSocial={registerWithSocial} />
               )
             }
 
