@@ -1,9 +1,10 @@
 import React, { useState, useEffect, Component } from "react";
 import { CustomTextField } from "../../customcomponents/CustomTextField";
-import { Button, Stack, IconButton } from "@mui/material";
+import { Button, Stack, IconButton, CircularProgress } from "@mui/material";
 import { PageControl } from "../../customcomponents/PageControl";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const background = '/banner-bg.png'
 const crossIcon = '/assets/cross.svg'
@@ -223,12 +224,16 @@ class AddSocialLinks extends Component {
                             </Stack>
                             <div class="invisible ">020000000000</div>
                             <div className="bg-appgreenlight rounded-full p-0">
-                                <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}
+                            <LoadingButton variant="contained" className="" endIcon={<ArrowForwardIcon />}
+                                loading={this.props.loading || false}
+                                loadingIndicator={<CircularProgress color="inherit" size={16} sx={{color: 'white'}}/>}
                                     sx={{
                                         bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
                                             backgroundColor: "#001812"
                                         }
-                                    }} onClick={this.nextBtnClicked.bind(this)}>Continue</Button>
+                                    }} onClick={this.nextBtnClicked.bind(this)}>
+                                        Continue
+                                    </LoadingButton>
                             </div>
                         </div>
                     </div>

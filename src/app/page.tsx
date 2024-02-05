@@ -437,7 +437,7 @@ setLoading(true)
             }
             {
               page === "social_links" && (
-                <AddSocialLinks backAction={backAction} imagePreviewUrl={imagePreviewUrl} username={username} getSocialLinks={getSocialLinks} />
+                <AddSocialLinks backAction={backAction} loading={loading} imagePreviewUrl={imagePreviewUrl} username={username} getSocialLinks={getSocialLinks} />
               )
             }
             {
