@@ -1,11 +1,5 @@
-import React from 'react'
+import React from "react";
 
-function Page() {
-  return (
-    <div>
-      This is support page
-    </div>
-  )
+export default function Page() {
+  return <div>This is the support page</div>;
 }
-
-export default Page

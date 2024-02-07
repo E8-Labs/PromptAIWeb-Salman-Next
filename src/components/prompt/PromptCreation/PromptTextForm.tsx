@@ -3,7 +3,7 @@ import react, { useState } from "react";
 import { styled } from "styled-components";
 import Image from "next/image";
 import { Button, Stack } from "@mui/material";
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 import { CustomTextField } from "components/CustomTextField";
 import { PageControl } from "components/PageControl";
 

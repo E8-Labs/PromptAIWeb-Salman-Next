@@ -2,10 +2,10 @@ import React from "react";
 import { CircularProgress } from "@mui/material";
 import axios from "axios";
 
-import SearchBar from "./Searchbar";
-import PromptSearchItem from "./promptsearchitem";
+import SearchBar from "./SearchBar";
+import PromptSearchItem from "./PromptSearchItem";
 
-import { API_PATH } from "utils/lib/constants";
+import { API_PATH } from "@/utils/constants";
 
 import "reactjs-popup/dist/index.css";
 

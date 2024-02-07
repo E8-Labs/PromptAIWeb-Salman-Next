@@ -5,8 +5,8 @@ import { Button, Stack, Autocomplete, Chip } from "@mui/material";
 import { CustomTextField } from "../../CustomTextField";
 import { PageControl } from "../../PageControl";
 
-import { CATEGORIES } from "utils/lib/constants";
-import Icons from "utils/lib/Icons";
+import { CATEGORIES } from "@/utils/constants";
+import Icons from "@/utils/Icons";
 
 type PromptCategoryFormProps = {
   formData: any;

@@ -4,7 +4,7 @@ import { Radio, Stack, Button } from "@mui/material";
 
 import { CustomTextField } from "components/CustomTextField";
 import { PageControl } from "components/PageControl";
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 
 type PromptTitleFormProps = {
   onNext(): void;

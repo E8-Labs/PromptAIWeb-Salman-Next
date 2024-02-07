@@ -2,13 +2,13 @@
 import { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 
-import PromptTitleForm from "../promptcreation/PromptTitleForm";
-import PromptDescriptionForm from "../promptcreation/PromptTextForm";
-import PromptCategoryForm from "../promptcreation/PromptCategoryForm";
-import PromptOverViewForm from "../promptcreation/PromptOverViewForm";
-import SetPromptQuestions from "../promptcreation/SetPromptQuestions";
+import PromptTitleForm from "../PromptCreation/PromptTitleForm";
+import PromptDescriptionForm from "../PromptCreation/PromptTextForm";
+import PromptCategoryForm from "../PromptCreation/PromptCategoryForm";
+import PromptOverViewForm from "../PromptCreation/PromptOverViewForm";
+import SetPromptQuestions from "../PromptCreation/SetPromptQuestions";
 
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 
 type EditPromptPopupProps = {
   screenIndex: number;

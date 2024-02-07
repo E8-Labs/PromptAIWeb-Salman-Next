@@ -5,7 +5,7 @@ import tickIconSelected from "../../assets/tickIconSelected.svg";
 import tickIconUnselected from "../../assets/tickIconUnselected.svg";
 import masterCardIcon from "../../assets/mastercardicon.svg";
 import visaCardIcon from "../../assets/visacardicon.svg";
-import { PLANS } from "utils/lib/constants";
+import { PLANS } from "@/utils/constants";
 
 type PaymentMethodProps = {};
 export const PaymentMethods = ({}: PaymentMethodProps) => {

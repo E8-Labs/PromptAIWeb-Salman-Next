@@ -6,7 +6,7 @@ import Image from "next/image";
 import React from "react";
 import { IconButton } from "@mui/material";
 
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 
 export default function TopNav() {
   const router = useRouter();

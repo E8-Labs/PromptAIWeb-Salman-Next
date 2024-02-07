@@ -1,7 +1,7 @@
 import React from "react";
 
-import SideNav from "components/dashboard/sidenav";
-import TopNav from "components/dashboard/topnav";
+import TopNav from "@/components/Nav";
+import SideNav from "@/components/SideNav";
 
 type LayoutProps = {
   children: React.ReactNode;

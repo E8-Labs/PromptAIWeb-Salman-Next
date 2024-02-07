@@ -1,36 +1,34 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import React from "react";
 
-import ProfileBaseView from "app/ui/profile/Profile";
+import ProfileBaseView from "@/components/profile/Profile";
 
-function Page() {
+export default function Page() {
+  const router = useRouter();
   const savedUser = process.env.REACT_APP_LocalSavedUser || "";
 
-  const [user, setUser] = React.useState(null);
+  const [user, setUser] = React.useState<any>(null);
+
   const loadCurrentUser = async () => {
     const localUser = localStorage.getItem(savedUser);
 
     if (!localUser) {
-      //   navigate("/onboarding");
+      router.push("/login");
     } else {
-      //console.log("User is saved in Dashboard")
-      //console.log(process.env.REACT_APP_LocalSavedUser)
-
       setUser(JSON.parse(localUser));
     }
   };
 
+  // TODO: Hook to load the current user
   React.useEffect(() => {
     loadCurrentUser();
   }, []);
 
   return (
     <div className="flex h-full w-full">
-      {user != null && <ProfileBaseView user={user} />}
-      {user == null && <div> Loading Profile ...</div>}
+      {user ? <ProfileBaseView defaultUser={user} /> : <div> Loading Profile ...</div>}
     </div>
   );
 }
-
-export default Page;

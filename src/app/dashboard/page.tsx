@@ -10,7 +10,7 @@ import Modal from "react-modal";
 
 import axios from "axios";
 import PromptsListDashboard from "ui/prompt/PromptsListDashboard";
-import { API_PATH } from "utils/lib/constants";
+import { API_PATH } from "@/utils/constants";
 
 // import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -181,27 +181,25 @@ export default function Page() {
         console.log(err);
       });
   };
-  useEffect(() => {
+  React.useEffect(() => {
     //console.log("prompts loaded")
     setPrompts([]);
     loadPrompts(true); // isFirstLoading = true
   }, [promptListMenuSelected]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (currentUser === undefined) {
       loadCurrentUser();
-    } else {
-      //console.log(currentUser.username)
     }
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     console.log("Categories and subcategories selected. Loading New Prompts");
     setPrompts([]);
     loadPrompts();
   }, [categoriesSelected, subCategoriesSelected]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (currentUser === undefined) {
       loadCurrentUser();
     } else {

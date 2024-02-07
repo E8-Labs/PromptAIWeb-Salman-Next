@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styled from "styled-components";
 
-import { API_PATH } from "utils/lib/constants";
+import { API_PATH } from "@/utils/constants";
 const bannerImage = "/banner-bg.png";
 const editBtnIcon = "/assets/editbtn.svg";
 const youtubeBtnIcon = "/assets/youtube.svg";

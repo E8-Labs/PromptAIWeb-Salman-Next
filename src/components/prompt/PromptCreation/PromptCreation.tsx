@@ -1,8 +1,7 @@
-// components/MultiFormPopup.js
 import { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 import PromptTitleForm from "./PromptTitleForm";
 import PromptDescriptionForm from "./PromptTextForm";
 import PromptCategoryForm from "./PromptCategoryForm";
@@ -49,7 +48,6 @@ const MultiFormPopup = ({ onClose }: MultiFormPopupProps) => {
   };
 
   const handlePublish = () => {
-    // Implement publish logic here
     onClose();
   };
 
@@ -65,7 +63,6 @@ const MultiFormPopup = ({ onClose }: MultiFormPopupProps) => {
   const FormComponent = forms[currentForm];
 
   return (
-    //w-11/12 xl:w-5/9 lg:w-5/12
     <div
       className="multi-form-popup bg-red flex w-full h-full md:w-[23rem] md:h-[40rem]   mx-auto justify-center items-center my-auto  rounded"
       style={{ borderRadius: "3rem" }}

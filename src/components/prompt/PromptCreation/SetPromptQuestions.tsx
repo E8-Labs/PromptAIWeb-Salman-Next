@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { styled } from "styled-components";
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 
 import { Button, Stack } from "@mui/material";
 import { PageControl } from "components/PageControl";

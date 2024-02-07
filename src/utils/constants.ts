@@ -96,6 +96,27 @@ export const CATEGORIES = [
   },
 ];
 
+export const HOME_SLIDES = [
+  {
+    id: "1",
+    heading: "Prompt",
+    description:
+      "Empowering creators and users to harness the power of AI through our AI prompt marketplace.",
+  },
+  {
+    id: "2",
+    heading: "Prompt 2",
+    description:
+      "Empowering creators and users to harness the power of AI through our AI prompt marketplace.",
+  },
+  {
+    id: "3",
+    heading: "Prompt 3",
+    description:
+      "Empowering creators and users to harness the power of AI through our AI prompt marketplace.",
+  },
+];
+
 export const PLANS = [
   { card: "************7685", expiry: "10/2024", cardType: "master", isCurrent: true },
   { card: "************9732", expiry: "06/2026", cardType: "visa", isCurrent: false },

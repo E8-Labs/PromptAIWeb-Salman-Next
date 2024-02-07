@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import styled from "styled-components";
 
-import { API_PATH } from "utils/lib/constants";
+import { API_PATH } from "@/utils/constants";
 import ProfileBannerView from "./ProfileBanner";
 import PromptItem from "../prompt/PromptItem";
 import { useRouter } from "next/router";

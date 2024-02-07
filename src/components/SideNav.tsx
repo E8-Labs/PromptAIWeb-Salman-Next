@@ -8,7 +8,7 @@ import React from "react";
 import axios from "axios";
 
 import { PowerIcon } from "@heroicons/react/24/outline";
-import { API_PATH } from "utils/lib/constants";
+import { API_PATH } from "@/utils/constants";
 
 const dashboardLogo = "/dashboard.svg";
 const headphoneIcon = "/headphone.svg";

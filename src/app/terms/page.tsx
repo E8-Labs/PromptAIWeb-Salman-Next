@@ -1,16 +1,6 @@
-// Import necessary components from 'next/head'
 import Head from "next/head";
 
 // TODO: Implement MetaData per NextJS guidelines...
-{
-  /* <Head>
-<meta charSet="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title >AgentX.ai Privacy Policy</title>
-</Head> */
-}
-
-// Define the PrivacyPolicy component
 export default function PrivacyPolicy() {
   return (
     <div className="flex flex-col c9 doc- bg-black text-white w-full h-full pl-4 overflow-y-scroll">

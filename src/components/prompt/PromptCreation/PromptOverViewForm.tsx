@@ -8,8 +8,8 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import SaveIcon from "@mui/icons-material/Save";
 import PendingSharpIcon from "@mui/icons-material/PendingSharp";
 
-import { API_PATH } from "utils/lib/constants";
-import EditPromptPopup from "../promptEditing/editprompt";
+import { API_PATH } from "@/utils/constants";
+import EditPromptPopup from "../PromptEditing/EditPrompt";
 import MultiFormPopup from "./PromptCreation";
 
 const infoIcon = "/info icon green.png";

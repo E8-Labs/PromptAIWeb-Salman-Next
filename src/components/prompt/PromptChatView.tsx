@@ -4,13 +4,13 @@ import Image from "next/image";
 import Modal from "react-modal";
 import axios from "axios";
 
-import { API_PATH } from "utils/lib/constants";
+import { API_PATH } from "@/utils/constants";
 import ChatInput from "./ChatInput";
 import StackPromptsInput from "./StackPromptsInput";
 
 import PromptChatQuestionsPopup from "./PromptChatQuestions";
 import { IconButton } from "@mui/material";
-import Icons from "utils/lib/Icons";
+import Icons from "@/utils/Icons";
 
 const artIcon = "/art.png";
 const MessageType = Object.freeze({

@@ -19,7 +19,7 @@ import YouTubeLikeLoading from "./LoadingView";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
 import ProfileBaseView from "../profile/Profile";
-import { CATEGORIES, API_PATH } from "utils/lib/constants";
+import { CATEGORIES, API_PATH } from "@/utils/constants";
 import { Grid, Typography } from "@mui/material";
 import TurnedInIcon from "@mui/icons-material/TurnedIn";
 import { CustomTextField } from "components/CustomTextField";
