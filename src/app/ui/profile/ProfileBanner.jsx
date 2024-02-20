@@ -20,17 +20,22 @@ import ApiPath from "../../lib/ApiPath";
 export default function ProfileBannerView(props) {
     const [user, setUser] = useState(props.user);
     const [following, setFollowing] = useState(props.user.user.amIFollowing)
-
+    const [isLoggedInUser, setIsLoggedInUser] = useState(false)
     const [bannerImage, setBannerImage] = useState(bannerImageAsset)
 
     // const [bannerFile, setBannerFile] = useState('')
     const fileInputRef = useRef(null);
     const [UserImageError, setUserImageError] = useState('');
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log("User object changed in Banner", user)
         setFollowing(user.user.amIFollowing)
-        setBannerImage(user.user.banner_image)
+        if(typeof(user.user.banner_image !== 'undefined') && user.user.banner_image != null){
+            setBannerImage(user.user.banner_image)
+        }
+        setIsLoggedInUser(user.token !== '')
+        
+        console.log("user banner is ", user.token !== '')
     }, [user])
 
 
@@ -46,7 +51,7 @@ export default function ProfileBannerView(props) {
     const handleFileChange = (event) => {
         setUserImageError('');
         const file = event.target.files[0];
-        
+
         if (file && file.type.startsWith('image/')) {
             if (file && file.size <= 2 * 1024 * 1024) {
                 uploadBanner(file)
@@ -67,8 +72,11 @@ export default function ProfileBannerView(props) {
 
     const handleFollowAction = () => {
         //
-        let localData = localStorage.getItem(process.env.REACT_APP_LocalSavedUser);
-        let u = JSON.parse(localData)
+        var u = null
+        if (typeof localStorage !== 'undefined') {
+            let localData = localStorage.getItem(process.env.REACT_APP_LocalSavedUser);
+            u = JSON.parse(localData)
+        }
         if (!u) {
             return
         }
@@ -114,57 +122,62 @@ export default function ProfileBannerView(props) {
 
     function uploadBanner(file) {
         console.log("Uploading Profile Banner ", file)
-    // return
+        // return
         var formdata = new FormData();
         var headers = new Headers()
-        let localData = localStorage.getItem(process.env.REACT_APP_LocalSavedUser);
-        let u = JSON.parse(localData)
+        let u = null
+        if (typeof localStorage !== 'undefined') {
+            let localData = localStorage.getItem(process.env.REACT_APP_LocalSavedUser);
+             u = JSON.parse(localData)
+        }
         if (!u) {
             return
         }
         headers.append("Authorization", `Bearer ${u.token}`)
-        
+
         formdata.append("image", file);
         const apiOption2 = {
-          method: "post",
-          body: formdata,
-          redirect: 'follow',
-          headers: headers,
+            method: "post",
+            body: formdata,
+            redirect: 'follow',
+            headers: headers,
         }
         // setLoading(true)
         // return
         // setPage("signup")
         fetch(ApiPath.UploadBannerRoute, apiOption2)
-          .then(function (res) {
-            // setLoading(false)
-            return res.json();
-          }).then(resJson => {
-            // setLoading(false)
-            // this.props.clickEvent("stap6");
-            if (resJson.status == true) {
-              console.log("Banner Uploaded", resJson.data)
-              let Manin_data_wrap = resJson.data;
-              let Profile = Manin_data_wrap;
-              u.user = Profile
-              localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(u));
-              console.log(Profile.banner_image)
-              setBannerImage(Profile.banner_image)
-            //   router.push("/dashboard")
-            } else {
-            //   setLoading(false)
-              toast(`Error: ${resJson.message}`);
-              // this.setState({ valid_email_address: "Email address is already registered" });
-              // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
-              // this.error_handaling();
-            }
-          })
-          .catch(error => {
-            console.log("User error " + error)
-            toast(`User logged in as ${error}`);
-            // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
-            // this.error_handaling();
-          });
-      }
+            .then(function (res) {
+                // setLoading(false)
+                return res.json();
+            }).then(resJson => {
+                // setLoading(false)
+                // this.props.clickEvent("stap6");
+                if (resJson.status == true) {
+                    console.log("Banner Uploaded", resJson.data)
+                    let Manin_data_wrap = resJson.data;
+                    let Profile = Manin_data_wrap;
+                    u.user = Profile
+                    if (typeof localStorage !== 'undefined') {
+                        localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(u));
+                    }
+                    console.log(Profile.banner_image)
+                    setBannerImage(Profile.banner_image)
+                    //   router.push("/dashboard")
+                } else {
+                    //   setLoading(false)
+                    toast(`Error: ${resJson.message}`);
+                    // this.setState({ valid_email_address: "Email address is already registered" });
+                    // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
+                    // this.error_handaling();
+                }
+            })
+            .catch(error => {
+                console.log("User error " + error)
+                toast(`User logged in as ${error}`);
+                // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+                // this.error_handaling();
+            });
+    }
 
 
     return (
@@ -188,14 +201,18 @@ export default function ProfileBannerView(props) {
                                     @{user.user.username}
                                 </Link>
 
-                                <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${user.token == "" ? '' : 'hidden'}`} variant="contained" onClick={() => {
-                                    console.log("Follow here")
-                                    handleFollowAction()
-                                }} >{following ? `UnFollow` : 'Follow'}</Button>
+                                {
+                                    isLoggedInUser &&(
+                                        <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${isLoggedInUser ? 'hidden' : ''}`} variant="contained" onClick={() => {
+                                            console.log("Follow here")
+                                            handleFollowAction()
+                                        }} >{following ? `UnFollow` : 'Follow'}</Button>
+                                    )
+                                }
                             </div>
                             <div className="col-lg-6 col-md-6">
                                 <div className="user_info_wrap">
-                                    
+
                                     <p style={{ cursor: 'pointer' }} onClick={() => {
                                         //Show Community
                                     }} >{user.user.followers} Follower{user.user.followers > 1 && 's'}</p>
@@ -204,7 +221,7 @@ export default function ProfileBannerView(props) {
 
                                         <li><Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : '/'}><img src={globeBtnIcon} alt="" /></Link></li>
 
-                                        <li><Link target="_blank" href={user.user.youtube_url ? 'http://' +user.user.youtube_url : '/'}><img src={youtubeBtnIcon} alt="" /></Link></li>
+                                        <li><Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : '/'}><img src={youtubeBtnIcon} alt="" /></Link></li>
 
                                         <li><Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : '/'}><img src={tiktokicon} alt="" /></Link></li>
 

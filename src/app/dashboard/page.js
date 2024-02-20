@@ -85,7 +85,9 @@ export default function Page() {
     }
     else if (event.currentTarget.id === "logout") {
       //logout here
-      localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+      if (typeof localStorage !== 'undefined') {
+        localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+      }
       router.push("/")
     }
   };
@@ -105,24 +107,28 @@ export default function Page() {
     setCurrentChat(chat)
     setMenuSelected("chatgpt")
     let data = { chatViewVisible: true, newChat: true, prompt: prompt, chat: chat }
-    localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+    }
     router.push("/dashboard/chat?chatid=" + chat.id)
   }
 
   const loadCurrentUser = async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
-      navigate("/onboarding");
-    } else {
-      //console.log("User is saved in Dashboard")
-      //console.log(process.env.REACT_APP_LocalSavedUser)
+    if (typeof localStorage !== 'undefined') {
+      if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+        navigate("/onboarding");
+      } else {
+        //console.log("User is saved in Dashboard")
+        //console.log(process.env.REACT_APP_LocalSavedUser)
 
-      setCurrentUser(
+        setCurrentUser(
 
-        JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-        )
-      );
-      //   loadUsers(currentUser.token);
+          JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+          )
+        );
+        //   loadUsers(currentUser.token);
+      }
     }
   };
 
@@ -156,17 +162,46 @@ export default function Page() {
     return unique;
   }
 
+  const savePrompt = (prompt, indexToUpdate) => {
+    console.log("Saving in ", promptListMenuSelected)
+    if (promptListMenuSelected == "All") {
+      const updatedArray = [...prompts]; // Create a copy of the array
+      updatedArray[indexToUpdate].is_saved = !updatedArray[indexToUpdate].is_saved; // Update the value at the specified index
+      console.log("Updated array ", updatedArray)
+      setPrompts(updatedArray);
+    }
+    else if (promptListMenuSelected == "Created") {
+      const updatedArray = [...createdPrompts]; // Create a copy of the array
+      updatedArray[indexToUpdate].is_saved = !updatedArray[indexToUpdate].is_saved; // Update the value at the specified index
+      setCreatedPrompts(updatedArray);
+    }
+    else if (promptListMenuSelected == "Saved") {
+      let updatedArray = [...savedPrompts]; // Create a copy of the array
+      // updatedArray.splice(indexToUpdate, 1);
+      updatedArray = updatedArray.filter(function (item) {
+        return item.id !== prompt.id
+      })
+      console.log("Array after deleting is ", updatedArray)
+      // updatedArray[indexToUpdate].is_saved = !updatedArray[indexToUpdate].is_saved; // Update the value at the specified index
+      setSavedPrompts(updatedArray);
+      // return savedPrompts
+    }
+  }
+
   const loadPrompts = (isFirstLoading = false) => {
     //console.log("In Load Prompts. Remove return statement when implemented")
     // return 
     // if(isLoadingPrompts){
     //   return
     // }
-    let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-    console.log("User data stored is ", d)
-    const user = JSON.parse(
-      d
-    )
+    var user = null;
+    if (typeof localStorage !== 'undefined') {
+      let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      console.log("User data stored is ", d)
+      user = JSON.parse(
+        d
+      )
+    }
 
     let categoriesString = ""
     let comma = ""
@@ -199,6 +234,9 @@ export default function Page() {
     if (promptListMenuSelected == "Created") {
       route = ApiPath.GetUserPrompts + `?offset=${createdPrompts.length}`
     }
+    if (promptListMenuSelected == "Saved") {
+      route = ApiPath.LoadSavedPrompts + `?offset=${savedPrompts.length}`
+    }
     console.log(route)
     setIsLoadingPrompts(true)
     axios.get(route, config)
@@ -227,7 +265,7 @@ export default function Page() {
         }
         else if (promptListMenuSelected == "Saved") {
           console.log("Saved Prompts ", res.data)
-          res.data.data.prompts.map((m, index) => {
+          res.data.data.map((m, index) => {
             setSavedPrompts((prevState) =>
               [...prevState, m]
             )
@@ -289,44 +327,45 @@ export default function Page() {
 
       {/* <div className="md:p-1 overflow-y-none w-full h-full"> */}
 
-        {/* <div className="col-md-9 flex flex-col flex-grow pb-6 h-full overflow-y-none"> */}
+      {/* <div className="col-md-9 flex flex-col flex-grow pb-6 h-full overflow-y-none"> */}
 
-          <div className="overflow-y-none  w-full">
-            <PromptsListDashboard
-              promptListMenuSelected={promptListMenuSelected}
-              setSelectedMenu={setPromptListMenuSelected}
-              prompts={getCurrentPromptsForMenu()}
-              handlePromptSelected={handlePromptSelected}
-              isLoadingPrompts={isLoadingPrompts}
-              handleAddAction={() => {
-                setPopupOpen(true);
-              }}
-              setCategoriesSelected={(categories) => {
-                setCategoriesSelected(categories);
-              }}
-              setSubCategoriesSelected={(categories) => {
-                setSubCategoriesSelected(categories);
-              }}
-            />
-            
-          </div>
+      <div className="overflow-y-none  w-full">
+        <PromptsListDashboard
+          promptListMenuSelected={promptListMenuSelected}
+          setSelectedMenu={setPromptListMenuSelected}
+          prompts={getCurrentPromptsForMenu()}
+          handlePromptSelected={handlePromptSelected}
+          isLoadingPrompts={isLoadingPrompts}
+          handleAddAction={() => {
+            setPopupOpen(true);
+          }}
+          setCategoriesSelected={(categories) => {
+            setCategoriesSelected(categories);
+          }}
+          setSubCategoriesSelected={(categories) => {
+            setSubCategoriesSelected(categories);
+          }}
+          setPromptSaved={savePrompt}
+        />
 
-        {/* </div> */}
+      </div>
+
+      {/* </div> */}
 
       {/* </div> */}
       <Modal
-              isOpen={isPopupOpen}
-              onAfterOpen={afterOpenModal}
-              onRequestClose={closeModal}
-              style={customStyles}
-              contentLabel="Add Prompt"
-              appElement={document.getElementById('body')}
-            >
-              <MultiFormPopup onClose={() => {
-                loadPrompts();
-                setPopupOpen(false);
-              }} />
-            </Modal>
+        isOpen={isPopupOpen}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Add Prompt"
+        appElement={document.getElementById('body')}
+      >
+        <MultiFormPopup onClose={() => {
+          loadPrompts();
+          setPopupOpen(false);
+        }} />
+      </Modal>
     </div>
 
   )
@@ -335,10 +374,10 @@ export default function Page() {
 const customStyles = {
   overlay: {
     background: "#00000090",
-    
+
   },
   content: {
-    
+
     background: "#00000090",
     border: "none",
   },

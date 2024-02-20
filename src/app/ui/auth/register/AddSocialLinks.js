@@ -167,8 +167,8 @@ class AddSocialLinks extends Component {
 
                         <CustomTextField
 
-                            required
-                            id="outlined-required"
+                            // required
+                            // id="outlined-required"
                             label="Website"
                             defaultValue=""
                             placeholder='Web Url'
@@ -177,8 +177,8 @@ class AddSocialLinks extends Component {
                         />
                         <CustomTextField
 
-                            required
-                            id="outlined-required"
+                            // required
+                            // id="outlined-required"
                             label="Youtube Url"
                             defaultValue=""
                             placeholder='Youtube Url'
@@ -187,8 +187,8 @@ class AddSocialLinks extends Component {
                         />
                         <CustomTextField
 
-                            required
-                            id="outlined-required"
+                            // required
+                            // id="outlined-required"
                             label="Insta Url"
                             defaultValue=""
                             placeholder='Insta Url'
@@ -198,8 +198,8 @@ class AddSocialLinks extends Component {
 
                         <CustomTextField
 
-                            required
-                            id="outlined-required"
+                            // required
+                            // id="outlined-required"
                             label="Discord Url"
                             defaultValue=""
                             placeholder='Discord Url'
@@ -209,8 +209,8 @@ class AddSocialLinks extends Component {
 
                         <CustomTextField
 
-                            required
-                            id="outlined-required"
+                            // required
+                            // id="outlined-required"
                             label="Tiktok Url"
                             defaultValue=""
                             placeholder='Tiktok Url'
@@ -220,7 +220,7 @@ class AddSocialLinks extends Component {
 
                         <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
                             <Stack direction={'row'} className='' >
-                                <PageControl selectedColor={"#00C28C"} selectedIndex={3} pages={5} />
+                                <PageControl selectedColor={"#00C28C"} selectedIndex={4} pages={6} />
                             </Stack>
                             <div class="invisible ">020000000000</div>
                             <div className="bg-appgreenlight rounded-full p-0">

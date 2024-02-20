@@ -107,10 +107,12 @@ const PromptChatView = (props) => {
       //console.log("Sending First Message uncomment below sendMessage function " + prompt)
       sendMessage({ message: prompt.prompt, from: "me", type: MessageType.Prompt, title: prompt.title })
     }
-
-    const u = JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-    )
+    var u = null
+    if (typeof localStorage !== 'undefined') {
+      u = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      )
+    }
     //console.log(u)
     setUser(u)
 
@@ -122,7 +124,7 @@ const PromptChatView = (props) => {
       newChat = false;
       //send custom event here
       broadcastEvent('newChat', props.chat);
-    
+
       sendFirstPromptForNewChat(u)
     }
     else {
@@ -145,10 +147,10 @@ const PromptChatView = (props) => {
         }
       }
     }
-    if(bottomRef){
-      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start'  });
+    if (bottomRef) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     }
-    else{
+    else {
       console.log("Bottom ref is null")
     }
     // bottomRef = useRef(null)
@@ -164,7 +166,7 @@ const PromptChatView = (props) => {
 
   }, [subprompt])
 
-  useEffect(()=> {
+  useEffect(() => {
     console.log("---------------------------------------")
     console.log("Use ref Changed")
     console.log("---------------------------------------")
@@ -228,9 +230,12 @@ const PromptChatView = (props) => {
     //console.log("Sending message to server now", messagesToSend)
     //console.log("------------------------------------")
     //console.log(messagesToSend)
-    const u = JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-    )
+    let u = null
+    if (typeof localStorage !== 'undefined') {
+      u = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      )
+    }
 
     //console.log("User")
     //console.log(u)
@@ -326,33 +331,35 @@ const PromptChatView = (props) => {
     console.log("Like Dislike prompt", vote)
     console.log("data", data)
     // return
-    const u = JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-    )
+    let u = null
+    if (typeof localStorage !== 'undefined') {
+      u = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      )
+    }
     const config = {
       headers: {
         "Authorization": "Bearer " + u.token,
       }
     };
-    
+
     let result = await axios.post(ApiPath.VotePrompt, data, config)
     console.log("Result Like Dislike")
     console.log(result)
     if (result.data.status) {
-      let updatedList = messages.map(item => 
-        {
-          if (item.id == messageid){
-            if(vote === IntractionType.Like){
-              return {...item, liked: true}; //gets everything that was already in item, and updates "done"
-            }
-            else if(vote === IntractionType.DisLike){
-              return {...item, disliked: true}; //gets everything that was already in item, and updates "done"
-            }
+      let updatedList = messages.map(item => {
+        if (item.id == messageid) {
+          if (vote === IntractionType.Like) {
+            return { ...item, liked: true }; //gets everything that was already in item, and updates "done"
           }
-          return item; // else return unmodified item 
-        });
-        console.log("Messages new ",updatedList)
-        setMessages(updatedList)
+          else if (vote === IntractionType.DisLike) {
+            return { ...item, disliked: true }; //gets everything that was already in item, and updates "done"
+          }
+        }
+        return item; // else return unmodified item 
+      });
+      console.log("Messages new ", updatedList)
+      setMessages(updatedList)
     }
     else {
 
@@ -390,7 +397,7 @@ const PromptChatView = (props) => {
   }
 
 
-  
+
 
 
   return (
@@ -415,7 +422,7 @@ const PromptChatView = (props) => {
       }
       <ChatHeader className='flex bg-blue-500  h-50' username={prompt.user.username} userImage={prompt.user.profile_image} />
       {/* <MessagesList className='flex-grow ' messages={messages} prompt={prompt} ref={bottomRef}/> */}
-      <div className="flex  flex-grow flex-col messages-list h-11/12   w-8/12   items-center overflow-y-auto mx-auto ">
+      <div className="flex  flex-grow flex-col messages-list h-11/12   w-8/12   items-center overflow-y-auto custom-scrollbar mx-auto ">
         {
           messages.map((item, index) => {
 
@@ -425,16 +432,15 @@ const PromptChatView = (props) => {
                 <div key={index} className={`flex w-full my-1 ${item.from === "me" ? "justify-end" : ""}`}>
                   {
                     item.from === "me" ? (
-                      // <div className='justify-end '> 
-                        <div className={`flex mx-1 p-4  my-1 bg-appgreen  rounded-lg  border-white`} key={item.id}>
-                          <p className='text-white'>{item.message}</p>
-                        </div>
-                      // </div>
+                      <div className="relative inline-block max-w-2/3 p-4 bg-appgreenlight text-white rounded-tl-full rounded-tr-full rounded-bl-full">
+                        <div className="mb-1">{item.message}</div>
+                        <div className="absolute bottom-0 right-0 w-0 h-0 border-solid border-transparent border-r-4 border-b-4 border-blue-500"></div>
+                      </div>
                     ) :
                       (
-                            <IncomingMessage ref={bottomRef} voteAction={(vote)=>{
-                              likeDislikePrompt(vote, prompt, item.id)
-                            }} message={item} prompt={prompt} />
+                        <IncomingMessage ref={bottomRef} voteAction={(vote) => {
+                          likeDislikePrompt(vote, prompt, item.id)
+                        }} message={item} prompt={prompt} />
                       )
                   }
                 </div>
@@ -449,13 +455,13 @@ const PromptChatView = (props) => {
       </div>
       <div className='flex flex-col justify-left  w-8/12 rounded-md bg-appgreen'>
         {
-          props.prompt.subprompts.length > 0 &&(
+          props.prompt.subprompts.length > 0 && (
             <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
               //send stacked sub prompt here
               console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
               setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
               setModalVisible(true)
-    
+
             }} />
           )
         }
@@ -478,67 +484,83 @@ const IncomingMessage = ({ message, prompt, voteAction }) => {
     <>
       {
         !loading == true && (
-          <div className={`flex-col w-full my-1 justify-center items-center p-2 bg-appgreen mb-15 rounded`}>
-            <div className={`flex-col mx-1 p-2 w-full my-1`} key={message.id}>
-              <div className='flex flex-grow justify-between  w-full' style={{  }}>
+          <div className='flex flex-row gap-2'>
+            <div className={`flex-col  w-9/12 my-1 justify-center items-center bg-graybubble mb-15 `}
+              style={{ borderTopLeftRadius: 35, borderTopRightRadius: 35, borderBottomRightRadius: 35 }}>
+              <div className={`flex-col mx-1 p-1 w-full my-1`} key={message.id}>
+                {/* <div className='flex flex-grow justify-between  w-full' style={{}}>
                 <Image className=' rounded-full' src={prompt.user.profile_image}
                   objectFit="cover"
                   width="40"
                   height="40"
-                  style={{borderRadius: '50%'}}
+                  style={{ borderRadius: '50%' }}
                 >
                 </Image>
                 <IconButton sx={{ color: 'white' }} onClick={() => {
-                  
+
+                }}>
+                  <Icons.TurnedInIcon sx={{ color: 'white' }} />
+                </IconButton>
+              </div> */}
+                <div className={`flex mt-3 ps-3 py-3 ml-3`}>
+                  <p className='text-black'>{message.message}</p>
+                </div>
+
+
+              </div>
+              {/* <div className='mb-3 w-11/12 rounded' style={{ backgroundColor: 'white', height: '1px' }}></div>
+              <div className='flex w-full   justify-between items-center pb-2 px-2'>
+                <p className='  text-white w-6/7'>How would you like to rate this Answer?</p>
+                
+              </div> */}
+
+            </div>
+            <div className='flex flex-col justify-top items-center gap-2 pt-2'>
+              <div className='flex flex-col justify-center items-center ' style={{backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%'}}>
+                <IconButton sx={{ color: 'white' }} onClick={() => {
+
                 }}>
                   <Icons.TurnedInIcon sx={{ color: 'white' }} />
                 </IconButton>
               </div>
-              <div className={`flex mt-3 ps-3 py-3 `}>
-                <p className='text-white'>{message.message}</p>
+
+              <div className='flex flex-col justify-center items-center ' style={{backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%'}}>
+              <IconButton onClick={() => {
+                voteAction(IntractionType.Like)
+              }}>
+                {
+                  !message.liked && (
+                    <Icons.ThumbUpOffAltIcon sx={{ color: 'white' }} />
+                  )
+                }
+
+                {
+                  message.liked && (
+                    <Icons.ThumbUpIcon sx={{ color: 'white' }} />
+                  )
+                }
+              </IconButton>
               </div>
 
+              <div className='flex flex-col justify-center items-center ' style={{backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%'}}>
+              <IconButton onClick={() => {
+                voteAction(IntractionType.DisLike)
+              }}>
+                {/* <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} /> */}
+                {
+                  !message.disliked && (
+                    <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} />
+                  )
+                }
 
-            </div>
-            <div className='mb-3 w-11/12 rounded' style={{ backgroundColor: 'white', height: '1px' }}></div>
-            <div className='flex w-full   justify-between items-center pb-2 px-2'>
-              <p className='  text-white w-6/7'>How would you like to rate this Answer?</p>
-              <div className='flex w-full  justify-end items-center'>
-                <IconButton onClick={() => {
-                    voteAction(IntractionType.Like)
-                  }}>
-                    {
-                      !message.liked &&(
-                        <Icons.ThumbUpOffAltIcon sx={{ color: 'white' }} />
-                      )
-                    }
-
-                    {
-                      message.liked &&(
-                        <Icons.ThumbUpIcon sx={{ color: 'white' }} />
-                      )
-                    }
-                </IconButton>
-
-                <IconButton onClick={() => {
-                  voteAction(IntractionType.DisLike)
-                  }}>
-                    {/* <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} /> */}
-                    {
-                      !message.disliked &&(
-                        <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} />
-                      )
-                    }
-
-                    {
-                      message.disliked &&(
-                        <Icons.ThumbDownIcon sx={{ color: 'white' }} />
-                      )
-                    }
-                </IconButton>
+                {
+                  message.disliked && (
+                    <Icons.ThumbDownIcon sx={{ color: 'white' }} />
+                  )
+                }
+              </IconButton>
               </div>
             </div>
-
           </div>
         )
       }
@@ -546,7 +568,7 @@ const IncomingMessage = ({ message, prompt, voteAction }) => {
       {
         loading && (
           // <div></div>
-          <div className="flex typing-container message-bubble bg-graybubble  rounded-full justify-center items-center mb-4" style={{width: '100px', height: '50px'}}>
+          <div className="flex typing-container message-bubble bg-graybubble  rounded-full justify-center items-center mb-4" style={{ width: '100px', height: '50px' }}>
             {/* <div className="typing-box"></div> */}
             <div className={`typing-bubble ${loading ? 'animate-bounce' : ''}`}></div>
             <div className={`typing-bubble ${loading ? 'animate-bounce2' : ''}`}></div>

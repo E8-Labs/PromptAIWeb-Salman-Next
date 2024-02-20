@@ -17,26 +17,28 @@ export default function TopNav() {
     const [currentUser, setCurrentUser] = useState(null)
     const handleMenuClick = event => {
         console.log(event.currentTarget.id);
-        if(event.currentTarget.id == "search"){
+        if (event.currentTarget.id == "search") {
             router.push("/dashboard/search")
         }
     }
-    
+
 
     const loadCurrentUser = async () => {
-        if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
-            navigate("/onboarding");
-        } else {
-            //console.log("User is saved in Dashboard")
-            //console.log(process.env.REACT_APP_LocalSavedUser)
+        if (typeof localStorage !== 'undefined') {
+            if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+                navigate("/onboarding");
+            } else {
+                //console.log("User is saved in Dashboard")
+                //console.log(process.env.REACT_APP_LocalSavedUser)
 
-            setCurrentUser(
+                setCurrentUser(
 
-                JSON.parse(
-                    localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-                )
-            );
-            //   loadUsers(currentUser.token);
+                    JSON.parse(
+                        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+                    )
+                );
+                //   loadUsers(currentUser.token);
+            }
         }
     };
 
@@ -49,25 +51,25 @@ export default function TopNav() {
             <div className="rightdiv min-w-screen w-full flex flex-row justify-end items-center ">
                 <div className="nav-item ">
                     {/* <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button> */}
-                    <IconButton id="search" color='white' onClick={handleMenuClick} sx={{color: 'white'}}>
+                    <IconButton id="search" color='white' onClick={handleMenuClick} sx={{ color: 'white' }}>
                         <Icons.SearchIcon />
                     </IconButton>
                 </div>
                 <div className="nav-item ">
                     {/* <button className="btn text-white" id="notifications" onClick={handleMenuClick}><i className="fa fa-bell"></i></button> */}
-                    <IconButton id="notifications" color='white' onClick={handleMenuClick} sx={{color: 'white'}}>
+                    <IconButton id="notifications" color='white' onClick={handleMenuClick} sx={{ color: 'white' }}>
                         <Icons.NotificationsNoneIcon />
                     </IconButton>
                 </div>
                 <Link href={{
                     pathname: '/dashboard/profile',
                     query: {
-                         username: "salman"
+                        username: "salman"
                     }
                 }}>
                     <Image id="myprofile" src={currentUser ? currentUser.user.profile_image : ""}
                         alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }}
-                        
+
                     >
                     </Image>
                 </Link>

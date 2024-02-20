@@ -31,6 +31,16 @@ function PromptItem(props) {
         setSnackMessage("")
     }
 
+    const getSaveIcon = () => {
+        // console.log("Prompt in prompt item view is ", prompt)
+        if (!prompt.is_saved) {
+            return <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
+        }
+        else{
+            return <TurnedInIcon style={{ color: 'white' }} />
+        }
+    }
+
 
     return (
 
@@ -57,9 +67,11 @@ function PromptItem(props) {
                     </div>
                     <div className='flex  justify-center item-center'>
 
-                        
-                        <IconButton >
-                            <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
+
+                        <IconButton onClick={props.savePromptClicked}>
+                            {
+                               getSaveIcon()
+                            }
                         </IconButton>
                     </div>
                 </div> {/* Specify the height and color for the top div */}
@@ -78,7 +90,7 @@ function PromptItem(props) {
                     {/* Your icon components for Like, View, Comment go here */}
                     <div className="flex flex-col justify-center items-center pb-3">
                         <IconButton className=' p-0'>
-                            <Icons.ThumbUpIcon sx={{color: 'white', width: 20, height: 20}}/>
+                            <Icons.ThumbUpIcon sx={{ color: 'white', width: 20, height: 20 }} />
                         </IconButton>
                         <button className=' text-white'>{prompt.likes}</button>
                     </div>

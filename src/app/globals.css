@@ -47,3 +47,11 @@ input:-webkit-autofill,
     -webkit-box-shadow: 0 0 0 30px #000000 inset !important;
     -webkit-text-fill-color: #ffffff;
  }
+
+ .custom-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.custom-scrollbar {
+  scrollbar-width: none; /* Firefox */
+}

@@ -1,35 +1,36 @@
 import React, { useState, useEffect, Component } from "react";
+import { CustomTextField } from "../../customcomponents/CustomTextField";
+import { Button, Stack, IconButton } from "@mui/material";
+import { PageControl } from "../../customcomponents/PageControl";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { CustomTextField } from "../../customcomponents/CustomTextField";
-import { Button, Stack, IconButton, CircularProgress } from "@mui/material";
-import { PageControl } from "../../customcomponents/PageControl";
-import LoadingButton from '@mui/lab/LoadingButton';
-
 
 const background = '/banner-bg.png'
 const crossIcon = '/assets/cross.svg'
 const upload_image = '/assets/upload_image.svg';
-// import { alignProperty } from "@mui/material/styles/cs
+import { alignProperty } from "@mui/material/styles/cssUtils";
+import ApiPath from "@/app/lib/ApiPath";
+import axios from "axios";
 
-class AddPassword extends Component {
+class AddName extends Component {
     constructor(props) {
         super(props);
         this.state = {
             // Save Upload image
-            loading: this.props.loading,
             file: '',
             imagePreviewUrl: this.props.imagePreviewUrl,
-            username:this.props.username,
-            website: this.props.website,
-            youtube: this.props.youtube,
-            instagram: this.props.instagram,
+            name: '',
+            username: this.props.username,
+            username_available: "",
+            website: '',
+            youtube: '',
+            instagram: '',
             password: '',
             // Fome data erroe
-            logo:"",
-            valid_logo : "",
+            logo: "",
+            valid_logo: "",
             change_logo: 0,// this.props.change_logo,
-            valid_username : "", 
+            valid_username: "",
         };
         // add form value
         this.username = React.createRef();
@@ -42,48 +43,48 @@ class AddPassword extends Component {
 
     //     let reader = new FileReader();
     //     let file = e.target.files[0];
-    
+
     //     reader.onloadend = () => {
     //         this.setState({
     //             file: file,
     //             imagePreviewUrl: reader.result
     //         });
     //     }
-    
+
     //     reader.readAsDataURL(file)
     // }
     //
-    handleBackButton(event){
+    handleBackButton(event) {
         event.preventDefault()
         console.log("Handle back button")
-        this.props.backAction("social_links")
+        this.props.backAction("intro")
     }
-    handleKeyPress(e){
-        if(e.target.name == "username"){
-            this.setState({ 
-                username : e.target.value,
-                valid_username: "" 
+    handleKeyPress(e) {
+        if (e.target.name == "username") {
+            this.setState({
+                username: e.target.value,
+                valid_username: ""
             });
         }
     }
     //Fome submit function
-    Save_company_data(event){
+    Save_company_data(event) {
         event.preventDefault();
 
         let log = false;
-       
-        if(this.state.imagePreviewUrl == ""){
+
+        if (this.state.imagePreviewUrl == "") {
             this.setState({ valid_logo: "Please upload a profile picture" });
             log = true;
-        }     
+        }
 
-        if(!this.username.current.value){
+        if (!this.username.current.value) {
             this.setState({ valid_username: "Please enter a company name" });
             log = true;
         }
-       
-        if(log === true){ 
-            return 
+
+        if (log === true) {
+            return
         }
 
         // this.state.username = this.username.current.value;
@@ -93,41 +94,39 @@ class AddPassword extends Component {
         this.props.clickEvent("Team_member_stap3");
     }
 
-    nextBtnClicked(){
-        this.props.getPassword(this.state.password)
+    nextBtnClicked() {
+        // if(this.state.username_available === "yes"){
+            this.props.getFullName(this.state.name)
+        // }
+        
     }
-    handleChange(event){
+    handleChange(event) {
         event.preventDefault()
-        console.log("password changed " + event.target.value)
+        
+        console.log("Name changed " + event.target.value)
         this.setState({
-            password: event.target.value
+            name: event.target.value
         })
+        
     }
 
     render() {
-        let {imagePreviewUrl} = this.state;
-        let $imagePreview = null;
-        if (imagePreviewUrl) {
-            //   $imagePreview = (<img src={imagePreviewUrl} />);
-            $imagePreview = imagePreviewUrl;
-        } else {
-            //   $imagePreview = (<img src={upload_image} />);
-            $imagePreview = upload_image;
-        }
+        
         return (
+
             <Stack className='w-full h-full  gap-2' direction={'vertical'} style={{ width: '100%' }}>
                 <div className="flex-col flex-grow justify-center justify-center items-center mb-3">
-                <Stack className=" flex flex-grow h-12" direction={'row'}>
+                    <Stack className=" flex flex-grow h-12" direction={'row'}>
                         <IconButton onClick={this.handleBackButton.bind(this)}>
-                            <ArrowBackIcon sx={{color: 'white'}}/>
+                            <ArrowBackIcon sx={{ color: 'white' }} />
                         </IconButton>
                     </Stack>
-                    <div className="flex justify-center rounded-full mt-sm-5">
+                    {/* <div className="flex justify-center rounded-full mt-sm-5">
                         <div className="  user-profile-image-border d-flex border-2  border-appgreenlight rounded-full p-1 items-center justify-center"
                             style={{ width: "90px", height: "90px" }}>
                             <img className="rounded-full user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
                         </div>
-                    </div>
+                    </div> */}
                     <div className='flex flex-col  flex-grow gap-2 w-full justify-center items-center mt-3 px-6'>
 
                         {/* <form className='gap-sm-4 form '> */}
@@ -136,47 +135,45 @@ class AddPassword extends Component {
                         <CustomTextField
 
                             required
+                            value={this.state.name}
                             id="outlined-required"
-                            label="Password"
+                            label="Full name"
                             defaultValue=""
-                            placeholder='Password'
-                            type="password"
+                            placeholder='Full name'
                             sx={{ "label": { color: "gray" }, width: '100%' }}
                             onChange={this.handleChange.bind(this)}
                         />
 
-
+                        {/* <label className={`text-white text-xs ${this.state.username_available === "no" ? "" : "hidden"}`}>Username not available</label> */}
 
                         {/* <Stack direction={'row'} >
                         
                       </Stack> */}
                         <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
                             <Stack direction={'row'} className='' >
-                                <PageControl selectedColor={"#00C28C"} selectedIndex={5} pages={6} />
+                                <PageControl selectedColor={"#00C28C"} selectedIndex={0} pages={6} />
                             </Stack>
                             <div class="invisible ">020000000000</div>
+
                             <div className="bg-appgreenlight rounded-full p-0">
-                                <LoadingButton variant="contained" className="" endIcon={<ArrowForwardIcon />}
-                                loading={this.props.loading || false}
-                                loadingIndicator={<CircularProgress color="inherit" size={16} sx={{color: 'white'}}/>}
+                                <Button variant="contained" className="" endIcon={<ArrowForwardIcon />}
                                     sx={{
                                         bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
                                             backgroundColor: "#001812"
                                         }
-                                    }} onClick={this.nextBtnClicked.bind(this)}>
-                                        Continue
-                                    </LoadingButton>
+                                    }} onClick={this.nextBtnClicked.bind(this)}>Continue</Button>
                             </div>
                         </div>
 
-                        
+
 
                         {/* </form> */}
                     </div>
                 </div>
 
             </Stack>
+
         );
     }
 }
-export default AddPassword;
+export default AddName;

@@ -5,14 +5,14 @@ import { useEffect, useState } from "react";
 // import AcmeLogo from '@/app/ui/acme-logo';
 // import { ArrowRightIcon } from '@heroicons/react/24/outline';
 // import styles from '@/app/ui/home.module.css'
-import { lusitana, poppins } from './fonts';
+// import { lusitana, poppins } from './fonts';
 
-import { createTheme } from '@mui/material';
+// import { createTheme } from '@mui/material';
 
-import Image from 'next/image';
+// import Image from 'next/image';
 
 
-import Link from 'next/link';
+// import Link from 'next/link';
 
 import Slider from 'react-slick';
 
@@ -25,22 +25,23 @@ import 'tailwindcss/tailwind.css';
 // import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
- 
+
 // own css files here
 // import "..";
 
 // import crossIcon from '../../assets/cross.svg'
-import ChatGptLogin from "../app/ui/auth/ChatGptLogin";
+import AddName from './ui/auth/register/AddName'
+import ChatGptLogin from "./ui/auth/ChatGptLogin";
 // import NotificationPermission from '../ui/auth/register/NotificationPermission';
-import AddProfilePicture from '../app/ui/auth/register/AddProfilePicture';
-import AddUsername from '../app/ui/auth/register/AddUsername';
+import AddProfilePicture from './ui/auth/register/AddProfilePicture';
+import AddUsername from './ui/auth/register/AddUsername';
 // // impprt Ad
-import AddPassword from '../app/ui/auth/register/AddPassword';
-import AddEmail from '../app/ui/auth/register/AddEmail';
-import LoginAI from "../app/ui/auth/LoginAI";
-import AddSocialLinks from '../app/ui/auth/register/AddSocialLinks';
+import AddPassword from './ui/auth/register/AddPassword';
+import AddEmail from './ui/auth/register/AddEmail';
+import LoginAI from "./ui/auth/LoginAI";
+import AddSocialLinks from './ui/auth/register/AddSocialLinks';
 
-import ApiPath from "../app/lib/ApiPath";
+import ApiPath from "./lib/ApiPath";
 
 
 
@@ -113,14 +114,18 @@ export default function Page() {
     backgroundRepeat: 'no-repeat',
   };
 
+  
   useEffect(() => {
-    let u = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-    if (u){
-      let user = JSON.parse(u)
-      if(user){
-        router.push("/dashboard")
+    if (typeof localStorage !== 'undefined') {
+      let u = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      if (u) {
+        let user = JSON.parse(u)
+        if (user) {
+          router.push("/dashboard")
+        }
       }
     }
+
   }, [])
 
   //functions
@@ -128,28 +133,28 @@ export default function Page() {
     setPage("login")
   }
   function registerBtnTapped() {
-    setPage("profile_image")
+    setPage("full_name")
   }
   function getImage(imageUrl, file) {
     console.log("Image picked " + imageUrl)
-    if(imageUrl === null){
+    if (imageUrl === null) {
       toast(`Add Profile Picture`);
     }
-    else{
+    else {
       setFile(file)
-        setImagePreviewUrl(imageUrl)
-      if(providerName === "Email"){
+      setImagePreviewUrl(imageUrl)
+      if (providerName === "Email") {
         setPage("email")
       }
-      else{
+      else {
         setPage("username")
       }
     }
-    
+
   }
   function getUsername(username) {
     console.log("Username added " + username)
-    if(username === null || username === ""){
+    if (username === null || username === "") {
       toast(`Add username`);
       return
     }
@@ -160,7 +165,7 @@ export default function Page() {
 
   function getEmail(email) {
     console.log("email added " + email)
-    if(email === null || email === ""){
+    if (email === null || email === "") {
       toast(`Add email`);
       return
     }
@@ -169,13 +174,13 @@ export default function Page() {
 
   }
 
-  function backAction(screen){
+  function backAction(screen) {
     setPage(screen)
   }
 
   function getPassword(password) {
     console.log("Password added " + password)
-    if(password === null || password === ""){
+    if (password === null || password === "") {
       toast(`Add username`);
       return
     }
@@ -184,12 +189,12 @@ export default function Page() {
     registerUser(password)
   }
 
-  function registerUser(password){
+  function registerUser(password) {
     var formdata = new FormData();
     formdata.append("username", username);
     formdata.append("email", email);
     formdata.append("password", password);
-    formdata.append("name", username);
+    formdata.append("name", name);
     formdata.append("youtube", youtube);
     formdata.append("website", website);
     formdata.append("instagram", instagram);
@@ -220,7 +225,9 @@ export default function Page() {
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
           let profile_img = Profile.image_url;
-          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          }
           console.log(Profile.image_url)
           router.push("/dashboard")
         } else {
@@ -242,11 +249,11 @@ export default function Page() {
 
   //login here
   function getEmailPassword(email, password) {
-    if(email === null || email === ""){
+    if (email === null || email === "") {
       toast(`Add email`);
       return
     }
-    if(password === null || password === ""){
+    if (password === null || password === "") {
       toast(`Add password`);
       return
     }
@@ -262,8 +269,8 @@ export default function Page() {
       }),
       redirect: 'follow'
     }
-console.log("Loging user")
-setLoading(true)
+    console.log("Loging user")
+    setLoading(true)
     fetch(ApiPath.LoginRoute, apiParams)
       .then(function (res) {
         setLoading(false)
@@ -277,7 +284,9 @@ setLoading(true)
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
           let profile_img = Profile.image_url;
-          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          }
           console.log(Profile.image_url)
           router.push("/dashboard")
           // const navigate = this.props.navigate;
@@ -300,6 +309,11 @@ setLoading(true)
       });
   }
 
+  function getFullName(name){
+    setName(name)
+    setPage("profile_image")
+  }
+
 
   function getSocialLinks(web, insta, youtube, discord, tiktok) {
     console.log("Web added " + web)
@@ -308,17 +322,17 @@ setLoading(true)
     setYoutube(youtube)
     setDiscord(discord)
     setTiktok(tiktok)
-    if(providerName === "Email"){
+    if (providerName === "Email") {
       setPage("password")
     }
-    else{
+    else {
       registerUser("")
     }
-    
-  }
-  
 
-  function registerWithSocial(userData){
+  }
+
+
+  function registerWithSocial(userData) {
 
 
     setName(userData.name)
@@ -340,8 +354,8 @@ setLoading(true)
       }),
       redirect: 'follow'
     }
-console.log("Loging user", apiParams)
-setLoading(true)
+    console.log("Loging user", apiParams)
+    setLoading(true)
     fetch(ApiPath.LoginRouteSocial, apiParams)
       .then(function (res) {
         setLoading(false)
@@ -356,7 +370,9 @@ setLoading(true)
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
           let profile_img = Profile.image_url;
-          localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          if (typeof localStorage !== 'undefined') {
+            localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
+          }
           console.log(Profile.image_url)
           router.push("/dashboard")
           // const navigate = this.props.navigate;
@@ -365,7 +381,7 @@ setLoading(true)
         } else {
           console.log("Error login social ", resJson.message)
           setPage("profile_image")
-          toast(`Error: ${resJson.message}`);
+          // toast(`Error: ${resJson.message}`);
           // this.setState({ valid_email_address: "Email address is already registered" });
           // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
           // this.error_handaling();
@@ -379,7 +395,7 @@ setLoading(true)
         // this.error_handaling();
       });
 
-    
+
 
   }
 
@@ -389,8 +405,8 @@ setLoading(true)
     <main className="flex min-h-screen flex-col p-6" style={mainStyle}>
       {/* Header or other content can be added here if needed */}
 
-      <div className="bg-black rounded m-auto items-center justify-center flex flex-row h-2/5 w-3/5  shadow-lg">
-        <div className="flex-grow flex flex-col justify-center gap-6 rounded bg-gray-50 px-6 py-10 md:w-2/4 h-40vh md:px-20  bg-appgreen" style={{ height: '70vh', backgroundColor: "#001812" }}>
+      <div className="bg-black rounded m-auto items-center justify-center flex flex-row h-2/5   shadow-lg" style={{width: 400}}>
+        {/* <div className="flex-grow flex flex-col justify-center gap-6 rounded bg-gray-50 px-6 py-10 md:w-2/4 h-40vh md:px-20  bg-appgreen" style={{ height: '70vh', backgroundColor: "#001812" }}>
           <Slider {...sliderSettings} className=" flex-grow flex" style={{ height: '50vh', flex: 1 }}>
             {sliderContent.map((slide, index) => (
               <div key={index} className="gap-4" style={{ height: '100vh', gap: '2rem', flexDirection: 'column', flex: 1 }}>
@@ -399,10 +415,10 @@ setLoading(true)
               </div>
             ))}
           </Slider>
-        </div>
+        </div> */}
 
-        <div className="flex-grow flex items-center justify-center p-1 md:w-2/4   bg-black" style={{ height: '70vh' }}>
-          <div className=" flex items-center h-full  p-2 justify-center " style={{ width: '100%' }} >
+        <div className="flex-grow rounded flex items-center justify-center p-1 md:w-2/4   bg-black" style={{ height: '70vh' }}>
+          <div className=" flex rounded items-center h-full  p-2 justify-center " style={{ width: '100%' }} >
 
             {
               page === "intro" && (
@@ -417,7 +433,7 @@ setLoading(true)
                 // <div> Hello there login </div>
               )
             }
-            
+
             {
               page === "email" && (
                 <AddEmail backAction={backAction} getEmail={getEmail} imagePreviewUrl={imagePreviewUrl} />
@@ -425,11 +441,16 @@ setLoading(true)
               )
             }
             {
+              page === "full_name" && (
+                <AddName backAction={backAction} className="h-full" getFullName={getFullName}/>
+              )
+            }
+            {
               page === "profile_image" && (
                 <AddProfilePicture backAction={backAction} className="h-full" getImage={getImage} />
               )
             }
-            
+
             {
               page === "username" && (
                 <AddUsername backAction={backAction} imagePreviewUrl={imagePreviewUrl} getUsername={getUsername} />

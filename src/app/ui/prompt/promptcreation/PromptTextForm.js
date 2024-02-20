@@ -78,7 +78,7 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
               maxRows={15}
               minRows={15}
               id="outlined-required"
-              label="Description"
+              label="Prompt Detail"
               defaultValue={formData.promptText}
               placeholder= {promptTextPlaceholder}
               sx={{ "label": { color: "gray" }, width: '100%' }}

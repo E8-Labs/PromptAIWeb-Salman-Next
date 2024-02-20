@@ -28,7 +28,7 @@ const PrivacyPolicy = () => {
 
       <p>Welcome to AgentX.ai</p><br /><br />
       <p className="c2">
-      These Terms and Conditions govern your use of the AgentX.ai website, mobile application, and AI-powered services (collectively, the "Service"). By accessing or using the Service, you agree to be bound by these Terms and Conditions.
+      These Terms and Conditions govern your use of the AgentX.ai website, mobile application, and AI-powered services (collectively, the Service). By accessing or using the Service, you agree to be bound by these Terms and Conditions.
       </p>
 
       {/* ... (Continue adding the rest of your HTML content here) */}
@@ -71,7 +71,7 @@ const PrivacyPolicy = () => {
 
       <div class="prose pl-5">
         <ul class="list-disc">
-          <li>User-Generated Content: You're responsible for your content on the Service.</li>
+          <li>User-Generated Content: Youre responsible for your content on the Service.</li>
           <li>Prohibited Conduct: No illegal or unauthorized use of the Service. Harassment and offensive behavior are prohibited.</li>
         </ul>
       </div>
@@ -169,7 +169,7 @@ const PrivacyPolicy = () => {
 
       <div class="prose pl-5">
         <ul class="list-disc">
-          <li>Governed by California law. Disputes fall under California's jurisdiction.</li>
+          <li>Governed by California law. Disputes fall under Californias jurisdiction.</li>
         </ul>
       </div>
 

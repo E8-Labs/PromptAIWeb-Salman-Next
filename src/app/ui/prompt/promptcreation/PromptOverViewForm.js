@@ -63,20 +63,23 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
 
 
   const loadCurrentUser = (async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
-      navigate("/onboarding");
-    } else {
-      console.log("User is saved in Dashboard")
-      console.log(process.env.REACT_APP_LocalSavedUser)
+    if (typeof localStorage !== 'undefined') {
+      if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+        navigate("/onboarding");
+      } else {
+        console.log("User is saved in Dashboard")
+        console.log(process.env.REACT_APP_LocalSavedUser)
 
-      setUser(
+        setUser(
 
-        JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-        )
-      );
-      //   loadUsers(currentUser.token);
+          JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+          )
+        );
+        //   loadUsers(currentUser.token);
+      }
     }
+
   });
 
   const addSubPrompt = (p) => {
@@ -147,12 +150,12 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
 
   const action = (
     <div>
-      
+
       <IconButton
         size="small"
         aria-label="close"
         color="inherit"
-        onClick={()=>{
+        onClick={() => {
           setSnackOpen(false)
         }}
       >
@@ -294,7 +297,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
       <Snackbar
         open={snackOpen}
         autoHideDuration={3000}
-        onClose={()=>{
+        onClose={() => {
 
         }}
         message={snackMessage}
@@ -384,19 +387,21 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
 
 
   const loadCurrentUser = (async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
-      // navigate("/onboarding");
-    } else {
-      console.log("User is saved in Dashboard")
-      // console.log(process.env.REACT_APP_LocalSavedUser)
+    if (typeof localStorage !== 'undefined') {
+      if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+        // navigate("/onboarding");
+      } else {
+        console.log("User is saved in Dashboard")
+        // console.log(process.env.REACT_APP_LocalSavedUser)
 
-      setUser(
+        setUser(
 
-        JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-        )
-      );
-      //   loadUsers(currentUser.token);
+          JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+          )
+        );
+        //   loadUsers(currentUser.token);
+      }
     }
   });
   const handleLearnPromptClick = () => {

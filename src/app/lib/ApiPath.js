@@ -23,7 +23,9 @@ const ApiPath = {
    VotePrompt: baseUrl + "prompts/vote_prompt",
    FollowUser: baseUrl + "users/follow_user",
    Profile: baseUrl + "users/profile",
-   GPTCompletions: "https://api.openai.com/v1/chat/completions"
+   GPTCompletions: "https://api.openai.com/v1/chat/completions",
+   SavePrompt: baseUrl + "users/save_prompt",
+   LoadSavedPrompts: baseUrl + "users/saved_prompts",
 
 
 }

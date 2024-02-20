@@ -8,10 +8,10 @@ import React, { useState, useEffect } from "react";
 // import crossIcon from '../../../public/cross.svg'
 import Link from "next/link";
 import Image from "next/image";
-import { Button, Icon } from "@mui/material";
+import { Button, Icon, IconButton } from "@mui/material";
 import { getMessaging, onMessage } from 'firebase/messaging';
 import { signInWithPopup } from 'firebase/auth'
-import {requestPermission, app, initMessaging, googleProvider, auth } from "./../../firebase"
+import {requestPermission, app, initMessaging, googleProvider, auth, appleProvider } from "./../../firebase"
 import Icons from '@/app/lib/Icons';
 
 // import { alignProperty } from "@mui/material/styles/cssUtils";
@@ -73,6 +73,15 @@ function ChatGptLogin(props) {
 
     const handleSigninWithAppleBtnClick = (e) => {
         console.log("Sign in with Apple here")
+        signInWithPopup(auth, appleProvider).then((data) => {
+            // let userData = data.user
+            let userData = {email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple"}
+            console.log("User data is ", data.user.email)
+            props.registerWithSocial(userData)
+            // localStorage.setItem('email', data.user.email)
+            // setValue(data.user.email)
+            // console.log("user email is", data.user.email)
+        })
     }
 
 
@@ -121,28 +130,36 @@ function ChatGptLogin(props) {
 <button style={{backgroundColor: 'red', height: 50, width: 120}}>
     Hello
 </button> */}
-                <div className="flex-col my-2 " >
-                    <div className="flex items-center justify-center p-md-2 p-0 gap-1">
-                        <span className="mb-10 text-white">Dont have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
+                <div className="flex-col my-2 justify-center items-center" >
+                    <div className="flex items-center justify-center p-md-2 p-0 gap-1 ">
+                        <span className="mb-4 text-white">Dont have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
                     </div>
-                    <div className="flex flex-col w-full items-center justify-center p-md-2 p-0 gap-1">
-                        <span className=" text-white">Or </span>
+                    <div className="flex justify-center items-center w-full mb-2">
+                        <span className=" text-white">Or Sign in with</span>
+                    </div>
+                    <div className="flex flex-row w-full items-center justify-center p-md-2 p-0 gap-1">
                         
-                        <Button variant="contained" startIcon={<Icons.GoogleIcon />}
-                        sx={{
-                             padding: 1, paddingX: 1.3, borderRadius: 1, ":hover": {
-                                bgcolor: "#001812"
-                            }
-                        }} onClick={handleSigninWithGoogleBtnClick}>Sign In with Google</Button>
-
-                        <Button variant="contained" startIcon={<Icons.AppleIcon />}
-                        sx={{
-                            marginTop: 1,
+                        
+                        <div className="flex rounded" style={{backgroundColor: '#FFFFFF', marginTop: 1,
                             marginBottom: 3,
-                             padding: 1, paddingX: 1.3, borderRadius: 1, ":hover": {
+                             borderRadius: '50%', ":hover": {
                                 bgcolor: "#001812"
-                            }
-                        }} onClick={handleSigninWithAppleBtnClick}>Sign In with Apple</Button>
+                            }}}>
+                        <IconButton 
+                        sx={{
+                            
+                        }} onClick={handleSigninWithGoogleBtnClick}><Icons.GoogleIcon /></IconButton>
+                        </div>
+                        <div className="flex rounded-lg" style={{backgroundColor: '#FFFFFF', marginTop: 1,
+                            marginBottom: 3,
+                             borderRadius: '50%', ":hover": {
+                                bgcolor: "#001812"
+                            }}}>
+                        <IconButton 
+                        sx={{
+                            
+                        }} onClick={handleSigninWithAppleBtnClick}><Icons.AppleIcon /></IconButton>
+                        </div>
                         
                     </div>
                 </div>

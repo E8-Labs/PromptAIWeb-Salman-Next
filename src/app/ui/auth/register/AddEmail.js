@@ -140,6 +140,7 @@ class AddEmail extends Component {
                         <CustomTextField
 
                             required
+                            value={this.state.email}
                             id="outlined-required"
                             label="Email"
                             defaultValue=""
@@ -155,7 +156,7 @@ class AddEmail extends Component {
                       </Stack> */}
                         <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
                             <Stack direction={'row'} className='' >
-                                <PageControl selectedColor={"#00C28C"} selectedIndex={1} pages={5} />
+                                <PageControl selectedColor={"#00C28C"} selectedIndex={2} pages={6} />
                             </Stack>
                             <div class="invisible ">020000000000</div>
                             <div className="bg-appgreenlight rounded-full p-0">

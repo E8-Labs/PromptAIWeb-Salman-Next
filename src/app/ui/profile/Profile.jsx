@@ -41,24 +41,29 @@ export default function ProfileBaseView(props) {
 
 
   const loadCurrentUser = async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
-      navigate("/login");
-    } else {
-      console.log("User already logged in")
-      setCurrentUser(
-        await JSON.parse(
-          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-        )
-      );
-      //   loadUsers(currentUser.token);
+    if (typeof localStorage !== 'undefined') {
+      if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+        navigate("/login");
+      } else {
+        console.log("User already logged in")
+        setCurrentUser(
+          await JSON.parse(
+            localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+          )
+        );
+        //   loadUsers(currentUser.token);
+      }
     }
   };
   const loadPrompts = () => {
     //console.log("In Load Prompts. Remove return statement when implemented")
     // return 
-    const u = JSON.parse(
-      localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-    )
+    var u = null
+    if (typeof localStorage !== 'undefined') {
+       u = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      )
+    }
 
     //   this.setState({currentUser: user})
     // setCurrentUser(u)
@@ -101,7 +106,9 @@ export default function ProfileBaseView(props) {
 
 
   const logoutCurrentuser = () => {
-    localStorage.removeItem(process.env.REACT_APP_LocalSavedUser)
+    if (typeof localStorage !== 'undefined') {
+      localStorage.removeItem(process.env.REACT_APP_LocalSavedUser)
+    }
     // navigate("/")
   }
   const getUserProfile = async () => {
@@ -152,17 +159,17 @@ export default function ProfileBaseView(props) {
   return (
     <div className="flex  flex-col  flex-grow w-full h-full bg-black px-2">
       {
-        currentUser != null &&(
+        currentUser != null && (
           <div className={` ${user.user.id !== currentUser.user.id ? " " : 'hidden'}`} style={{}}>
-            <IconButton onClick={()=> {
+            <IconButton onClick={() => {
               props.closeProfileView()
             }}>
-              <Icons.CloseIcon sx={{color: 'white'}}/>
+              <Icons.CloseIcon sx={{ color: 'white' }} />
             </IconButton>
           </div>
         )
       }
-      
+
       <ProfileBannerView user={user} />
 
       {/*<div className="flex gap-2 pt-5 justify-between">
@@ -184,27 +191,27 @@ export default function ProfileBaseView(props) {
       </div>*/}
 
       {
-        currentUser != null &&(
-          <div className={`overflow-y-scroll py-6  ${user.user.id !== currentUser.user.id ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4'}`} style={{  }}>
-        {
-
-          prompts.map((element, index) => {
-            // <label>{element}</label>
+        currentUser != null && (
+          <div className={`overflow-y-scroll py-6  ${user.user.id !== currentUser.user.id ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'}`} style={{}}>
             {
-              console.log("Prompt in map is ", element)
-            }
-            return (
-              <div className="rounded bg-appgreen p-0 " key={element.id}>
-                {/* <PromptItemMyprofile prompt={element}  itemSelected = {handlePromptSelected}/> */}
-                <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
-                  console.log("Buy btn clicked")
 
-                }}></PromptItem>
-              </div>
-            )
-          })
-        }
-      </div>
+              prompts.map((element, index) => {
+                // <label>{element}</label>
+                {
+                  console.log("Prompt in map is ", element)
+                }
+                return (
+                  <div className="rounded bg-appgreen p-0 " key={element.id}>
+                    {/* <PromptItemMyprofile prompt={element}  itemSelected = {handlePromptSelected}/> */}
+                    <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
+                      console.log("Buy btn clicked")
+
+                    }}></PromptItem>
+                  </div>
+                )
+              })
+            }
+          </div>
         )
       }
     </div>

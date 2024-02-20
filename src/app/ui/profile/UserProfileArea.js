@@ -48,14 +48,14 @@ const UserProfileArea = (props) => {
                         <div className="col-lg-12">
                             {/* <div className="user-profile-banner"  style={{ backgroundImage: `url(${props.BannerImage})` }}> */}
                             <div className="user-profile-banner"  style={{ background: `linear-gradient(180deg,rgba(0,0,0,0) 10.73%,rgba(0,0,0,.575644) 100%,rgba(0,0,0,.78) 78.78%) center/cover,url() center/cover` }}>
-                                {props.UserID == localStorage.getItem('mongodb_userid')?
+                                {/* {props.UserID == localStorage.getItem('mongodb_userid')?
                                     <>
                                         <button onClick={handleFileChangeOpen} className="edit_banner" htmlFor="edit_banner">
                                             <img src=".../Edit.svg" alt="" />
                                         </button>
                                         <input ref={fileInputRef} onChange={handleFileChange} id="edit_banner" className="file-upload" type="file" accept="image/*" />
                                     </>
-                                : '' }
+                                : '' } */}
                                 <div className="row align-items-center">
                                     <div className="col-lg-6 col-md-6">
                                         <div className="user_pro">
@@ -68,7 +68,7 @@ const UserProfileArea = (props) => {
                                                 @{props.UserName}</div>
                                             <div className="subscribe_btn">
                                                 <div className="unfollow_btn">
-                                                {props.UserID != localStorage.getItem('mongodb_userid')?
+                                                {/* {props.UserID != localStorage.getItem('mongodb_userid')?
                                                     (props.FollowStatus?
                                                         <div to="#" onClick={unfollowers_request.bind(this)} >Unfollow</div>
                                                         :
@@ -76,7 +76,7 @@ const UserProfileArea = (props) => {
                                                     )
                                                     :
                                                     ''
-                                                }
+                                                } */}
                                                 </div>
                                             </div>
                                         </div>

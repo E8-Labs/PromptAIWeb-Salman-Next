@@ -53,7 +53,7 @@ class AddProfilePicture extends Component {
     // }
     //
     backAction(){
-        this.props.backAction("intro")
+        this.props.backAction("full_name")
     }
     handleKeyPress(e) {
         if (e.target.name == "User_Name") {
@@ -162,7 +162,7 @@ class AddProfilePicture extends Component {
 
                 <div className="flex flex-grow w-full mt-4 pt-4 px-6  justify-between  items-center">
                     <Stack direction={'row'} className='' >
-                        <PageControl selectedColor={"#00C28C"} selectedIndex={1} pages={5} />
+                        <PageControl selectedColor={"#00C28C"} selectedIndex={1} pages={6} />
                     </Stack>
                     <div class="invisible ">020000000000</div>
                     <div className="bg-appgreenlight rounded-full p-0">

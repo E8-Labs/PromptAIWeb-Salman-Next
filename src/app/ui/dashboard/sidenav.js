@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link';
 import Image from 'next/image'
-import {NavSideLinks, NavSideLinks2} from '../../ui/dashboard/nav-links';
+import { NavSideLinks, NavSideLinks2 } from '../../ui/dashboard/nav-links';
 // import NavSideLinks
 // import AcmeLogo from '@/app/ui/acme-logo';
 import { PowerIcon } from '@heroicons/react/24/outline';
@@ -25,25 +25,27 @@ export default function SideNav() {
 
 
   const loadCurrentUser = async () => {
-    if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
-      navigate("/onboarding");
-    } else {
-      //console.log("User is saved in Dashboard")
-      //console.log(process.env.REACT_APP_LocalSavedUser)
-      let user = JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-      )
-      setCurrentUser(
-        user
-      );
-      loadChats(user)
-      //   loadUsers(currentUser.token);
+    if (typeof localStorage !== 'undefined') {
+      if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
+        navigate("/onboarding");
+      } else {
+        //console.log("User is saved in Dashboard")
+        //console.log(process.env.REACT_APP_LocalSavedUser)
+        let user = JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+        )
+        setCurrentUser(
+          user
+        );
+        loadChats(user)
+        //   loadUsers(currentUser.token);
+      }
     }
   };
 
   useEffect(() => {
     loadCurrentUser()
-    
+
     const handleEvent = (data) => {
       console.log('Event data:', data);
     };
@@ -56,9 +58,12 @@ export default function SideNav() {
       // console.log("All Chats ", allChats)
       // setChats(allChats)
       // setChats([event.detail, ...chats]);
-      let user = JSON.parse(
-        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-      )
+      var user = null
+      if (typeof localStorage !== 'undefined') {
+        user = JSON.parse(
+          localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+        )
+      }
       loadChats(user)
     });
     // Register the event listener
@@ -117,7 +122,9 @@ export default function SideNav() {
               return (
                 <ChatListSingleItem key={item.id} chat={item} chatSelected={(prompt, chat) => {
                   let data = { chatViewVisible: true, newChat: false, prompt: prompt, chat: chat }
-                  localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+                  if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+                  }
                   router.push("/dashboard/chat?chatid=" + chat.id)
                   // router.push("/");
                 }} />
@@ -131,7 +138,9 @@ export default function SideNav() {
             onClick={(event) => {
               event.preventDefault()
               console.log("Logout here")
-              localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+              if (typeof localStorage !== 'undefined') {
+                localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+              }
               router.push("/");
             }}
           >

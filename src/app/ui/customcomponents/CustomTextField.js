@@ -17,7 +17,7 @@ export const CustomTextField = style2(TextField)({
     },
     '& .MuiOutlinedInput-root': {
       '& fieldset': {
-        borderColor: '#E0E3E7',
+        borderColor: '#5A5A5A',
         backgroundColor: 'transparent'
       },
       '&:hover fieldset': {

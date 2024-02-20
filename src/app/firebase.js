@@ -2,7 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import {getMessaging, getToken, onMessage} from 'firebase/messaging'
-import { getAuth, GoogleAuthProvider } from "firebase/auth"
+import { getAuth, GoogleAuthProvider, OAuthProvider } from "firebase/auth"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -23,6 +23,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app)
 const googleProvider = new GoogleAuthProvider()
+const appleProvider = new OAuthProvider("apple.com")
 
 
 const initMessaging = () => {
@@ -72,4 +73,4 @@ const initMessaging = () => {
     })
 } 
 
-export  {requestPermission, app, initMessaging, auth, googleProvider}
+export  {requestPermission, app, initMessaging, auth, googleProvider, appleProvider}
