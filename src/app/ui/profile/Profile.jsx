@@ -1,3 +1,4 @@
+'use client'
 import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
 import ProfileBannerView from "./ProfileBanner";
@@ -6,8 +7,13 @@ import PromptItemMyprofile from "../prompt/promptitemmyprofile";
 import { IconButton, Snackbar } from "@mui/material";
 import axios from "axios";
 import Icons from "@/app/lib/Icons";
-
+import ProfileManagement from './ProfileManagement'
 import ApiPath from "../../lib/ApiPath";
+
+//AI component, Profile Manage Componnent
+
+import Manageprofile from './Manageprofile';
+import AIpersonality from './AIpersonality';
 
 const RecentIcon = '/assets/recent.svg'
 const PopularIcon = '/assets/popular.svg'
@@ -60,7 +66,7 @@ export default function ProfileBaseView(props) {
     // return 
     var u = null
     if (typeof localStorage !== 'undefined') {
-       u = JSON.parse(
+      u = JSON.parse(
         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
       )
     }
@@ -156,11 +162,38 @@ export default function ProfileBaseView(props) {
     }
   };
 
+  //code for AI Personality
+  const [aiPersonality, SetAiPersonality] = useState(false)
+
+  const handleAI = () => {
+    setAllprompts(false)
+    setProfilemanage(false)
+    SetAiPersonality(true)
+  }
+
+  //code for profilemanagement
+  const [profilemanage, setProfilemanage] = useState(true)
+
+  const handleProfileManagement = () => {
+    setAllprompts(false)
+    SetAiPersonality(false)
+    setProfilemanage(true)
+  }
+
+  //code for prompts
+  const [allprompts, setAllprompts] = useState(false)
+
+  const handleUserPrompts = () => {
+    SetAiPersonality(false)
+    setProfilemanage(false)
+    setAllprompts(true)
+  }
+
   return (
     <div className="flex  flex-col  flex-grow w-full h-full bg-black px-2">
       {
         currentUser != null && (
-          <div className={` ${user.user.id !== currentUser.user.id ? " " : 'hidden'}`} style={{}}>
+          <div className={` ${user.user.id !== currentUser.user.id ? "" : 'hidden'}`} style={{}}>
             <IconButton onClick={() => {
               props.closeProfileView()
             }}>
@@ -189,31 +222,80 @@ export default function ProfileBaseView(props) {
           </div>
         </div> 
       </div>*/}
+      <div className="mt-5 flex flex-row">
+        <button className="rounded flex flex-row p-3"
+          onClick={handleProfileManagement}
+          style={{
+            backgroundColor: profilemanage ? '#00C28C30' : '',
+            border: 'none'
+          }}>
+          <img className="h-auto w-5" src="/Setting.png" /> <p className="text-white ms-2">Profile Management</p>
+        </button>
+        <button className="rounded ms-2 p-3 flex flex-row"
+          onClick={handleAI} style={{
+            backgroundColor: aiPersonality ? '#00C28C30' : '',
+            border: 'none'
+          }}
+        >
+          <img className="h-auto w-5" src="/chatgpt.svg" /><p className="text-white ms-2">AI Personality</p>
+        </button>
+        <button className="rounded p-3 flex flex-row"
+          onClick={handleUserPrompts} style={{
+            backgroundColor: allprompts ? '#00C28C30' : '',
+            border: 'none'
+          }}
+        >
+          <img className="h-auto w-5" src="/chatgpt.svg" /> <p className="text-white ms-2">My Prompts</p>
+        </button>
+      </div>
 
-      {
-        currentUser != null && (
-          <div className={`overflow-y-scroll py-6  ${user.user.id !== currentUser.user.id ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'}`} style={{}}>
-            {
-
-              prompts.map((element, index) => {
-                // <label>{element}</label>
+      {/* Code for AllPrompts User Created */}
+      {allprompts && (
+        <div className="mb-10 mt-7" style={{
+          overflow: 'scroll',
+          height: '520px'
+        }}>
+          {
+            currentUser != null && (
+              <div className={`${user.user.id !== currentUser.user.id ? " grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" : 'grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'}`} style={{}}>
                 {
-                  console.log("Prompt in map is ", element)
-                }
-                return (
-                  <div className="rounded bg-appgreen p-0 " key={element.id}>
-                    {/* <PromptItemMyprofile prompt={element}  itemSelected = {handlePromptSelected}/> */}
-                    <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
-                      console.log("Buy btn clicked")
 
-                    }}></PromptItem>
-                  </div>
-                )
-              })
-            }
-          </div>
-        )
-      }
+                  prompts.map((element, index) => {
+                    // <label>{element}</label>
+                    {
+                      console.log("Prompt in map is ", element)
+                    }
+                    return (
+                      <div className="rounded bg-appgreen p-0 " key={element.id}>
+                        {/* <PromptItemMyprofile prompt={element}  itemSelected = {handlePromptSelected}/> */}
+                        <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
+                          console.log("Buy btn clicked")
+
+                        }}></PromptItem>
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            )
+          }
+        </div>
+      )}
+
+      {/* Code for Profilemanage */}
+      {profilemanage && (
+        <div className="mt-10">
+          {/*<ProfileManagement />*/}
+          <Manageprofile />
+        </div>
+      )}
+
+      {/* Code for AI Personality */}
+      {aiPersonality && (
+        <div className="text-white">
+          <AIpersonality />
+        </div>
+      )}
     </div>
   )
 }

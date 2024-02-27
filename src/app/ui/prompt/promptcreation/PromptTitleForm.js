@@ -94,28 +94,39 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
             <form className='gap-sm-4 form '>
 
               {/* <input className='inputtext' type='text' placeholder='Title' name='title' onChange={e => updateFormData({ title: e.target.value })}></input> */}
-              <CustomTextField
-                required
-                id="outlined-required"
-                label="Title"
-                defaultValue={formData.title}
-                placeholder='Title'
-                sx={{ "label": { color: "gray" } }}
-                onChange={e => updateFormData({ title: e.target.value })}
-              />
+              <div className='w-full'>
+                <CustomTextField className='w-full'
+                  // style={{ border: '2px solid red' }}
+                  required
+                  id="outlined-required"
+                  label="Title"
+                  defaultValue={formData.title}
+                  placeholder='Title'
+                  sx={{ "label": { color: "gray" } }}
+                  onChange={e => updateFormData({ title: e.target.value })}
+                  inputProps={{ maxLength: 150 }}
+                />
+                <p className='text-end font-medium text-sm'>150 Characeters</p>
+              </div>
 
-              <CustomTextField
-                style={{ height: 120 }}
-                required
-                multiline
-                maxRows={5}
-                id="outlined-required"
-                label="Description"
-                defaultValue={formData.description}
-                placeholder='What’s the objective of the ai model you’re creating:'
-                sx={{ "label": { color: "gray" } }}
-                onChange={e => updateFormData({ description: e.target.value })}
-              />
+              <div>
+                <CustomTextField
+                  className='w-full'
+                  // style={{ border: '2px solid red' }}
+                  required
+                  multiline
+                  maxRows={5}
+                  id="outlined-required"
+                  label="Description"
+                  defaultValue={formData.description}
+                  placeholder='What’s the objective of the ai model you’re creating:'
+                  sx={{ "label": { color: "gray" } }}
+                  onChange={e => updateFormData({ description: e.target.value })}
+                  inputProps={{ maxLength: 250 }}
+                />
+                <p className='w-full text-end text-white font-medium text-sm'>250 Characters</p>
+              </div>
+
 
               {/* <Stack direction={'row'} >
                 

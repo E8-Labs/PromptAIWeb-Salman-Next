@@ -1,0 +1,13 @@
+.bannerbg{
+    background-image: url(../../../../public/banner-bg.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 166px;
+    width: 100%;
+    border-radius: 25px;
+}
+.text{
+    text-align: center;
+    color: red;
+}

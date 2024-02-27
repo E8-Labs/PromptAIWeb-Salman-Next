@@ -20,16 +20,16 @@ class AddPassword extends Component {
             loading: this.props.loading,
             file: '',
             imagePreviewUrl: this.props.imagePreviewUrl,
-            username:this.props.username,
+            username: this.props.username,
             website: this.props.website,
             youtube: this.props.youtube,
             instagram: this.props.instagram,
             password: '',
             // Fome data erroe
-            logo:"",
-            valid_logo : "",
+            logo: "",
+            valid_logo: "",
             change_logo: 0,// this.props.change_logo,
-            valid_username : "", 
+            valid_username: "",
         };
         // add form value
         this.username = React.createRef();
@@ -42,48 +42,48 @@ class AddPassword extends Component {
 
     //     let reader = new FileReader();
     //     let file = e.target.files[0];
-    
+
     //     reader.onloadend = () => {
     //         this.setState({
     //             file: file,
     //             imagePreviewUrl: reader.result
     //         });
     //     }
-    
+
     //     reader.readAsDataURL(file)
     // }
     //
-    handleBackButton(event){
+    handleBackButton(event) {
         event.preventDefault()
         console.log("Handle back button")
         this.props.backAction("social_links")
     }
-    handleKeyPress(e){
-        if(e.target.name == "username"){
-            this.setState({ 
-                username : e.target.value,
-                valid_username: "" 
+    handleKeyPress(e) {
+        if (e.target.name == "username") {
+            this.setState({
+                username: e.target.value,
+                valid_username: ""
             });
         }
     }
     //Fome submit function
-    Save_company_data(event){
+    Save_company_data(event) {
         event.preventDefault();
 
         let log = false;
-       
-        if(this.state.imagePreviewUrl == ""){
+
+        if (this.state.imagePreviewUrl == "") {
             this.setState({ valid_logo: "Please upload a profile picture" });
             log = true;
-        }     
+        }
 
-        if(!this.username.current.value){
+        if (!this.username.current.value) {
             this.setState({ valid_username: "Please enter a company name" });
             log = true;
         }
-       
-        if(log === true){ 
-            return 
+
+        if (log === true) {
+            return
         }
 
         // this.state.username = this.username.current.value;
@@ -93,10 +93,10 @@ class AddPassword extends Component {
         this.props.clickEvent("Team_member_stap3");
     }
 
-    nextBtnClicked(){
+    nextBtnClicked() {
         this.props.getPassword(this.state.password)
     }
-    handleChange(event){
+    handleChange(event) {
         event.preventDefault()
         console.log("password changed " + event.target.value)
         this.setState({
@@ -105,7 +105,7 @@ class AddPassword extends Component {
     }
 
     render() {
-        let {imagePreviewUrl} = this.state;
+        let { imagePreviewUrl } = this.state;
         let $imagePreview = null;
         if (imagePreviewUrl) {
             //   $imagePreview = (<img src={imagePreviewUrl} />);
@@ -116,10 +116,10 @@ class AddPassword extends Component {
         }
         return (
             <Stack className='w-full h-full  gap-2' direction={'vertical'} style={{ width: '100%' }}>
-                <div className="flex-col flex-grow justify-center justify-center items-center mb-3">
-                <Stack className=" flex flex-grow h-12" direction={'row'}>
+                <div className="flex-col w-full flex-grow justify-center justify-center items-center mb-3">
+                    <Stack className=" flex flex-grow h-12" direction={'row'}>
                         <IconButton onClick={this.handleBackButton.bind(this)}>
-                            <ArrowBackIcon sx={{color: 'white'}}/>
+                            <ArrowBackIcon sx={{ color: 'white' }} />
                         </IconButton>
                     </Stack>
                     <div className="flex justify-center rounded-full mt-sm-5">
@@ -157,19 +157,19 @@ class AddPassword extends Component {
                             <div class="invisible ">020000000000</div>
                             <div className="bg-appgreenlight rounded-full p-0">
                                 <LoadingButton variant="contained" className="" endIcon={<ArrowForwardIcon />}
-                                loading={this.props.loading || false}
-                                loadingIndicator={<CircularProgress color="inherit" size={16} sx={{color: 'white'}}/>}
+                                    loading={this.props.loading || false}
+                                    loadingIndicator={<CircularProgress color="inherit" size={16} sx={{ color: 'white' }} />}
                                     sx={{
                                         bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
                                             backgroundColor: "#001812"
                                         }
                                     }} onClick={this.nextBtnClicked.bind(this)}>
-                                        Continue
-                                    </LoadingButton>
+                                    Continue
+                                </LoadingButton>
                             </div>
                         </div>
 
-                        
+
 
                         {/* </form> */}
                     </div>

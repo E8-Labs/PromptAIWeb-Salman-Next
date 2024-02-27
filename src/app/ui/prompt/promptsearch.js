@@ -3,6 +3,16 @@ import PromptItem from './PromptItem'
 import PromptSearchItem from './promptsearchitem';
 import Image from 'next/image';
 import { CircularProgress } from '@mui/material';
+import InfiniteScroll from "react-infinite-scroll-component";
+
+import {
+  Grid,
+  Card,
+  Typography,
+  CardContent,
+  CardMedia,
+  capitalize
+} from '@mui/material';
 
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
@@ -36,7 +46,28 @@ function Promptsearch(props) {
     }
     setUser(u)
     loadPrompts(u)
+
+
+    const handleEvent = (data) => {
+      console.log('Event data from search:', data);
+    };
+    window.addEventListener("searchTextChanged", (event) => {
+      // Execute the callback function, passing the event's detail as an argument
+      console.log("Event Received Search screen", event.detail)
+      // var user = null
+      setSearch(event.detail)
+    });
+    // Register the event listener
+    // listenToEvent('myCustomEvent', handleEvent);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('newChat', handleEvent);
+    }
   }, [])
+
+
+  //listen searchTextChanged Event here
 
   // useEffect(()=>{
 
@@ -51,7 +82,7 @@ function Promptsearch(props) {
       setPrompts([])
       setTimerSearch(search)
       loadPrompts(user)
-      fetchData();
+
     }, 500); // Set the delay to 100ms
 
     // Cleanup function to clear the timeout when component unmounts or when query changes
@@ -78,7 +109,6 @@ function Promptsearch(props) {
         console.error('Error fetching search results:', error);
       }
     }, 400);
-
   }
 
 
@@ -86,10 +116,10 @@ function Promptsearch(props) {
 
   const loadPrompts = async (user) => {
     // console.log("In Load Prompts. Remove return statement when implemented")
-    console.log("Tokan in get Prompts " + user.token)
+    // console.log("Tokan in get Prompts " + user.token)
     const config = {
       headers: {
-        "Authorization": "Bearer " + user.token,
+        "Authorization": "Bearer " + `${user ? user.token : ''}`,
       }
     };
     var offset = 0;
@@ -108,7 +138,7 @@ function Promptsearch(props) {
       .then(res => {
         setLoading(false)
         console.log("Data is ")
-        console.log(res.data.data.prompts)
+        console.log(res.data)
         // setMessages(res.data.data)
 
         res.data.data.prompts.map((m, index) => {
@@ -137,36 +167,86 @@ function Promptsearch(props) {
 
 
 
+  const renderCards = (prompt, index) => {
+
+    return (
+      <Grid key={prompt.id} item xs={12} sm={6} md={4} lg={4}>
+        <div className="rounded bg-appgreen p-0 " >
+          <PromptItem className='promptitem' prompt={prompt} itemSelected={(item) => {
+            handlePromptSelected(item)
+            // setAnchorEl(event.currentTarget);
+          }} profileClicked={() => {
+            setOtherUserProfile(prompt.user)
+            console.log("Profile tapped ", prompt.user.username)
+          }}
+            savePromptClicked={() => {
+              //call the api here
+              savePromptApi(prompt)
+              console.log("Saving prompt ", prompt)
+              props.setPromptSaved(prompt, index)
+            }}
+          ></PromptItem>
+
+
+        </div>
+      </Grid>
+    );
+  };
+
+
 
   return (
-    <div className='flex-col justify-left w-7/12 ml-40 h-full'>
-      <SearchBar textChanged={searchTextChanged} />
-      <div className='flex-col overflow-y-auto h-full'>
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-1 gap-4 mt-5" >
-          {
+    <div className='flex-col justify-left w-full h-full'>
+      {/*<SearchBar textChanged={searchTextChanged} />*/}
+      <div className='flex-col overflow-hidden h-full  '>
 
+        {/**/}
+
+        {(prompts.length === 0 && !loading) && (<div className='text-white text-center mt-5'>No Prompts Matching Search</div>)}
+
+        {
+          loading && (
+            <div className='flex flex-row h-full w-full justify-center items-center gap-2'>
+
+              <CircularProgress />
+              <h4 className='text-white'>Loading...</h4>
+            </div>
+
+          )
+        }
+
+        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 mt-5 " >
+
+          {/* Salman's code for displaying search if no items then show no prompt or loading  */}
+          {
             prompts.length > 0 && (
-              prompts.map((element, index) => {
-                // <label>{element}</label>
-                {
-                  console.log(element)
-                }
-                return (
-                  <div className="rounded bg-appgreen p-0 " key={element.id}>
-                    <PromptSearchItem className='promptitem' prompt={element} itemSelected={handlePromptSelected}></PromptSearchItem>
-                  </div>
-                )
-              })
+              <div className=' overflow-y-auto  mt-3 pr-2 py-6' style={{ height: '80vh', width: '80vw' }}>
+                <InfiniteScroll
+                  dataLength={prompts.length}
+                  next={() => {
+                    console.log("Next data")
+                  }}
+                  hasMore={true}
+                  scrollThreshold={1}
+                  // loader={<LinearProgress />}
+                  // Let's get rid of second scroll bar
+                  style={{ overflow: "unset" }}
+                >
+                  <Grid container spacing={4} className=''>
+                    {prompts.map((prompt, index) => renderCards(prompt, index))}
+                  </Grid>
+                </InfiniteScroll>
+              </div>
             )
           }
-          {
+          {/*
             (prompts.length === 0 && !loading) && (
               <div className='flex flex-col h-full w-full justify-center items-center '>
                 <h4 className='text-white'>No Prompts Matching Search</h4>
               </div>
-            )
+            )*/
           }
-          {
+          {/*
             loading && (
               <div className='flex flex-row h-full w-full justify-center items-center gap-2'>
 
@@ -175,7 +255,7 @@ function Promptsearch(props) {
               </div>
 
             )
-          }
+            */}
         </div>
       </div>
     </div>

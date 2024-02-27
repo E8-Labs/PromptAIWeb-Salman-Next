@@ -13,27 +13,26 @@ function PromptSearchItem(props) {
     const userImage = ""
     return (
 
-            <div className="flex flex-col h-62  bg-appgreen rounded p-4 cursor:pointer"  key={prompt.id} onClick={()=>{
-                props.itemSelected(prompt)
-            }}> 
-                <div className="flex h-16 ">
-                    <div className="">
-                        <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
-                    </div>
-                    <div className='flex-col ml-2'>
-                        <p className="font-bold text-white">{prompt.user.username}</p>
-                        <p className="text-sm text-gray-500">{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago.</p>
-                    </div>
-                </div> {/* Specify the height and color for the top div */}
-                <div className="flex-grow ">
-                    <h3 className="text-lg text-appgreenlight font-bold mt-2">{prompt.title}</h3>
-                    <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
-                </div> {/* This div will take up all the remaining space */}
-                <div className=" flex h-16  justify-end">
-                    <div className='flex  w-6/12'> </div>
-                <div className=" h-16 flex mt-4  justify-between gap-20">
-                    {/* Your icon components for Like, View, Comment go here */}
-                    <div className="cardbtn justify-center align-items-center">
+        <div className="flex flex-col h-62 w-full border-2 bg-appgreen rounded p-4 cursor-pointer hover:p-5" key={prompt.id} onClick={() => {
+            props.itemSelected(prompt)
+        }}>
+            <div className="flex h-16 ">
+                <div className="">
+                    <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-auto " width={40} height={40} style={{ borderRadius: 20 }} />
+                </div>
+                <div className='flex-col ml-2'>
+                    <p className="font-bold text-white">{prompt.user.username}</p>
+                    <p className="text-sm text-gray-500">{moment(prompt.createdAt, "YYYYMMDD, HH:mm:ss").fromNow(true)} ago.</p>
+                </div>
+            </div> {/* Specify the height and color for the top div */}
+            <div className="flex-grow ">
+                <h3 className="text-lg text-appgreenlight font-bold mt-2">{prompt.title}</h3>
+                <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
+            </div> {/* This div will take up all the remaining space */}
+
+            {/* code of sir Salman for threebuttons <div className=" flex h-16">
+                <div className=" h-16 border-2 w-full flex mt-4  justify-between gap-20">
+                    <div className="cardbtn justify-start">
                         <img src={LikePromptIcon} alt="Like Icon" />
                         <button>29k</button>
                     </div>
@@ -46,10 +45,27 @@ function PromptSearchItem(props) {
                         <button>454</button>
                     </div>
                 </div>
-                </div> {/* Specify the height and color for the bottom div */}
+            </div> */}
+            {/* Specify the height and color for the bottom div */}
+
+            {/*  */}
+            <div className='flex flex row mt-4'>
+                <div className="w-4/12">
+                    <img src={LikePromptIcon} alt="Like Icon" />
+                    <button>29k</button>
+                </div>
+                <div className="w-4/12">
+                    <img src={ViewItemIcon} alt="View Icon" />
+                    <button>29k</button>
+                </div>
+                <div className="w-4/12">
+                    <img src={MessageIcon} alt="Message Icon" />
+                    <button>454</button>
+                </div>
             </div>
-            
-            
+        </div>
+
+
 
     )
 
@@ -67,27 +83,27 @@ function PromptSearchItem(props) {
 
 //             <div className='  bg-red flex-grow'>
 //                 {/* <div className='flex-col bg-green flex-grow'> */}
-                    // <h3 className="text-lg font-bold mt-2">{prompt.title}</h3>
-                    // <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
+// <h3 className="text-lg font-bold mt-2">{prompt.title}</h3>
+// <p className="mt-2 overflow-hidden overflow-ellipsis line-clamp-5">{prompt.description}</p>
 //                 {/* </div> */}
 //             </div>
 
 //                 {/* Icons for Like, View, Comment */}
-                // <div className=" h-16 flex mt-4  justify-between">
-                //     {/* Your icon components for Like, View, Comment go here */}
-                //     <div className="cardbtn justify-center align-items-center">
-                //         <img src={LikePromptIcon} alt="Like Icon" />
-                //         <button>29k</button>
-                //     </div>
-                //     <div className="cardbtn">
-                //         <img src={ViewItemIcon} alt="View Icon" />
-                //         <button>29k</button>
-                //     </div>
-                //     <div className="cardbtn">
-                //         <img src={MessageIcon} alt="Message Icon" />
-                //         <button>454</button>
-                //     </div>
-                // </div> */}
+// <div className=" h-16 flex mt-4  justify-between">
+//     {/* Your icon components for Like, View, Comment go here */}
+//     <div className="cardbtn justify-center align-items-center">
+//         <img src={LikePromptIcon} alt="Like Icon" />
+//         <button>29k</button>
+//     </div>
+//     <div className="cardbtn">
+//         <img src={ViewItemIcon} alt="View Icon" />
+//         <button>29k</button>
+//     </div>
+//     <div className="cardbtn">
+//         <img src={MessageIcon} alt="Message Icon" />
+//         <button>454</button>
+//     </div>
+// </div> */}
 
 const Container = styled.div`
     height: 100%;

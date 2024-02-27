@@ -36,7 +36,7 @@ function PromptItem(props) {
         if (!prompt.is_saved) {
             return <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
         }
-        else{
+        else {
             return <TurnedInIcon style={{ color: 'white' }} />
         }
     }
@@ -44,7 +44,7 @@ function PromptItem(props) {
 
     return (
 
-        <div className="flex flex-col h-72  bg-appgreen rounded p-4 cursor:pointer" key={prompt.id} >
+        <div className="flex flex-col hover:p-3 cursor-pointer h-72 bg-appgreen rounded p-4" key={prompt.id} >
             <Snackbar
                 open={snackBarOpen}
                 autoHideDuration={4000}
@@ -58,7 +58,7 @@ function PromptItem(props) {
                         props.profileClicked()
                     }}>
                         <div className="">
-                            <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }} />
+                            <Image src={prompt.user.profile_image} alt={""} className="rounded-full w-8 h-auto " width={40} height={40} style={{ borderRadius: 20 }} />
                         </div>
                         <div className='flex-col ml-2'>
                             <p className={`font-bold  text-white  antialiased`} >{prompt.user.username}</p>
@@ -70,7 +70,7 @@ function PromptItem(props) {
 
                         <IconButton onClick={props.savePromptClicked}>
                             {
-                               getSaveIcon()
+                                getSaveIcon()
                             }
                         </IconButton>
                     </div>
@@ -86,7 +86,7 @@ function PromptItem(props) {
 
                 props.itemSelected(prompt)
             }}>
-                <div className=" h-16 flex mt-4  justify-between">
+                <div className=" h-16 flex mt-4 justify-between">
                     {/* Your icon components for Like, View, Comment go here */}
                     <div className="flex flex-col justify-center items-center pb-3">
                         <IconButton className=' p-0'>

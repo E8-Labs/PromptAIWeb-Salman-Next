@@ -52,12 +52,6 @@ export default function SideNav() {
     window.addEventListener("newChat", (event) => {
       // Execute the callback function, passing the event's detail as an argument
       console.log("Event Received Side Nav", event.detail)
-      // let allChats = chats
-      // console.log("Chats before ", chats)
-      // allChats.splice(0, 0, event.detail)
-      // console.log("All Chats ", allChats)
-      // setChats(allChats)
-      // setChats([event.detail, ...chats]);
       var user = null
       if (typeof localStorage !== 'undefined') {
         user = JSON.parse(

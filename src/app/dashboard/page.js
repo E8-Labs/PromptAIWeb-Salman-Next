@@ -321,7 +321,9 @@ export default function Page() {
     }
   }, [currentUser, role])
   return (
-    <div className="flex overflow-y-none h-full min-h-screen bg-black pl-2">
+    <div className="flex overflow-y-none h-full min-h-screen bg-black pl-2"
+    // style={{ zIndex: '1' }}
+    >
 
       {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> */}
 
@@ -351,7 +353,6 @@ export default function Page() {
       </div>
 
       {/* </div> */}
-
       {/* </div> */}
       <Modal
         isOpen={isPopupOpen}
@@ -374,7 +375,7 @@ export default function Page() {
 const customStyles = {
   overlay: {
     background: "#00000090",
-
+    zIndex: '999'
   },
   content: {
 

@@ -152,18 +152,18 @@ class AddSocialLinks extends Component {
         return (
             
                 <div className="felx flex-col " style={{ height: "100%" }}>
-                    <Stack className=" flex flex-grow h-12" direction={'row'}>
+                    <Stack className="flex flex-grow h-12" direction={'row'}>
                         <IconButton onClick={this.handleBackButton.bind(this)}>
                             <ArrowBackIcon sx={{ color: 'white' }} />
                         </IconButton>
                     </Stack>
-                    <div className="flex justify-center rounded-full">
+                    <div className="flex justify-center">
                         <div className="  user-profile-image-border d-flex border-2  border-appgreenlight rounded-full p-1 items-center justify-center"
                             style={{ width: "90px", height: "90px" }}>
                             <img className="rounded-full user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
                         </div>
                     </div>
-                    <div className="flex flex-col  flex-grow gap-2 w-full justify-center items-center mt-3 px-6">
+                    <div className="flex flex-col flex-grow gap-2 w-full justify-center items-center mt-3 px-6">
 
                         <CustomTextField
 

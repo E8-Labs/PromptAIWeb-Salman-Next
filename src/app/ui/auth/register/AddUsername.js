@@ -144,7 +144,7 @@ class AddUsername extends Component {
         return (
 
             <Stack className='w-full h-full  gap-2' direction={'vertical'} style={{ width: '100%' }}>
-                <div className="flex-col flex-grow justify-center justify-center items-center mb-3">
+                <div className="flex-col w-full flex-grow justify-center justify-center items-center mb-3">
                     <Stack className=" flex flex-grow h-12" direction={'row'}>
                         <IconButton onClick={this.handleBackButton.bind(this)}>
                             <ArrowBackIcon sx={{ color: 'white' }} />
@@ -172,7 +172,7 @@ class AddUsername extends Component {
                             onChange={this.handleChange.bind(this)}
                         />
 
-                        <label className={`text-white text-xs ${this.state.username_available === "no" ? "" : "hidden"}`}>Username not available</label>
+                        <label className={`text-red text-xs ${this.state.username_available === "no" ? "" : "hidden"}`}>Username not available</label>
 
                         {/* <Stack direction={'row'} >
                         

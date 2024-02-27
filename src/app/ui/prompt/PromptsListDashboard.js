@@ -1,3 +1,5 @@
+'use client'
+import OtherusersProfile from "./OtherusersProfile"
 import React, { useEffect, useState } from 'react'
 import PromptItem from './PromptItem'
 import Image from 'next/image';
@@ -28,13 +30,18 @@ import {
 // import axios from 'axios';
 import TurnedInIcon from '@mui/icons-material/TurnedIn'; // Save Icon
 
+//test code for Modalpopup
+// const [modale, setModale] = useState(false)
+
+// const 
+
 // import {makeStyles} from '@mui/styles';
 
 const PlusIcon = "/whiteplusicon.svg";
 
 const customStyles = {
   overlay: {
-    background: "#00000090"
+    background: "#00000090",
   },
   content: {
     background: "#00000090",
@@ -114,7 +121,7 @@ const PromptsListDashboard = (props) => {
     // props.handlePromptSelected(prompt)
   }
 
-  const savePromptApi = (prompt)=>{
+  const savePromptApi = (prompt) => {
     let api = ApiPath.SavePrompt;
     let u = null
     if (typeof localStorage !== 'undefined') {
@@ -122,7 +129,7 @@ const PromptsListDashboard = (props) => {
         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
       )
     }
-    
+
     const config = {
       headers: {
         "Authorization": "Bearer " + u.token,
@@ -204,6 +211,26 @@ const PromptsListDashboard = (props) => {
     //console.log(text)
   }
 
+  //code for listening data from navbar
+  useEffect(() => {
+    const handleEvent = (navSelected) => {
+      console.log('Nav selected is', navSelected);
+    };
+    window.addEventListener("navMenuSelected", (event) => {
+      // Execute the callback function, passing the event's detail as an argument
+      console.log("Event Received PromptList screen", event.detail)
+      // var user = null
+      props.setSelectedMenu(event.detail)
+    }, []);
+    // Register the event listener
+    // listenToEvent('myCustomEvent', handleEvent);
+
+    // Cleanup function to remove the event listener
+    return () => {
+      window.removeEventListener('newChat', handleEvent);
+    }
+  })
+
 
 
   const renderCards = (prompt, index) => {
@@ -214,16 +241,17 @@ const PromptsListDashboard = (props) => {
           <PromptItem className='promptitem' prompt={prompt} itemSelected={(item) => {
             handlePromptSelected(item)
             // setAnchorEl(event.currentTarget);
-          }} profileClicked={() => {
+          }} 
+          profileClicked={() => {
             setOtherUserProfile(prompt.user)
             console.log("Profile tapped ", prompt.user.username)
           }}
-          savePromptClicked={()=>{
-            //call the api here
-            savePromptApi(prompt)
-            console.log("Saving prompt ", prompt)
-            props.setPromptSaved(prompt, index)
-          }}
+            savePromptClicked={() => {
+              //call the api here
+              savePromptApi(prompt)
+              console.log("Saving prompt ", prompt)
+              props.setPromptSaved(prompt, index)
+            }}
           ></PromptItem>
 
 
@@ -263,133 +291,108 @@ const PromptsListDashboard = (props) => {
 
       <div className='flex flex-row items-center flex-grow justify-between items-start p-4 '>
 
-        <Stack direction={'row'} className='gap-3'>
-          <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={starIcon} style={{
-            // borderRadius: '20%',
-            backgroundColor: `${props.promptListMenuSelected === "All" ? '#FFAD0E30' : '#FFAD0E00'}`,
-            // padding: "18px 36px",
+        {/*  */}
 
-            fontSize: "14px",
-            fontWeight: 600
-          }} onClick={() => props.setSelectedMenu("All")}>
-            All
-          </Button>
 
-          <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={<TurnedInIcon />} style={{
-            // borderRadius: '20%',
-            backgroundColor: `${props.promptListMenuSelected === "Saved" ? '#FFAD0E30' : '#FFAD0E00'}`,
-            // padding: "18px 36px",
+        <div className={`flex flex-grow gap-4   items-center ${props.promptListMenuSelected === "All" ? "" : "hidden"}`}>
+          <Autocomplete
+            multiple
+            limitTags={1}
+            id="multiple-limit-tags"
+            options={categories}
+            getOptionLabel={(option) => option.name}
+            // defaultValue={[categories[0]]}
+            sx={{ "label": { color: "white" }, maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
+            renderInput={(params) => (
+              <CustomTextField {...params} label="Categories" placeholder="Categories"
+                sx={{ "label": { color: "gray" }, color: 'white' }}
+              />
+            )}
+            ChipProps={{ color: 'primary' }}
+            onChange={(event, newValue) => {
+              console.log(newValue)
+              let array = []
+              newValue.forEach((item) => {
+                item.subcategories.forEach((topic) => {
+                  array = [...array, topic]
+                })
 
-            fontSize: "14px",
-            fontWeight: 600
-          }} onClick={() => props.setSelectedMenu("Saved")}>
-            Saved
-          </Button>
+              })
+              console.log("Topics", array)
+              setTopicsForCategories(array)
+              setCategoriesSelected(newValue)
+              props.setCategoriesSelected(newValue)
+            }}
 
-          <Button className='rounded-xl p-2 px-6' variant="contained" startIcon={createdIcon} style={{
-            // borderRadius: '20%',
-            backgroundColor: `${props.promptListMenuSelected === "Created" ? '#FFAD0E30' : '#FFAD0E00'}`,
-            // padding: "18px 36px",
+            renderTags={
+              (value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    key={option.id}
+                    className={'bg-appgreenlight text-lg'}
+                    variant="filled"
+                    sx={{ backgroundColor: '#00C28C', color: 'white' }}
+                    label={`${option.name}`}
+                    {...getTagProps({ index })}
+                  />
+                ))
+            }
 
-            fontSize: "14px",
-            fontWeight: 600
-          }} onClick={() => props.setSelectedMenu("Created")}>
-            Created
-          </Button>
-        </Stack>
+          />
 
-        <div className="flex items-center justify-center bg-appgreenlight p-3 md:rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl" onClick={() => {
+          <Autocomplete
+            multiple
+            limitTags={1}
+            id="multiple-limit-tags"
+            options={topicsForCategories}
+            getOptionLabel={(option) => option.name}
+            // defaultValue={[categories[0]]}
+            sx={{ "label": { color: "white" }, maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
+            renderInput={(params) => (
+              <CustomTextField {...params} label="Topics" placeholder="Topics"
+                sx={{ "label": { color: "gray" }, color: 'white' }}
+              />
+            )}
+            ChipProps={{ color: 'primary' }}
+            onChange={(event, newValue) => {
+              console.log(newValue)
+              setSubCategoriesSelected(newValue)
+              props.setSubCategoriesSelected(newValue)
+              // updateFormData({ categories: newValue })
+            }}
+            renderTags={
+              (value, getTagProps) =>
+                value.map((option, index) => (
+                  <Chip
+                    key={option.id}
+                    className={'bg-appgreenlight text-lg'}
+                    variant="filled"
+                    sx={{ backgroundColor: '#00C28C', color: 'white' }}
+                    label={`${option.name}`}
+                    {...getTagProps({ index })}
+                  />
+                ))
+            }
+          />
+        </div>
+
+
+
+        <div className="flex cursor-pointer items-center justify-center bg-appgreenlight p-3 rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl" onClick={() => {
           props.handleAddAction()
         }}>
           {/* Third View */}
           <Image src={PlusIcon} width={15} height={15}></Image>
-          <div className=' cursor:pointer'>
-            <p className="text-lg text-white  cursor:pointer d-none md:d-inline " >New Prompt</p>
+          <div>
+            <p className="text-lg text-white d-none md:d-inline " >New Prompt</p>
           </div>
         </div>
 
       </div>
-      <div className={`flex flex-grow gap-4   items-center ${props.promptListMenuSelected === "All" ? "" : "hidden"}`}>
-        <Autocomplete
-          multiple
-          limitTags={1}
-          id="multiple-limit-tags"
-          options={categories}
-          getOptionLabel={(option) => option.name}
-          // defaultValue={[categories[0]]}
-          sx={{ "label": { color: "white" }, maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
-          renderInput={(params) => (
-            <CustomTextField {...params} label="Categories" placeholder="Categories"
-              sx={{ "label": { color: "gray" }, color: 'white' }}
-            />
-          )}
-          ChipProps={{ color: 'primary' }}
-          onChange={(event, newValue) => {
-            console.log(newValue)
-            let array = []
-            newValue.forEach((item) => {
-              item.subcategories.forEach((topic) => {
-                array = [...array, topic]
-              })
 
-            })
-            console.log("Topics", array)
-            setTopicsForCategories(array)
-            setCategoriesSelected(newValue)
-            props.setCategoriesSelected(newValue)
-          }}
 
-          renderTags={
-            (value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  key={option.id}
-                  className={'bg-appgreenlight text-lg'}
-                  variant="filled"
-                  sx={{ backgroundColor: '#00C28C', color: 'white' }}
-                  label={`${option.name}`}
-                  {...getTagProps({ index })}
-                />
-              ))
-          }
 
-        />
 
-        <Autocomplete
-          multiple
-          limitTags={1}
-          id="multiple-limit-tags"
-          options={topicsForCategories}
-          getOptionLabel={(option) => option.name}
-          // defaultValue={[categories[0]]}
-          sx={{ "label": { color: "white" }, maxHeight: '120px', width: '15rem', color: 'white', 'input': { color: 'white' }, marginBottom: '10px' }}
-          renderInput={(params) => (
-            <CustomTextField {...params} label="Topics" placeholder="Topics"
-              sx={{ "label": { color: "gray" }, color: 'white' }}
-            />
-          )}
-          ChipProps={{ color: 'primary' }}
-          onChange={(event, newValue) => {
-            console.log(newValue)
-            setSubCategoriesSelected(newValue)
-            props.setSubCategoriesSelected(newValue)
-            // updateFormData({ categories: newValue })
-          }}
-          renderTags={
-            (value, getTagProps) =>
-              value.map((option, index) => (
-                <Chip
-                  key={option.id}
-                  className={'bg-appgreenlight text-lg'}
-                  variant="filled"
-                  sx={{ backgroundColor: '#00C28C', color: 'white' }}
-                  label={`${option.name}`}
-                  {...getTagProps({ index })}
-                />
-              ))
-          }
-        />
-      </div>
       {
         props.isLoadingPrompts && (
           <YouTubeLikeLoading />
@@ -398,7 +401,7 @@ const PromptsListDashboard = (props) => {
 
       {
         prompts.length > 0 && (
-          <div className=' overflow-y-auto  mt-3 pr-2 py-6' style={{ height: '80vh' }}>
+          <div className=' overflow-y-auto pr-2 py-6' style={{ height: '80vh' }}>
             <InfiniteScroll
               dataLength={prompts.length}
               next={() => {
@@ -414,7 +417,7 @@ const PromptsListDashboard = (props) => {
                 {prompts.map((prompt, index) => renderCards(prompt, index))}
               </Grid>
             </InfiniteScroll>
-           </div>
+          </div>
 
         )
       }
@@ -454,7 +457,7 @@ const PromptsListDashboard = (props) => {
           {/* <p>This is side menu</p> */}
           {
             otherUserProfile != null && (
-              <ProfileBaseView user={{ user: otherUserProfile, token: "" }} closeProfileView={() => {
+              <OtherusersProfile user={{ user: otherUserProfile, token: "" }} closeProfileView={() => {
                 setOtherUserProfile(null)
               }} />
             )
