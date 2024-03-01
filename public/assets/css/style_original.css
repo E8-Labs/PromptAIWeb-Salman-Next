@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
 
-/* Base CSS */
+/* Base CSS  this file is not working. Use styles.css*/ 
 
 .alignleft {
     float: left;
@@ -1436,14 +1436,14 @@ display: none;
     border-radius: 13px;
     color: #fff;
     border: 2px solid #00C28C;
-    padding: 10px 15px;
+    /* padding: 10px 15px; */
     transition: .3s;
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
-    display: inline-flex;
+    /* display: inline-flex;
     align-items: center;
-    justify-self: center;
+    justify-self: center; */
 }
 .custom-btn-2 img{
     margin-right: 10px;
@@ -2159,12 +2159,12 @@ border-radius: 34px;
     line-height: 24px;
     color: #FFFFFF;
 }
-.AiPersonality-wrapper {
+/* .AiPersonality-wrapper {
     background: rgba(217, 217, 217, 0.01);
     border-radius: 36px;
     padding: 75px 0;
   
-}
+} */
 .step {
     position: relative;
     z-index: 1;

@@ -1,9 +1,12 @@
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const Manageprofile = () => {
 
     //Check Personal Information
+
+    const router = useRouter()
     const [personalInfo, setPersonalInfo] = useState(true)
     const handlePersonalInfo = () => {
         console.log("Personal Info Button clicked")
@@ -109,7 +112,14 @@ const Manageprofile = () => {
                         <div className='text-[white] font-medium text-md mt-10'>
                             <Link href='/dashboard/terms' target='_blank' ref={linkRef}>Terms & Conditions</Link>
                         </div>
-                        <button className='text-[#FF124B] font-medium text-md mt-3'>Log out</button>
+                        <button className='text-[#FF124B] font-medium text-md mt-3' onClick={() => {
+                            event.preventDefault()
+                            console.log("Logout here")
+                            if (typeof localStorage !== 'undefined') {
+                              localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+                            }
+                            router.push("/");
+                        }}>Log out</button>
                     </div>
                 </div>
 

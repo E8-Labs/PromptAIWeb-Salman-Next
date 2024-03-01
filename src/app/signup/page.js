@@ -7,7 +7,7 @@ import { getMessaging, onMessage } from 'firebase/messaging'
 import { signInWithPopup } from 'firebase/auth'
 import { requestPermission, app, initMessaging, googleProvider, auth, appleProvider } from ".././firebase"
 
-const Page = () => {
+const Page = (props) => {
 
     const router = useRouter()
     const handleSignin = () => {

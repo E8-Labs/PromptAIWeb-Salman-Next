@@ -1619,9 +1619,9 @@ input:checked+.slider:before {
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
-    display: inline-flex;
+    /* display: inline-flex;
     align-items: center;
-    justify-self: center;
+    justify-self: center; */
 }
 
 .custom-btn-2 img {
@@ -2457,7 +2457,8 @@ input:checked+.slider:before {
 .AiPersonality-wrapper {
     background: rgba(217, 217, 217, 0.01);
     border-radius: 36px;
-    padding: 75px 0;
+    padding: 15px 0;
+    padding-top: 40px;
 
 }
 

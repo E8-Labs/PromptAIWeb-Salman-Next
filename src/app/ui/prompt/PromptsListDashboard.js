@@ -54,6 +54,7 @@ const customStyles = {
 
 const PromptsListDashboard = (props) => {
   // const classes = useStyles()
+  console.log("Is popup open ", props.isPopupOpen)
   const starIcon = (
     <Icon>
       <img alt="all" src="/assets/star.svg" />
@@ -175,14 +176,15 @@ const PromptsListDashboard = (props) => {
         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
       )
     }
-    //console.log(u)
+    console.log("user in chat is ", u)
     const config = {
       headers: {
         "Authorization": "Bearer " + u.token,
       }
     };
-    const data = { promptId: currentSelectedPrompt.id };
+    const data = { promptId: prompt.id };
     setLoading(true)
+
     axios.post(ApiPath.CreateChat, data, config)
       .then(data => {
         setLoading(false)
@@ -200,13 +202,13 @@ const PromptsListDashboard = (props) => {
           // setChatViewVisible(true)
         }
         else {
-
+          console.log("Some error", data.data.message)
         }
 
 
       })
       .catch(error => {
-        //console.log(error)
+        console.log("Exception", error)
       })
     //console.log(text)
   }
@@ -241,11 +243,11 @@ const PromptsListDashboard = (props) => {
           <PromptItem className='promptitem' prompt={prompt} itemSelected={(item) => {
             handlePromptSelected(item)
             // setAnchorEl(event.currentTarget);
-          }} 
-          profileClicked={() => {
-            setOtherUserProfile(prompt.user)
-            console.log("Profile tapped ", prompt.user.username)
           }}
+            profileClicked={() => {
+              setOtherUserProfile(prompt.user)
+              console.log("Profile tapped ", prompt.user.username)
+            }}
             savePromptClicked={() => {
               //call the api here
               savePromptApi(prompt)
@@ -294,7 +296,7 @@ const PromptsListDashboard = (props) => {
         {/*  */}
 
 
-        <div className={`flex flex-grow gap-4   items-center ${props.promptListMenuSelected === "All" ? "" : "hidden"}`}>
+        <div className={`flex flex-grow gap-4   items-center ${(props.promptListMenuSelected === "All" && props.isPopupOpen === false) ? "" : "hidden"}`}>
           <Autocomplete
             multiple
             limitTags={1}

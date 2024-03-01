@@ -4,10 +4,10 @@ import { } from './styles.css'
 
 const AIpersonality = () => {
   return (
-    <div className="tab-pane fade overflow-y-auto" style={{ maxHeight: 'calc(100vh - 200px)' }} id="pills-AiPersonality" role="tabpanel" aria-labelledby="pills-AiPersonality-tab">
-      <div className="step_progress">
+    <div className="tab-pane fade overflow-y-auto" style={{ height: 'calc(100vh - 200px)' }} id="pills-AiPersonality" role="tabpanel" aria-labelledby="pills-AiPersonality-tab">
+      {/* <div className="step_progress">
         <span></span>
-      </div>
+      </div> */}
       <div className="AiPersonality-wrapper">
         <div className="step-wrapper step-container">
           <div className="step">
@@ -30,13 +30,16 @@ const AIpersonality = () => {
               <img src="/animation10.png" className="ai-10" alt="" />
             </div>
             <div className="ai-create-bottom mt-5 text-center join_wait_list">
-              <div>
-                <div>
+             
+                <div className='flex-col justify-start items-start '>
                   <label>Join the waitlist</label>
-                  <input type="email" name="" placeholder="Email Address" />
+                  <div className='flex  justify-center items-center gap-3'>
+                    <input type="email" name="" placeholder="Email Address" />
+                    <button className="custom-btn-2">Join the waitlist</button>
+                  </div>
                 </div>
-                <button className="custom-btn-2">Join the waitlist</button>
-              </div>
+                
+              
             </div>
           </div>
         </div>

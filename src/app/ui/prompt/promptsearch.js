@@ -266,7 +266,7 @@ function Promptsearch(props) {
         "Authorization": "Bearer " + u.token,
       }
     };
-    const data = { promptId: currentSelectedPrompt.id };
+    const data = { promptId: prompt.id };
     setLoading(true)
     axios.post(ApiPath.CreateChat, data, config)
       .then(data => {

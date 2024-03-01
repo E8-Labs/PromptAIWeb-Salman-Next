@@ -99,7 +99,7 @@ export default function SideNav() {
     <div className="flex h-full flex-col px-3 py-1 md:px-2 bg-appgreen">
 
       <Link
-        className="mb-2 flex h-20 items-start justify-start rounded-md  p-4 md:h-40 "
+        className="mb-1 flex h-20 items-start justify-start rounded-md  p-4 md:h-40 "
         href="/dashboard"
       >
         <div className=" text-white">
@@ -107,10 +107,10 @@ export default function SideNav() {
           <Image src={Logo} width={150} height={100}></Image>
         </div>
       </Link>
-      <div className="flex grow flex-row justify-between space-x-2 md:flex-col  md:space-x-0 md:space-y-0 bg-appgreen">
+      <div className=" flex grow flex-row justify-start space-x-2 md:flex-col  md:space-x-0 md:space-y-0 bg-appgreen">
         <NavSideLinks />
         {/* We can have below div to show list of chats */}
-        <div className=" flex flex-col h-80 w-full rounded-md md:block overflow-y-scroll">
+        <div className=" flex flex-col h-80 w-full rounded-md md:block overflow-y-scroll ">
           {
             chats.map((item, index) => {
               return (
@@ -126,8 +126,8 @@ export default function SideNav() {
             })
           }
         </div>
-        <NavSideLinks2 />
-        <form>
+        {/* <NavSideLinks2 /> */}
+        {/* <form>
           <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-appgreen p-3 text-sm font-medium hover:bg-appgreen hover:text-white md:flex-none md:justify-start md:p-2 md:px-3"
             onClick={(event) => {
               event.preventDefault()
@@ -141,7 +141,7 @@ export default function SideNav() {
             <PowerIcon className="w-6" color="white" />
             <div className="hidden md:block text-white">Sign Out</div>
           </button>
-        </form>
+        </form> */}
       </div>
     </div>
   );

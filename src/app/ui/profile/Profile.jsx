@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import styled from 'styled-components';
 import ProfileBannerView from "./ProfileBanner";
 import PromptItem from "../prompt/PromptItem";
@@ -9,7 +10,8 @@ import axios from "axios";
 import Icons from "@/app/lib/Icons";
 import ProfileManagement from './ProfileManagement'
 import ApiPath from "../../lib/ApiPath";
-
+import PromptChatQuestionsPopup from "../prompt/PromptChatQuestions";
+import Modal from 'react-modal';
 //AI component, Profile Manage Componnent
 
 import Manageprofile from './Manageprofile';
@@ -21,6 +23,7 @@ const PopularIcon = '/assets/popular.svg'
 
 export default function ProfileBaseView(props) {
 
+  const router = useRouter()
   // const user = props.user;
   const [user, setUser] = useState(props.user) // user whose profle we are viewing
   const userImage = ""
@@ -29,6 +32,20 @@ export default function ProfileBaseView(props) {
   const [menuSelected, setMenuSelected] = useState('personal_info')
   const [currentUser, setCurrentUser] = useState(null);
   const [prompts, setPrompts] = useState([])
+  const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
+  const [promptQuestionDialogueVisible, setPromptQuestionDeialogueVisible] = useState(false)
+  const [currentChat, setCurrentChat] = useState(null)
+  const [loading, setLoading] = useState(false)
+
+  const customStyles = {
+    overlay: {
+      background: "#00000090",
+    },
+    content: {
+      background: "#00000090",
+      border: "none"
+    },
+  };
 
   useEffect(() => {
     //console.log("prompts loaded")
@@ -105,9 +122,145 @@ export default function ProfileBaseView(props) {
 
   }
 
+  const handleLoadingClose = () => {
+    setLoading(false)
+  }
 
+  function afterOpenModal() {
+
+  }
+
+  function closeModal() {
+    setPromptQuestionDeialogueVisible(false);
+  }
+
+  
   const handlePromptSelected = (prompt) => {
-    console.log("Prompt selected ", prompt)
+    console.log("Prompt in List Profile" + prompt.title + " Clicked")
+
+    setCurrentSelectedPrompt(prompt)
+    if (prompt.questions.length == 0) {
+      createChat(prompt)
+    }
+    else {
+      console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
+      setPromptQuestionDeialogueVisible(true)
+    }
+    // props.handlePromptSelected(prompt)
+  }
+
+  // const savePromptApi = (prompt) => {
+  //   let api = ApiPath.SavePrompt;
+  //   let u = null
+  //   if (typeof localStorage !== 'undefined') {
+  //     u = JSON.parse(
+  //       localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+  //     )
+  //   }
+
+  //   const config = {
+  //     headers: {
+  //       "Authorization": "Bearer " + u.token,
+  //     }
+  //   };
+  //   const data = {
+  //     promptid: prompt.id,
+  //   };
+  //   //console.log("Sending Message Data ", data)
+  //   axios.post(api, data, config)
+  //     .then(data => {
+  //       console.log("Save prompt response")
+  //       console.log(data.data)
+  //       if (data.data.status) {
+  //         // call the callback function here
+  //       }
+  //       else {
+  //         //console.log("Error is here in send message", data.data.message)
+  //       }
+  //     })
+  //     .catch(error => {
+  //       //console.log(error)
+  //     })
+  // }
+
+  const createChat = (prompt) => {
+
+    setCurrentSelectedPrompt(prompt)
+    setPromptQuestionDeialogueVisible(false)
+    // console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
+    //console.log(prompt)
+    //console.log("Length is " + prompt.questions.length);
+    console.log("Hello Hamza")
+    let text = prompt.prompt;
+    try{
+      for (let i = 0; i < prompt.questions.length; i++) {
+        let q = prompt.questions[i];
+        text = text.replace(`[${q.question}]`, q.answer);
+      }
+    }
+    catch(error){
+      console.log("Error In Parsing Questions ", error)
+    }
+    console.log("Here")
+    prompt.prompt = text;
+    // create chat api
+    console.log("Here")
+    let u = null
+    if (typeof localStorage !== 'undefined') {
+      u = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      )
+    }
+    console.log("user in profile chat", u)
+    const config = {
+      headers: {
+        "Authorization": "Bearer " + u.token,
+      }
+    };
+    const data = { promptId: prompt.id };
+    setLoading(true)
+    axios.post(ApiPath.CreateChat, data, config)
+      .then(data => {
+        setLoading(false)
+        console.log("Chat create response")
+        console.log(data.data)
+        if (data.data.status) {
+          let chat = data.data.data; //chat data
+          let isNew = true
+          if (data.data.message === "Chat already exists") {
+            isNew = false;
+          }
+          chat.isNew = isNew
+          setCurrentChat(chat)
+          handleChatNavigation(prompt, chat)
+          // setChatViewVisible(true)
+        }
+        else {
+          console.log("Some error ", data.data.message)
+        }
+
+
+      })
+      .catch(error => {
+        console.log("Exception", error)
+      })
+    //console.log(text)
+  }
+
+  const handleChatNavigation = (prompt, chat) => {
+    console.log("Prompt page in List " + prompt.title + " Clicked")
+    // setCurrentSelectedPrompt(prompt)
+    // setCurrentChat(chat)
+    // setMenuSelected("chatgpt")
+    let data = { chatViewVisible: true, newChat: true, prompt: prompt, chat: chat }
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+    }
+    router.push("/dashboard/chat?chatid=" + chat.id)
+  }
+  const searchTextChanged = (text) => {
+    console.log("Search text ", text)
+    setSearch(text)
   }
 
 
@@ -191,6 +344,18 @@ export default function ProfileBaseView(props) {
 
   return (
     <div className="flex  flex-col  flex-grow w-full h-full bg-black px-2">
+      <Modal
+        isOpen={promptQuestionDialogueVisible}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Prompt Questions"
+      >
+        <PromptChatQuestionsPopup onClose={() => {
+          setPromptQuestionDeialogueVisible(false)
+
+        }} prompt={currentSelectedPrompt} onPublish={createChat} />
+      </Modal>
       {
         currentUser != null && (
           <div className={` ${user.user.id !== currentUser.user.id ? "" : 'hidden'}`} style={{}}>

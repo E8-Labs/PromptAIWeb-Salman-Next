@@ -1,6 +1,10 @@
 import React from 'react'
 
+import { useRouter } from 'next/navigation'
+
 const ProfileManagement = () => {
+
+    const router = useRouter()
     return (
         <div>
             <div className='flex flex-row w-full'>
@@ -9,7 +13,14 @@ const ProfileManagement = () => {
                         <div className='text-[#00C28C] font-medium text-md pt-10'>Personal Information</div>
                         <div className='text-[white] font-medium text-md mt-10'>Subscription Plans</div>
                         <div className='text-[white] font-medium text-md mt-10'>Payment Method</div>
-                        <button className='text-[#FF124B] font-medium text-md mt-10'>Log out</button>
+                        <button className='text-[#FF124B] font-medium text-md mt-10' onClick={() => {
+                            event.preventDefault()
+                            console.log("Logout here")
+                            if (typeof localStorage !== 'undefined') {
+                              localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+                            }
+                            router.push("/");
+                        }}>Log out</button>
                     </div>
                 </div>
                 <div className='flex justify-end w-3/4 ms-5'>

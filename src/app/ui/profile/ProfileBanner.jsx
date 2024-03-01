@@ -217,13 +217,19 @@ export default function ProfileBannerView(props) {
                                         //Show Community
                                     }} >{user.user.followers} Follower{user.user.followers > 1 && 's'}</p>
 
-                                    <ul>
+                                    <ul className="flex gap-2">
 
-                                        <li><Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : '/'}><img src={globeBtnIcon} alt="" /></Link></li>
+                                        {/*social images */}
 
-                                        <li><Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : '/'}><img src={youtubeBtnIcon} alt="" /></Link></li>
+                                        <button><img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
 
-                                        <li><Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : '/'}><img src={tiktokicon} alt="" /></Link></li>
+                                        <button><img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
+
+                                        <button><img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
+
+                                        <button><img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
+
+                                        <button><img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
 
                                     </ul>
                                 </div>

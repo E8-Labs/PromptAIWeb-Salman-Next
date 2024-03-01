@@ -341,6 +341,7 @@ export default function Page() {
           handleAddAction={() => {
             setPopupOpen(true);
           }}
+          isPopupOpen={isPopupOpen}
           setCategoriesSelected={(categories) => {
             setCategoriesSelected(categories);
           }}

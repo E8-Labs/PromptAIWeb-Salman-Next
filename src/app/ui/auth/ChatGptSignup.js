@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 
 // import { alignProperty } from "@mui/material/styles/cssUtils";
 
-function ChatGptLogin(props) {
+function ChatGptSignup(props) {
     const starIcon = (
         <Icon>
             <img alt="all" src="/user-icon-white.svg" />
@@ -51,7 +51,6 @@ function ChatGptLogin(props) {
         props.signinBtnTapped()
     }
     const handleRegisterBtnClick = (e) => {
-        console.log("Regsiter now")
         props.registerBtnTapped()
         // e.preventDefault()
         // requestPermission()
@@ -104,9 +103,9 @@ function ChatGptLogin(props) {
 
 
     //test code to signup
-    // const router = useRouter()
-    const handleSignup = () => {
-        props.registerBtnTapped()
+    const router = useRouter()
+    const handleSignup = () => { // when clicked already have an account button
+        props.handleLoginBtn()
     }
 
 
@@ -130,7 +129,7 @@ function ChatGptLogin(props) {
                             padding: 1.5, paddingX: 3, borderRadius: 8, ":hover": {
                                 bgcolor: "#001812"
                             }
-                        }} onClick={handleSigninBtnClick}>Sign In with OpenAI</Button>
+                        }} onClick={handleSigninBtnClick}>Sign Up with OpenAI</Button>
                 </div>
                 <div className="h-20 w-full"></div>
 
@@ -141,10 +140,10 @@ function ChatGptLogin(props) {
 </button> */}
                 <div className="flex-col my-2 justify-center items-center" >
                     <div className="flex items-center justify-center p-md-2 p-0 gap-1 ">
-                        <span className="mb-4 text-white">Dont have an account? <button onClick={handleRegisterBtnClick} className="font-semibold hover:text-lg hover:font-bold">Sign Up Now</button> {/* <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link> */}</span>
+                        <span className="mb-4 text-white">Already have an account? <button onClick={handleSignup} className="font-semibold hover:text-lg hover:font-bold">Sign In Now</button> {/* <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link> */}</span>
                     </div>
                     <div className="flex justify-center items-center w-full mb-2">
-                        <span className=" text-white">Or Sign up with</span>
+                        <span className=" text-white">Or Sign in with</span>
                     </div>
                     <div className="flex flex-row w-full items-center justify-center p-md-2 p-0 gap-1">
 
@@ -185,4 +184,4 @@ function ChatGptLogin(props) {
 
 
 
-export default ChatGptLogin;
+export default ChatGptSignup;

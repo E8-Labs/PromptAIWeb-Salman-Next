@@ -32,6 +32,7 @@ import 'tailwindcss/tailwind.css';
 // import crossIcon from '../../assets/cross.svg'
 import AddName from './ui/auth/register/AddName'
 import ChatGptLogin from "./ui/auth/ChatGptLogin";
+import ChatGptSignup from "./ui/auth/ChatGptSignup";
 // import NotificationPermission from '../ui/auth/register/NotificationPermission';
 import AddProfilePicture from './ui/auth/register/AddProfilePicture';
 import AddUsername from './ui/auth/register/AddUsername';
@@ -399,6 +400,16 @@ export default function Page() {
 
   }
 
+  const showSignupScreen = () => {
+    console.log("Setting page signup")
+    setPage("signup")
+  }
+
+  const handleLoginBtn = () => {
+    console.log("SHow login ")
+    setPage("login")
+  }
+
   //functions end here
 
   return (
@@ -426,10 +437,17 @@ export default function Page() {
                   signinBtnTapped} registerBtnTapped={registerBtnTapped} registerWithSocial={registerWithSocial} />
               )
             }
+            {/* {
+              page === "signup" && (
+                <ChatGptSignup signinBtnTapped={
+                  signinBtnTapped} registerBtnTapped={registerBtnTapped} registerWithSocial={registerWithSocial} handleLoginBtn={handleLoginBtn}/>
+              )
+            } */}
+
 
             {
               page === "login" && (
-                <LoginAI backAction={backAction} loading={loading} getEmailPassword={getEmailPassword} />
+                <LoginAI backAction={backAction} loading={loading} getEmailPassword={getEmailPassword} registerWithSocial={registerWithSocial} />
                 // <div> Hello there login </div>
               )
             }

@@ -3,9 +3,10 @@ import React, { useState, useEffect, Component } from "react";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CustomTextField } from "../customcomponents/CustomTextField";
-import { Button, Stack, IconButton, CircularProgress } from "@mui/material";
+import { Button, Stack, CircularProgress, Icon, IconButton } from "@mui/material";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { PageControl } from "../customcomponents/PageControl";
+import Icons from '@/app/lib/Icons';
 // import { Link, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 const background = '/bg-image.png'
@@ -14,6 +15,10 @@ const userIcon = '/user-icon-white.svg'
 const crossIcon = '/cross.svg'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+import { getMessaging, onMessage } from 'firebase/messaging';
+import { signInWithPopup } from 'firebase/auth'
+import { requestPermission, app, initMessaging, googleProvider, auth, appleProvider } from "./../../firebase"
 
 //Images
 const upload_image = '/upload_image.svg';
@@ -61,6 +66,31 @@ function LoginAI(props) {
         console.log("Password changed " + event.target.value)
         setPassword(event.target.value)
 
+    }
+
+    const handleSigninWithGoogleBtnClick = (e) => {
+        console.log("Sign in with google here")
+        signInWithPopup(auth, googleProvider).then((data) => {
+            let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google" }
+            console.log("User data is ", userData)
+            props.registerWithSocial(userData)
+            // localStorage.setItem('email', data.user.email)
+            // setValue(data.user.email)
+            // console.log("user email is", data.user.email)
+        })
+    }
+
+    const handleSigninWithAppleBtnClick = (e) => {
+        console.log("Sign in with Apple here")
+        signInWithPopup(auth, appleProvider).then((data) => {
+            // let userData = data.user
+            let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple" }
+            console.log("User data is ", data.user.email)
+            props.registerWithSocial(userData)
+            // localStorage.setItem('email', data.user.email)
+            // setValue(data.user.email)
+            // console.log("user email is", data.user.email)
+        })
     }
 
 
@@ -136,7 +166,41 @@ function LoginAI(props) {
                         </LoadingButton>
                     </div>
                 </div>
+                <div className="flex justify-center items-center w-full mb-2">
+                        <span className=" text-white">Or Sign In with</span>
+                </div>
+                <div className="flex-col my-2 justify-center items-center" >
+                    
+                    <div className="flex flex-row w-full items-center justify-center p-md-2 p-0 gap-1">
 
+
+                        <div className="flex rounded" style={{
+                            backgroundColor: '#FFFFFF', marginTop: 1,
+                            marginBottom: 3,
+                            borderRadius: '50%', ":hover": {
+                                bgcolor: "#001812"
+                            }
+                        }}>
+                            <IconButton
+                                sx={{
+
+                                }} onClick={handleSigninWithGoogleBtnClick}><Icons.GoogleIcon /></IconButton>
+                        </div>
+                        <div className="flex rounded-lg" style={{
+                            backgroundColor: '#FFFFFF', marginTop: 1,
+                            marginBottom: 3,
+                            borderRadius: '50%', ":hover": {
+                                bgcolor: "#001812"
+                            }
+                        }}>
+                            <IconButton
+                                sx={{
+
+                                }} onClick={handleSigninWithAppleBtnClick}><Icons.AppleIcon /></IconButton>
+                        </div>
+
+                    </div>
+                </div>
 
 
 
