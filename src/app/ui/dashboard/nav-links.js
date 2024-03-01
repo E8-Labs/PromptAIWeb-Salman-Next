@@ -13,8 +13,8 @@ const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
 const headphoneIcon = '/headphone.svg';
 const usersIcon = '/users.svg';
-const privacyIcon = '/privacy.svg';
-const termIcon = '/terms.svg';
+// const privacyIcon = '/privacy.svg';
+// const termIcon = '/terms.svg';
 
 // Map of links to display in the side navigation.
 // Depending on the size of the application, this would be stored in a database.
@@ -67,8 +67,8 @@ const links2 = [
   
   { name: 'Customer Support', href: '/dashboard/support', icon: headphoneIcon },
   // { name: 'Community Forums', href: '/dashboard/community', icon: headphoneIcon },
-  { name: 'Privacy Policy', href: '/dashboard/privacy', icon: privacyIcon },
-  { name: 'Terms & Conditions', href: '/dashboard/terms', icon: termIcon },
+  // { name: 'Privacy Policy', href: '/dashboard/privacy', icon: privacyIcon },
+  // { name: 'Terms & Conditions', href: '/dashboard/terms', icon: termIcon },
   
 ];
 function NavSideLinks2() {

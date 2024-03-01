@@ -179,9 +179,12 @@ export default function TopNav(props) {
 
                 <div className="nav-item ">
                     {/* <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button> */}
-                    <IconButton id="search" color='white' onClick={handleSearch} sx={{ color: 'white' }}>
-                        <Icons.SearchIcon />
-                    </IconButton>
+                    {!isDashboardSearch && (
+                        <IconButton id="search" color='white' onClick={handleSearch} sx={{ color: 'white' }}>
+                            <Icons.SearchIcon />
+                        </IconButton>
+                    )
+                    }
                 </div>
                 <div className="nav-item ">
                     {/* <button className="btn text-white" id="notifications" onClick={handleMenuClick}><i className="fa fa-bell"></i></button> */}

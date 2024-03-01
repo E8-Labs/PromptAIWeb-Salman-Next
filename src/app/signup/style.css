@@ -1,0 +1,27 @@
+.background{
+    /* text-align: center; */
+    background-image: url(../../../public/bg-image.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* color: white; */
+}
+.card{
+    height: 70vh;
+    width: 25vw;
+    /* border: 2px solid red; */
+    color: white;
+    background-color: black;
+}
+.AIButton{
+    display: flex;
+    align-items: center;
+    margin-top: 25%;
+}
+.signINBtn{
+    margin-top: 23%;
+}

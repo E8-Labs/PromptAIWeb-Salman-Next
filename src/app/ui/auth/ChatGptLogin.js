@@ -11,8 +11,9 @@ import Image from "next/image";
 import { Button, Icon, IconButton } from "@mui/material";
 import { getMessaging, onMessage } from 'firebase/messaging';
 import { signInWithPopup } from 'firebase/auth'
-import {requestPermission, app, initMessaging, googleProvider, auth, appleProvider } from "./../../firebase"
+import { requestPermission, app, initMessaging, googleProvider, auth, appleProvider } from "./../../firebase"
 import Icons from '@/app/lib/Icons';
+import { useRouter } from "next/navigation";
 
 // import { alignProperty } from "@mui/material/styles/cssUtils";
 
@@ -62,7 +63,7 @@ function ChatGptLogin(props) {
     const handleSigninWithGoogleBtnClick = (e) => {
         console.log("Sign in with google here")
         signInWithPopup(auth, googleProvider).then((data) => {
-            let userData = {email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google"}
+            let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google" }
             console.log("User data is ", userData)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
@@ -75,7 +76,7 @@ function ChatGptLogin(props) {
         console.log("Sign in with Apple here")
         signInWithPopup(auth, appleProvider).then((data) => {
             // let userData = data.user
-            let userData = {email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple"}
+            let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple" }
             console.log("User data is ", data.user.email)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
@@ -88,17 +89,24 @@ function ChatGptLogin(props) {
 
     useEffect(() => {
         if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
-          const messaging = getMessaging(app);
-          const unsubscribe = onMessage(messaging, (payload) => {
-            console.log('Foreground push notification received:', payload);
-            // Handle the received push notification while the app is in the foreground
-            // You can display a notification or update the UI based on the payload
-          });
-          return () => {
-            unsubscribe(); // Unsubscribe from the onMessage event
-          };
+            const messaging = getMessaging(app);
+            const unsubscribe = onMessage(messaging, (payload) => {
+                console.log('Foreground push notification received:', payload);
+                // Handle the received push notification while the app is in the foreground
+                // You can display a notification or update the UI based on the payload
+            });
+            return () => {
+                unsubscribe(); // Unsubscribe from the onMessage event
+            };
         }
-      }, []);
+    }, []);
+
+
+    //test code to signup
+    const router = useRouter()
+    const handleSignup = () => {
+        router.push('/signup')
+    }
 
 
     return (
@@ -118,49 +126,53 @@ function ChatGptLogin(props) {
                 <div className="bg-appgreenlight rounded-full p-0">
                     <Button variant="contained" startIcon={starIcon}
                         sx={{
-                             padding: 1.5, paddingX: 3, borderRadius: 8, ":hover": {
+                            padding: 1.5, paddingX: 3, borderRadius: 8, ":hover": {
                                 bgcolor: "#001812"
                             }
                         }} onClick={handleSigninBtnClick}>Sign In with OpenAI</Button>
                 </div>
                 <div className="h-20 w-full"></div>
 
-{/* <input type="button" title="Hello there"  style={{backgroundColor: 'red', height: 50, width: 120}} />
+                {/* <input type="button" title="Hello there"  style={{backgroundColor: 'red', height: 50, width: 120}} />
 
 <button style={{backgroundColor: 'red', height: 50, width: 120}}>
     Hello
 </button> */}
                 <div className="flex-col my-2 justify-center items-center" >
                     <div className="flex items-center justify-center p-md-2 p-0 gap-1 ">
-                        <span className="mb-4 text-white">Dont have an account? <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link></span>
+                        <span className="mb-4 text-white">Dont have an account? <button onClick={handleSignup} className="font-semibold hover:text-lg hover:font-bold">Sign Up Now</button> {/* <Link href={"/"} onClick={e => handleRegisterBtnClick(e)} className="font-semibold" variant="outline-success">Sign up now</Link> */}</span>
                     </div>
                     <div className="flex justify-center items-center w-full mb-2">
                         <span className=" text-white">Or Sign in with</span>
                     </div>
                     <div className="flex flex-row w-full items-center justify-center p-md-2 p-0 gap-1">
-                        
-                        
-                        <div className="flex rounded" style={{backgroundColor: '#FFFFFF', marginTop: 1,
+
+
+                        <div className="flex rounded" style={{
+                            backgroundColor: '#FFFFFF', marginTop: 1,
                             marginBottom: 3,
-                             borderRadius: '50%', ":hover": {
+                            borderRadius: '50%', ":hover": {
                                 bgcolor: "#001812"
-                            }}}>
-                        <IconButton 
-                        sx={{
-                            
-                        }} onClick={handleSigninWithGoogleBtnClick}><Icons.GoogleIcon /></IconButton>
+                            }
+                        }}>
+                            <IconButton
+                                sx={{
+
+                                }} onClick={handleSigninWithGoogleBtnClick}><Icons.GoogleIcon /></IconButton>
                         </div>
-                        <div className="flex rounded-lg" style={{backgroundColor: '#FFFFFF', marginTop: 1,
+                        <div className="flex rounded-lg" style={{
+                            backgroundColor: '#FFFFFF', marginTop: 1,
                             marginBottom: 3,
-                             borderRadius: '50%', ":hover": {
+                            borderRadius: '50%', ":hover": {
                                 bgcolor: "#001812"
-                            }}}>
-                        <IconButton 
-                        sx={{
-                            
-                        }} onClick={handleSigninWithAppleBtnClick}><Icons.AppleIcon /></IconButton>
+                            }
+                        }}>
+                            <IconButton
+                                sx={{
+
+                                }} onClick={handleSigninWithAppleBtnClick}><Icons.AppleIcon /></IconButton>
                         </div>
-                        
+
                     </div>
                 </div>
 

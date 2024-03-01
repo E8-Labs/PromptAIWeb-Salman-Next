@@ -14,11 +14,14 @@ import {
   capitalize
 } from '@mui/material';
 
+import { useRouter } from 'next/navigation'
+
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import PromptChatView from './PromptChatView';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
-import Modal from 'react-modal'
+import Modal from 'react-modal';
+
 
 import axios from 'axios';
 import ApiPath from '../../lib/ApiPath';
@@ -27,14 +30,31 @@ import SearchBar from './Searchbar';
 
 const PlusIcon = "/whiteplusicon.svg";
 
+const customStyles = {
+  overlay: {
+    background: "#00000090",
+  },
+  content: {
+    background: "#00000090",
+    border: "none"
+  },
+};
+
 
 function Promptsearch(props) {
   const [prompts, setPrompts] = useState([])
+  const [currentChat, setCurrentChat] = useState(null)
   const [user, setUser] = useState(null)
   const [search, setSearch] = useState('')
   const [previousSearch, setPreviousSearch] = useState('')
   const [timerSearch, setTimerSearch] = useState('')
   const [loading, setLoading] = useState(false)
+
+  const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
+  const [promptQuestionDialogueVisible, setPromptQuestionDeialogueVisible] = useState(false)
+
+  const router = useRouter();
+
   let timeoutId;
 
   useEffect(() => {
@@ -65,6 +85,21 @@ function Promptsearch(props) {
       window.removeEventListener('newChat', handleEvent);
     }
   }, [])
+
+
+
+  const handleLoadingClose = () => {
+    setLoading(false)
+  }
+
+  function afterOpenModal() {
+
+  }
+
+  function closeModal() {
+    setPromptQuestionDeialogueVisible(false);
+  }
+
 
 
   //listen searchTextChanged Event here
@@ -156,10 +191,122 @@ function Promptsearch(props) {
 
   }
 
+
   const handlePromptSelected = (prompt) => {
-    console.log("Prompts")
+    console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
+
+    setCurrentSelectedPrompt(prompt)
+    if (prompt.questions.length == 0) {
+      createChat(prompt)
+    }
+    else {
+      console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
+      setPromptQuestionDeialogueVisible(true)
+    }
+    // props.handlePromptSelected(prompt)
   }
 
+  // const savePromptApi = (prompt) => {
+  //   let api = ApiPath.SavePrompt;
+  //   let u = null
+  //   if (typeof localStorage !== 'undefined') {
+  //     u = JSON.parse(
+  //       localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+  //     )
+  //   }
+
+  //   const config = {
+  //     headers: {
+  //       "Authorization": "Bearer " + u.token,
+  //     }
+  //   };
+  //   const data = {
+  //     promptid: prompt.id,
+  //   };
+  //   //console.log("Sending Message Data ", data)
+  //   axios.post(api, data, config)
+  //     .then(data => {
+  //       console.log("Save prompt response")
+  //       console.log(data.data)
+  //       if (data.data.status) {
+  //         // call the callback function here
+  //       }
+  //       else {
+  //         //console.log("Error is here in send message", data.data.message)
+  //       }
+  //     })
+  //     .catch(error => {
+  //       //console.log(error)
+  //     })
+  // }
+
+  const createChat = (prompt) => {
+
+    setCurrentSelectedPrompt(prompt)
+    setPromptQuestionDeialogueVisible(false)
+    console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
+    //console.log(prompt)
+    //console.log("Length is " + prompt.questions.length);
+    let text = prompt.prompt;
+    for (let i = 0; i < prompt.questions.length; i++) {
+      let q = prompt.questions[i];
+      text = text.replace(`[${q.question}]`, q.answer);
+    }
+    prompt.prompt = text;
+    // create chat api
+    let u = null
+    if (typeof localStorage !== 'undefined') {
+      u = JSON.parse(
+        localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
+      )
+    }
+    //console.log(u)
+    const config = {
+      headers: {
+        "Authorization": "Bearer " + u.token,
+      }
+    };
+    const data = { promptId: currentSelectedPrompt.id };
+    setLoading(true)
+    axios.post(ApiPath.CreateChat, data, config)
+      .then(data => {
+        setLoading(false)
+        console.log("Chat create response")
+        console.log(data.data)
+        if (data.data.status) {
+          let chat = data.data.data; //chat data
+          let isNew = true
+          if (data.data.message === "Chat already exists") {
+            isNew = false;
+          }
+          chat.isNew = isNew
+          setCurrentChat(chat)
+          handleChatNavigation(prompt, chat)
+          // setChatViewVisible(true)
+        }
+        else {
+          console.log("Some error ", data.data.message)
+        }
+
+
+      })
+      .catch(error => {
+        console.log("Exception", error)
+      })
+    //console.log(text)
+  }
+
+  const handleChatNavigation = (prompt, chat) => {
+    console.log("Prompt page in List " + prompt.title + " Clicked")
+    // setCurrentSelectedPrompt(prompt)
+    // setCurrentChat(chat)
+    // setMenuSelected("chatgpt")
+    let data = { chatViewVisible: true, newChat: true, prompt: prompt, chat: chat }
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+    }
+    router.push("/dashboard/chat?chatid=" + chat.id)
+  }
   const searchTextChanged = (text) => {
     console.log("Search text ", text)
     setSearch(text)
@@ -198,6 +345,18 @@ function Promptsearch(props) {
   return (
     <div className='flex-col justify-left w-full h-full'>
       {/*<SearchBar textChanged={searchTextChanged} />*/}
+      <Modal
+        isOpen={promptQuestionDialogueVisible}
+        onAfterOpen={afterOpenModal}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Prompt Questions"
+      >
+        <PromptChatQuestionsPopup onClose={() => {
+          setPromptQuestionDeialogueVisible(false)
+
+        }} prompt={currentSelectedPrompt} onPublish={createChat} />
+      </Modal>
       <div className='flex-col overflow-hidden h-full  '>
 
         {/**/}

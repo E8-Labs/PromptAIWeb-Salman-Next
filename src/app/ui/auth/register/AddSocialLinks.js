@@ -150,95 +150,95 @@ class AddSocialLinks extends Component {
             $imagePreview = upload_image;
         }
         return (
-            
-                <div className="felx flex-col " style={{ height: "100%" }}>
-                    <Stack className="flex flex-grow h-12" direction={'row'}>
-                        <IconButton onClick={this.handleBackButton.bind(this)}>
-                            <ArrowBackIcon sx={{ color: 'white' }} />
-                        </IconButton>
-                    </Stack>
-                    <div className="flex justify-center">
-                        <div className="  user-profile-image-border d-flex border-2  border-appgreenlight rounded-full p-1 items-center justify-center"
-                            style={{ width: "90px", height: "90px" }}>
-                            <img className="rounded-full user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
-                        </div>
+
+            <div className="felx flex-col " style={{ height: "100%" }}>
+                <Stack className="flex flex-grow h-12" direction={'row'}>
+                    <IconButton onClick={this.handleBackButton.bind(this)}>
+                        <ArrowBackIcon sx={{ color: 'white' }} />
+                    </IconButton>
+                </Stack>
+                <div className="flex justify-center">
+                    <div className="  user-profile-image-border d-flex border-2  border-appgreenlight rounded-full p-1 items-center justify-center"
+                        style={{ width: "90px", height: "90px" }}>
+                        <img className="rounded-full user-profile-image" src={imagePreviewUrl} style={{ width: "80px", height: "80px" }} />
                     </div>
-                    <div className="flex flex-col flex-grow gap-2 w-full justify-center items-center mt-3 px-6">
+                </div>
+                <div className="flex flex-col flex-grow gap-2 w-full justify-center items-center mt-3 px-6">
 
-                        <CustomTextField
+                    <CustomTextField
 
-                            // required
-                            // id="outlined-required"
-                            label="Website"
-                            defaultValue=""
-                            placeholder='Web Url'
-                            sx={{ "label": { color: "gray" }, width: '100%' }}
-                            onChange={this.handleChangeInsta.bind(this)}
-                        />
-                        <CustomTextField
+                        // required
+                        // id="outlined-required"
+                        label="Website"
+                        defaultValue=""
+                        placeholder='Web Url'
+                        sx={{ "label": { color: "gray" }, width: '100%' }}
+                        onChange={this.handleChangeInsta.bind(this)}
+                    />
+                    <CustomTextField
 
-                            // required
-                            // id="outlined-required"
-                            label="Youtube Url"
-                            defaultValue=""
-                            placeholder='Youtube Url'
-                            sx={{ "label": { color: "gray" }, width: '100%' }}
-                            onChange={this.handleChangeYoutube.bind(this)}
-                        />
-                        <CustomTextField
+                        // required
+                        // id="outlined-required"
+                        label="Youtube Url"
+                        defaultValue=""
+                        placeholder='Youtube Url'
+                        sx={{ "label": { color: "gray" }, width: '100%' }}
+                        onChange={this.handleChangeYoutube.bind(this)}
+                    />
+                    <CustomTextField
 
-                            // required
-                            // id="outlined-required"
-                            label="Insta Url"
-                            defaultValue=""
-                            placeholder='Insta Url'
-                            sx={{ "label": { color: "gray" }, width: '100%' }}
-                            onChange={this.handleChangeInsta.bind(this)}
-                        />
+                        // required
+                        // id="outlined-required"
+                        label="Insta Url"
+                        defaultValue=""
+                        placeholder='Insta Url'
+                        sx={{ "label": { color: "gray" }, width: '100%' }}
+                        onChange={this.handleChangeInsta.bind(this)}
+                    />
 
-                        <CustomTextField
+                    <CustomTextField
 
-                            // required
-                            // id="outlined-required"
-                            label="Discord Url"
-                            defaultValue=""
-                            placeholder='Discord Url'
-                            sx={{ "label": { color: "gray" }, width: '100%' }}
-                            onChange={this.handleChangeDiscord.bind(this)}
-                        />
+                        // required
+                        // id="outlined-required"
+                        label="Discord Url"
+                        defaultValue=""
+                        placeholder='Discord Url'
+                        sx={{ "label": { color: "gray" }, width: '100%' }}
+                        onChange={this.handleChangeDiscord.bind(this)}
+                    />
 
-                        <CustomTextField
+                    <CustomTextField
 
-                            // required
-                            // id="outlined-required"
-                            label="Tiktok Url"
-                            defaultValue=""
-                            placeholder='Tiktok Url'
-                            sx={{ "label": { color: "gray" }, width: '100%' }}
-                            onChange={this.handleChangeTiktok.bind(this)}
-                        />
+                        // required
+                        // id="outlined-required"
+                        label="Tiktok Url"
+                        defaultValue=""
+                        placeholder='Tiktok Url'
+                        sx={{ "label": { color: "gray" }, width: '100%' }}
+                        onChange={this.handleChangeTiktok.bind(this)}
+                    />
 
-                        <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
-                            <Stack direction={'row'} className='' >
-                                <PageControl selectedColor={"#00C28C"} selectedIndex={4} pages={6} />
-                            </Stack>
-                            <div class="invisible ">020000000000</div>
-                            <div className="bg-appgreenlight rounded-full p-0">
+                    <div className="flex flex-grow w-full mt-4 pt-4  justify-between  items-center">
+                        <Stack direction={'row'} className='' >
+                            <PageControl selectedColor={"#00C28C"} selectedIndex={4} pages={6} />
+                        </Stack>
+                        <div class="invisible ">020000000000</div>
+                        <div className="bg-appgreenlight rounded-full p-0">
                             <LoadingButton variant="contained" className="" endIcon={<ArrowForwardIcon />}
                                 loading={this.props.loading || false}
-                                loadingIndicator={<CircularProgress color="inherit" size={16} sx={{color: 'white'}}/>}
-                                    sx={{
-                                        bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
-                                            backgroundColor: "#001812"
-                                        }
-                                    }} onClick={this.nextBtnClicked.bind(this)}>
-                                        Continue
-                                    </LoadingButton>
-                            </div>
+                                loadingIndicator={<CircularProgress color="inherit" size={16} sx={{ color: 'white' }} />}
+                                sx={{
+                                    bgcolor: '#00C28C', padding: 1.5, paddingX: 4, borderRadius: 10, ":hover": {
+                                        backgroundColor: "#001812"
+                                    }
+                                }} onClick={this.nextBtnClicked.bind(this)}>
+                                Continue
+                            </LoadingButton>
                         </div>
                     </div>
                 </div>
-            
+            </div>
+
         );
     }
 }

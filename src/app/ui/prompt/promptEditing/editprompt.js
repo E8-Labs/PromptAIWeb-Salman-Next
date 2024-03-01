@@ -59,7 +59,7 @@ const EditPromptPopup = ({ onClose, screenIndex, prompt, editPrompt, promptIndex
         //w-11/12 xl:w-5/9 lg:w-5/12
         <div className="multi-form-popup bg-red flex w-full h-full md:w-[23rem] md:h-[40rem]   mx-auto justify-center items-center my-auto  rounded"
             style={{ borderRadius: '3rem' }}
-            >
+        >
             <div className="flex  flex-col w-full h-full items-center bg-appgreen p-2  py-4 rounded-lg">
                 <div className='flex justify-between items-center' style={{ width: '100%' }}>
                     <IconButton onClick={handlePrevious}>
