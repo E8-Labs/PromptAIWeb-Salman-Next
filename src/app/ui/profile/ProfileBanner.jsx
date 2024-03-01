@@ -221,15 +221,12 @@ export default function ProfileBannerView(props) {
 
                                         {/*social images */}
 
-                                        <button><img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
-
-                                        <button><img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
-
-                                        <button><img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
-
-                                        <button><img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
-
-                                        <button><img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></button>
+                                        <Link target="_blank" href={user.user.instagrdiscord_urlam_url ? 'http://' + user.user.discord_url : 'http://www.discord.com'}><img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
+                                        <Link target="_blank" href={user.user.web_url ? 'http://' + user.user.web_url : 'http://www.google.com'}><img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
+                                        <Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : 'http://www.youtube.com'}><img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
+                                        <Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : 'http://www.instagram.com'}><img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
+                                        <Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : 'http://www.tiktok.com'}><img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
+                                        
 
                                     </ul>
                                 </div>

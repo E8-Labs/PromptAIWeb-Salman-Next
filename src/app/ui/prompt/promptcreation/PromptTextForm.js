@@ -1,5 +1,6 @@
 // components/Form2.js
 import react, { useState } from "react";
+import Link from "next/link";
 import { styled } from "styled-components";
 import Image from "next/image";
 import { Button, Stack } from "@mui/material";
@@ -34,20 +35,22 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
     let text = promptText;
     console.log("Prompt Text ", text)
     const qs = [];
+    let q = "";
     for (let index = 0; index < promptText.length; index++) {
       let char = promptText[index];
-      if (char === '[' && index + 1 < promptText.length) {
+      if (char === '#' && index + 1 < promptText.length) {
 
-        let q = "";
+        q = ""
         index += 1;
         char = promptText[index]
-        while (char != ']') {
+        while (char != ' ' && char != '.' && index < promptText.length) {
 
           q += char;
           index++;
           char = promptText[index];
         }
         qs.push({ question: q, placeholder: "" });
+
       }
     }
 
@@ -91,9 +94,12 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
             <div className="flex gap-3 my-5 " style={{ width: '100%' }}>
               <Image src={infoIcon} width={25} height={15}></Image>
               <div className="flex-col">
-                <p className="cursor-pointer underline" onClick={handleLearnPromptClick}>
+              <Link target="_blank" href={'http://www.google.com'}>
+              <p className="cursor-pointer underline" onClick={handleLearnPromptClick}>
                   Learn more about prompts
                 </p>
+              </Link>
+                
                 <div className="h-1 bg-white w-50"></div>
               </div>
             </div>

@@ -31,12 +31,12 @@ const StackPromptTextForm = ({ onNext, formData, updateFormData }) => {
       const qs = [];
         for (let index=0; index < promptText.length; index++) {
             let char = promptText[index];
-            if(char === '[' && index + 1 < promptText.length){
+            if(char === '#' && index + 1 < promptText.length){
                 
                 let q = "";
                 index += 1;
                 char = promptText[index]
-                while(char != ']'){
+                while(char != ' ' && char != '.'){
                     
                     q += char;
                     index++;
