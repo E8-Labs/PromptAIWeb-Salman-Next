@@ -7,6 +7,8 @@ import { Button, Stack } from "@mui/material";
 import { CustomTextField } from "../../customcomponents/CustomTextField";
 import { PageControl } from "../../customcomponents/PageControl";
 import Icons from "@/app/lib/Icons";
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
 const infoIcon = "/info icon green.png";
@@ -90,6 +92,7 @@ const PromptTextForm = ({ onNext, formData, updateFormData }) => {
                 setPromptText(text)
                 updateFormData({ promptText: e.target.value })
               }}
+              
             />
             <div className="flex gap-3 my-5 " style={{ width: '100%' }}>
               <Image src={infoIcon} width={25} height={15}></Image>

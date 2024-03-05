@@ -10,6 +10,8 @@ const background = '/banner-bg.png'
 const crossIcon = '/assets/cross.svg'
 const upload_image = '/assets/upload_image.svg';
 import { alignProperty } from "@mui/material/styles/cssUtils";
+import InputAdornment from '@mui/material/InputAdornment';
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 
 class AddSocialLinks extends Component {
@@ -169,6 +171,13 @@ class AddSocialLinks extends Component {
 
                         // required
                         // id="outlined-required"
+                        InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} />
+                              </InputAdornment>
+                            ),
+                          }}
                         label="Website"
                         defaultValue=""
                         placeholder='Web Url'
@@ -179,6 +188,13 @@ class AddSocialLinks extends Component {
 
                         // required
                         // id="outlined-required"
+                        InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} />
+                              </InputAdornment>
+                            ),
+                          }}
                         label="Youtube Url"
                         defaultValue=""
                         placeholder='Youtube Url'
@@ -189,6 +205,13 @@ class AddSocialLinks extends Component {
 
                         // required
                         // id="outlined-required"
+                        InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} />
+                              </InputAdornment>
+                            ),
+                          }}
                         label="Insta Url"
                         defaultValue=""
                         placeholder='Insta Url'
@@ -200,6 +223,13 @@ class AddSocialLinks extends Component {
 
                         // required
                         // id="outlined-required"
+                        InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} />
+                              </InputAdornment>
+                            ),
+                          }}
                         label="Discord Url"
                         defaultValue=""
                         placeholder='Discord Url'
@@ -211,6 +241,13 @@ class AddSocialLinks extends Component {
 
                         // required
                         // id="outlined-required"
+                        InputProps={{
+                            startAdornment: (
+                              <InputAdornment position="start">
+                                <img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} />
+                              </InputAdornment>
+                            ),
+                          }}
                         label="Tiktok Url"
                         defaultValue=""
                         placeholder='Tiktok Url'
