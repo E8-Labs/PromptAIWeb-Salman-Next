@@ -1,5 +1,6 @@
 'use client'
 import React, { useState, useEffect, Component } from "react";
+import { useRouter } from "next/navigation";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { CustomTextField } from "../customcomponents/CustomTextField";
@@ -27,7 +28,7 @@ const upload_image = '/upload_image.svg';
 import ApiPath from "../../lib/ApiPath";
 
 function LoginAI(props) {
-
+    let router = useRouter()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     // const [loading, setLoading] = useState(false)
@@ -41,6 +42,12 @@ function LoginAI(props) {
             // setUsername(e.target.value)
 
         }
+    }
+
+    function forgotPassword(e){
+        //load forgotpassword
+        
+        router.push("/forgotpassword")
     }
 
     function handleBackButton(event) {
@@ -137,7 +144,9 @@ function LoginAI(props) {
                     sx={{ "label": { color: "gray" }, width: '100%' }}
                     onChange={handleChangePassword}
                 />
-
+                <div className="flex-col flex  w-full  justify-start items-start" >
+                    <Button className="p-0 " onClick={forgotPassword}> Forgot Password </Button>
+                </div>
 
                 <div className="flex-col flex  w-full  justify-center items-center ">
                     {/* <Stack direction={'row'} className=''> */}

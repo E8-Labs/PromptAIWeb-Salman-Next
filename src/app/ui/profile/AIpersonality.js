@@ -1,8 +1,58 @@
 import React from 'react'
 import { } from './styles.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ApiPath from '@/app/lib/ApiPath'
 
 
 const AIpersonality = () => {
+
+const [email, setEmail] = React.useState('')
+
+  const joinwaitlist = ()=> {
+    console.log("Joining waitlist")
+    if (email === null || email === "") {
+      toast(`Enter valid email`);
+      console.log("Joining waitlist: Invalid email")
+      return
+  }
+
+  const apiParams = {
+      method: "post",
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+          "email": email,
+      }),
+      redirect: 'follow'
+  }
+  console.log("Sending Reset Api")
+  fetch(ApiPath.JoinWaitList, apiParams)
+      .then(function (res) {
+          // console.log("Response is ", res)
+          return res.json();
+      }).then(resJson => {
+          // this.props.clickEvent("stap6");
+          if (resJson.status == true) {
+              console.log(resJson.message)
+              toast(resJson.message)
+
+          } else {
+              console.log("Error login ", resJson.message)
+              toast(`Error: ${resJson.message}`);
+          }
+      })
+      .catch(error => {
+          console.log("User error " + error)
+          toast(`Error: ${error}`);
+          // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+          // this.error_handaling();
+      });
+  }
+
+
   return (
     <div className="tab-pane fade overflow-y-auto" style={{ height: 'calc(100vh - 200px)' }} id="pills-AiPersonality" role="tabpanel" aria-labelledby="pills-AiPersonality-tab">
       {/* <div className="step_progress">
@@ -34,8 +84,11 @@ const AIpersonality = () => {
                 <div className='flex-col justify-start items-start '>
                   <label>Join the waitlist</label>
                   <div className='flex  justify-center items-center gap-3'>
-                    <input type="email" name="" placeholder="Email Address" />
-                    <button className="custom-btn-2">Join the waitlist</button>
+                    <input type="email" name="" placeholder="Email Address" onChange={(e)=> {
+                      console.log("Input changed", e.target.value)
+                      setEmail(e.target.value)
+                    }}/>
+                    <button className="custom-btn-2" onClick={joinwaitlist}>Join the waitlist</button>
                   </div>
                 </div>
                 
@@ -44,6 +97,7 @@ const AIpersonality = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   )
 }

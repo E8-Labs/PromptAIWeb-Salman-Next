@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import ProfileBannerView from "./ProfileBanner";
 import PromptItem from "../prompt/PromptItem";
 import PromptItemMyprofile from "../prompt/promptitemmyprofile";
-import { IconButton, Snackbar } from "@mui/material";
+import { IconButton, Snackbar, Backdrop, CircularProgress } from "@mui/material";
 import axios from "axios";
 import Icons from "@/app/lib/Icons";
 import ProfileManagement from './ProfileManagement'
@@ -46,6 +46,15 @@ export default function ProfileBaseView(props) {
       border: "none"
     },
   };
+
+  
+  function afterOpenModal() {
+
+  }
+
+  function closeModal() {
+    setPromptQuestionDeialogueVisible(false);
+  }
 
   useEffect(() => {
     //console.log("prompts loaded")
@@ -134,7 +143,7 @@ export default function ProfileBaseView(props) {
     setPromptQuestionDeialogueVisible(false);
   }
 
-  
+
   const handlePromptSelected = (prompt) => {
     console.log("Prompt in List Profile" + prompt.title + " Clicked")
 
@@ -192,13 +201,13 @@ export default function ProfileBaseView(props) {
     //console.log("Length is " + prompt.questions.length);
     console.log("Hello Hamza")
     let text = prompt.prompt;
-    try{
+    try {
       for (let i = 0; i < prompt.questions.length; i++) {
         let q = prompt.questions[i];
         text = text.replace(`[${q.question}]`, q.answer);
       }
     }
-    catch(error){
+    catch (error) {
       console.log("Error In Parsing Questions ", error)
     }
     console.log("Here")
@@ -325,7 +334,7 @@ export default function ProfileBaseView(props) {
   }
 
   //code for profilemanagement
-  const [profilemanage, setProfilemanage] = useState(true)
+  const [profilemanage, setProfilemanage] = useState(false)
 
   const handleProfileManagement = () => {
     setAllprompts(false)
@@ -334,7 +343,7 @@ export default function ProfileBaseView(props) {
   }
 
   //code for prompts
-  const [allprompts, setAllprompts] = useState(false)
+  const [allprompts, setAllprompts] = useState(true)
 
   const handleUserPrompts = () => {
     SetAiPersonality(false)
@@ -344,6 +353,14 @@ export default function ProfileBaseView(props) {
 
   return (
     <div className="flex  flex-col  flex-grow w-full h-full bg-black px-2">
+
+      <Backdrop
+        sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={loading}
+        onClick={handleLoadingClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Modal
         isOpen={promptQuestionDialogueVisible}
         onAfterOpen={afterOpenModal}
@@ -388,22 +405,6 @@ export default function ProfileBaseView(props) {
         </div> 
       </div>*/}
       <div className="mt-5 flex flex-row">
-        <button className="rounded flex flex-row p-3"
-          onClick={handleProfileManagement}
-          style={{
-            backgroundColor: profilemanage ? '#00C28C30' : '',
-            border: 'none'
-          }}>
-          <img className="h-auto w-5" src="/Setting.png" /> <p className="text-white ms-2">Profile Management</p>
-        </button>
-        <button className="rounded ms-2 p-3 flex flex-row"
-          onClick={handleAI} style={{
-            backgroundColor: aiPersonality ? '#00C28C30' : '',
-            border: 'none'
-          }}
-        >
-          <img className="h-auto w-5" src="/chatgpt.svg" /><p className="text-white ms-2">AI Personality</p>
-        </button>
         <button className="rounded p-3 flex flex-row"
           onClick={handleUserPrompts} style={{
             backgroundColor: allprompts ? '#00C28C30' : '',
@@ -412,6 +413,25 @@ export default function ProfileBaseView(props) {
         >
           <img className="h-auto w-5" src="/chatgpt.svg" /> <p className="text-white ms-2">My Prompts</p>
         </button>
+
+        <button className="rounded ms-2 p-3 flex flex-row"
+          onClick={handleAI} style={{
+            backgroundColor: aiPersonality ? '#00C28C30' : '',
+            border: 'none'
+          }}
+        >
+          <img className="h-auto w-5" src="/chatgpt.svg" /><p className="text-white ms-2">AI Personality</p>
+        </button>
+
+        <button className="rounded flex flex-row p-3"
+          onClick={handleProfileManagement}
+          style={{
+            backgroundColor: profilemanage ? '#00C28C30' : '',
+            border: 'none'
+          }}>
+          <img className="h-auto w-5" src="/Setting.png" /> <p className="text-white ms-2">Profile Management</p>
+        </button>
+
       </div>
 
       {/* Code for AllPrompts User Created */}
@@ -433,10 +453,11 @@ export default function ProfileBaseView(props) {
                     return (
                       <div className="rounded bg-appgreen p-0 " key={element.id}>
                         {/* <PromptItemMyprofile prompt={element}  itemSelected = {handlePromptSelected}/> */}
-                        <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
-                          console.log("Buy btn clicked")
 
-                        }}></PromptItem>
+                        <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
+                          console.log("Save btn clicked")
+
+                        }} ></PromptItem>
                       </div>
                     )
                   })
@@ -451,7 +472,7 @@ export default function ProfileBaseView(props) {
       {profilemanage && (
         <div className="mt-10">
           {/*<ProfileManagement />*/}
-          <Manageprofile />
+          <Manageprofile user={user} />
         </div>
       )}
 

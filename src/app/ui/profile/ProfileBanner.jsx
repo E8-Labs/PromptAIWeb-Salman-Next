@@ -202,11 +202,11 @@ export default function ProfileBannerView(props) {
                                 </Link>
 
                                 {
-                                    isLoggedInUser &&(
+                                    !isLoggedInUser &&(
                                         <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${isLoggedInUser ? 'hidden' : ''}`} variant="contained" onClick={() => {
                                             console.log("Follow here")
                                             handleFollowAction()
-                                        }} >{following ? `UnFollow` : 'Follow'}</Button>
+                                        }} >{following ? `Ubsubscribe` : 'Subscribe'}</Button>
                                     )
                                 }
                             </div>
@@ -215,17 +215,17 @@ export default function ProfileBannerView(props) {
 
                                     <p style={{ cursor: 'pointer' }} onClick={() => {
                                         //Show Community
-                                    }} >{user.user.followers} Follower{user.user.followers > 1 && 's'}</p>
+                                    }} >{user.user.followers} Subscriber{user.user.followers > 1 && 's'}</p>
 
                                     <ul className="flex gap-2">
 
                                         {/*social images */}
 
-                                        <Link target="_blank" href={user.user.instagrdiscord_urlam_url ? 'http://' + user.user.discord_url : 'http://www.discord.com'}><img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
-                                        <Link target="_blank" href={user.user.web_url ? 'http://' + user.user.web_url : 'http://www.google.com'}><img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
-                                        <Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : 'http://www.youtube.com'}><img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
-                                        <Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : 'http://www.instagram.com'}><img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
-                                        <Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : 'http://www.tiktok.com'}><img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>
+                                        {user.user.discord_url ?<Link target="_blank" href={user.user.discord_url ? 'http://' + user.user.discord_url : 'http://www.discord.com'}><img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
+                                        {user.user.web_url ?<Link target="_blank" href={user.user.web_url ? 'http://' + user.user.web_url : 'http://www.google.com'}><img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
+                                        {user.user.youtube_url ?<Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : 'http://www.youtube.com'}><img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
+                                        {user.user.instagram_url ?<Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : 'http://www.instagram.com'}><img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
+                                        {user.user.tiktok_url ?<Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : 'http://www.tiktok.com'}><img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
                                         
 
                                     </ul>
@@ -299,11 +299,14 @@ align-content: center;
         background-position: center;
         background-size: cover;
         border-radius: 30px;
-        padding: 5px 5px;
+        // padding: 5px 5px;
         display: flex;
         align-items: flex-end;
-        height: 165px;
+        
         position: relative;
+        width: 100%;
+    position: relative;
+    aspect-ratio: 9/16; 
     }
     .edit_banner {
         position: absolute;

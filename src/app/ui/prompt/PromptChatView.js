@@ -61,7 +61,7 @@ const PromptChatView = (props) => {
 
   //state management
   useEffect(() => {
-    //console.log("Setting chat", props.chat)
+    console.log("Setting chat", props.chat)
     if (chat == null) {
       setChat(props.chat)
     }
@@ -91,7 +91,7 @@ const PromptChatView = (props) => {
           // //console.log(JSON.stringify(data.data))
           if (data.status) {
             setMessages(data.data.data)
-            setCanShowPromptHint(PromptHintDisplayStatus.CanShow)
+            // setCanShowPromptHint(PromptHintDisplayStatus.CanShow)
           }
           //   listViewRef._listRef._scrollRef.scrollToEnd({animated: true});
         }).catch(error => {
@@ -198,7 +198,7 @@ const PromptChatView = (props) => {
   const makeUsePrompt = (prompt) => {
     setModalVisible(false)
     let p = prompt
-    //console.log("Use Prompt Now. Create Questionaire ", p)
+    console.log("Use Prompt Now. Create Questionaire ", p)
     let text = p.prompt;
     for (let i = 0; i < p.questions.length; i++) {
       let q = p.questions[i];
@@ -454,12 +454,40 @@ const PromptChatView = (props) => {
         <div ref={bottomRef}></div>
       </div>
       <div className='flex flex-col justify-left  w-8/12 rounded-md bg-appgreen'>
+        {/* {
+          
+          prompt.subprompts.length > 0 && (
+            prompt.subprompts.map((item, index) => {
+              return (
+                <div key={item.id} className='flex justify-center items-center' onClick={() => {
+                  if (chat.stackedPromptIndexToShow >= index) {
+                    console.log("Already submitted")
+                  }
+                  else {
+                    console.log("Submit here",)
+                    handleSubmitSubPrompt(prompt.subprompts)
+                  }
+                }}>
+                  <div className={`flex  border-0 ${(chat && chat.stackedPromptIndexToShow >= index) ? 'bg-appgreen ' : "bg-appgreenlight cursor-pointer"}  justify-center items-center align-self-center p-2`} style={{ minWidth: '164px', height: '50px', borderRadius: '16px', borderWidth: 0 }}>
+                    <p className={`text-center text-sm ${(chat && chat.stackedPromptIndexToShow >= index) ? 'text-gray-500' : "text-white"}`}>{item.title}</p>
+                  </div>
+                  <div className={`bg-white w-10 ${index == prompt.subprompts.length - 1 ? 'hidden' : ''}`} style={{ height: '3px' }}> </div>
+                  <div className={`bg-white w-3 h-3 ${index == prompt.subprompts.length - 1 ? 'hidden' : ''}`} style={{ borderRadius: '50%' }}> </div>
+                </div>
+              )
+            })
+          )
+        } */}
         {
           props.prompt.subprompts.length > 0 && (
             <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
               //send stacked sub prompt here
               console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
               setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
+              let c = chat
+              c.stackedPromptIndexToShow = c.stackedPromptIndexToShow + 1
+              setChat(c)
+              setCanShowPromptHint(c)
               setModalVisible(true)
 
             }} />
@@ -516,7 +544,7 @@ const IncomingMessage = ({ message, prompt, voteAction }) => {
 
             </div>
             <div className='flex flex-col justify-top items-center gap-2 pt-2'>
-              <div className='flex flex-col justify-center items-center ' style={{backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%'}}>
+              <div className='flex flex-col justify-center items-center ' style={{ backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%' }}>
                 <IconButton sx={{ color: 'white' }} onClick={() => {
 
                 }}>
@@ -524,41 +552,41 @@ const IncomingMessage = ({ message, prompt, voteAction }) => {
                 </IconButton>
               </div>
 
-              <div className='flex flex-col justify-center items-center ' style={{backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%'}}>
-              <IconButton onClick={() => {
-                voteAction(IntractionType.Like)
-              }}>
-                {
-                  !message.liked && (
-                    <Icons.ThumbUpOffAltIcon sx={{ color: 'white' }} />
-                  )
-                }
+              <div className='flex flex-col justify-center items-center ' style={{ backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%' }}>
+                <IconButton onClick={() => {
+                  voteAction(IntractionType.Like)
+                }}>
+                  {
+                    !message.liked && (
+                      <Icons.ThumbUpOffAltIcon sx={{ color: 'white' }} />
+                    )
+                  }
 
-                {
-                  message.liked && (
-                    <Icons.ThumbUpIcon sx={{ color: 'white' }} />
-                  )
-                }
-              </IconButton>
+                  {
+                    message.liked && (
+                      <Icons.ThumbUpIcon sx={{ color: 'white' }} />
+                    )
+                  }
+                </IconButton>
               </div>
 
-              <div className='flex flex-col justify-center items-center ' style={{backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%'}}>
-              <IconButton onClick={() => {
-                voteAction(IntractionType.DisLike)
-              }}>
-                {/* <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} /> */}
-                {
-                  !message.disliked && (
-                    <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} />
-                  )
-                }
+              <div className='flex flex-col justify-center items-center ' style={{ backgroundColor: '#ffffff30', width: 40, height: 40, borderRadius: '50%' }}>
+                <IconButton onClick={() => {
+                  voteAction(IntractionType.DisLike)
+                }}>
+                  {/* <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} /> */}
+                  {
+                    !message.disliked && (
+                      <Icons.ThumbDownOffAltIcon sx={{ color: 'white' }} />
+                    )
+                  }
 
-                {
-                  message.disliked && (
-                    <Icons.ThumbDownIcon sx={{ color: 'white' }} />
-                  )
-                }
-              </IconButton>
+                  {
+                    message.disliked && (
+                      <Icons.ThumbDownIcon sx={{ color: 'white' }} />
+                    )
+                  }
+                </IconButton>
               </div>
             </div>
           </div>

@@ -27,8 +27,8 @@ const StackPromptTitleForm = ({ onNext, formData, updateFormData }) => {
                         
                         <input className='inputtext' type='text' placeholder='Title' name='title' onChange={e => updateFormData({ title: e.target.value })}></input>
                         
-                        <textarea className='flex ' rows="7" type='text' placeholder='What’s the objective of the ai model you’re creating: ' 
-                            name='objective' onChange={e => updateFormData({ description: e.target.value })}></textarea>
+                        {/* <textarea className='flex ' rows="7" type='text' placeholder='What’s the objective of the ai model you’re creating: ' 
+                            name='objective' onChange={e => updateFormData({ description: e.target.value })}></textarea> */}
                         {
                             // this.getLoadingDiv()
                             // this.state.isLoading ? (this.getLoadingDiv()) : 

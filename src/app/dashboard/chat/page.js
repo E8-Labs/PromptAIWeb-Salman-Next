@@ -8,7 +8,7 @@ export default function Page() {
   let data = null
   if (typeof localStorage !== 'undefined') {
     let d = localStorage.getItem("CURRENTCHAT")
-    console.log("Data is chat view is ")
+    console.log("Data in chat view is ")
 
     data = JSON.parse(d)
     console.log(data) // Logs "search"

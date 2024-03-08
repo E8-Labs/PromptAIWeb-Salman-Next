@@ -779,18 +779,7 @@ input:checked+.slider:before {
 
 
 /*----------- User Profile Banner Area Start  ----------*/
-.user-profile-banner {
-    /* background: linear-gradient(180deg, rgba(0, 0, 0, 0) 10.73%, rgba(0, 0, 0, 0.575644) 100%, rgba(0, 0, 0, 0.78) 78.78%), url(../img/banner-bg.png); */
-    border-radius: 31px;
-    background-position: center;
-    background-size: cover;
-    border-radius: 30px;
-    padding: 15px 20px;
-    display: flex;
-    align-items: flex-end;
-    height: 165px;
-    position: relative;
-}
+
 
 .edit_banner {
     position: absolute;
@@ -809,9 +798,7 @@ input:checked+.slider:before {
     border-radius: 39px;
 }
 
-.user-profile-banner .row {
-    width: 100%;
-}
+
 
 .user_info_wrap {
     display: flex;

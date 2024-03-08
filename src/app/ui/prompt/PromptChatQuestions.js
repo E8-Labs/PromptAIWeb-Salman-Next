@@ -86,8 +86,8 @@ const PromptChatQuestionsPopup = (props) => {
         </div>
 
         {/* ... (progress bar and other UI elements) */}
-        <div className="flex " style={{width: '100%', height: '100%'}}>
-          <FormComponent
+        <div className="flex " style={{width: '100%', height: '100%'}} key={props.prompt.questions[currentForm]}>
+          <FormComponent key={currentForm}
             onNext={handleNext}
             onPrevious={handlePrevious}
             onPublish={handlePublish}
@@ -113,7 +113,7 @@ export default PromptChatQuestionsPopup
 
 
 
-const PromptChatSingleQuestion = ({ onNext, onPrevious, question }) => {
+const PromptChatSingleQuestion = ({ onNext, onPrevious, question, key }) => {
   const [answer, setAnswer] = useState("")
 
  
@@ -129,23 +129,23 @@ const PromptChatSingleQuestion = ({ onNext, onPrevious, question }) => {
 
   return (
         
-      <Container1 className='container2 ' style={{width: '100%'}}>
+      <Container1 className='container2 ' style={{width: '100%'}} key={question}>
         
         {/* <div className="flex  innercontainer  bg-red items-center justify-center"> */}
-        <div className='flex flex-col    overflow-hidden w-11/12 mt-8'>
+        <div key={question + "divparent"}  className='flex flex-col    overflow-hidden w-11/12 mt-8'>
             
             
-            <label>{question.placeholder}</label>
-            <div className="flex-col justify-center ">
-                <FormContainer className=''>
+            <label key={question + "label"} >{question.placeholder}</label>
+            <div className="flex-col justify-center " key={question + "div"} >
+                <FormContainer className='' key={question + "formcontainer"} >
                     <form className='gap-sm-4 form '>
                         
-                        <input className='inputtext' type='text' placeholder={question.placeholder} value={answer} name={question.question} onChange={e => setAnswer(e.target.value)}></input>
+                        <input key={question + "1"} className='inputtext' type='text' placeholder={question.placeholder} value={answer} name={question.question} onChange={e => setAnswer(e.target.value)}></input>
                         
                         {
                             // this.getLoadingDiv()
                             // this.state.isLoading ? (this.getLoadingDiv()) : 
-                            <button type='button' onClick={handleNext}>Continue</button>
+                            <button key={question + "2"}  type='button' onClick={handleNext}>Continue</button>
                         }
                         
                     </form>

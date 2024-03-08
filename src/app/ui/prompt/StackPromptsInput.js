@@ -37,7 +37,7 @@ const [chat, setChat] = useState(null)
   return (
     <div className="flex items-center justify-start overflow-x-auto space-x-1 p-4 ">
       {subprompts.map((item, index) => (
-        <div  key={item.id} className='flex justify-center items-center'  onClick={()=>{
+        <div key={item.id} className='flex justify-center items-center'  onClick={()=>{
             if(chat.stackedPromptIndexToShow >= index){
                 console.log("Already submitted")
             }
