@@ -1,11 +1,9 @@
 import React from 'react'
 
-function Page() {
+export default function Page() {
   return (
     <div>
       This is support page
     </div>
   )
 }
-
-export default Page

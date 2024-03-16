@@ -3,7 +3,7 @@ import React from 'react'
 export default function Page() {
   return (
     <div>
-      This is community page
+      404 page not found
     </div>
   )
 }

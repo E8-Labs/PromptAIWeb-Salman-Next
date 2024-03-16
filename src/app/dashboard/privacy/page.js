@@ -1,9 +1,10 @@
 // Import necessary components from 'next/head'
+import React from "react";
 import Head from 'next/head';
 import Link from 'next/link';
 
 // Define the PrivacyPolicy component
-const PrivacyPolicy = () => {
+export default function PrivacyPolicy() {
   // Return the JSX for the component
   return (
     <div className="flex flex-col c9 doc- bg-black text-white w-full h-full pl-4 overflow-y-scroll">
@@ -186,6 +187,3 @@ const PrivacyPolicy = () => {
     </div>
   );
 };
-
-// Export the PrivacyPolicy component
-export default PrivacyPolicy;
