@@ -23,12 +23,12 @@ function ChatGptSignup(props) {
             <img alt="all" src="/user-icon-white.svg" />
         </Icon>
     );
-    console.log(props)
+    //console.log(props)
     const [index, setIndex] = useState(0);
     const nextPreviousBtnClicked = (event) => {
-        // console.log("button clicked")
+        // //console.log("button clicked")
         if (event.currentTarget.id === "next") {
-            console.log(event.currentTarget.id + " btn clicked")
+            //console.log(event.currentTarget.id + " btn clicked")
             if (index == 2) {
                 setIndex(0)
             }
@@ -37,7 +37,7 @@ function ChatGptSignup(props) {
             }
         }
         else {
-            console.log(event.currentTarget.id + " btn clicked")
+            //console.log(event.currentTarget.id + " btn clicked")
             if (index == 0) {
                 setIndex(2)
             }
@@ -61,27 +61,27 @@ function ChatGptSignup(props) {
     }
 
     const handleSigninWithGoogleBtnClick = (e) => {
-        console.log("Sign in with google here")
+        //console.log("Sign in with google here")
         signInWithPopup(auth, googleProvider).then((data) => {
             let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google" }
-            console.log("User data is ", userData)
+            //console.log("User data is ", userData)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
             // setValue(data.user.email)
-            // console.log("user email is", data.user.email)
+            // //console.log("user email is", data.user.email)
         })
     }
 
     const handleSigninWithAppleBtnClick = (e) => {
-        console.log("Sign in with Apple here")
+        //console.log("Sign in with Apple here")
         signInWithPopup(auth, appleProvider).then((data) => {
             // let userData = data.user
             let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple" }
-            console.log("User data is ", data.user.email)
+            //console.log("User data is ", data.user.email)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
             // setValue(data.user.email)
-            // console.log("user email is", data.user.email)
+            // //console.log("user email is", data.user.email)
         })
     }
 
@@ -91,7 +91,7 @@ function ChatGptSignup(props) {
         if (typeof window !== 'undefined' && 'serviceWorker' in navigator) {
             const messaging = getMessaging(app);
             const unsubscribe = onMessage(messaging, (payload) => {
-                console.log('Foreground push notification received:', payload);
+                //console.log('Foreground push notification received:', payload);
                 // Handle the received push notification while the app is in the foreground
                 // You can display a notification or update the UI based on the payload
             });

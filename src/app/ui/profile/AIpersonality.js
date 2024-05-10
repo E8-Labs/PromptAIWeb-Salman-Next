@@ -10,10 +10,10 @@ const AIpersonality = () => {
 const [email, setEmail] = React.useState('')
 
   const joinwaitlist = ()=> {
-    console.log("Joining waitlist")
+    //console.log("Joining waitlist")
     if (email === null || email === "") {
       toast(`Enter valid email`);
-      console.log("Joining waitlist: Invalid email")
+      //console.log("Joining waitlist: Invalid email")
       return
   }
 
@@ -28,24 +28,24 @@ const [email, setEmail] = React.useState('')
       }),
       redirect: 'follow'
   }
-  console.log("Sending Reset Api")
+  //console.log("Sending Reset Api")
   fetch(ApiPath.JoinWaitList, apiParams)
       .then(function (res) {
-          // console.log("Response is ", res)
+          // //console.log("Response is ", res)
           return res.json();
       }).then(resJson => {
           // this.props.clickEvent("stap6");
           if (resJson.status == true) {
-              console.log(resJson.message)
+              //console.log(resJson.message)
               toast(resJson.message)
 
           } else {
-              console.log("Error login ", resJson.message)
+              //console.log("Error login ", resJson.message)
               toast(`Error: ${resJson.message}`);
           }
       })
       .catch(error => {
-          console.log("User error " + error)
+          //console.log("User error " + error)
           toast(`Error: ${error}`);
           // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
           // this.error_handaling();
@@ -85,7 +85,7 @@ const [email, setEmail] = React.useState('')
                   <label>Join the waitlist</label>
                   <div className='flex  justify-center items-center gap-3'>
                     <input type="email" name="" placeholder="Email Address" onChange={(e)=> {
-                      console.log("Input changed", e.target.value)
+                      //console.log("Input changed", e.target.value)
                       setEmail(e.target.value)
                     }}/>
                     <button className="custom-btn-2" onClick={joinwaitlist}>Join the waitlist</button>

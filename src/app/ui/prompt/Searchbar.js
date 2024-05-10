@@ -20,7 +20,7 @@ const SearchBar = (props) => {
     const event = new CustomEvent(eventName, { detail: data });
     // Dispatch the event on the window object, making it available throughout the application
     window.dispatchEvent(event);
-    console.log("Event broadcasted from ChatView ", eventName)
+    //console.log("Event broadcasted from ChatView ", eventName)
   }
 
   //test code
@@ -29,7 +29,7 @@ const SearchBar = (props) => {
 
   // // Check if the current path matches /dashboard/search
   // const isDashboardSearch = pathname === '/dashboard/search';
-  // console.log('pathname is', pathname)
+  // //console.log('pathname is', pathname)
 
 
   return (

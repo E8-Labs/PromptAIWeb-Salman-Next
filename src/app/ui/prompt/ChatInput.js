@@ -8,7 +8,7 @@ import {BsEmojiSmileFill} from "react-icons/bs"
 import StackPromptsInput from "./StackPromptsInput";
 
 export default function ChatInput(props){
-    // console.log("Prompt in ChatInput ", props.chat)
+    // //console.log("Prompt in ChatInput ", props.chat)
 
     const [chat, setChat] = useState(null)
 
@@ -20,7 +20,7 @@ export default function ChatInput(props){
 
      const _handleKeyDown = (e) => {
         if (e.key === 'Enter') {
-            console.log('Enter key');
+            //console.log('Enter key');
             e.preventDefault()
             
             props.handleSendMessage(message)
@@ -30,17 +30,17 @@ export default function ChatInput(props){
 
 
     useEffect(()=>{
-        // console.log("Setting Chat in chatinput ", props.chat)
+        // //console.log("Setting Chat in chatinput ", props.chat)
         
         setChat(props.chat)
         
     }, [])
     useEffect(()=>{
         if(chat){
-            // console.log("Chat is not null in ChatInput")
+            // //console.log("Chat is not null in ChatInput")
         }
         else{
-            // console.log("Chat is null in chatinput")
+            // //console.log("Chat is null in chatinput")
         }
     }, [chat])
     return(

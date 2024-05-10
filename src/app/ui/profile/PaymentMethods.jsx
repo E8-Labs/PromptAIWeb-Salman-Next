@@ -31,7 +31,7 @@ function PaymentMethods(props){
     const plans = [{card: "************7685", expiry: "10/2024", cardType: "master", isCurrent: true}, {card: "************9732", expiry: "06/2026", cardType: "visa", isCurrent: false}];
 
     const handleMenuClick = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         // setMenuSelected(event.currentTarget.id)
       };
     return(

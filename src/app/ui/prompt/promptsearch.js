@@ -69,11 +69,11 @@ function Promptsearch(props) {
 
 
     const handleEvent = (data) => {
-      console.log('Event data from search:', data);
+      //console.log('Event data from search:', data);
     };
     window.addEventListener("searchTextChanged", (event) => {
       // Execute the callback function, passing the event's detail as an argument
-      console.log("Event Received Search screen", event.detail)
+      //console.log("Event Received Search screen", event.detail)
       // var user = null
       setSearch(event.detail)
     });
@@ -137,7 +137,7 @@ function Promptsearch(props) {
     setTimerSearch(search)
 
     timeoutId = setTimeout(async () => {
-      console.log("Searching ...", search)
+      //console.log("Searching ...", search)
       try {
         loadPrompts(user)
       } catch (error) {
@@ -150,8 +150,8 @@ function Promptsearch(props) {
 
 
   const loadPrompts = async (user) => {
-    // console.log("In Load Prompts. Remove return statement when implemented")
-    // console.log("Tokan in get Prompts " + user.token)
+    // //console.log("In Load Prompts. Remove return statement when implemented")
+    // //console.log("Tokan in get Prompts " + user.token)
     const config = {
       headers: {
         "Authorization": "Bearer " + `${user ? user.token : ''}`,
@@ -167,13 +167,13 @@ function Promptsearch(props) {
     }
 
     const route = ApiPath.GetPromptsList + `?offset=${offset}${search != '' ? `&search=${search}` : ''}`;
-    console.log(route)
+    //console.log(route)
     setLoading(true)
     axios.get(route, config)
       .then(res => {
         setLoading(false)
-        console.log("Data is ")
-        console.log(res.data)
+        //console.log("Data is ")
+        //console.log(res.data)
         // setMessages(res.data.data)
 
         res.data.data.prompts.map((m, index) => {
@@ -185,7 +185,7 @@ function Promptsearch(props) {
       })
       .catch(err => {
         setLoading(false)
-        console.log(err)
+        //console.log(err)
       })
 
 
@@ -193,14 +193,14 @@ function Promptsearch(props) {
 
 
   const handlePromptSelected = (prompt) => {
-    console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
+    //console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
 
     setCurrentSelectedPrompt(prompt)
     if (prompt.questions.length == 0) {
       createChat(prompt)
     }
     else {
-      console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
+      //console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
       setPromptQuestionDeialogueVisible(true)
     }
     // props.handlePromptSelected(prompt)
@@ -223,20 +223,20 @@ function Promptsearch(props) {
   //   const data = {
   //     promptid: prompt.id,
   //   };
-  //   //console.log("Sending Message Data ", data)
+  //   ////console.log("Sending Message Data ", data)
   //   axios.post(api, data, config)
   //     .then(data => {
-  //       console.log("Save prompt response")
-  //       console.log(data.data)
+  //       //console.log("Save prompt response")
+  //       //console.log(data.data)
   //       if (data.data.status) {
   //         // call the callback function here
   //       }
   //       else {
-  //         //console.log("Error is here in send message", data.data.message)
+  //         ////console.log("Error is here in send message", data.data.message)
   //       }
   //     })
   //     .catch(error => {
-  //       //console.log(error)
+  //       ////console.log(error)
   //     })
   // }
 
@@ -244,9 +244,9 @@ function Promptsearch(props) {
 
     setCurrentSelectedPrompt(prompt)
     setPromptQuestionDeialogueVisible(false)
-    console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
-    //console.log(prompt)
-    //console.log("Length is " + prompt.questions.length);
+    //console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
+    ////console.log(prompt)
+    ////console.log("Length is " + prompt.questions.length);
     let text = prompt.prompt;
     for (let i = 0; i < prompt.questions.length; i++) {
       let q = prompt.questions[i];
@@ -260,7 +260,7 @@ function Promptsearch(props) {
         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
       )
     }
-    //console.log(u)
+    ////console.log(u)
     const config = {
       headers: {
         "Authorization": "Bearer " + u.token,
@@ -271,8 +271,8 @@ function Promptsearch(props) {
     axios.post(ApiPath.CreateChat, data, config)
       .then(data => {
         setLoading(false)
-        console.log("Chat create response")
-        console.log(data.data)
+        //console.log("Chat create response")
+        //console.log(data.data)
         if (data.data.status) {
           let chat = data.data.data; //chat data
           let isNew = true
@@ -285,19 +285,19 @@ function Promptsearch(props) {
           // setChatViewVisible(true)
         }
         else {
-          console.log("Some error ", data.data.message)
+          //console.log("Some error ", data.data.message)
         }
 
 
       })
       .catch(error => {
-        console.log("Exception", error)
+        //console.log("Exception", error)
       })
-    //console.log(text)
+    ////console.log(text)
   }
 
   const handleChatNavigation = (prompt, chat) => {
-    console.log("Prompt page in List " + prompt.title + " Clicked")
+    //console.log("Prompt page in List " + prompt.title + " Clicked")
     // setCurrentSelectedPrompt(prompt)
     // setCurrentChat(chat)
     // setMenuSelected("chatgpt")
@@ -308,7 +308,7 @@ function Promptsearch(props) {
     router.push("/dashboard/chat?chatid=" + chat.id)
   }
   const searchTextChanged = (text) => {
-    console.log("Search text ", text)
+    //console.log("Search text ", text)
     setSearch(text)
   }
 
@@ -324,12 +324,12 @@ function Promptsearch(props) {
             // setAnchorEl(event.currentTarget);
           }} profileClicked={() => {
             setOtherUserProfile(prompt.user)
-            console.log("Profile tapped ", prompt.user.username)
+            //console.log("Profile tapped ", prompt.user.username)
           }}
             savePromptClicked={() => {
               //call the api here
               savePromptApi(prompt)
-              console.log("Saving prompt ", prompt)
+              //console.log("Saving prompt ", prompt)
               props.setPromptSaved(prompt, index)
             }}
           ></PromptItem>
@@ -383,7 +383,7 @@ function Promptsearch(props) {
                 <InfiniteScroll
                   dataLength={prompts.length}
                   next={() => {
-                    console.log("Next data")
+                    //console.log("Next data")
                   }}
                   hasMore={true}
                   scrollThreshold={1}

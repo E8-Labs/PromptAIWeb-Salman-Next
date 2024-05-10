@@ -16,27 +16,27 @@ const Page = (props) => {
 
     //sign in with social links
     const handleSigninWithGoogleBtnClick = (e) => {
-        console.log("Sign in with google here")
+        //console.log("Sign in with google here")
         signInWithPopup(auth, googleProvider).then((data) => {
             let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google" }
-            console.log("User data is ", userData)
+            //console.log("User data is ", userData)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
             // setValue(data.user.email)
-            // console.log("user email is", data.user.email)
+            // //console.log("user email is", data.user.email)
         })
     }
 
     const handleSigninWithAppleBtnClick = (e) => {
-        console.log("Sign in with Apple here")
+        //console.log("Sign in with Apple here")
         signInWithPopup(auth, appleProvider).then((data) => {
             // let userData = data.user
             let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple" }
-            console.log("User data is ", data.user.email)
+            //console.log("User data is ", data.user.email)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
             // setValue(data.user.email)
-            // console.log("user email is", data.user.email)
+            // //console.log("user email is", data.user.email)
         })
     }
 

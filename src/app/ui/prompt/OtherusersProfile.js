@@ -11,6 +11,7 @@ import Modal from 'react-modal';
 import PromptChatQuestionsPopup from './PromptChatQuestions';
 
 const customStyles = {
+    zIndex: 9999,
     overlay: {
       background: "#00000090",
     },
@@ -52,7 +53,7 @@ const OtherusersProfile = (props) => {
 
 
     useEffect(() => {
-        //console.log("prompts loaded")
+        ////console.log("prompts loaded")
         if (currentUser != null) {
             getUserProfile()
             loadPrompts()
@@ -62,7 +63,7 @@ const OtherusersProfile = (props) => {
 
     useEffect(() => {
         loadCurrentUser()
-        console.log("Other user profile obtained", user)
+        //console.log("Other user profile obtained", user)
     }, [])
 
 
@@ -71,7 +72,7 @@ const OtherusersProfile = (props) => {
             if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
                 navigate("/login");
             } else {
-                console.log("User already logged in")
+                //console.log("User already logged in")
                 setCurrentUser(
                     await JSON.parse(
                         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
@@ -82,7 +83,7 @@ const OtherusersProfile = (props) => {
         }
     };
     const loadPrompts = () => {
-        //console.log("In Load Prompts. Remove return statement when implemented")
+        ////console.log("In Load Prompts. Remove return statement when implemented")
         // return 
         var u = null
         if (typeof localStorage !== 'undefined') {
@@ -93,7 +94,7 @@ const OtherusersProfile = (props) => {
 
         //   this.setState({currentUser: user})
         // setCurrentUser(u)
-        // console.log("Token in get Prompts " + u)
+        // //console.log("Token in get Prompts " + u)
         const config = {
             headers: {
                 "Authorization": "Bearer " + u.token,
@@ -104,11 +105,11 @@ const OtherusersProfile = (props) => {
             otherUserProfileIdParameter = "&userid=" + user.user.id
         }
         const route = ApiPath.GetUserPrompts + `?offset=${prompts.length}${otherUserProfileIdParameter}`;
-        // console.log(route)
+        // //console.log(route)
         axios.get(route, config)
             .then(res => {
-                // console.log("Data is ")
-                console.log(res.data)
+                // //console.log("Data is ")
+                //console.log(res.data)
                 // setMessages(res.data)
 
                 res.data.data.map((m, index) => {
@@ -116,18 +117,18 @@ const OtherusersProfile = (props) => {
                         [...prevState, m]
                     )
                 })
-                // console.log("Prompts count is ", prompts.length)
+                // //console.log("Prompts count is ", prompts.length)
             })
             .catch(err => {
-                console.log(err)
+                //console.log(err)
             })
 
 
     }
 
     const getUserProfile = async () => {
-        console.log("Loading Profile Api", user.user.id)
-        console.log("With token ", currentUser.token)
+        //console.log("Loading Profile Api", user.user.id)
+        //console.log("With token ", currentUser.token)
         let userid = user.user.id;
         const config = {
             headers: {
@@ -136,10 +137,10 @@ const OtherusersProfile = (props) => {
         };
         // try{
         let route = ApiPath.Profile + "?userid=" + userid
-        console.log("Route ", route)
+        //console.log("Route ", route)
         axios.get(route, config).then((resData) => {
-            console.log("Profile api loaded ")
-            console.log(resData.data)
+            //console.log("Profile api loaded ")
+            //console.log(resData.data)
             if (resData.data.status) {
                 if (resData.data.data) {
                     let u = resData.data.data;
@@ -149,13 +150,13 @@ const OtherusersProfile = (props) => {
                 }
             }
             else {
-                console.log("No user found with this auth token")
+                //console.log("No user found with this auth token")
                 setUser(null)
                 //   setUserLoaded(true)
 
             }
         }).catch((error) => {
-            console.log("Error fetching user ", error);
+            //console.log("Error fetching user ", error);
             // setUser(null)
             // setUserLoaded(true)
 
@@ -165,14 +166,14 @@ const OtherusersProfile = (props) => {
 
     //Prompt Selected Logic
     const handlePromptSelected = (prompt) => {
-        console.log("Prompt in Other User Profile" + prompt.title + " Clicked")
+        //console.log("Prompt in Other User Profile" + prompt.title + " Clicked")
 
         setCurrentSelectedPrompt(prompt)
         if (prompt.questions.length == 0) {
             createChat(prompt)
         }
         else {
-            console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
+            //console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
             setPromptQuestionDeialogueVisible(true)
         }
         // props.handlePromptSelected(prompt)
@@ -182,10 +183,10 @@ const OtherusersProfile = (props) => {
 
         setCurrentSelectedPrompt(prompt)
         setPromptQuestionDeialogueVisible(false)
-        // console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
-        //console.log(prompt)
-        //console.log("Length is " + prompt.questions.length);
-        console.log("Hello Hamza")
+        // //console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
+        ////console.log(prompt)
+        ////console.log("Length is " + prompt.questions.length);
+        //console.log("Hello Hamza")
         let text = prompt.prompt;
         try {
             for (let i = 0; i < prompt.questions.length; i++) {
@@ -194,19 +195,19 @@ const OtherusersProfile = (props) => {
             }
         }
         catch (error) {
-            console.log("Error In Parsing Questions ", error)
+            //console.log("Error In Parsing Questions ", error)
         }
-        console.log("Here")
+        //console.log("Here")
         prompt.prompt = text;
         // create chat api
-        console.log("Here")
+        //console.log("Here")
         let u = null
         if (typeof localStorage !== 'undefined') {
             u = JSON.parse(
                 localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
             )
         }
-        console.log("user in profile chat", u)
+        //console.log("user in profile chat", u)
         const config = {
             headers: {
                 "Authorization": "Bearer " + u.token,
@@ -217,8 +218,8 @@ const OtherusersProfile = (props) => {
         axios.post(ApiPath.CreateChat, data, config)
             .then(data => {
                 setLoading(false)
-                console.log("Chat create response")
-                console.log(data.data)
+                //console.log("Chat create response")
+                //console.log(data.data)
                 if (data.data.status) {
                     let chat = data.data.data; //chat data
                     let isNew = true
@@ -231,19 +232,19 @@ const OtherusersProfile = (props) => {
                     // setChatViewVisible(true)
                 }
                 else {
-                    console.log("Some error ", data.data.message)
+                    //console.log("Some error ", data.data.message)
                 }
 
 
             })
             .catch(error => {
-                console.log("Exception", error)
+                //console.log("Exception", error)
             })
-        //console.log(text)
+        ////console.log(text)
     }
 
     const handleChatNavigation = (prompt, chat) => {
-        console.log("Prompt page in List " + prompt.title + " Clicked")
+        //console.log("Prompt page in List " + prompt.title + " Clicked")
         // setCurrentSelectedPrompt(prompt)
         // setCurrentChat(chat)
         // setMenuSelected("chatgpt")
@@ -254,7 +255,7 @@ const OtherusersProfile = (props) => {
         router.push("/dashboard/chat?chatid=" + chat.id)
     }
     const searchTextChanged = (text) => {
-        console.log("Search text ", text)
+        //console.log("Search text ", text)
         setSearch(text)
     }
 
@@ -295,13 +296,13 @@ const OtherusersProfile = (props) => {
                             prompts.map((element, index) => {
                                 // <label>{element}</label>
                                 {
-                                    console.log("Prompt in map is ", element)
+                                    //console.log("Prompt in map is ", element)
                                 }
                                 return (
                                     <div className="rounded bg-appgreen p-0 " key={element.id}>
                                         {/* <PromptItemMyprofile prompt={element}  itemSelected = {handlePromptSelected}/> */}
                                         <PromptItem className='promptitem' prompt={element} itemSelected={handlePromptSelected} saveAction={() => {
-                                            console.log("Buy btn clicked")
+                                            //console.log("Buy btn clicked")
 
                                         }}></PromptItem>
                                     </div>

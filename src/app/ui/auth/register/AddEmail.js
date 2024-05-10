@@ -58,7 +58,7 @@ class AddEmail extends Component {
     //
     handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         this.props.backAction("profile_image")
     }
     handleKeyPress(e) {
@@ -101,7 +101,7 @@ class AddEmail extends Component {
     }
     handleChange(event) {
         event.preventDefault()
-        console.log("Email changed " + event.target.value)
+        //console.log("Email changed " + event.target.value)
         this.setState({
             email: event.target.value
         })

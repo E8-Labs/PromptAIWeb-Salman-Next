@@ -50,13 +50,13 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                 },
               }}
               onChange={() => {
-                console.log("Radio Public clicked")
+                //console.log("Radio Public clicked")
                 setPrivacy("Public")
               }}
             />
             <button className='align-self-end ms-auto text-white' style={{ backgroundColor: 'transparent', border: 'none' }}
               onClick={() => {
-                console.log("Public selected")
+                //console.log("Public selected")
                 setPrivacy("Public")
               }}
             >Public</button>
@@ -75,13 +75,13 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                 },
               }}
               onChange={() => {
-                console.log("Radio Public clicked")
+                //console.log("Radio Public clicked")
                 setPrivacy("Private")
               }}
             />
             <button className='align-self-end ms-auto text-white' style={{ backgroundColor: 'transparent', border: 'none' }}
               onClick={() => {
-                console.log("Private selected")
+                //console.log("Private selected")
                 setPrivacy("Private")
               }}
             >Private</button>

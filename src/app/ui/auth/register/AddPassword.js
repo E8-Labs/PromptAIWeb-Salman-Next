@@ -55,7 +55,7 @@ class AddPassword extends Component {
     //
     handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         this.props.backAction("social_links")
     }
     handleKeyPress(e) {
@@ -98,7 +98,7 @@ class AddPassword extends Component {
     }
     handleChange(event) {
         event.preventDefault()
-        console.log("password changed " + event.target.value)
+        //console.log("password changed " + event.target.value)
         this.setState({
             password: event.target.value
         })

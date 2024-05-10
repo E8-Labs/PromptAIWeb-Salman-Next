@@ -105,11 +105,11 @@ class AddProfilePicture extends Component {
 
     //set_image_after_update
     afterCropImage(data, times) {
-        console.log("Image cropped")
+        //console.log("Image cropped")
         let cropImage = data;
         let first_time = times;
         let filedata = this.dataURLtoFile(cropImage, "changeprofile.png");
-        console.log("Image File is ", filedata)
+        //console.log("Image File is ", filedata)
         this.setState({ imagePreviewUrl: cropImage, file: filedata, change_logo: first_time });
     }
 

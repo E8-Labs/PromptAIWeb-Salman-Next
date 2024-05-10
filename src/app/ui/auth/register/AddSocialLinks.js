@@ -91,7 +91,7 @@ class AddSocialLinks extends Component {
 
     handleChangeWeb(event) {
         event.preventDefault()
-        console.log("Web changed " + event.target.value)
+        //console.log("Web changed " + event.target.value)
         this.setState({
             website: event.target.value
         })
@@ -99,13 +99,13 @@ class AddSocialLinks extends Component {
 
     handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         this.props.backAction("username")
     }
 
     handleChangeInsta(event) {
         event.preventDefault()
-        console.log("Insta changed " + event.target.value)
+        //console.log("Insta changed " + event.target.value)
         this.setState({
             instagram: event.target.value
         })
@@ -113,7 +113,7 @@ class AddSocialLinks extends Component {
 
     handleChangeYoutube(event) {
         event.preventDefault()
-        console.log("Youtube changed " + event.target.value)
+        //console.log("Youtube changed " + event.target.value)
         this.setState({
             youtube: event.target.value
         })
@@ -121,7 +121,7 @@ class AddSocialLinks extends Component {
 
     handleChangeDiscord(event) {
         event.preventDefault()
-        console.log("Discord changed " + event.target.value)
+        //console.log("Discord changed " + event.target.value)
         this.setState({
             discord: event.target.value
         })
@@ -129,7 +129,7 @@ class AddSocialLinks extends Component {
 
     handleChangeTiktok(event) {
         event.preventDefault()
-        console.log("Tiktok changed " + event.target.value)
+        //console.log("Tiktok changed " + event.target.value)
         this.setState({
             tiktok: event.target.value
         })

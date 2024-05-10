@@ -8,15 +8,15 @@ function Page() {
   const [user, setUser] = useState(null)
   // const router = useRouter()
   // const data = router.query;
-  // console.log("data on profile ", data)
+  // //console.log("data on profile ", data)
 
   const loadCurrentUser = async () => {
     if (typeof localStorage !== 'undefined') {
       if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
         //   navigate("/onboarding");
       } else {
-        //console.log("User is saved in Dashboard")
-        //console.log(process.env.REACT_APP_LocalSavedUser)
+        ////console.log("User is saved in Dashboard")
+        ////console.log(process.env.REACT_APP_LocalSavedUser)
 
         setUser(
 

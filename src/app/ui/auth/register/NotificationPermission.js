@@ -10,9 +10,9 @@ function NotificationPermission(){
 
     const [index, setIndex] = useState(0);
     const nextPreviousBtnClicked = (event) =>{
-        // console.log("button clicked")
+        // //console.log("button clicked")
         if(event.currentTarget.id === "next"){
-            console.log(event.currentTarget.id + " btn clicked")
+            //console.log(event.currentTarget.id + " btn clicked")
             if (index == 2){
                 setIndex(0)
             }
@@ -21,7 +21,7 @@ function NotificationPermission(){
             }
         }
         else{
-            console.log(event.currentTarget.id + " btn clicked")
+            //console.log(event.currentTarget.id + " btn clicked")
             if (index == 0){
                 setIndex(2)
             }

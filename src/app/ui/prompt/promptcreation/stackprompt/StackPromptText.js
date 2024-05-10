@@ -27,7 +27,7 @@ const StackPromptTextForm = ({ onNext, formData, updateFormData }) => {
   const [promptText, setPromptText] = useState('');
     const handleNext = () => {
       let text = promptText;
-      console.log("Prompt Text ", text)
+      //console.log("Prompt Text ", text)
       const qs = [];
         for (let index=0; index < promptText.length; index++) {
             let char = promptText[index];
@@ -46,15 +46,15 @@ const StackPromptTextForm = ({ onNext, formData, updateFormData }) => {
             }
         }
 
-        console.log("prompt questions")
-        console.log(qs)
+        //console.log("prompt questions")
+        //console.log(qs)
         updateFormData({ promptQuestions: qs })
       onNext();
     };
 
 
     const handleLearnPromptClick = ()=> {
-      console.log("Prompt Learn text")
+      //console.log("Prompt Learn text")
     }
   
     return (

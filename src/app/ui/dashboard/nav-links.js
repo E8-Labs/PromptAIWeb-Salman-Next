@@ -31,7 +31,7 @@ const links = [
  function NavSideLinks() {
 
   const pathName = usePathname();
-  console.log("Pathname is ", pathName)
+  //console.log("Pathname is ", pathName)
 
   return (
     <div className='bg-appgreen gap-5 w-full'>
@@ -74,7 +74,7 @@ const links2 = [
 function NavSideLinks2() {
 
   const pathName = usePathname();
-  console.log("Pathname is ", pathName)
+  //console.log("Pathname is ", pathName)
 
   return (
     <div className='bg-appgreen gap-5 w-full'>

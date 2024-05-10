@@ -52,51 +52,51 @@ function LoginAI(props) {
 
     function handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         props.backAction("intro")
     }
     function nextBtnClicked() {
         // setLoading(true)
-        console.log("Email ", email)
-        console.log("password", password)
+        //console.log("Email ", email)
+        //console.log("password", password)
         props.getEmailPassword(email, password)
 
     }
     function handleChange(event) {
         event.preventDefault()
-        console.log("Email changed " + event.target.value)
+        //console.log("Email changed " + event.target.value)
         setEmail(event.target.value)
 
     }
     function handleChangePassword(event) {
         event.preventDefault()
-        console.log("Password changed " + event.target.value)
+        //console.log("Password changed " + event.target.value)
         setPassword(event.target.value)
 
     }
 
     const handleSigninWithGoogleBtnClick = (e) => {
-        console.log("Sign in with google here")
+        //console.log("Sign in with google here")
         signInWithPopup(auth, googleProvider).then((data) => {
             let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Google" }
-            console.log("User data is ", userData)
+            //console.log("User data is ", userData)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
             // setValue(data.user.email)
-            // console.log("user email is", data.user.email)
+            // //console.log("user email is", data.user.email)
         })
     }
 
     const handleSigninWithAppleBtnClick = (e) => {
-        console.log("Sign in with Apple here")
+        //console.log("Sign in with Apple here")
         signInWithPopup(auth, appleProvider).then((data) => {
             // let userData = data.user
             let userData = { email: data.user.email, name: data.user.name, providerId: data.user.uid, providerName: "Apple" }
-            console.log("User data is ", data.user.email)
+            //console.log("User data is ", data.user.email)
             props.registerWithSocial(userData)
             // localStorage.setItem('email', data.user.email)
             // setValue(data.user.email)
-            // console.log("user email is", data.user.email)
+            // //console.log("user email is", data.user.email)
         })
     }
 

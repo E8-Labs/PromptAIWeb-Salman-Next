@@ -16,7 +16,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
   const [topicsForCategories, setTopicsForCategories] = useState([])
   const currentIndex = 2
 
-  console.log(formData)
+  //console.log(formData)
 
   const handleNext = () => {
     onNext();
@@ -56,7 +56,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
                   {
                     categories.map(item => {
                       {
-                        console.log(item)
+                        //console.log(item)
                       }
                       return (
                         <option value={item.name}>{item.name}</option>
@@ -81,7 +81,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         )}
         ChipProps={{ color: 'primary' }}
         onChange={(event, newValue) => {
-          console.log(newValue)
+          //console.log(newValue)
           let array = []
           newValue.forEach((item) => {
             item.subcategories.forEach((topic) => {
@@ -89,7 +89,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
             })
 
           })
-          console.log("Topics", array)
+          //console.log("Topics", array)
           setTopicsForCategories(array)
           updateFormData({ categories: newValue })
         }}
@@ -125,7 +125,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
         )}
         ChipProps={{ color: 'primary' }}
         onChange={(event, newValue) => {
-          console.log(newValue)
+          //console.log(newValue)
           updateFormData({ subcategories: newValue })
         }}
         renderTags={

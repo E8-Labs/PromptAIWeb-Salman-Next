@@ -49,12 +49,22 @@ const customStyles = {
   },
 };
 
+const customProfilePopupStyles = {
+  overlay: {
+    background: "#000000",
+  },
+  content: {
+    background: "#000000",
+    border: "none"
+  },
+};
+
 
 
 
 const PromptsListDashboard = (props) => {
   // const classes = useStyles()
-  console.log("Is popup open ", props.isPopupOpen)
+  //console.log("Is popup open ", props.isPopupOpen)
   const starIcon = (
     <Icon>
       <img alt="all" src="/assets/star.svg" />
@@ -67,10 +77,10 @@ const PromptsListDashboard = (props) => {
   );
   const prompts = props.prompts
 
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
+  // const [windowSize, setWindowSize] = useState({
+  //   width: window.innerWidth,
+  //   height: window.innerHeight,
+  // });
   const [isLoadingPrompts, setIsLoadingPrompts] = useState(props.isLoadingPrompts);
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
   const [categoriesSelected, setCategoriesSelected] = useState([])
@@ -91,7 +101,7 @@ const PromptsListDashboard = (props) => {
 
 
   useEffect(() => {
-    console.log("IsLoading ", props.isLoadingPrompts)
+    //console.log("IsLoading ", props.isLoadingPrompts)
   }, [props.isLoadingPrompts])
 
   const handleLoadingClose = () => {
@@ -109,14 +119,14 @@ const PromptsListDashboard = (props) => {
 
 
   const handlePromptSelected = (prompt) => {
-    //console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
+    ////console.log("Prompt in List PromptsListDashboard" + prompt.title + " Clicked")
 
     setCurrentSelectedPrompt(prompt)
     if (prompt.questions.length == 0) {
       createChat(prompt)
     }
     else {
-      console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
+      //console.log("PromptListDashboard: Prompt before sending to questions ", prompt)
       setPromptQuestionDeialogueVisible(true)
     }
     // props.handlePromptSelected(prompt)
@@ -139,20 +149,20 @@ const PromptsListDashboard = (props) => {
     const data = {
       promptid: prompt.id,
     };
-    //console.log("Sending Message Data ", data)
+    ////console.log("Sending Message Data ", data)
     axios.post(api, data, config)
       .then(data => {
-        console.log("Save prompt response")
-        console.log(data.data)
+        //console.log("Save prompt response")
+        //console.log(data.data)
         if (data.data.status) {
           // call the callback function here
         }
         else {
-          //console.log("Error is here in send message", data.data.message)
+          ////console.log("Error is here in send message", data.data.message)
         }
       })
       .catch(error => {
-        //console.log(error)
+        ////console.log(error)
       })
   }
 
@@ -160,13 +170,13 @@ const PromptsListDashboard = (props) => {
 
     setCurrentSelectedPrompt(prompt)
     setPromptQuestionDeialogueVisible(false)
-    console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
-    //console.log(prompt)
-    //console.log("Length is " + prompt.questions.length);
+    //console.log("PromptListDashboard: Prompt after sending to questions ", prompt)
+    ////console.log(prompt)
+    ////console.log("Length is " + prompt.questions.length);
     let text = prompt.prompt;
     for (let i = 0; i < prompt.questions.length; i++) {
       let q = prompt.questions[i];
-      text = text.replace(`[${q.question}]`, q.answer);
+      text = text.replace(`#${q.question}`, q.answer);
     }
     prompt.prompt = text;
     // create chat api
@@ -176,7 +186,7 @@ const PromptsListDashboard = (props) => {
         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
       )
     }
-    console.log("user in chat is ", u)
+    //console.log("user in chat is ", u)
     const config = {
       headers: {
         "Authorization": "Bearer " + u.token,
@@ -188,8 +198,8 @@ const PromptsListDashboard = (props) => {
     axios.post(ApiPath.CreateChat, data, config)
       .then(data => {
         setLoading(false)
-        console.log("Chat create response")
-        console.log(data.data)
+        //console.log("Chat create response")
+        //console.log(data.data)
         if (data.data.status) {
           let chat = data.data.data; //chat data
           let isNew = true
@@ -202,32 +212,25 @@ const PromptsListDashboard = (props) => {
           // setChatViewVisible(true)
         }
         else {
-          console.log("Some error", data.data.message)
+          //console.log("Some error", data.data.message)
         }
 
 
       })
       .catch(error => {
-        console.log("Exception", error)
+        //console.log("Exception", error)
       })
-    //console.log(text)
+    ////console.log(text)
   }
 
   //code for listening data from navbar
   useEffect(() => {
     const handleEvent = (navSelected) => {
-      console.log('Nav selected is', navSelected);
+      //console.log('Nav selected is', navSelected);
     };
     window.addEventListener("navMenuSelected", (event) => {
-      // Execute the callback function, passing the event's detail as an argument
-      console.log("Event Received PromptList screen", event.detail)
-      // var user = null
       props.setSelectedMenu(event.detail)
     }, []);
-    // Register the event listener
-    // listenToEvent('myCustomEvent', handleEvent);
-
-    // Cleanup function to remove the event listener
     return () => {
       window.removeEventListener('newChat', handleEvent);
     }
@@ -246,12 +249,12 @@ const PromptsListDashboard = (props) => {
           }}
             profileClicked={() => {
               setOtherUserProfile(prompt.user)
-              console.log("Profile tapped ", prompt.user.username)
+              //console.log("Profile tapped ", prompt.user.username)
             }}
             savePromptClicked={() => {
               //call the api here
               savePromptApi(prompt)
-              console.log("Saving prompt ", prompt)
+              //console.log("Saving prompt ", prompt)
               props.setPromptSaved(prompt, index)
             }}
           ></PromptItem>
@@ -268,15 +271,14 @@ const PromptsListDashboard = (props) => {
   return (
 
     <div className=" flex-col h-full w-full overflow-y-none ">
-      <Backdrop
+       <Backdrop
         sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={loading}
         onClick={handleLoadingClose}
       >
         <CircularProgress color="inherit" />
       </Backdrop>
-      {/* <PromptChatView chatViewVisible={chatViewVisible} newChat={true} chat={currentChat} prompt={currentSelectedPrompt}/> */}
-
+      
       <Modal
         isOpen={promptQuestionDialogueVisible}
         onAfterOpen={afterOpenModal}
@@ -292,10 +294,6 @@ const PromptsListDashboard = (props) => {
 
 
       <div className='flex flex-row items-center flex-grow justify-between items-start p-4 '>
-
-        {/*  */}
-
-
         <div className={`flex flex-grow gap-4   items-center ${(props.promptListMenuSelected === "All" && props.isPopupOpen === false) ? "" : "hidden"}`}>
           <Autocomplete
             multiple
@@ -312,7 +310,7 @@ const PromptsListDashboard = (props) => {
             )}
             ChipProps={{ color: 'primary' }}
             onChange={(event, newValue) => {
-              console.log(newValue)
+              //console.log(newValue)
               let array = []
               newValue.forEach((item) => {
                 item.subcategories.forEach((topic) => {
@@ -320,7 +318,7 @@ const PromptsListDashboard = (props) => {
                 })
 
               })
-              console.log("Topics", array)
+              //console.log("Topics", array)
               setTopicsForCategories(array)
               setCategoriesSelected(newValue)
               props.setCategoriesSelected(newValue)
@@ -357,7 +355,7 @@ const PromptsListDashboard = (props) => {
             )}
             ChipProps={{ color: 'primary' }}
             onChange={(event, newValue) => {
-              console.log(newValue)
+              //console.log(newValue)
               setSubCategoriesSelected(newValue)
               props.setSubCategoriesSelected(newValue)
               // updateFormData({ categories: newValue })
@@ -378,12 +376,10 @@ const PromptsListDashboard = (props) => {
           />
         </div>
 
-
-
         <div className="flex cursor-pointer items-center justify-center bg-appgreenlight p-3 rounded-full md:px-5  gap-2 cursor:pointer text-sm md:text-base lg:text-lg xl:text-xl" onClick={() => {
           props.handleAddAction()
         }}>
-          {/* Third View */}
+          
           <Image src={PlusIcon} width={15} height={15}></Image>
           <div>
             <p className="text-lg text-white d-none md:d-inline " >New Prompt</p>
@@ -396,35 +392,42 @@ const PromptsListDashboard = (props) => {
 
 
       {
-        props.isLoadingPrompts && (
+        (props.isLoadingPrompts && props.prompts.length === 0) && (
           <YouTubeLikeLoading />
         )
       }
 
+
       {
-        prompts.length > 0 && (
-          <div className=' overflow-y-auto pr-2 py-6' style={{ height: '80vh' }}>
+        
+          // <div> </div> 
+          <div id="scrollableDiv" style={{ height: '80vh', overflow: "auto" }}>
             <InfiniteScroll
               dataLength={prompts.length}
               next={() => {
-                console.log("Next data")
+                //console.log("Load Next")
+                props.onLoadNex()
               }}
               hasMore={true}
+              loader={<h5>Loading...</h5>}
               scrollThreshold={1}
-              // loader={<LinearProgress />}
-              // Let's get rid of second scroll bar
-              style={{ overflow: "unset" }}
+              height={'80vh'}
+              endMessage={
+                <p style={{ textAlign: 'center' }}><b>{`You're all caught up`}</b></p>
+              }
+              scrollableTarget="scrollableDiv"
             >
-              <Grid container spacing={4} className=''>
+              {<Grid container spacing={4} className=''>
                 {prompts.map((prompt, index) => renderCards(prompt, index))}
-              </Grid>
+              </Grid>}
             </InfiniteScroll>
           </div>
 
-        )
+        
       }
-      {
-        (!props.isLoadingPrompts && prompts.length == 0) && (
+      
+      {/* {
+        (!props.isLoadingPrompts && prompts.length === 0) && (
 
           <div className='flex justify-center items-center w-full' style={{ height: '70vh' }}>
 
@@ -433,43 +436,21 @@ const PromptsListDashboard = (props) => {
             </Typography>
           </div>
         )
-      }
-      <Drawer
-        PaperProps={{
-          sx: {
-            backgroundColor: "black",
-            // elevation: 8,
-            // boxShadow: "-1px 0px 15px 0px #00C28C30;"
-          }
-        }}
-        anchor={"right"}
-        open={otherUserProfile != null}
-        onClose={() => {
-          setOtherUserProfile(null)
-        }}
+      } */}
+
+
+      <Modal
+        isOpen={otherUserProfile != null}
+        onAfterOpen={()=>{}}
+        onRequestClose={()=>{setOtherUserProfile(null)}}
+        style={customProfilePopupStyles}
+        contentLabel="Profile"
       >
-        <Box
-          sx={{ width: windowSize.width, bgcolor: 'black', padding: 5 }}
-          // role="presentation"
-          onClick={() => {
-            // setOtherUserProfile(null)
-          }}
-        // onKeyDown={toggleDrawer(anchor, false)}
-        >
-          {/* <p>This is side menu</p> */}
-          {
-            otherUserProfile != null && (
-              <OtherusersProfile user={{ user: otherUserProfile, token: "" }} closeProfileView={() => {
+        <OtherusersProfile user={{ user: otherUserProfile, token: "" }} closeProfileView={() => {
                 setOtherUserProfile(null)
               }} />
-            )
-          }
-          {
-
-          }
-        </Box>
-
-      </Drawer>
+      </Modal> 
+      
     </div>
   )
 }

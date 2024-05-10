@@ -6,12 +6,12 @@ import Image from 'next/image'
 const Manageprofile = (props) => {
 
     //Check Personal Information
-console.log("Manage Profile ", props.user.user.email)
+//console.log("Manage Profile ", props.user.user.email)
     const router = useRouter()
     const [personalInfo, setPersonalInfo] = useState(true)
     const [user, setUser] = useState(props.user)
     const handlePersonalInfo = () => {
-        console.log("Personal Info Button clicked")
+        //console.log("Personal Info Button clicked")
         setSubscription(false)
         setPaymentMethod(false)
         setPersonalInfo(true)
@@ -20,7 +20,7 @@ console.log("Manage Profile ", props.user.user.email)
     //Check SubscriptionPlans
     const [subscription, setSubscription] = useState('')
     const handleSubscription = () => {
-        console.log("Subcription clicked")
+        //console.log("Subcription clicked")
         setPaymentMethod(false)
         setPersonalInfo(false)
         setSubscription(true)
@@ -29,7 +29,7 @@ console.log("Manage Profile ", props.user.user.email)
     //check PaymentMethod
     const [PaymentMethod, setPaymentMethod] = useState('')
     const handlePaymentMethod = () => {
-        console.log("Payment button clicked")
+        //console.log("Payment button clicked")
         setPersonalInfo(false)
         setSubscription(false)
         setPaymentMethod(true)
@@ -69,7 +69,7 @@ console.log("Manage Profile ", props.user.user.email)
             name
         }
         localStorage.setItem('data', JSON.stringify(newData))
-        console.log("New data saved is", newData)
+        //console.log("New data saved is", newData)
         setPrintname(newData)
         // const storedData = JSON.parse(localStorage.getItem('data'))  
     }
@@ -79,17 +79,17 @@ console.log("Manage Profile ", props.user.user.email)
     useEffect(() => {
         const storedData = JSON.parse(localStorage.getItem('data'))
         const D = storedData
-        console.log('Data recieved from localstorage is stored in', D)
+        //console.log('Data recieved from localstorage is stored in', D)
         setLocalStorageData(D)
-        console.log('New Data stored in lsd is', localStorageData)
+        //console.log('New Data stored in lsd is', localStorageData)
     }, [])
 
     
     const [printEmail, setPrintEmail] = useState('')
 
     // const handleEmail = () => {
-    //     // console.log("Email saved is" email)
-    //     console.log("Email saved is email", email)
+    //     // //console.log("Email saved is" email)
+    //     //console.log("Email saved is email", email)
     //     setPrintEmail(email)
     // }
 
@@ -123,7 +123,7 @@ console.log("Manage Profile ", props.user.user.email)
                         </div>
                         <button className='text-[#FF124B] font-medium text-md mt-10' onClick={() => {
                             event.preventDefault()
-                            console.log("Logout here")
+                            //console.log("Logout here")
                             if (typeof localStorage !== 'undefined') {
                               localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
                             }

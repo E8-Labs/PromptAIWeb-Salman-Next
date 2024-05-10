@@ -20,17 +20,17 @@ const PromptChatQuestionsPopup = (props) => {
       let p = prompt
       prompt.questions[currentForm] = question
       // let subs = p.subprompts;
-      // console.log("Total Subs ", subs.length)
+      // //console.log("Total Subs ", subs.length)
       // for(let i = subs.length - 1; i >= 0; i --){
-      //   console.log("Prompt " + subs[i].title + " | " + subs[i].parent_id)
+      //   //console.log("Prompt " + subs[i].title + " | " + subs[i].parent_id)
       //   if(subs[i].prompt_id == null){
-      //     console.log("Removing with null parent")
+      //     //console.log("Removing with null parent")
       //     subs.splice(i, 1)
       //   }
       // }
-      // console.log("Total Subs after ", subs.length)
+      // //console.log("Total Subs after ", subs.length)
       // p.subprompts = subs
-      // console.log("ChatQuestion: Setting Prompt Handle Next ", p)
+      // //console.log("ChatQuestion: Setting Prompt Handle Next ", p)
       // setPrompt((prevPrompt) => {
       //   let subs = [...prevPrompt.subprompts];
       
@@ -38,7 +38,7 @@ const PromptChatQuestionsPopup = (props) => {
       
       //   return { ...prevPrompt, subprompts: subs };
       // });
-        //console.log(`Questions ${prompt.questions.length} currentForm ${currentForm}`)
+        ////console.log(`Questions ${prompt.questions.length} currentForm ${currentForm}`)
         if(currentForm < prompt.questions.length - 1){
           setCurrentForm(currentForm + 1);
         }
@@ -54,8 +54,8 @@ const PromptChatQuestionsPopup = (props) => {
       const handlePublish = (p) => {
         // Implement publish logic here
 
-//console.log("Publishing prompt ", prompt)
-        console.log("ChatQuestion: Prompt after answers ", p)
+////console.log("Publishing prompt ", prompt)
+        //console.log("ChatQuestion: Prompt after answers ", p)
         props.onPublish(p);
       };
     
@@ -70,8 +70,8 @@ const PromptChatQuestionsPopup = (props) => {
 
 
       useEffect(()=>{
-        console.log("ChatQuestion: Prompt changed", prompt)
-        console.log("ChatQuestion: Prompt in Prompt questionaire ", props.prompt)
+        //console.log("ChatQuestion: Prompt changed", prompt)
+        //console.log("ChatQuestion: Prompt in Prompt questionaire ", props.prompt)
       }, [prompt])
   return (
     <div className="multi-form-popup  flex w-11/12 xl:w-5/9 lg:w-7/12  mx-auto justify-center items-center my-auto  rounded" 

@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import PromptTitleForm from './PromptTitleForm';
 import PromptDescriptionForm from './PromptTextForm';
 import PromptCategoryForm from './PromptCategoryForm';
-import PromptEnrichForm from './PromptEnrichForm';
+// import PromptEnrichForm from './PromptEnrichForm';
+
 import PromptOverViewForm from './PromptOverViewForm';
 import SetPromptQuestions from './SetPromptQuestions';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -11,7 +12,7 @@ import { Button, IconButton } from '@mui/material';
 
 import Icons from '../../../lib/Icons'
 
-const forms = [ PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, SetPromptQuestions, PromptOverViewForm];
+const forms = [ PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, SetPromptQuestions, PromptOverViewForm];// 
 
 const MultiFormPopup = ({ onClose }) => {
   const [currentForm, setCurrentForm] = useState(0);
@@ -51,14 +52,15 @@ const MultiFormPopup = ({ onClose }) => {
   };
 
   useEffect(()=>{
-    console.log("New Form Data is ")
-    console.log(formData)
+    //console.log("New Form Data is ")
+    //console.log(formData)
   }, [formData])
 
   const FormComponent = forms[currentForm];
 
   return (
-    //w-11/12 xl:w-5/9 lg:w-5/12
+    // <div> Hello this is prompt creation</div>
+    
     <div className="multi-form-popup flex w-full h-full md:w-[23rem] md:h-[40rem]   mx-auto justify-center items-center my-auto  rounded" 
         style={{ borderRadius: '3rem'}}>
       <div className="flex  flex-col w-full h-full items-center bg-appgreen p-2 border-2 border-green-500  py-4 rounded-lg">

@@ -20,7 +20,7 @@ export default function SideNav() {
   const [currentUser, setCurrentUser] = useState(null)
   const [chats, setChats] = useState([])
   const handleMenuClick = event => {
-    console.log(event.currentTarget.id);
+    //console.log(event.currentTarget.id);
   }
 
 
@@ -29,8 +29,8 @@ export default function SideNav() {
       if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
         navigate("/onboarding");
       } else {
-        //console.log("User is saved in Dashboard")
-        //console.log(process.env.REACT_APP_LocalSavedUser)
+        ////console.log("User is saved in Dashboard")
+        ////console.log(process.env.REACT_APP_LocalSavedUser)
         let user = JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
         )
@@ -47,11 +47,11 @@ export default function SideNav() {
     loadCurrentUser()
 
     const handleEvent = (data) => {
-      console.log('Event data:', data);
+      //console.log('Event data:', data);
     };
     window.addEventListener("newChat", (event) => {
       // Execute the callback function, passing the event's detail as an argument
-      console.log("Event Received Side Nav", event.detail)
+      //console.log("Event Received Side Nav", event.detail)
       var user = null
       if (typeof localStorage !== 'undefined') {
         user = JSON.parse(
@@ -73,21 +73,21 @@ export default function SideNav() {
   const loadChats = async (user) => {
 
     if (user) {
-      console.log("Loading messages " + ApiPath.GetChats)
+      //console.log("Loading messages " + ApiPath.GetChats)
       const config = {
         headers: {
           "Authorization": "Bearer " + user.token,
         }
       };
       axios.get(ApiPath.GetChats, config).then(data => {
-        console.log("chats api loaded")
-        console.log(JSON.stringify(data.data))
+        //console.log("chats api loaded")
+        //console.log(JSON.stringify(data.data))
         if (data.status) {
           setChats(data.data.data)
         }
         // listViewRef._listRef._scrollRef.scrollToEnd({animated: true});
       }).catch(error => {
-        console.log(error)
+        //console.log(error)
       })
     }
     else {
@@ -131,7 +131,7 @@ export default function SideNav() {
           <button className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-appgreen p-3 text-sm font-medium hover:bg-appgreen hover:text-white md:flex-none md:justify-start md:p-2 md:px-3"
             onClick={(event) => {
               event.preventDefault()
-              console.log("Logout here")
+              //console.log("Logout here")
               if (typeof localStorage !== 'undefined') {
                 localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
               }
@@ -152,12 +152,12 @@ export default function SideNav() {
 
 function ChatListSingleItem(props) {
   const chat = props.chat;
-  console.log("-----Chat prop-------");
-  console.log(chat);
+  //console.log("-----Chat prop-------");
+  //console.log(chat);
   const p = chat.Prompt;
 
   const handleClick = (event) => {
-    console.log(p);
+    //console.log(p);
     props.chatSelected(p, chat);
   };
 

@@ -28,7 +28,7 @@ export default function TopNav(props) {
     //rough code written previously
     const [currentUser, setCurrentUser] = useState(null)
     const handleMenuClick = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         if (event.currentTarget.id == "search") {
             router.push("/dashboard/search")
         }
@@ -37,13 +37,13 @@ export default function TopNav(props) {
 
     //check if path matches /dashboard
     const isDashboard = pathname == '/dashboard';
-    console.log('Path is', pathname)
-    console.log('Path to show is', isDashboard)
+    //console.log('Path is', pathname)
+    //console.log('Path to show is', isDashboard)
 
     // Check if the current path matches /dashboard/search
     const isDashboardSearch = pathname == '/dashboard/search';
-    console.log('pathname is', pathname)
-    console.log('shouldShow is', isDashboardSearch)
+    //console.log('pathname is', pathname)
+    //console.log('shouldShow is', isDashboardSearch)
 
 
     //code for search bar
@@ -52,7 +52,7 @@ export default function TopNav(props) {
     }
     const [searchBar, setsearchBar] = useState(null)
     const handleSearch = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         if (event.currentTarget.id == "search") {
             router.push("/dashboard/search")
             setsearchBar(<div><SearchBar /></div>)
@@ -77,8 +77,8 @@ export default function TopNav(props) {
             if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
                 navigate("/onboarding");
             } else {
-                //console.log("User is saved in Dashboard")
-                //console.log(process.env.REACT_APP_LocalSavedUser)
+                ////console.log("User is saved in Dashboard")
+                ////console.log(process.env.REACT_APP_LocalSavedUser)
 
                 setCurrentUser(
 
@@ -103,7 +103,7 @@ export default function TopNav(props) {
         const event = new CustomEvent(eventName, { detail: navSelected });
         // Dispatch the event on the window object, making it available throughout the application
         window.dispatchEvent(event);
-        console.log("Event broadcasted from ChatView ", eventName)
+        //console.log("Event broadcasted from ChatView ", eventName)
     }
 
 

@@ -38,38 +38,38 @@ const initMessaging = () => {
     const analytics = getAnalytics(app);
 
 // onMessage(messaging, (payload) => {
-//     console.log('Message received. ', payload);
+//     //console.log('Message received. ', payload);
 //     // ...
 //   });
 
 
-    console.log('Requesting permission...');
+    //console.log('Requesting permission...');
     Notification.requestPermission().then((permission) => {
       if (permission === 'granted') {
-        console.log('Notification permission granted.');
+        //console.log('Notification permission granted.');
         getToken(messaging, { vapidKey: 'BOsH4oy78nn61pJpJh09IzQdFngoovMxqh9rLc1lCn_oYPRVwQ8UsSR3Qkgh4EoUs3Oganf5F-kZL-u7cbAreV8' }).then((currentToken) => {
             if (currentToken) {
               // Send the token to your server and update the UI if necessary
               // ...
-              console.log("My notification token is ", currentToken)
+              //console.log("My notification token is ", currentToken)
             } else {
               // Show permission request UI
-              console.log('No registration token available. Request permission to generate one.');
+              //console.log('No registration token available. Request permission to generate one.');
               // ...
             }
           }).catch((err) => {
-            console.log('An error occurred while retrieving token. ', err);
+            //console.log('An error occurred while retrieving token. ', err);
             // ...
           });
         
 
       }
       else{
-        console.log("Permission not granted")
+        //console.log("Permission not granted")
       }
     })
     .catch((err)=>{
-        console.log("Some error occurred", err)
+        //console.log("Some error occurred", err)
     })
 } 
 

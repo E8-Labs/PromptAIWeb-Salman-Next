@@ -97,6 +97,8 @@ export default function Page() {
   const [imagePreviewUrl, setImagePreviewUrl] = useState("")
   const [loading, setLoading] = useState(false)
 
+  
+
   const [index, setIndex] = useState(0)
 
 
@@ -137,7 +139,7 @@ export default function Page() {
     setPage("full_name")
   }
   function getImage(imageUrl, file) {
-    console.log("Image picked " + imageUrl)
+    //console.log("Image picked " + imageUrl)
     if (imageUrl === null) {
       toast(`Add Profile Picture`);
     }
@@ -154,7 +156,7 @@ export default function Page() {
 
   }
   function getUsername(username) {
-    console.log("Username added " + username)
+    //console.log("Username added " + username)
     if (username === null || username === "") {
       toast(`Add username`);
       return
@@ -165,7 +167,7 @@ export default function Page() {
   }
 
   function getEmail(email) {
-    console.log("email added " + email)
+    //console.log("email added " + email)
     if (email === null || email === "") {
       toast(`Add email`);
       return
@@ -180,7 +182,7 @@ export default function Page() {
   }
 
   function getPassword(password) {
-    console.log("Password added " + password)
+    //console.log("Password added " + password)
     if (password === null || password === "") {
       toast(`Add username`);
       return
@@ -222,14 +224,14 @@ export default function Page() {
         setLoading(false)
         // this.props.clickEvent("stap6");
         if (resJson.status == true) {
-          console.log("User created", resJson.data)
+          //console.log("User created", resJson.data)
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
           let profile_img = Profile.image_url;
           if (typeof localStorage !== 'undefined') {
             localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
           }
-          console.log(Profile.image_url)
+          //console.log(Profile.image_url)
           router.push("/dashboard")
         } else {
           setLoading(false)
@@ -240,7 +242,7 @@ export default function Page() {
         }
       })
       .catch(error => {
-        console.log("User error " + error)
+        //console.log("User error " + error)
         toast(`User logged in as ${error}`);
         // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
         // this.error_handaling();
@@ -270,7 +272,7 @@ export default function Page() {
       }),
       redirect: 'follow'
     }
-    console.log("Loging user")
+    //console.log("Loging user")
     setLoading(true)
     fetch(ApiPath.LoginRoute, apiParams)
       .then(function (res) {
@@ -280,7 +282,7 @@ export default function Page() {
         setLoading(false)
         // this.props.clickEvent("stap6");
         if (resJson.status == true) {
-          console.log("User Logged in")
+          //console.log("User Logged in")
           toast(`Success: User logged in`);
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
@@ -288,13 +290,13 @@ export default function Page() {
           if (typeof localStorage !== 'undefined') {
             localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
           }
-          console.log(Profile.image_url)
+          //console.log(Profile.image_url)
           router.push("/dashboard")
           // const navigate = this.props.navigate;
           // navigate("/prompts")
 
         } else {
-          console.log("Error login ", resJson.message)
+          //console.log("Error login ", resJson.message)
           toast(`Error: ${resJson.message}`);
           // this.setState({ valid_email_address: "Email address is already registered" });
           // this.setState({showerror:true , showerrortype : 2 , showerrormessage: "Something wrong with api fields" });
@@ -303,7 +305,7 @@ export default function Page() {
       })
       .catch(error => {
         setLoading(false)
-        console.log("User error " + error)
+        //console.log("User error " + error)
         toast(`Error: ${error}`);
         // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
         // this.error_handaling();
@@ -317,7 +319,7 @@ export default function Page() {
 
 
   function getSocialLinks(web, insta, youtube, discord, tiktok) {
-    console.log("Web added " + web)
+    //console.log("Web added " + web)
     setWebsite(web)
     setInstagram(insta)
     setYoutube(youtube)
@@ -355,7 +357,7 @@ export default function Page() {
       }),
       redirect: 'follow'
     }
-    console.log("Loging user", apiParams)
+    //console.log("Loging user", apiParams)
     setLoading(true)
     fetch(ApiPath.LoginRouteSocial, apiParams)
       .then(function (res) {
@@ -364,9 +366,9 @@ export default function Page() {
       }).then(resJson => {
         setLoading(false)
         // this.props.clickEvent("stap6");
-        console.log(resJson)
+        //console.log(resJson)
         if (resJson.status == true) {
-          console.log("User Logged in")
+          //console.log("User Logged in")
           toast(`Success: User logged in`);
           let Manin_data_wrap = resJson.data;
           let Profile = Manin_data_wrap.user;
@@ -374,13 +376,13 @@ export default function Page() {
           if (typeof localStorage !== 'undefined') {
             localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(Manin_data_wrap));
           }
-          console.log(Profile.image_url)
+          //console.log(Profile.image_url)
           router.push("/dashboard")
           // const navigate = this.props.navigate;
           // navigate("/prompts")
 
         } else {
-          console.log("Error login social ", resJson.message)
+          //console.log("Error login social ", resJson.message)
           setPage("profile_image")
           // toast(`Error: ${resJson.message}`);
           // this.setState({ valid_email_address: "Email address is already registered" });
@@ -390,7 +392,7 @@ export default function Page() {
       })
       .catch(error => {
         setLoading(false)
-        console.log("User error " + error)
+        //console.log("User error " + error)
         toast(`Error: ${error}`);
         // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
         // this.error_handaling();
@@ -401,12 +403,12 @@ export default function Page() {
   }
 
   const showSignupScreen = () => {
-    console.log("Setting page signup")
+    //console.log("Setting page signup")
     setPage("signup")
   }
 
   const handleLoginBtn = () => {
-    console.log("SHow login ")
+    //console.log("SHow login ")
     setPage("login")
   }
 
@@ -494,27 +496,3 @@ export default function Page() {
 }
 
 
-
-//  function BootstrapCarousel() {
-//   const  bootstrap  = sliderContent;
-//   const [index, setIndex] = useState(0);
-//   const handleSelect = (selectedIndex) => {
-//     setIndex(selectedIndex);
-//   };
-//   return (
-//     <Carousel activeIndex={index} onSelect={(index)=>{
-//       handleSelect(index)
-//     }}>
-//       {bootstrap.map((item) => (
-//         <Carousel.Item key={item.id} className={styles.itemP} interval={4000}>
-//           {/* <img src={item.imageUrl} alt="slides" /> */}
-//           <Carousel.Caption className={styles.caption}>
-//             <h3>{item.heading}</h3>
-//             <p>{item.description}</p>
-//             <button className="btn btn-danger">Visit Docs</button>
-//           </Carousel.Caption>
-//         </Carousel.Item>
-//       ))}
-//     </Carousel>
-//   );
-// }

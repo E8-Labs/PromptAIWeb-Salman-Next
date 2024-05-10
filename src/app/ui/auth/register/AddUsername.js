@@ -55,7 +55,7 @@ class AddUsername extends Component {
     //
     handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         this.props.backAction("email")
     }
     handleKeyPress(e) {
@@ -104,11 +104,11 @@ class AddUsername extends Component {
         this.setState({
             username_available: ""
         })
-        console.log("Username changed " + event.target.value)
+        //console.log("Username changed " + event.target.value)
         axios.get(ApiPath.CheckUsernameRoute + "?username=" + event.target.value)
             .then(res => {
                 let d = res.data
-                console.log("Data is ", d)
+                //console.log("Data is ", d)
                 if(d.isAvailable === true){
                     this.setState({
                         username_available: "yes"
@@ -126,7 +126,7 @@ class AddUsername extends Component {
             })
             .catch(err => {
                 // setIsLoadingPrompts(false)
-                console.log(err)
+                //console.log(err)
             })
         
     }

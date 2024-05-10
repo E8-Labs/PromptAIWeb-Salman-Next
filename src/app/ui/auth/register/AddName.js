@@ -56,7 +56,7 @@ class AddName extends Component {
     //
     handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         this.props.backAction("intro")
     }
     handleKeyPress(e) {
@@ -103,7 +103,7 @@ class AddName extends Component {
     handleChange(event) {
         event.preventDefault()
 
-        console.log("Name changed " + event.target.value)
+        //console.log("Name changed " + event.target.value)
         this.setState({
             name: event.target.value
         })

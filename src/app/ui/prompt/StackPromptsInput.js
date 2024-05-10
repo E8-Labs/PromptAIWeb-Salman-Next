@@ -13,25 +13,25 @@ const [chat, setChat] = useState(null)
   
   useEffect(()=>{
     let items = prompt.subprompts
-    console.log("Props changed stack input ", props)
+    //console.log("Props changed stack input ", props)
     setChat(props.chat)
     items.splice(0, 0, prompt);
-    // console.log("Count After Splice ", items)
+    // //console.log("Count After Splice ", items)
     const uniqueArray = items.filter((item, index, self) =>
         index === self.findIndex((t) => t.id === item.id)
     );
     setSubPrompts(uniqueArray)
     if(props.chat){
-        console.log("Stacked Index To Show ", props.chat.stackedPromptIndexToShow)
+        //console.log("Stacked Index To Show ", props.chat.stackedPromptIndexToShow)
     }
-    // console.log("------------Start----------------")
-    console.log("Subprompts Stack Input ", subprompts)
-    // console.log("ITems ", items)
-    // console.log("-------------End----------------")
+    // //console.log("------------Start----------------")
+    //console.log("Subprompts Stack Input ", subprompts)
+    // //console.log("ITems ", items)
+    // //console.log("-------------End----------------")
   }, [props.chat])
 
   useEffect(()=>{
-    console.log("Chat changed Stack", chat)
+    //console.log("Chat changed Stack", chat)
   }, [chat])
 
   return (
@@ -39,10 +39,10 @@ const [chat, setChat] = useState(null)
       {subprompts.map((item, index) => (
         <div key={item.id} className='flex justify-center items-center'  onClick={()=>{
             if(chat.stackedPromptIndexToShow >= index){
-                console.log("Already submitted")
+                //console.log("Already submitted")
             }
             else{
-                console.log("Submit here", )
+                //console.log("Submit here", )
                 props.handleSubmitSubPrompt(subprompts)
             }
         }}>

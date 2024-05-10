@@ -13,7 +13,7 @@ export default function SubscriptionPlan(props){
     const plans = props.plans;
 
     const handleMenuClick = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         // setMenuSelected(event.currentTarget.id)
       };
     return(

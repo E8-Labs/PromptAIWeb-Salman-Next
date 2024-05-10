@@ -1,4 +1,4 @@
-const baseUrl = "http://178.16.143.212:5002/api/";
+const baseUrl = "https://www.blindcircle.com:444/prompt/api/";
 // const baseUrl = "https://5d38-103-150-238-203.ngrok-free.app/api/";
  
 const ApiPath = {

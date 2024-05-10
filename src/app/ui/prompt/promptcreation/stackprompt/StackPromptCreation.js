@@ -40,8 +40,8 @@ const StackMultiFormPopup = ({ onClose, addSubPrompt }) => {
   };
 
   useEffect(() => {
-    console.log("New Sub prompt is ")
-    console.log(formData)
+    //console.log("New Sub prompt is ")
+    //console.log(formData)
   }, [formData])
 
   const FormComponent = forms[currentForm];

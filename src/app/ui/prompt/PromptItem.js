@@ -32,7 +32,7 @@ function PromptItem(props) {
     }
 
     const getSaveIcon = () => {
-        // console.log("Prompt in prompt item view is ", prompt)
+        // //console.log("Prompt in prompt item view is ", prompt)
         if (!prompt.is_saved) {
             return <TurnedInNotOutlinedIcon style={{ color: 'white' }} />
         }

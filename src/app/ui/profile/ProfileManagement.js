@@ -15,7 +15,7 @@ const ProfileManagement = () => {
                         <div className='text-[white] font-medium text-md mt-10'>Payment Method</div>
                         <button className='text-[#FF124B] font-medium text-md mt-10' onClick={() => {
                             event.preventDefault()
-                            console.log("Logout here")
+                            //console.log("Logout here")
                             if (typeof localStorage !== 'undefined') {
                               localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
                             }

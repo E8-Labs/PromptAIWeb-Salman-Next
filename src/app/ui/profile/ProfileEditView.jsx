@@ -13,7 +13,7 @@ export default function ProfileEditView(props){
     const user = props.user;
 
     const handleMenuClick = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         // setMenuSelected(event.currentTarget.id)
       };
     return(

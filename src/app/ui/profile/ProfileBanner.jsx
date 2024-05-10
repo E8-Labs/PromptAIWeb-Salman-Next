@@ -28,19 +28,19 @@ export default function ProfileBannerView(props) {
     const [UserImageError, setUserImageError] = useState('');
 
     useEffect(() => {
-        console.log("User object changed in Banner", user)
+        //console.log("User object changed in Banner", user)
         setFollowing(user.user.amIFollowing)
         if(typeof(user.user.banner_image !== 'undefined') && user.user.banner_image != null){
             setBannerImage(user.user.banner_image)
         }
         setIsLoggedInUser(user.token !== '')
         
-        console.log("user banner is ", user.token !== '')
+        //console.log("user banner is ", user.token !== '')
     }, [user])
 
 
     const handleMenuClick = event => {
-        console.log(event.currentTarget.id);
+        //console.log(event.currentTarget.id);
         // setMenuSelected(event.currentTarget.id)
     };
 
@@ -82,7 +82,7 @@ export default function ProfileBannerView(props) {
         }
 
 
-        console.log("Sending follow request to server now", user.user.id)
+        //console.log("Sending follow request to server now", user.user.id)
 
         const config = {
             headers: {
@@ -90,15 +90,15 @@ export default function ProfileBannerView(props) {
             }
         };
         const data = { userid: user.user.id };
-        console.log("Data is ", JSON.stringify(data))
+        //console.log("Data is ", JSON.stringify(data))
         axios.post(ApiPath.FollowUser, data, config)
             .then(data => {
-                console.log("Follow User response")
-                console.log(data.data)
+                //console.log("Follow User response")
+                //console.log(data.data)
 
                 if (data.data.status) {
                     let receieved = data.data.data;
-                    console.log("Follow response from server")
+                    //console.log("Follow response from server")
 
                     if (user.user.amIFollowing) {
                         user.user.amIFollowing = false;
@@ -116,12 +116,12 @@ export default function ProfileBannerView(props) {
                 }
             })
             .catch(error => {
-                console.log(error)
+                //console.log(error)
             })
     }
 
     function uploadBanner(file) {
-        console.log("Uploading Profile Banner ", file)
+        //console.log("Uploading Profile Banner ", file)
         // return
         var formdata = new FormData();
         var headers = new Headers()
@@ -153,14 +153,14 @@ export default function ProfileBannerView(props) {
                 // setLoading(false)
                 // this.props.clickEvent("stap6");
                 if (resJson.status == true) {
-                    console.log("Banner Uploaded", resJson.data)
+                    //console.log("Banner Uploaded", resJson.data)
                     let Manin_data_wrap = resJson.data;
                     let Profile = Manin_data_wrap;
                     u.user = Profile
                     if (typeof localStorage !== 'undefined') {
                         localStorage.setItem(process.env.REACT_APP_LocalSavedUser, JSON.stringify(u));
                     }
-                    console.log(Profile.banner_image)
+                    //console.log(Profile.banner_image)
                     setBannerImage(Profile.banner_image)
                     //   router.push("/dashboard")
                 } else {
@@ -172,7 +172,7 @@ export default function ProfileBannerView(props) {
                 }
             })
             .catch(error => {
-                console.log("User error " + error)
+                //console.log("User error " + error)
                 toast(`User logged in as ${error}`);
                 // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
                 // this.error_handaling();
@@ -204,7 +204,7 @@ export default function ProfileBannerView(props) {
                                 {
                                     !isLoggedInUser &&(
                                         <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${isLoggedInUser ? 'hidden' : ''}`} variant="contained" onClick={() => {
-                                            console.log("Follow here")
+                                            //console.log("Follow here")
                                             handleFollowAction()
                                         }} >{following ? `Ubsubscribe` : 'Subscribe'}</Button>
                                     )
@@ -302,11 +302,11 @@ align-content: center;
         // padding: 5px 5px;
         display: flex;
         align-items: flex-end;
-        
+        height: 280px;
         position: relative;
         width: 100%;
-    position: relative;
-    aspect-ratio: 9/16; 
+        position: relative;
+    
     }
     .edit_banner {
         position: absolute;

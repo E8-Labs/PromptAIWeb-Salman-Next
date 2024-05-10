@@ -5,12 +5,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Modal from 'react-modal';
+
+import EditPromptPopup from '../promptEditing/editprompt';
 import StackMultiFormPopup from './stackprompt/StackPromptCreation';
+
 import { Button, IconButton, Menu, MenuItem, Snackbar } from '@mui/material';
 import LoadingButton from '@mui/lab/LoadingButton';
 import PendingSharpIcon from '@mui/icons-material/PendingSharp';
-import EditPromptPopup from '../promptEditing/editprompt';
-import MultiFormPopup from './PromptCreation';
+
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -55,10 +57,10 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
     prompt.subprompts.forEach(element => {
       sub.push(element)
     });
-    console.log("Prompt is ", prompt)
+    //console.log("Prompt is ", prompt)
     setSubPrompts(sub)
-    console.log("Total Prompts")
-    console.log(subprompts)
+    //console.log("Total Prompts")
+    //console.log(subprompts)
   }, []);
 
 
@@ -67,8 +69,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
       if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
         navigate("/onboarding");
       } else {
-        console.log("User is saved in Dashboard")
-        console.log(process.env.REACT_APP_LocalSavedUser)
+        //console.log("User is saved in Dashboard")
+        //console.log(process.env.REACT_APP_LocalSavedUser)
 
         setUser(
 
@@ -83,8 +85,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   });
 
   const addSubPrompt = (p) => {
-    console.log(`Sub Prompt ${subPromptIndex - 1} added`)
-    console.log(prompt)
+    //console.log(`Sub Prompt ${subPromptIndex - 1} added`)
+    //console.log(prompt)
     setSubPrompts([...subprompts, p])
     setSubPromptIndex(subPromptIndex + 1)
     setPopupOpen(false)
@@ -121,7 +123,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   }
 
   function handleEditPrompt(screen, prompt, promptIndex) {
-    console.log("Handle edit now")
+    //console.log("Handle edit now")
     setEditPopupOpen(true)
     setScreenToEdit(screen)
     setPromptSelectedToEdit(prompt)
@@ -130,8 +132,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   }
 
   function editPrompt(promptEdited, index, promptIndex) {
-    console.log("Index is ", promptSelectedToEditIndex)
-    console.log("New PRompt is ", promptEdited)
+    //console.log("Index is ", promptSelectedToEditIndex)
+    //console.log("New PRompt is ", promptEdited)
     let prs = subprompts;
     for (let i = 0; i < prs.length; i++) {
       if (i == promptSelectedToEditIndex) {
@@ -198,27 +200,27 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
       }
     }
     data.subprompts = subs
-    console.log("Prompt data")
-    console.log(JSON.stringify(data));
+    //console.log("Prompt data")
+    //console.log(JSON.stringify(data));
     // setIsLoading(true)
     // return
     if (user) {
       try {
 
-        console.log(user)
+        //console.log(user)
         if (user) {
           const config = {
             headers: {
               "Authorization": "Bearer " + user.token,
             }
           };
-          console.log("User obtained")
+          //console.log("User obtained")
           setIsLoading(true)
           axios.post(ApiPath.CreatePrompt, data, config)
             .then(data => {
               setIsLoading(false)
-              console.log("Request processed")
-              console.log(data.data)
+              //console.log("Request processed")
+              //console.log(data.data)
               onPublish()
               // let toast = Toast.show('Prompt created', {
               //     duration: Toast.durations.LONG,
@@ -233,11 +235,11 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
                 closeModal()
               }
               else {
-                console.log(data.data.message)
+                //console.log(data.data.message)
                 // Alert.alert("Error " + data.data.message)
               }
             }).catch(error => {
-              console.log("Exception ", error)
+              //console.log("Exception ", error)
               setIsLoading(false)
               // Alert.alert("Error " + error)
 
@@ -245,11 +247,11 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         }
       }
       catch (error) {
-        console.log("exception " + error)
+        //console.log("exception " + error)
       }
     }
     else {
-      console.log("User not authenticated")
+      //console.log("User not authenticated")
     }
   };
 
@@ -328,7 +330,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
               <PromptOverViewTile key={index} user={user} prompt={element} showButton={index === subprompts.length - 1}
                 addPromptAction={() => {
                   // Start stack prompt flow
-                  console.log("Add Sub prompt here");
+                  //console.log("Add Sub prompt here");
                   handleAddNewPromptBtnTap();
                 }} editPromptAction={(screen, prompt) => {
                   handleEditPrompt(screen, prompt, index)
@@ -372,8 +374,8 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
   const [user, setUser] = useState(null)
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  console.log("Details of prompt")
-  console.log(prompt)
+  //console.log("Details of prompt")
+  //console.log(prompt)
 
   useEffect(() => {
     // Fetch user data or perform other initial actions
@@ -382,7 +384,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
   }, []);
 
   useEffect(() => {
-    console.log("User obtained ", user)
+    //console.log("User obtained ", user)
   }, [user])
 
 
@@ -391,8 +393,8 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
       if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
         // navigate("/onboarding");
       } else {
-        console.log("User is saved in Dashboard")
-        // console.log(process.env.REACT_APP_LocalSavedUser)
+        //console.log("User is saved in Dashboard")
+        // //console.log(process.env.REACT_APP_LocalSavedUser)
 
         setUser(
 
@@ -455,7 +457,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
             }}
           >
             <MenuItem onClick={() => {
-              console.log("Edit title")
+              //console.log("Edit title")
               editPromptAction(0, prompt)
             }}>Edit Title & Description</MenuItem>
             <MenuItem onClick={() => {

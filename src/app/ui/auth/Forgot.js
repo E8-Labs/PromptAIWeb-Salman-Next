@@ -72,28 +72,28 @@ function Forgot(props) {
             }),
             redirect: 'follow'
         }
-        console.log("Sending Reset Api")
+        //console.log("Sending Reset Api")
         setLoadingCode(true)
         fetch(ApiPath.SendResetCode, apiParams)
             .then(function (res) {
                 setLoading(false)
-                // console.log("Response is ", res)
+                // //console.log("Response is ", res)
                 return res.json();
             }).then(resJson => {
                 setLoadingCode(false)
                 // this.props.clickEvent("stap6");
                 if (resJson.status == true) {
-                    console.log("Code sent")
+                    //console.log("Code sent")
                     setCodeSent(true)
 
                 } else {
-                    console.log("Error login ", resJson.message)
+                    //console.log("Error login ", resJson.message)
                     toast(`Error: ${resJson.message}`);
                 }
             })
             .catch(error => {
                 setLoading(false)
-                console.log("User error " + error)
+                //console.log("User error " + error)
                 toast(`Error: ${error}`);
                 // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
                 // this.error_handaling();
@@ -108,25 +108,25 @@ function Forgot(props) {
 
     function handleBackButton(event) {
         event.preventDefault()
-        console.log("Handle back button")
+        //console.log("Handle back button")
         // props.backAction("intro")
     }
     
     function handleChange(event) {
         event.preventDefault()
-        console.log("Email changed " + event.target.value)
+        //console.log("Email changed " + event.target.value)
         setEmail(event.target.value)
 
     }
     function handleChangePassword(event) {
         event.preventDefault()
-        console.log("Email changed " + event.target.value)
+        //console.log("Email changed " + event.target.value)
         setPassword(event.target.value)
 
     }
     function chagePasswordClicked(event) {
         event.preventDefault()
-        console.log("Chaning password")
+        //console.log("Chaning password")
         //call the api to change password
         if (code === null || code === "") {
             toast(`Enter a valid code`);
@@ -150,28 +150,28 @@ function Forgot(props) {
             }),
             redirect: 'follow'
         }
-        console.log("Sending Reset Api")
+        //console.log("Sending Reset Api")
         setLoading(true)
         fetch(ApiPath.UpdatePassword, apiParams)
             .then(function (res) {
                 setLoading(false)
-                // console.log("Response is ", res)
+                // //console.log("Response is ", res)
                 return res.json();
             }).then(resJson => {
                 setLoading(false)
                 // this.props.clickEvent("stap6");
                 if (resJson.status == true) {
-                    console.log("Password updated")
+                    //console.log("Password updated")
                     router.push("/")
 
                 } else {
-                    console.log("Error login ", resJson.message)
+                    //console.log("Error login ", resJson.message)
                     toast(`Error: ${resJson.message}`);
                 }
             })
             .catch(error => {
                 setLoading(false)
-                console.log("User error " + error)
+                //console.log("User error " + error)
                 toast(`Error: ${error}`);
                 // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
                 // this.error_handaling();

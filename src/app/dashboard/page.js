@@ -1,43 +1,34 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import Image from 'next/image';
 
 import React, { useState, useEffect } from "react";
-import styled from 'styled-components'
+
 import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
-import StackMultiFormPopup from '../ui/prompt/promptcreation/stackprompt/StackPromptCreation';
-import PromptChatQuestionsPopup from '../ui/prompt/PromptChatQuestions';
-import ReactModal from 'react-modal';
-import PromptChatView from '../ui/prompt/PromptChatView';
-import ProfileBaseView from '../ui/profile/Profile';
-import UserProfileArea from '../ui/profile/UserProfileArea';
+// import Modal from 'react-modal';
 
-import { IconButton } from '@mui/material';
+import { Modal } from '@mui/material';
 
-import LogoutSharpIcon from '@mui/icons-material/LogoutSharp';
+import axios from 'axios'
+import ApiPath from '../lib/ApiPath';
+import PromptsListDashboard from '../ui/prompt/PromptsListDashboard';
+// import Promptsearch from '../ui/prompt/promptsearch';
+
 const dashboardLogo = '/dashboard.svg';
 const userIcon = '/user-icon.svg';
 const headphoneIcon = '/headphone.svg';
 const usersIcon = '/users.svg';
 const privacyIcon = '/privacy.svg';
 const termIcon = '/terms.svg';
-import PromptItem from '../ui/prompt/PromptItem';
 
-// import {  Modal,   ModalContent,   ModalHeader,   ModalBody,   ModalFooter, Button, useDisclosure} from "@nextui-org/react";
-import Modal from 'react-modal';
+// export default function Page(){
 
-
-
-import axios from 'axios'
-import ApiPath from '../lib/ApiPath';
-import PromptsListDashboard from '../ui/prompt/PromptsListDashboard';
-import Promptsearch from '../ui/prompt/promptsearch';
-
-// import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
-
+//   return(
+//     <div>
+//       Hello this is dashboard
+//     </div>
+//   )
+// }
 
 export default function Page() {
 
@@ -65,6 +56,17 @@ export default function Page() {
   const [subCategoriesSelected, setSubCategoriesSelected] = useState([])
 
   const [promptListMenuSelected, setPromptListMenuSelected] = useState("All")  // Saved, Created
+  const [offset, setOffset] = useState(0)
+  let [desOffset, setDesOffset] = useState(0)
+
+
+  useEffect(()=>{
+    console.log("My Prompt menu changed")
+    
+      setOffset(0)
+      setDesOffset(0)
+    
+  }, [promptListMenuSelected])
 
   function openModal() {
     setPopupOpen(true);
@@ -78,7 +80,7 @@ export default function Page() {
   }
 
   const handleMenuClick = event => {
-    console.log(event.currentTarget.id);
+    //console.log(event.currentTarget.id);
     setMenuSelected(event.currentTarget.id)
     if (event.currentTarget.id === "dashboard") {
       loadPrompts()
@@ -93,16 +95,16 @@ export default function Page() {
   };
   const handleClosePopup = (event) => {
     setPopupOpen(false)
-    //console.log("Popup closed")
+    ////console.log("Popup closed")
   }
 
   const handleCreatePrompt = event => {
-    //console.log(event.currentTarget.id);
+    ////console.log(event.currentTarget.id);
     setPopupOpen(true)
   };
 
   const handlePromptSelected = (prompt, chat) => {
-    console.log("Prompt page in List " + prompt.title + " Clicked")
+    //console.log("Prompt page in List " + prompt.title + " Clicked")
     setCurrentSelectedPrompt(prompt)
     setCurrentChat(chat)
     setMenuSelected("chatgpt")
@@ -118,8 +120,8 @@ export default function Page() {
       if (!localStorage.getItem(process.env.REACT_APP_LocalSavedUser)) {
         navigate("/onboarding");
       } else {
-        //console.log("User is saved in Dashboard")
-        //console.log(process.env.REACT_APP_LocalSavedUser)
+        ////console.log("User is saved in Dashboard")
+        ////console.log(process.env.REACT_APP_LocalSavedUser)
 
         setCurrentUser(
 
@@ -163,11 +165,11 @@ export default function Page() {
   }
 
   const savePrompt = (prompt, indexToUpdate) => {
-    console.log("Saving in ", promptListMenuSelected)
+    //console.log("Saving in ", promptListMenuSelected)
     if (promptListMenuSelected == "All") {
       const updatedArray = [...prompts]; // Create a copy of the array
       updatedArray[indexToUpdate].is_saved = !updatedArray[indexToUpdate].is_saved; // Update the value at the specified index
-      console.log("Updated array ", updatedArray)
+      //console.log("Updated array ", updatedArray)
       setPrompts(updatedArray);
     }
     else if (promptListMenuSelected == "Created") {
@@ -181,7 +183,7 @@ export default function Page() {
       updatedArray = updatedArray.filter(function (item) {
         return item.id !== prompt.id
       })
-      console.log("Array after deleting is ", updatedArray)
+      //console.log("Array after deleting is ", updatedArray)
       // updatedArray[indexToUpdate].is_saved = !updatedArray[indexToUpdate].is_saved; // Update the value at the specified index
       setSavedPrompts(updatedArray);
       // return savedPrompts
@@ -189,7 +191,7 @@ export default function Page() {
   }
 
   const loadPrompts = (isFirstLoading = false) => {
-    //console.log("In Load Prompts. Remove return statement when implemented")
+    ////console.log("In Load Prompts. Remove return statement when implemented")
     // return 
     // if(isLoadingPrompts){
     //   return
@@ -197,7 +199,7 @@ export default function Page() {
     var user = null;
     if (typeof localStorage !== 'undefined') {
       let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
-      console.log("User data stored is ", d)
+      //console.log("User data stored is ", d)
       user = JSON.parse(
         d
       )
@@ -210,7 +212,7 @@ export default function Page() {
       categoriesString = categoriesString + comma + `${cat.id}`
       comma = ","
     }
-    // console.log("Categories string is ", categoriesString)
+    // //console.log("Categories string is ", categoriesString)
 
 
     let subcategoriesString = ""
@@ -220,35 +222,41 @@ export default function Page() {
       subcategoriesString = subcategoriesString + comma + `${cat.id}`
       comma = ","
     }
-    // console.log("Subcategories string is ", subcategoriesString)
+    // //console.log("Subcategories string is ", subcategoriesString)
     comma = ""
     //   this.setState({currentUser: user})
     setCurrentUser(user)
-    console.log("Token in get Prompts " + user)
+    //console.log("Token in get Prompts " + user)
     const config = {
       headers: {
         "Authorization": "Bearer " + user.token,
       }
     };
-    let route = ApiPath.GetPromptsList + `?offset=${isFirstLoading ? '0' : `${prompts.length}`}&categoriesString=${categoriesString}&subCategoriesString=${subcategoriesString}`;
+    
+    let route = ApiPath.GetPromptsList + `?offset=${offset}&des_offset=${desOffset}&categoriesString=${categoriesString}&subCategoriesString=${subcategoriesString}`;
     if (promptListMenuSelected == "Created") {
       route = ApiPath.GetUserPrompts + `?offset=${createdPrompts.length}`
     }
-    if (promptListMenuSelected == "Saved") {
+    else if (promptListMenuSelected == "Saved") {
       route = ApiPath.LoadSavedPrompts + `?offset=${savedPrompts.length}`
+    }
+    else{
+      //All
+
     }
     console.log(route)
     setIsLoadingPrompts(true)
     axios.get(route, config)
       .then(res => {
         setIsLoadingPrompts(false)
-        console.log("Data is ")
-        //console.log(res.data.data.prompts)
-        // console.log(res.data)
+        //console.log("Data is ")
+        ////console.log(res.data.data.prompts)
+        // //console.log(res.data)
         if (promptListMenuSelected == "All") {
-          console.log("All Prompts ", res.data)
+          //console.log("All Prompts ", res.data)
           let pros = removeDuplicates(res.data.data.prompts, 'id');
-
+          setOffset(res.data.data.offset)
+          setDesOffset(res.data.data.desOffset)
           pros.map((m, index) => {
             setPrompts((prevState) =>
               [...prevState, m]
@@ -256,7 +264,7 @@ export default function Page() {
           })
         }
         else if (promptListMenuSelected == "Created") {
-          console.log("Created Prompts ", res.data)
+          //console.log("Created Prompts ", res.data)
           res.data.data.map((m, index) => {
             setCreatedPrompts((prevState) =>
               [...prevState, m]
@@ -264,7 +272,7 @@ export default function Page() {
           })
         }
         else if (promptListMenuSelected == "Saved") {
-          console.log("Saved Prompts ", res.data)
+          //console.log("Saved Prompts ", res.data)
           res.data.data.map((m, index) => {
             setSavedPrompts((prevState) =>
               [...prevState, m]
@@ -275,13 +283,13 @@ export default function Page() {
       })
       .catch(err => {
         setIsLoadingPrompts(false)
-        console.log(err)
+        //console.log(err)
       })
 
 
   }
   useEffect(() => {
-    //console.log("prompts loaded")
+    ////console.log("prompts loaded")
     setPrompts([])
     loadPrompts(true) // isFirstLoading = true
   }, [promptListMenuSelected])
@@ -292,12 +300,12 @@ export default function Page() {
       loadCurrentUser()
     }
     else {
-      //console.log(currentUser.username)
+      ////console.log(currentUser.username)
     }
   }, [])
 
   useEffect(() => {
-    console.log("Categories and subcategories selected. Loading New Prompts")
+    //console.log("Categories and subcategories selected. Loading New Prompts")
     setPrompts([])
     loadPrompts()
   }, [categoriesSelected, subCategoriesSelected])
@@ -309,29 +317,26 @@ export default function Page() {
       loadCurrentUser()
     }
     else {
-      //console.log(currentUser.username)
-      //console.log("Current User Obtained " + currentUser.user.email)
+      ////console.log(currentUser.username)
+      ////console.log("Current User Obtained " + currentUser.user.email)
       if (currentUser.user.role === null || typeof (currentUser.user.role) === 'undefined') {
         setRole("user")
       }
       else {
-        //console.log("Setting user role " + currentUser.user.role)
+        ////console.log("Setting user role " + currentUser.user.role)
         setRole(currentUser.user.role)
       }
     }
   }, [currentUser, role])
+
+
+
   return (
     <div className="flex overflow-y-none h-full min-h-screen bg-black pl-2"
-    // style={{ zIndex: '1' }}
     >
 
-      {/* <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> */}
 
-      {/* <div className="md:p-1 overflow-y-none w-full h-full"> */}
-
-      {/* <div className="col-md-9 flex flex-col flex-grow pb-6 h-full overflow-y-none"> */}
-
-      <div className="overflow-y-none  w-full">
+      {/* <div className="overflow-y-none  w-full"> */}
         <PromptsListDashboard
           promptListMenuSelected={promptListMenuSelected}
           setSelectedMenu={setPromptListMenuSelected}
@@ -340,6 +345,10 @@ export default function Page() {
           isLoadingPrompts={isLoadingPrompts}
           handleAddAction={() => {
             setPopupOpen(true);
+          }}
+          onLoadNex={()=>{
+            //console.log("Main Page Next Load")
+            loadPrompts()
           }}
           isPopupOpen={isPopupOpen}
           setCategoriesSelected={(categories) => {
@@ -351,18 +360,17 @@ export default function Page() {
           setPromptSaved={savePrompt}
         />
 
-      </div>
+      {/* </div> */}
 
-      {/* </div> */}
-      {/* </div> */}
       <Modal
-        isOpen={isPopupOpen}
-        onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Add Prompt"
-        appElement={document.getElementById('body')}
+        open={isPopupOpen}
+        // onAfterOpen={afterOpenModal}
+        onClose={closeModal}
+        // style={customStyles}
+        // contentLabel="Add Prompt"
+        // appElement={document.getElementById('body')}
       >
+        
         <MultiFormPopup onClose={() => {
           loadPrompts();
           setPopupOpen(false);

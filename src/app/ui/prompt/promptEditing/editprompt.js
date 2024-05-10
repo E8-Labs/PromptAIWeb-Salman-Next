@@ -3,15 +3,15 @@ import { useEffect, useState } from 'react';
 import PromptTitleForm from '../promptcreation/PromptTitleForm';
 import PromptDescriptionForm from '../promptcreation/PromptTextForm';
 import PromptCategoryForm from '../promptcreation/PromptCategoryForm';
-import PromptEnrichForm from '../promptcreation/PromptEnrichForm';
-import PromptOverViewForm from '../promptcreation/PromptOverViewForm';
+// import PromptEnrichForm from '../promptcreation/PromptEnrichForm';
+// import PromptOverViewForm from '../promptcreation/PromptOverViewForm';
 import SetPromptQuestions from '../promptcreation/SetPromptQuestions';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, IconButton } from '@mui/material';
 
 import Icons from '../../../lib/Icons'
 
-const forms = [PromptTitleForm, PromptDescriptionForm, SetPromptQuestions, PromptCategoryForm, PromptOverViewForm];
+const forms = [PromptTitleForm, PromptDescriptionForm, SetPromptQuestions, PromptCategoryForm];
 
 //screenName could be {title = 0, prompt = 1, categories = 3}
 //editPrompt is a function
@@ -49,8 +49,8 @@ const EditPromptPopup = ({ onClose, screenIndex, prompt, editPrompt, promptIndex
     };
 
     useEffect(() => {
-        console.log("New Form Data is ")
-        console.log(formData)
+        //console.log("New Form Data is ")
+        //console.log(formData)
     }, [formData])
 
     const FormComponent = forms[currentForm];

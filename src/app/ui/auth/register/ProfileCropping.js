@@ -46,30 +46,30 @@ const ProfileCropping = (props) => {
          setImage(reader.result);
       };
       reader.readAsDataURL(files[0]);
-      console.log("Dialogue shows now")
+      //console.log("Dialogue shows now")
       handleShow();
    };
 
    const getCropData = () => {
-      console.log("Get Crop Data Profile Cropper " + props.change_logo)
+      //console.log("Get Crop Data Profile Cropper " + props.change_logo)
       if (typeof cropper !== "undefined") {
          setCropData(cropper.getCroppedCanvas().toDataURL());
          let ImageCropData = cropper.getCroppedCanvas().toDataURL();
 
          if (props.change_logo == 0) {
-            console.log("Get Crop Data Profile Cropper One")
+            //console.log("Get Crop Data Profile Cropper One")
             props.afterCropImage(ImageCropData, 1);
          }
 
          if (props.change_logo == 1) {
-            console.log("Get Crop Data Profile Cropper Two")
+            //console.log("Get Crop Data Profile Cropper Two")
             props.afterCropImage(ImageCropData, 1);
          }
 
          handleClose();
       }
       else {
-         console.log("Get Crop Data Profile Cropper Undefined")
+         //console.log("Get Crop Data Profile Cropper Undefined")
       }
    };
 

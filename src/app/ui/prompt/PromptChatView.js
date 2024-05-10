@@ -45,8 +45,8 @@ const PromptChatView = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [user, setUser] = useState(null);
 
-  //console.log("Showing sub prompts")
-  //console.log(prompt.subprompts)
+  ////console.log("Showing sub prompts")
+  ////console.log(prompt.subprompts)
 
   const [summary, setSummary] = useState(null);
 
@@ -56,12 +56,12 @@ const PromptChatView = (props) => {
   const [messages, setMessages] = useState([])
   const [message, setMessage] = useState("")
   const bottomRef = useRef(null);
-  // //console.log("Prompt in ChatView ", props.prompt)
+  // ////console.log("Prompt in ChatView ", props.prompt)
 
 
   //state management
   useEffect(() => {
-    console.log("Setting chat", props.chat)
+    //console.log("Setting chat", props.chat)
     if (chat == null) {
       setChat(props.chat)
     }
@@ -71,40 +71,40 @@ const PromptChatView = (props) => {
 
 
   useEffect(() => {
-    //console.log("Load messages useeffect ")
+    ////console.log("Load messages useeffect ")
     const loadMessages = async (user) => {
-      //console.log("Load messages useeffect ", user)
+      ////console.log("Load messages useeffect ", user)
       if (chat) {
         if (prompt.subprompts) {
           setCanShowPromptHint(props.chat.stackedPromptIndexToShow < prompt.subprompts.length ? PromptHintDisplayStatus.CanShow : PromptHintDisplayStatus.NotShowing)
         }
       }
       if (user) {
-        //console.log("Loading messages " + ApiPath.GetMessages + "?chatid=" + props.chat.id)
+        ////console.log("Loading messages " + ApiPath.GetMessages + "?chatid=" + props.chat.id)
         const config = {
           headers: {
             "Authorization": "Bearer " + user.token,
           }
         };
         axios.get(ApiPath.GetMessages + "?chatid=" + props.chat.id, config).then(data => {
-          //console.log("messages api loaded")
-          // //console.log(JSON.stringify(data.data))
+          ////console.log("messages api loaded")
+          // ////console.log(JSON.stringify(data.data))
           if (data.status) {
             setMessages(data.data.data)
             // setCanShowPromptHint(PromptHintDisplayStatus.CanShow)
           }
           //   listViewRef._listRef._scrollRef.scrollToEnd({animated: true});
         }).catch(error => {
-          //console.log(error)
+          ////console.log(error)
         })
       }
       else {
-        //console.log("User is not there to send message")
+        ////console.log("User is not there to send message")
       }
     }
 
     const sendFirstPromptForNewChat = async (user) => {
-      //console.log("Sending First Message uncomment below sendMessage function " + prompt)
+      ////console.log("Sending First Message uncomment below sendMessage function " + prompt)
       sendMessage({ message: prompt.prompt, from: "me", type: MessageType.Prompt, title: prompt.title })
     }
     var u = null
@@ -113,14 +113,14 @@ const PromptChatView = (props) => {
         localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
       )
     }
-    //console.log(u)
+    ////console.log(u)
     setUser(u)
 
-    //console.log("New Chat ", newChat)
-    //console.log("Chat ", props.chat)
+    ////console.log("New Chat ", newChat)
+    ////console.log("Chat ", props.chat)
     setChat(props.chat)
     if (newChat && props.chat) {
-      //console.log("Sending FirstPrompt")
+      ////console.log("Sending FirstPrompt")
       newChat = false;
       //send custom event here
       broadcastEvent('newChat', props.chat);
@@ -137,7 +137,7 @@ const PromptChatView = (props) => {
 
 
   useEffect(() => {
-    //console.log("Checking what stacked prompt to show")
+    ////console.log("Checking what stacked prompt to show")
     if (canShowPromptHint === PromptHintDisplayStatus.CanShow && chat) {
       if (prompt.subprompts) {
         if (chat.stackedPromptIndexToShow < prompt.subprompts.length) {
@@ -151,7 +151,7 @@ const PromptChatView = (props) => {
       bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
     }
     else {
-      console.log("Bottom ref is null")
+      //console.log("Bottom ref is null")
     }
     // bottomRef = useRef(null)
     // createSummary()
@@ -159,7 +159,7 @@ const PromptChatView = (props) => {
 
 
   useEffect(() => {
-    console.log("Subprompt set ChatView", subprompt)
+    //console.log("Subprompt set ChatView", subprompt)
     if (subprompt != null) {
       setModalVisible(true)
     }
@@ -167,18 +167,18 @@ const PromptChatView = (props) => {
   }, [subprompt])
 
   useEffect(() => {
-    console.log("---------------------------------------")
-    console.log("Use ref Changed")
-    console.log("---------------------------------------")
+    //console.log("---------------------------------------")
+    //console.log("Use ref Changed")
+    //console.log("---------------------------------------")
   }, [bottomRef])
 
   //logic to show stacked prompts
   const updateStackedPromptIndex = (index) => {
-    //console.log("Checking update Stacked ", messages.length)
+    ////console.log("Checking update Stacked ", messages.length)
     if (prompt.subprompts) {
       if (prompt.subprompts.length > 0 && messages.length >= 2 && messages[messages.length - 1].type !== MessageType.Loading && messages[messages.length - 1].id !== 0) {
 
-        //console.log("This prompt has sub prompts index = " + index + " & prompts" + prompt.subprompts.length)//ADDING logic to show stacked prompts
+        ////console.log("This prompt has sub prompts index = " + index + " & prompts" + prompt.subprompts.length)//ADDING logic to show stacked prompts
         setMessages(old => [...old, { message: prompt.subprompts[index].prompt, from: "me", id: messages.length + 1, type: MessageType.StackPrompt }])
         setCanShowPromptHint(PromptHintDisplayStatus.Showing) // now showing
       }
@@ -191,21 +191,21 @@ const PromptChatView = (props) => {
     const event = new CustomEvent(eventName, { detail: data });
     // Dispatch the event on the window object, making it available throughout the application
     window.dispatchEvent(event);
-    console.log("Event broadcasted from ChatView ", eventName)
+    //console.log("Event broadcasted from ChatView ", eventName)
   }
 
   // use prompt 
   const makeUsePrompt = (prompt) => {
     setModalVisible(false)
     let p = prompt
-    console.log("Use Prompt Now. Create Questionaire ", p)
+    //console.log("Use Prompt Now. Create Questionaire ", p)
     let text = p.prompt;
     for (let i = 0; i < p.questions.length; i++) {
       let q = p.questions[i];
       text = text.replace(`[${q.question}]`, q.answer);
     }
     p.prompt = text;
-    console.log("Subprompt text is ", text)
+    //console.log("Subprompt text is ", text)
     sendMessage({ message: p.prompt, from: "me", type: MessageType.StackPrompt, title: p.title })
     setSubprompt(null)
     // updateStackedPromptIndex
@@ -227,9 +227,9 @@ const PromptChatView = (props) => {
   // will update this function to accomodate chat generation on the server instead of in the app.
   const sendMessagesToServer = async (messagesToSend) => {
     const chat = props.chat;
-    //console.log("Sending message to server now", messagesToSend)
-    //console.log("------------------------------------")
-    //console.log(messagesToSend)
+    ////console.log("Sending message to server now", messagesToSend)
+    ////console.log("------------------------------------")
+    ////console.log(messagesToSend)
     let u = null
     if (typeof localStorage !== 'undefined') {
       u = JSON.parse(
@@ -237,10 +237,10 @@ const PromptChatView = (props) => {
       )
     }
 
-    //console.log("User")
-    //console.log(u)
-    //console.log("Chat ID ", props.chat.id)
-    //console.log("------------------------------------")
+    ////console.log("User")
+    ////console.log(u)
+    ////console.log("Chat ID ", props.chat.id)
+    ////console.log("------------------------------------")
     const config = {
       headers: {
         "Authorization": "Bearer " + u.token,
@@ -256,16 +256,16 @@ const PromptChatView = (props) => {
         }
       ]
     };
-    //console.log("Sending Message Data ", data)
+    ////console.log("Sending Message Data ", data)
     axios.post(ApiPath.SendMessage, data, config)
       .then(data => {
-        //console.log("Send Message response")
-        //console.log(data.data)
+        ////console.log("Send Message response")
+        ////console.log(data.data)
         try {
           listViewRef._listRef._scrollRef.scrollToEnd({ animated: true });
         }
         catch (error) {
-          //console.log("Scroll Error ", error)
+          ////console.log("Scroll Error ", error)
         }
         if (data.data.status) {
           let receieved = data.data.data.messages;
@@ -277,9 +277,9 @@ const PromptChatView = (props) => {
           if (chat) {
             chat.summary = summary
           }
-          console.log("Messages received from server")
-          console.log("M1 ", receieved[0])
-          console.log("M2 ", receieved[1])
+          //console.log("Messages received from server")
+          //console.log("M1 ", receieved[0])
+          //console.log("M2 ", receieved[1])
           // setMessages(messages.filter(item => item.type !== MessageType.Loading)) // remove the loading message
           let newArray = messages.filter(item => (item.id !== 0 && item.type !== MessageType.Loading))//[...messages]
           // newArray.pop()
@@ -291,16 +291,16 @@ const PromptChatView = (props) => {
           setMessages(newArray)
         }
         else {
-          //console.log("Error is here in send message", data.data.message)
+          ////console.log("Error is here in send message", data.data.message)
         }
       })
       .catch(error => {
-        //console.log(error)
+        ////console.log(error)
       })
   }
 
   const createSummary = () => {
-    //console.log("Printing Summary")
+    ////console.log("Printing Summary")
     let summary = ""
     let allMessages = []
     messages.map((item) => {
@@ -309,13 +309,13 @@ const PromptChatView = (props) => {
       allMessages.push(message)
     })
     // console.warn("Summar ", summary)
-    //console.log("Summar ", summary)
+    ////console.log("Summar ", summary)
     // setSummary(summary)
     generateSummaryFromGPT(allMessages)
   }
 
   const sendMessage = async (message) => {
-    //console.log("Sending Message ", message)
+    ////console.log("Sending Message ", message)
     setMessages(old => [...old, { message: (message.type === MessageType.Prompt || message.type === MessageType.StackPrompt) ? message.title : message.message, from: "me", id: 0 }])
     setMessages(old => [...old, { message: "Loading....", from: "gpt", id: 0, type: MessageType.Loading }])
     const m1 = { message: (message.type === MessageType.Prompt || message.type === MessageType.StackPrompt) ? message.message : message.message, from: "me", type: message.type, title: message.title }
@@ -328,8 +328,8 @@ const PromptChatView = (props) => {
 
   const likeDislikePrompt = async (vote, prompt, messageid) => {
     const data = { promptid: prompt.id, intractiontype: vote, messageid: messageid };
-    console.log("Like Dislike prompt", vote)
-    console.log("data", data)
+    //console.log("Like Dislike prompt", vote)
+    //console.log("data", data)
     // return
     let u = null
     if (typeof localStorage !== 'undefined') {
@@ -344,8 +344,8 @@ const PromptChatView = (props) => {
     };
 
     let result = await axios.post(ApiPath.VotePrompt, data, config)
-    console.log("Result Like Dislike")
-    console.log(result)
+    //console.log("Result Like Dislike")
+    //console.log(result)
     if (result.data.status) {
       let updatedList = messages.map(item => {
         if (item.id == messageid) {
@@ -358,7 +358,7 @@ const PromptChatView = (props) => {
         }
         return item; // else return unmodified item 
       });
-      console.log("Messages new ", updatedList)
+      //console.log("Messages new ", updatedList)
       setMessages(updatedList)
     }
     else {
@@ -369,12 +369,12 @@ const PromptChatView = (props) => {
 
 
   const likePrompt = async (message) => {
-    //console.log("Like prompt", prompt.id)
+    ////console.log("Like prompt", prompt.id)
     await likeDislikePrompt(IntractionType.Like, prompt.id, message)
   }
 
   const disLikePrompt = async (message) => {
-    //console.log("DisLike prompt", prompt.id)
+    ////console.log("DisLike prompt", prompt.id)
     await likeDislikePrompt(IntractionType.DisLike, prompt.id, message)
   }
 
@@ -387,12 +387,12 @@ const PromptChatView = (props) => {
     else {
       setMessages(messages.filter(item => item.type !== MessageType.Loading))
     }
-    //console.log("Flag prompt response", message)
+    ////console.log("Flag prompt response", message)
     await likeDislikePrompt(IntractionType.Flag, prompt.id, message.id)
   }
 
   const handleSendMessage = async (msg) => {
-    //console.log("Send Message button in ChatINput clicked")
+    ////console.log("Send Message button in ChatINput clicked")
     sendMessage({ message: msg, from: "me", type: "text" });
   }
 
@@ -461,10 +461,10 @@ const PromptChatView = (props) => {
               return (
                 <div key={item.id} className='flex justify-center items-center' onClick={() => {
                   if (chat.stackedPromptIndexToShow >= index) {
-                    console.log("Already submitted")
+                    //console.log("Already submitted")
                   }
                   else {
-                    console.log("Submit here",)
+                    //console.log("Submit here",)
                     handleSubmitSubPrompt(prompt.subprompts)
                   }
                 }}>
@@ -482,7 +482,7 @@ const PromptChatView = (props) => {
           props.prompt.subprompts.length > 0 && (
             <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
               //send stacked sub prompt here
-              console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
+              //console.log("Use Stacked Prompt Now ", subprompts[chat.stackedPromptIndexToShow + 1])
               setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
               let c = chat
               c.stackedPromptIndexToShow = c.stackedPromptIndexToShow + 1
