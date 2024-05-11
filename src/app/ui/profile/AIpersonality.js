@@ -7,54 +7,54 @@ import ApiPath from '@/app/lib/ApiPath'
 
 const AIpersonality = () => {
 
-const [email, setEmail] = React.useState('')
+  const [email, setEmail] = React.useState('')
 
-  const joinwaitlist = ()=> {
+  const joinwaitlist = () => {
     //console.log("Joining waitlist")
     if (email === null || email === "") {
       toast(`Enter valid email`);
       //console.log("Joining waitlist: Invalid email")
       return
-  }
+    }
 
-  const apiParams = {
+    const apiParams = {
       method: "post",
       headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-          "email": email,
+        "email": email,
       }),
       redirect: 'follow'
-  }
-  //console.log("Sending Reset Api")
-  fetch(ApiPath.JoinWaitList, apiParams)
+    }
+    //console.log("Sending Reset Api")
+    fetch(ApiPath.JoinWaitList, apiParams)
       .then(function (res) {
-          // //console.log("Response is ", res)
-          return res.json();
+        // //console.log("Response is ", res)
+        return res.json();
       }).then(resJson => {
-          // this.props.clickEvent("stap6");
-          if (resJson.status == true) {
-              //console.log(resJson.message)
-              toast(resJson.message)
+        // this.props.clickEvent("stap6");
+        if (resJson.status == true) {
+          //console.log(resJson.message)
+          toast(resJson.message)
 
-          } else {
-              //console.log("Error login ", resJson.message)
-              toast(`Error: ${resJson.message}`);
-          }
+        } else {
+          //console.log("Error login ", resJson.message)
+          toast(`Error: ${resJson.message}`);
+        }
       })
       .catch(error => {
-          //console.log("User error " + error)
-          toast(`Error: ${error}`);
-          // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
-          // this.error_handaling();
+        //console.log("User error " + error)
+        toast(`Error: ${error}`);
+        // this.setState({ showerror: true ,showerrortype : 2 ,showerrormessage: "Invalid Response" });
+        // this.error_handaling();
       });
   }
 
 
   return (
-    <div className="tab-pane fade overflow-y-auto" style={{ height: 'calc(100vh - 200px)' }} id="pills-AiPersonality" role="tabpanel" aria-labelledby="pills-AiPersonality-tab">
+    <div className="tab-pane fade overflow-y-auto" style={{ height: 'calc(100vh - 250px)' }} id="pills-AiPersonality" role="tabpanel" aria-labelledby="pills-AiPersonality-tab">
       {/* <div className="step_progress">
         <span></span>
       </div> */}
@@ -79,21 +79,42 @@ const [email, setEmail] = React.useState('')
               <img src="/animation9.png" className="ai-9" alt="" />
               <img src="/animation10.png" className="ai-10" alt="" />
             </div>
-            <div className="ai-create-bottom mt-5 text-center join_wait_list">
-             
-                <div className='flex-col justify-start items-start '>
-                  <label>Join the waitlist</label>
-                  <div className='flex  justify-center items-center gap-3'>
+
+
+            <div className='w-full' style={{ display: 'flex', justifyContent: 'center' }}>
+              <div>
+                <div style={{ color: '#00C28C', fontWeight: '600' }}>
+                  Join the Waitlist
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', marginTop: 15, gap: 13 }}>
+                  <input type='email' name='' style={{ backgroundColor: 'black', border: '1px solid white', padding: 8, borderRadius: 10, fontWeight: '500' }} placeholder='Email Address' onChange={(e) => {
+                    //console.log("Input changed", e.target.value)
+                    setEmail(e.target.value)
+                  }} />
+                  <button onClick={joinwaitlist} style={{ width: '100px', backgroundColor: '#00C28C', borderRadius: 12, fontWeight: '600' }}>
+                    Join the waitlist
+                  </button>
+                </div>
+              </div>
+            </div>
+
+
+            {/*<div className="ai-create-bottom mt-5 text-center">
+
+              <div className='flex-col justify-start items-start ' style={{ border: '2px solid white', display: 'flex', justifyContent: 'center' }}>
+                
+                <label>Join the waitlist</label>
+                <div className='flex  justify-center items-center gap-3'>
                     <input type="email" name="" placeholder="Email Address" onChange={(e)=> {
                       //console.log("Input changed", e.target.value)
                       setEmail(e.target.value)
                     }}/>
                     <button className="custom-btn-2" onClick={joinwaitlist}>Join the waitlist</button>
                   </div>
-                </div>
-                
-              
-            </div>
+              </div>
+
+
+            </div>*/}
           </div>
         </div>
       </div>

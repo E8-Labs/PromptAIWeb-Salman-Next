@@ -306,7 +306,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         action={action}
       />
       <div className='flex gap-2 mt-10 items-center'>
-        <h1 className='text-white' style={{ fontSize: 18, fontWeight: 'BOLD' }}>Stack a prompt</h1>
+        <h1 className='text-white' style={{ fontSize: 18, fontWeight: 'bold' }}>Stack a prompt</h1>
         <label className='text-white' style={{ fontSize: 12, }}>{"(optional)"}</label>
       </div>
       <div className="flex gap-1 my-1 items-center" style={{ width: '100%', marginLeft: -3 }}>
@@ -487,9 +487,10 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
       {
         showButton && (
           <div className='flex w11/12 justify-center cursor-pointer'>
-            <div className="flex items-center justify-center bg-appgreenlight p-4 px-5 gap-2" style={{ borderRadius: '2rem', width: "12rem" }} onClick={() => {
-              handleAddAction()
-            }}>
+            <div className="flex items-center justify-center bg-appgreenlight p-4 px-5 gap-2" style={{ borderRadius: '2rem', width: "12rem" }}
+              onClick={() => {
+                handleAddAction()
+              }}>
               {/* Third View */}
               <Image src={PlusIcon} width={15} height={15}></Image>
               <div className=''>

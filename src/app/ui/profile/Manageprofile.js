@@ -1,12 +1,13 @@
 import Link from 'next/link'
 import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
+import Image from 'next/image';
+import Button from '@mui/material/Button';
 
 const Manageprofile = (props) => {
 
     //Check Personal Information
-//console.log("Manage Profile ", props.user.user.email)
+    //console.log("Manage Profile ", props.user.user.email)
     const router = useRouter()
     const [personalInfo, setPersonalInfo] = useState(true)
     const [user, setUser] = useState(props.user)
@@ -45,7 +46,7 @@ const Manageprofile = (props) => {
     // };
 
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
 
     }, [])
     const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null), useRef(null), useRef(null)];
@@ -59,20 +60,10 @@ const Manageprofile = (props) => {
     //save email and name 
     // const d = storedData
     const [name, setName] = useState(props.user.user.name)
+    console.log('Data passed of user profile is', props.user)
     const [email, setEmail] = useState(props.user.user.email)
     const [profileImage, setProfileImage] = useState(props.user.user.profile_image)
     const [username, setUsername] = useState(props.user.user.username)
-    const [printname, setPrintname] = useState(null)
-    const handleNameSave = () => {
-        const newData = {
-            email,
-            name
-        }
-        localStorage.setItem('data', JSON.stringify(newData))
-        //console.log("New data saved is", newData)
-        setPrintname(newData)
-        // const storedData = JSON.parse(localStorage.getItem('data'))  
-    }
 
     const [localStorageData, setLocalStorageData] = useState('')
 
@@ -84,21 +75,52 @@ const Manageprofile = (props) => {
         //console.log('New Data stored in lsd is', localStorageData)
     }, [])
 
-    
-    const [printEmail, setPrintEmail] = useState('')
-
-    // const handleEmail = () => {
-    //     // //console.log("Email saved is" email)
-    //     //console.log("Email saved is email", email)
-    //     setPrintEmail(email)
-    // }
-
     const linkRef = useRef(null);
+
+    //code for updateprofile api
+
+    //code for updateloader
+
+    const [updateLoading, setUpdateLoading] = useState(false);
+
+    const handleUpdateProfileClick = async () => {
+        try {
+            setUpdateLoading(true)
+            const apiURl = 'https://www.blindcircle.com:444/prompt/api/users/update_profile';
+            const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxMSwibmFtZSI6ImFuZ3VzMTIzIiwidXNlcm5hbWUiOiJhbmd1cyIsImVtYWlsIjoiYW5ndXNAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmIkMTAkdFRhanQ1NzJqNVZzYWguTzRDUFhaT3VXa0MuS3gwa3hhczVJdmY3dkxsZ2s0SXVlQlkxRGEiLCJiaW8iOm51bGwsInByb2ZpbGVfaW1hZ2UiOiJodHRwczovL3Byb21wdGFpYXBwYnVja2V0LnMzLnVzLWVhc3QtMi5hbWF6b25hd3MuY29tL2ltYWdlMTcwNTA3MjEyMzc4MSIsImJhbm5lcl9pbWFnZSI6Imh0dHBzOi8vcHJvbXB0YWlhcHBidWNrZXQuczMudXMtZWFzdC0yLmFtYXpvbmF3cy5jb20vaW1hZ2VCYW5uZXIxNzE1MDA5ODQxMjYzIiwieW91dHViZV91cmwiOm51bGwsImluc3RhZ3JhbV91cmwiOiJ3d3cuaW5zdGFncmFtLmNvbS9hbmd1cyIsIndlYl91cmwiOiJ3d3cuYW5ndXMuY29tIiwiZGlzY29yZF91cmwiOm51bGwsInRpa3Rva191cmwiOm51bGwsImZjbV90b2tlbiI6bnVsbCwicHJvdmlkZXJfaWQiOm51bGwsInByb3ZpZGVyX25hbWUiOm51bGwsImNyZWF0ZWRBdCI6IjIwMjQtMDEtMTJUMTU6MDg6NDQuMDAwWiIsInVwZGF0ZWRBdCI6IjIwMjQtMDUtMTFUMDQ6MzM6NTguMDAwWiJ9LCJpYXQiOjE3MTU0MDIxMjEsImV4cCI6MTc0NjkzODEyMX0.-nJMZLYN0DwmfOVEm3hFf8fN-zJ4OlEd4oEasvOL3gY"
+            const response = await fetch(apiURl, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + authToken
+                },
+                body: JSON.stringify({ name, email, username })
+            });
+            // console.log('Token is', props.user.token)
+            if (response.ok) {
+                let data = await response.json();
+                console.log('Response data:', data);
+                const UpdatedData = data;//JSON.parse(data);
+                setName(UpdatedData.name)
+                setEmail(UpdatedData.email)
+                setUsername(UpdatedData.username)
+            }
+            else {
+                console.log('Response is not fine')
+            }
+        }
+        catch (error) {
+            console.log('Error occured is', error)
+        }
+        finally {
+            setUpdateLoading(false)
+        }
+    }
 
     return (
         <div>
             <div className='flex flex-grow flex-row w-full overflow-y-auto ' style={{ maxHeight: 'calc(100vh - 300px)' }}>
-                <div className='bg-[#00C28C30]  w-60 ms-10 ms-3 w-1/4 flex justify-center rounded-2xl' style={{height: '53vh'}}>
+                <div className='bg-[#00C28C30]  w-60 ms-10 ms-3 w-1/4 flex justify-center rounded-2xl' style={{ height: '53vh' }}>
                     <div className='w-10/12 pb-5' >
                         <div className='text-[#00C28C] font-medium text-md pt-10'><button onClick={handlePersonalInfo}
                             style={{
@@ -125,7 +147,7 @@ const Manageprofile = (props) => {
                             event.preventDefault()
                             //console.log("Logout here")
                             if (typeof localStorage !== 'undefined') {
-                              localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
+                                localStorage.setItem(process.env.REACT_APP_LocalSavedUser, null)
                             }
                             router.push("/");
                         }}>Log out</button>
@@ -139,9 +161,9 @@ const Manageprofile = (props) => {
                             <div className='flex flex-row'>
                                 <div>
                                     <Image src={profileImage} width={70}
-                                     height={70} style={{
-                                    borderRadius: '50%'
-                                }} /></div>
+                                        height={70} style={{
+                                            borderRadius: '50%'
+                                        }} /></div>
                                 <div style={{
                                     display: 'flex',
                                     alignItems: 'center',
@@ -158,8 +180,8 @@ const Manageprofile = (props) => {
                                         {
                                             localStorageData ? (
                                                 <div>
-                                                    <div className='text-white font-semibold'>{localStorageData.name}</div>
-                                                    <div className='text-white font-semibold'>{localStorageData.email}</div>
+                                                    <div className='text-white font-semibold'>{name}</div>
+                                                    <div className='text-white font-semibold'>{email}</div>
                                                 </div>
                                             ) : ''
                                         }
@@ -168,22 +190,34 @@ const Manageprofile = (props) => {
                             </div>
                             <div className='ms-3 mt-5'>
                                 <label className='text-white'>Name</label><br />
-                                <div className='w-full flex flex-row'><input value={name} onChange={(e) => setName(e.target.value)} ref={inputRefs[0]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='text' placeholder='Noah Nega' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(0)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></div>
+                                <div className='w-full flex flex-row'><input value={name} onChange={(e) => setName(e.target.value)} ref={inputRefs[0]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='text' placeholder='Enter Name' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(0)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></div>
                                 <label className='text-white'>Username</label><br />
-                                <div className='w-full flex flex-row'><input value={username} ref={inputRefs[1]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='text' placeholder='@noahTheDeveloper' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(1)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></div>
+                                <div className='w-full flex flex-row'><input value={username} onChange={(e) => setUsername(e.target.value)} ref={inputRefs[1]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='text' placeholder='Enter User Name' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(1)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></div>
                                 <label className='text-white'>Email</label><br />
-                                <div className='w-full flex flex-row'><input value={email} onChange={(e) => setEmail(e.target.value)} ref={inputRefs[2]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='email' placeholder='heloe8@labs.com' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(2)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></div>
-                                <div className='w-full flex flex-row mt-2'><input value={user.user.youtube_url} ref={inputRefs[3]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='text' placeholder='Youtube' style={{ backgroundColor: 'black' }} /><button><button onClick={() => handleClick(3)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
+                                <div className='w-full flex flex-row'><input value={email} onChange={(e) => setEmail(e.target.value)} ref={inputRefs[2]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='email' placeholder='Enter Email' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(2)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></div>
+                                <div className='w-full flex flex-row mt-2'><input value={user.user.youtube_url} ref={inputRefs[3]} className='py-3 w-6/12 text-white outline-none border-none text-xs' type='text' placeholder='Youtube Link' style={{ backgroundColor: 'black' }} /><button><button onClick={() => handleClick(3)}><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
                                 <div className='w-full flex flex-row mt-2'><input value={user.user.instagram_url} ref={inputRefs[4]} className='py-3 w-6/12 text-white outline-none  text-xs border-none' type='text' placeholder='Instagram Link' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(4)}><button><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
                                 <div className='w-full flex flex-row mt-2'><input value={user.user.web_url} ref={inputRefs[5]} className='py-3 w-6/12 text-white outline-none  text-xs border-none' type='text' placeholder='Website Link' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(5)}><button><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
 
-                                <div className='w-full flex flex-row mt-2'><input value={user.user.tiktok_url} ref={inputRefs[4]} className='py-3 w-6/12 text-white outline-none  text-xs border-none' type='text' placeholder='Tiktok' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(4)}><button><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
-                                <div className='w-full flex flex-row mt-2'><input value={user.user.discord_url} ref={inputRefs[5]} className='py-3 w-6/12 text-white outline-none  text-xs border-none' type='text' placeholder='Discord' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(5)}><button><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
+                                <div className='w-full flex flex-row mt-2'><input value={user.user.tiktok_url} ref={inputRefs[4]} className='py-3 w-6/12 text-white outline-none  text-xs border-none' type='text' placeholder='Tiktok Link' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(4)}><button><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
+                                <div className='w-full flex flex-row mt-2'><input value={user.user.discord_url} ref={inputRefs[5]} className='py-3 w-6/12 text-white outline-none  text-xs border-none' type='text' placeholder='Discord Link' style={{ backgroundColor: 'black' }} /><button onClick={() => handleClick(5)}><button><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></button></button></div>
                             </div>
                             <div>
-                                <button onClick={handleNameSave} className='hover:p-1 hover:border-2 hover:border-green-500 rounded '>
+                                {/*<button className='hover:p-1 hover:border-2 hover:border-green-500 rounded '>
                                     Save
-                                </button>
+                                    </button>*/}
+                                <Button onClick={handleUpdateProfileClick} variant="contained"
+                                    sx={{
+                                        backgroundColor: '#00C28C50',
+                                        border: '1px solid #00C28C50',
+                                        '&:hover': {
+                                            bgcolor: '#00C28C90',
+                                            border: '0px',
+                                        },
+                                    }} style={{ fontWeight: 'bold' }}
+                                >
+                                    {updateLoading ? <div>Loading...</div> : <div>Save</div>}
+                                </Button>
                             </div>
                         </div>
                     </div>
@@ -191,14 +225,14 @@ const Manageprofile = (props) => {
 
                 {/* Visible subscription button is focused */}
                 {subscription && (
-                    <div className='text-white w-3/4 font-bold text-center'>
+                    <div className='text-white w-3/4 font-bold text-center' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         Comming Soon...
                     </div>
                 )}
 
                 {/* Visible subscription button is focused */}
                 {PaymentMethod && (
-                    <div className='text-white w-3/4 font-bold text-center'>
+                    <div className='text-white w-3/4 font-bold text-center' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         Comming Soon...
                     </div>
                 )}

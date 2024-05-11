@@ -29,8 +29,7 @@ const ApiPath = {
    GPTCompletions: "https://api.openai.com/v1/chat/completions",
    SavePrompt: baseUrl + "users/save_prompt",
    LoadSavedPrompts: baseUrl + "users/saved_prompts",
-
-
+   UpdateProfile: baseUrl + "users/update_profile"
 }
 
 export default ApiPath;

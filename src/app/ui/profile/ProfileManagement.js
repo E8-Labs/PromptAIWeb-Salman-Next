@@ -26,7 +26,7 @@ const ProfileManagement = () => {
                 <div className='flex justify-end w-3/4 ms-5'>
                     <div className='w-11/12'>
                         <div className='flex flex-row'>
-                            <div><img src='/noah.png' style={{
+                            <div><img alt='Profile' src='/noah.png' style={{
                                 height: 'auto',
                                 width: '100%',
                                 maxWidth: '98px'
@@ -52,7 +52,6 @@ const ProfileManagement = () => {
                             <div className='w-full flex flex-row'><input className='border-2 py-3 border-green-500 w-6/12' type='text' style={{backgroundColor: 'none'}} /><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></div>
                             <div className='w-full flex flex-row'><input className='border-2 py-3 border-green-500 w-6/12' type='text' style={{backgroundColor: 'none'}} /><img src='/pencil.png' alt='pen' style={{ height: 'auto', width: '100%', maxWidth: '44px' }} /></div>
                         </div>
-                        <div className='text-white'>Hamza</div>
                     </div>
                 </div>
             </div>
