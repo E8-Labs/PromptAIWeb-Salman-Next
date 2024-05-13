@@ -58,11 +58,12 @@ export default function Page() {
   const [promptListMenuSelected, setPromptListMenuSelected] = useState("All")  // Saved, Created
   const [offset, setOffset] = useState(0)
   let [desOffset, setDesOffset] = useState(0)
+  const [hasMore, setHasMore] = useState(true)
 
 
   useEffect(()=>{
-    console.log("My Prompt menu changed")
-    
+    // console.log("My Prompt menu changed")
+      setHasMore(true)
       setOffset(0)
       setDesOffset(0)
     
@@ -190,12 +191,18 @@ export default function Page() {
     }
   }
 
-  const loadPrompts = (isFirstLoading = false) => {
-    ////console.log("In Load Prompts. Remove return statement when implemented")
+  const loadPrompts = (isFirstLoading = false, searchTitleOffset = -1, searchDesOffSet = -1) => {
+    console.log("In Load Prompts. Remove return statement when implemented")
     // return 
-    // if(isLoadingPrompts){
-    //   return
-    // }
+    if(isLoadingPrompts){
+      console.log("isLoadingPrompts true")
+      // return
+    }
+
+    let queryOffset = searchTitleOffset == -1 ? offset : searchTitleOffset;
+    let queryDesOffset = searchDesOffSet == -1 ? desOffset: searchDesOffSet;
+
+    
     var user = null;
     if (typeof localStorage !== 'undefined') {
       let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
@@ -233,17 +240,19 @@ export default function Page() {
       }
     };
     
-    let route = ApiPath.GetPromptsList + `?offset=${offset}&des_offset=${desOffset}&categoriesString=${categoriesString}&subCategoriesString=${subcategoriesString}`;
+    let route = ApiPath.GetPromptsList + `?offset=${queryOffset}&des_offset=${queryDesOffset}&categoriesString=${categoriesString}&subCategoriesString=${subcategoriesString}`;
     if (promptListMenuSelected == "Created") {
       route = ApiPath.GetUserPrompts + `?offset=${createdPrompts.length}`
     }
     else if (promptListMenuSelected == "Saved") {
-      route = ApiPath.LoadSavedPrompts + `?offset=${savedPrompts.length}`
+      route = ApiPath.LoadSavedPrompts + `?offset=${queryOffset}&des_offset=${queryDesOffset}`
     }
     else{
       //All
 
     }
+
+    console.log("Now loading ")
     console.log(route)
     setIsLoadingPrompts(true)
     axios.get(route, config)
@@ -255,6 +264,12 @@ export default function Page() {
         if (promptListMenuSelected == "All") {
           //console.log("All Prompts ", res.data)
           let pros = removeDuplicates(res.data.data.prompts, 'id');
+          if(res.data.data.prompts.length < 10){
+            setHasMore(false)
+          }
+          else{
+            setHasMore(true)
+          }
           setOffset(res.data.data.offset)
           setDesOffset(res.data.data.desOffset)
           pros.map((m, index) => {
@@ -291,6 +306,7 @@ export default function Page() {
   useEffect(() => {
     ////console.log("prompts loaded")
     setPrompts([])
+    setHasMore(true)
     loadPrompts(true) // isFirstLoading = true
   }, [promptListMenuSelected])
 
@@ -305,9 +321,10 @@ export default function Page() {
   }, [])
 
   useEffect(() => {
-    //console.log("Categories and subcategories selected. Loading New Prompts")
+    console.log("Categories and subcategories selected. Loading New Prompts")
     setPrompts([])
-    loadPrompts()
+    setHasMore(true)
+    loadPrompts(false, 0, 0)
   }, [categoriesSelected, subCategoriesSelected])
 
 
@@ -346,6 +363,7 @@ export default function Page() {
           handleAddAction={() => {
             setPopupOpen(true);
           }}
+          hasMore={hasMore}
           onLoadNex={()=>{
             //console.log("Main Page Next Load")
             loadPrompts()

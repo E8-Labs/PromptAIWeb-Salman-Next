@@ -19,6 +19,7 @@ import axios from 'axios';
 import ApiPath from '../../lib/ApiPath';
 import ProfileBaseView from '../profile/Profile';
 import categories from '../../lib/categories';
+
 import {
   Grid,
   Card,
@@ -95,9 +96,10 @@ const PromptsListDashboard = (props) => {
 
   const [otherUserProfile, setOtherUserProfile] = useState(null)
   const [topicsForCategories, setTopicsForCategories] = useState([])
+  const [hasMore, setHasMore] = useState(props.hasMore)
 
-
-
+console.log("HasMore Dashboard", hasMore)
+console.log("HasMore Props", props.hasMore)
 
 
   useEffect(() => {
@@ -408,12 +410,12 @@ const PromptsListDashboard = (props) => {
                 //console.log("Load Next")
                 props.onLoadNex()
               }}
-              hasMore={true}
-              loader={<h5>Loading...</h5>}
+              hasMore={props.hasMore}
+              loader={<p style={{ textAlign: 'center' }}><b>{`Loading...`}</b></p>}
               scrollThreshold={1}
               height={'80vh'}
               endMessage={
-                <p style={{ textAlign: 'center' }}><b>{`You're all caught up`}</b></p>
+                <p style={{ textAlign: 'center', paddingTop: '10px'}}><b>{`You're all caught up`}</b></p>
               }
               scrollableTarget="scrollableDiv"
             >
