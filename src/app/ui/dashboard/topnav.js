@@ -116,7 +116,7 @@ export default function TopNav(props) {
 
     return (
         <div className="flex h-50 flex-col px-3 py-2 md:px-2 bg-appgreen">
-            <div className="rightdiv min-w-screen w-full flex flex-row justify-end items-center ">
+            <div className="rightdiv min-w-screen w-full flex flex-row justify-end">
 
                 {/* Test code for stack buttons */}
 
@@ -177,7 +177,7 @@ export default function TopNav(props) {
                 )}
 
 
-                <div className="nav-item ">
+                <div className="nav-item">
                     {/* <button className="btn text-white" id="search" onClick={handleMenuClick}><i className="fa fa-search"></i></button> */}
                     {!isDashboardSearch && (
                         <IconButton id="search" color='white' onClick={handleSearch} sx={{ color: 'white' }}>
@@ -197,7 +197,7 @@ export default function TopNav(props) {
                     query: {
                         username: "salman"
                     }
-                }}>
+                }} style={{ display: 'flex', alignItems: 'center', height: '43px' }}>
                     <Image id="myprofile" src={currentUser ? currentUser.user.profile_image : ""}
                         alt={""} className="rounded-full w-8 h-8 " width={40} height={40} style={{ borderRadius: 20 }}
                     >

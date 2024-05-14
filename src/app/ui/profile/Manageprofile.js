@@ -122,11 +122,15 @@ const Manageprofile = (props) => {
             <div className='flex flex-grow flex-row w-full overflow-y-auto ' style={{ maxHeight: 'calc(100vh - 300px)' }}>
                 <div className='bg-[#00C28C30]  w-60 ms-10 ms-3 w-1/4 flex justify-center rounded-2xl' style={{ height: '53vh' }}>
                     <div className='w-10/12 pb-5' >
-                        <div className='text-[#00C28C] font-medium text-md pt-10'><button onClick={handlePersonalInfo}
-                            style={{
-                                color: personalInfo ? '#00C28C' : '',
-                            }}
-                        >Personal Information</button></div>
+                        <div className='text-[#00C28C] font-medium text-md pt-10'>
+                            <button onClick={handlePersonalInfo}
+                                style={{
+                                    color: personalInfo ? '#00C28C' : '',
+                                }}
+                            >
+                                Personal Information
+                            </button>
+                        </div>
                         <div className='text-[white] font-medium text-md mt-10'><button onClick={handleSubscription}
                             style={{
                                 color: subscription ? '#00C28C' : '',
