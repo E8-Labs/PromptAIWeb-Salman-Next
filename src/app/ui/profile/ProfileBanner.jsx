@@ -206,7 +206,7 @@ export default function ProfileBannerView(props) {
                                         <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${isLoggedInUser ? 'hidden' : ''}`} variant="contained" onClick={() => {
                                             //console.log("Follow here")
                                             handleFollowAction()
-                                        }} >{following ? `Ubsubscribe` : 'Subscribe'}</Button>
+                                        }} >{following ? `Unsubscribe` : 'Subscribe'}</Button>
                                     )
                                 }
                             </div>

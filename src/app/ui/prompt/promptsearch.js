@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PromptItem from './PromptItem'
 import PromptSearchItem from './promptsearchitem';
+import YoutubeProfile from './../customcomponents/YoutubeProfile'
 import Image from 'next/image';
 import { CircularProgress } from '@mui/material';
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -76,6 +77,20 @@ function Promptsearch(props) {
       //console.log("Event Received Search screen", event.detail)
       // var user = null
       setSearch(event.detail)
+    });
+
+    window.addEventListener("suggestionSelected", (event) => {
+      // Execute the callback function, passing the event's detail as an argument
+      console.log("Suggestion Received Search screen", event.detail)
+      // var user = null
+      let suggestion = event.detail;
+      const type = typeof suggestion.username === 'undefined' ? 'prompt' : 'user';
+      if(type === "prompt"){
+        setSearch(suggestion.title)
+      }
+      else{
+        setSearch(`userid=${suggestion.id}`)
+      }
     });
     // Register the event listener
     // listenToEvent('myCustomEvent', handleEvent);
@@ -166,17 +181,27 @@ function Promptsearch(props) {
 
     }
 
-    const route = ApiPath.GetPromptsList + `?offset=${offset}${search != '' ? `&search=${search}` : ''}`;
-    //console.log(route)
+    let route = ApiPath.AdvancedSearch + `?offset=${offset}${search != '' ? `&search=${search}` : ''}`;
+    if(search.includes("userid=")){
+      route = ApiPath.AdvancedSearch + `?offset=${offset}&${search}`;
+    }
+    console.log("route of search is ")
+    console.log(route)
     setLoading(true)
     axios.get(route, config)
       .then(res => {
         setLoading(false)
-        //console.log("Data is ")
-        //console.log(res.data)
+        console.log("Data is ")
+        console.log(res.data.data)
+        console.log(typeof res.data.data)
         // setMessages(res.data.data)
-
+        res.data.data.users.map((m, index) => {
+          setPrompts((prevState) =>
+            [...prevState, m]
+          )
+        })
         res.data.data.prompts.map((m, index) => {
+          console.log("Setting prompt ")
           setPrompts((prevState) =>
             [...prevState, m]
           )
@@ -316,28 +341,36 @@ function Promptsearch(props) {
 
   const renderCards = (prompt, index) => {
 
-    return (
-      <Grid key={prompt.id} item xs={12} sm={6} md={4} lg={4}>
-        <div className="rounded bg-appgreen p-0 " >
-          <PromptItem className='promptitem' prompt={prompt} itemSelected={(item) => {
-            handlePromptSelected(item)
-            // setAnchorEl(event.currentTarget);
-          }} profileClicked={() => {
-            setOtherUserProfile(prompt.user)
-            //console.log("Profile tapped ", prompt.user.username)
-          }}
-            savePromptClicked={() => {
-              //call the api here
-              savePromptApi(prompt)
-              //console.log("Saving prompt ", prompt)
-              props.setPromptSaved(prompt, index)
+    if(typeof prompt.username !== 'undefined'){
+      return(
+          <YoutubeProfile  user={prompt}/>
+      )
+    }
+    else{
+      return (
+        <Grid key={prompt.id} item xs={12} sm={6} md={4} lg={4}>
+          <div className="rounded bg-appgreen p-0 " >
+            <PromptItem className='promptitem' prompt={prompt} itemSelected={(item) => {
+              handlePromptSelected(item)
+              // setAnchorEl(event.currentTarget);
+            }} profileClicked={() => {
+              setOtherUserProfile(prompt.user)
+              //console.log("Profile tapped ", prompt.user.username)
             }}
-          ></PromptItem>
-
-
-        </div>
-      </Grid>
-    );
+              savePromptClicked={() => {
+                //call the api here
+                savePromptApi(prompt)
+                //console.log("Saving prompt ", prompt)
+                props.setPromptSaved(prompt, index)
+              }}
+            ></PromptItem>
+  
+  
+          </div>
+        </Grid>
+      );
+    }
+    
   };
 
 

@@ -126,7 +126,8 @@ const SearchBar = (props) => {
     console.log('Suggestion clicked is', suggestion)
     const type = typeof suggestion.username === 'undefined' ? 'prompt' : 'user';
     console.log("Suggestions clicked is ", type)
-    setSuggestionTypeSelected(type)
+    broadcastEvent("suggestionSelected", suggestion);
+    // setSuggestionTypeSelected(type)
   };
   
   // console.log('Value stored 2 is', SuggestionTypeSelected)
