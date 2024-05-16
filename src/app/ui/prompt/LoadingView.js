@@ -34,9 +34,10 @@ function LoadingView(props) {
 //   const { loading = true } = props;
 
   return (
-    <Grid container wrap="nowrap" >
+    <Stack direction={'column'}>
+      <Grid container wrap="nowrap" >
       {(Array.from(new Array(3))).map((item, index) => (
-        <Box key={index} sx={{ width: 260, marginRight: 0.5, my: 5, backgroundColor: '#001812', borderRadius: 2}}>
+        <Box key={index} sx={{ width: '33%', marginRight: 0.5, my: 5, backgroundColor: '#00181200', borderRadius: 2}}>
             {/* <Skeleton variant="rectangular" width={210} height={118} /> */}
             <Stack direction={'row'}>
                 <Skeleton sx={{bgcolor: 'grey.400'}} variant="circular" width={40} height={40} />
@@ -53,7 +54,31 @@ function LoadingView(props) {
             <Skeleton sx={{bgcolor: 'grey.400'}} variant="rounded" width={260} height={120} />
         </Box>
       ))}
+      
     </Grid>
+
+    <Grid container wrap="nowrap" >
+      {(Array.from(new Array(3))).map((item, index) => (
+        <Box key={index} sx={{ width: '33%', marginRight: 0.5, my: 5, backgroundColor: '#00181200', borderRadius: 2}}>
+            {/* <Skeleton variant="rectangular" width={210} height={118} /> */}
+            <Stack direction={'row'}>
+                <Skeleton sx={{bgcolor: 'grey.400'}} variant="circular" width={40} height={40} />
+                <Skeleton sx={{bgcolor: 'transparent'}} variant="rectangular" width={10} height={40} />
+                <Stack>
+                    <Skeleton sx={{bgcolor: 'grey.400'}} variant="rectangular" width={210} height={25} />
+                    <Skeleton sx={{bgcolor: 'transparent'}} variant="rectangular" width={210} height={10} />
+                    <Skeleton sx={{bgcolor: 'grey.400'}} variant="rectangular" width={210} height={25} />
+                </Stack>
+            </Stack>
+            <Skeleton sx={{bgcolor: 'transparent'}} variant="rectangular" width={260} height={10} />
+            <Skeleton sx={{bgcolor: 'grey.400'}} variant="rectangular" width={260} height={60} />
+            <Skeleton sx={{bgcolor: 'transparent'}} variant="rectangular" width={260} height={10} />
+            <Skeleton sx={{bgcolor: 'grey.400'}} variant="rounded" width={260} height={120} />
+        </Box>
+      ))}
+      
+    </Grid>
+    </Stack>
   );
 }
 

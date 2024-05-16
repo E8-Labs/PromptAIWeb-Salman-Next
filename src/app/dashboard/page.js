@@ -6,7 +6,7 @@ import React, { useState, useEffect } from "react";
 
 import MultiFormPopup from '../ui/prompt/promptcreation/PromptCreation';
 // import Modal from 'react-modal';
-
+import Dialog from '@mui/material/Dialog';
 import { Modal } from '@mui/material';
 
 import axios from 'axios'
@@ -61,12 +61,12 @@ export default function Page() {
   const [hasMore, setHasMore] = useState(true)
 
 
-  useEffect(()=>{
+  useEffect(() => {
     // console.log("My Prompt menu changed")
-      setHasMore(true)
-      setOffset(0)
-      setDesOffset(0)
-    
+    setHasMore(true)
+    setOffset(0)
+    setDesOffset(0)
+
   }, [promptListMenuSelected])
 
   function openModal() {
@@ -194,15 +194,15 @@ export default function Page() {
   const loadPrompts = (isFirstLoading = false, searchTitleOffset = -1, searchDesOffSet = -1) => {
     console.log("In Load Prompts. Remove return statement when implemented")
     // return 
-    if(isLoadingPrompts){
+    if (isLoadingPrompts) {
       console.log("isLoadingPrompts true")
       // return
     }
 
     let queryOffset = searchTitleOffset == -1 ? offset : searchTitleOffset;
-    let queryDesOffset = searchDesOffSet == -1 ? desOffset: searchDesOffSet;
+    let queryDesOffset = searchDesOffSet == -1 ? desOffset : searchDesOffSet;
 
-    
+
     var user = null;
     if (typeof localStorage !== 'undefined') {
       let d = localStorage.getItem(process.env.REACT_APP_LocalSavedUser)
@@ -239,7 +239,7 @@ export default function Page() {
         "Authorization": "Bearer " + user.token,
       }
     };
-    
+
     let route = ApiPath.GetPromptsList + `?offset=${queryOffset}&des_offset=${queryDesOffset}&categoriesString=${categoriesString}&subCategoriesString=${subcategoriesString}`;
     if (promptListMenuSelected == "Created") {
       route = ApiPath.GetUserPrompts + `?offset=${createdPrompts.length}`
@@ -247,7 +247,7 @@ export default function Page() {
     else if (promptListMenuSelected == "Saved") {
       route = ApiPath.LoadSavedPrompts + `?offset=${queryOffset}&des_offset=${queryDesOffset}`
     }
-    else{
+    else {
       //All
 
     }
@@ -264,10 +264,10 @@ export default function Page() {
         if (promptListMenuSelected == "All") {
           //console.log("All Prompts ", res.data)
           let pros = removeDuplicates(res.data.data.prompts, 'id');
-          if(res.data.data.prompts.length < 10){
+          if (res.data.data.prompts.length < 10) {
             setHasMore(false)
           }
-          else{
+          else {
             setHasMore(true)
           }
           setOffset(res.data.data.offset)
@@ -354,46 +354,52 @@ export default function Page() {
 
 
       {/* <div className="overflow-y-none  w-full"> */}
-        <PromptsListDashboard
-          promptListMenuSelected={promptListMenuSelected}
-          setSelectedMenu={setPromptListMenuSelected}
-          prompts={getCurrentPromptsForMenu()}
-          handlePromptSelected={handlePromptSelected}
-          isLoadingPrompts={isLoadingPrompts}
-          handleAddAction={() => {
-            setPopupOpen(true);
-          }}
-          hasMore={hasMore}
-          onLoadNex={()=>{
-            //console.log("Main Page Next Load")
-            loadPrompts()
-          }}
-          isPopupOpen={isPopupOpen}
-          setCategoriesSelected={(categories) => {
-            setCategoriesSelected(categories);
-          }}
-          setSubCategoriesSelected={(categories) => {
-            setSubCategoriesSelected(categories);
-          }}
-          setPromptSaved={savePrompt}
-        />
+      <PromptsListDashboard
+        promptListMenuSelected={promptListMenuSelected}
+        setSelectedMenu={setPromptListMenuSelected}
+        prompts={getCurrentPromptsForMenu()}
+        handlePromptSelected={handlePromptSelected}
+        isLoadingPrompts={isLoadingPrompts}
+        handleAddAction={() => {
+          setPopupOpen(true);
+        }}
+        hasMore={hasMore}
+        onLoadNex={() => {
+          //console.log("Main Page Next Load")
+          loadPrompts()
+        }}
+        isPopupOpen={isPopupOpen}
+        setCategoriesSelected={(categories) => {
+          setCategoriesSelected(categories);
+        }}
+        setSubCategoriesSelected={(categories) => {
+          setSubCategoriesSelected(categories);
+        }}
+        setPromptSaved={savePrompt}
+      />
 
       {/* </div> */}
 
-      <Modal
-        open={isPopupOpen}
-        // onAfterOpen={afterOpenModal}
-        onClose={closeModal}
-        // style={customStyles}
-        // contentLabel="Add Prompt"
-        // appElement={document.getElementById('body')}
-      >
-        
+      <Dialog onClose={closeModal} open={isPopupOpen}>
         <MultiFormPopup onClose={() => {
           loadPrompts();
           setPopupOpen(false);
         }} />
-      </Modal>
+      </Dialog>
+      {/* <Modal
+        open={isPopupOpen}
+        // onAfterOpen={afterOpenModal}
+        onClose={closeModal}
+      // style={customStyles}
+      // contentLabel="Add Prompt"
+      // appElement={document.getElementById('body')}
+      >
+
+        <MultiFormPopup onClose={() => {
+          loadPrompts();
+          setPopupOpen(false);
+        }} />
+      </Modal> */}
     </div>
 
   )

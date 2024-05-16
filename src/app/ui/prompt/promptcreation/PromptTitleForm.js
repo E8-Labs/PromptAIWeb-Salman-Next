@@ -106,7 +106,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                   onChange={e => updateFormData({ title: e.target.value })}
                   inputProps={{ maxLength: 150 }}
                 />
-                <p className='text-end font-medium text-sm'>150 Characeters</p>
+                <p className='text-end font-medium text-sm'>{`${formData.title.length}/150 characters`}</p>
               </div>
 
               <div>
@@ -124,7 +124,7 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                   onChange={e => updateFormData({ description: e.target.value })}
                   inputProps={{ maxLength: 250 }}
                 />
-                <p className='w-full text-end text-white font-medium text-sm'>250 Characters</p>
+                <p className='w-full text-end text-white font-medium text-sm'>{`${formData.description.length}/250 characters`}</p>
               </div>
 
 

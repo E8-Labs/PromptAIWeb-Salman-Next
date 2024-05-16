@@ -11,11 +11,11 @@ const StackPromptTextForm = ({ onNext, formData, updateFormData }) => {
   const promptTextPlaceholder = ` 🪄 This is where the magic happens
 
   🎩  PRO TIP:
-       Ensure your variables are in [Brackets]
-             Eg: [Prompt], [Topic], [Subject]
+       Ensure your variables start with #
+             Eg: #Prompt, #Topic, #Subject
   
        You can have more than one variable 
-             Eg: [Language], [Tone], [Age], [Height]
+             Eg: #Language, #Tone, #Age, #Height
   
        Be detailed and specific; the more context 
   you provide the better the result. 
@@ -36,11 +36,11 @@ const StackPromptTextForm = ({ onNext, formData, updateFormData }) => {
                 let q = "";
                 index += 1;
                 char = promptText[index]
-                while(char != ' ' && char != '.'){
-                    
-                    q += char;
-                    index++;
-                    char = promptText[index];
+                while (char != '\r' && char != '\n' && char != ',' && char != ' ' && char != '.' && index < promptText.length) {
+
+                  q += char;
+                  index++;
+                  char = promptText[index];
                 }
                 qs.push({question: q, placeholder: ""});
             }

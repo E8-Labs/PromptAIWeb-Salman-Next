@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import Modal from 'react-modal';
-
+import Dialog from '@mui/material/Dialog';
 import EditPromptPopup from '../promptEditing/editprompt';
 import StackMultiFormPopup from './stackprompt/StackPromptCreation';
 
@@ -284,7 +284,12 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         }} editPrompt={editPrompt} promptIndex={promptSelectedToEditIndex} screenIndex={screenToEdit} prompt={promptSelecteToEdit} />
       </Modal>
 
-      <Modal
+      <Dialog onClose={closeModal} open={isPopupOpen}>
+        <StackMultiFormPopup onClose={() => {
+          setPopupOpen(false)
+        }} addSubPrompt={addSubPrompt} />
+      </Dialog>
+      {/* <Modal
         isOpen={isPopupOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
@@ -294,7 +299,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         <StackMultiFormPopup onClose={() => {
           setPopupOpen(false)
         }} addSubPrompt={addSubPrompt} />
-      </Modal>
+      </Modal> */}
 
       <Snackbar
         open={snackOpen}

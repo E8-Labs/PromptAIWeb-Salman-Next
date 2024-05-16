@@ -3,12 +3,15 @@ import React, { useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
 
 const Manageprofile = (props) => {
 
     //Check Personal Information
     //console.log("Manage Profile ", props.user.user.email)
     const router = useRouter()
+    const [showSnack, setShowSnack] = useState(false)
+    const [snackMessage, setSnackMessage] = useState('')
     const [personalInfo, setPersonalInfo] = useState(true)
     const [user, setUser] = useState(props.user)
     const handlePersonalInfo = () => {
@@ -83,6 +86,13 @@ const Manageprofile = (props) => {
 
     const [updateLoading, setUpdateLoading] = useState(false);
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setShowSnack(false);
+      };
     const handleUpdateProfileClick = async () => {
         try {
             setUpdateLoading(true)
@@ -104,12 +114,18 @@ const Manageprofile = (props) => {
                 setName(UpdatedData.name)
                 setEmail(UpdatedData.email)
                 setUsername(UpdatedData.username)
+                setSnackMessage("Profile updated")
+                setShowSnack(true)
             }
             else {
+                setSnackMessage("Error updating profile")
+                setShowSnack(true)
                 console.log('Response is not fine')
             }
         }
         catch (error) {
+            setSnackMessage(error.message)
+                setShowSnack(true)
             console.log('Error occured is', error)
         }
         finally {
@@ -119,6 +135,13 @@ const Manageprofile = (props) => {
 
     return (
         <div>
+            <Snackbar
+                open={showSnack}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={snackMessage}
+                // action={action}
+            />
             <div className='flex flex-grow flex-row w-full overflow-y-auto ' style={{ maxHeight: 'calc(100vh - 300px)' }}>
                 <div className='bg-[#00C28C30]  w-60 ms-10 ms-3 w-1/4 flex justify-center rounded-2xl' style={{ height: '53vh' }}>
                     <div className='w-10/12 pb-5' >

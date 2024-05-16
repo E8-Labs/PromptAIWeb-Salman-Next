@@ -6,7 +6,7 @@ import { Button } from "@mui/material";
 import axios from "axios";
 
 import styled from 'styled-components';
-
+import Snackbar from '@mui/material/Snackbar';
 const bannerImageAsset = '/banner-bg.png'//'https://cdn.pixabay.com/photo/2018/04/05/14/09/sunflowers-3292932_640.jpg'//
 const editBtnIcon = '/assets/editbtn.svg'
 const twitterBtnIcon = '/assets/twitter.svg'
@@ -23,18 +23,32 @@ export default function ProfileBannerView(props) {
     const [isLoggedInUser, setIsLoggedInUser] = useState(false)
     const [bannerImage, setBannerImage] = useState(bannerImageAsset)
 
+    const [errorMessage, setErrorMessage] = useState("")
+    
     // const [bannerFile, setBannerFile] = useState('')
     const fileInputRef = useRef(null);
     const [UserImageError, setUserImageError] = useState('');
+    const [open, setOpen] = React.useState(false);
 
+    // const handleClick = () => {
+    //   setOpen(true);
+    // };
+  
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpen(false);
+    };
     useEffect(() => {
         //console.log("User object changed in Banner", user)
         setFollowing(user.user.amIFollowing)
-        if(typeof(user.user.banner_image !== 'undefined') && user.user.banner_image != null){
+        if (typeof (user.user.banner_image !== 'undefined') && user.user.banner_image != null) {
             setBannerImage(user.user.banner_image)
         }
         setIsLoggedInUser(user.token !== '')
-        
+
         //console.log("user banner is ", user.token !== '')
     }, [user])
 
@@ -62,10 +76,14 @@ export default function ProfileBannerView(props) {
                 };
                 reader.readAsDataURL(file);
             } else {
-                setUserImageError('Please select a file smaller than 2MB.');
+                setErrorMessage("Please select an image less than 2 MB")
+                setOpen(true);
+                // setUserImageError('Please select a file');
             }
         } else {
-            setUserImageError('Please select an image file.');
+            setErrorMessage("Please select an image")
+            setOpen(true);
+            // setUserImageError('Please select an image file.');
         }
     };
 
@@ -128,7 +146,7 @@ export default function ProfileBannerView(props) {
         let u = null
         if (typeof localStorage !== 'undefined') {
             let localData = localStorage.getItem(process.env.REACT_APP_LocalSavedUser);
-             u = JSON.parse(localData)
+            u = JSON.parse(localData)
         }
         if (!u) {
             return
@@ -182,6 +200,13 @@ export default function ProfileBannerView(props) {
 
     return (
         <Container className="w-full bg-green" style={{ width: "100%", }}>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={errorMessage}
+                // action={action}
+            />
             <div className="user-profile-banner" style={{ background: `linear-gradient(180deg,rgba(0,0,0,0) 10.73%,rgba(0,0,0,.575644) 100%,rgba(0,0,0,.78) 78.78%) center/cover,url(${bannerImage}) center/cover` }}>
                 {/* <img src={user.bannerImage} className="inner"/> */}
                 <button onClick={handleFileChangeOpen} className={`absolute right-2 top-2 bg-black line-height-1 p-0 cursor-pointer border-none flex items-center justify-center w-8 h-8 rounded-full ${user.token === "" ? 'hidden' : ''}`} htmlFor="edit_banner">
@@ -202,7 +227,7 @@ export default function ProfileBannerView(props) {
                                 </Link>
 
                                 {
-                                    !isLoggedInUser &&(
+                                    !isLoggedInUser && (
                                         <Button className={`h-6 ml-4 bg-appgreenlight hover:bg-appgreen text-xs   ${isLoggedInUser ? 'hidden' : ''}`} variant="contained" onClick={() => {
                                             //console.log("Follow here")
                                             handleFollowAction()
@@ -221,12 +246,12 @@ export default function ProfileBannerView(props) {
 
                                         {/*social images */}
 
-                                        {user.user.discord_url ?<Link target="_blank" href={user.user.discord_url ? 'http://' + user.user.discord_url : 'http://www.discord.com'}><img src="/discord.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
-                                        {user.user.web_url ?<Link target="_blank" href={user.user.web_url ? 'http://' + user.user.web_url : 'http://www.google.com'}><img src="/web.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
-                                        {user.user.youtube_url ?<Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : 'http://www.youtube.com'}><img src="/youtube.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
-                                        {user.user.instagram_url ?<Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : 'http://www.instagram.com'}><img src="/instagram.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
-                                        {user.user.tiktok_url ?<Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : 'http://www.tiktok.com'}><img src="/tiktok.png" style={{height: 'auto', Width: '100%', maxWidth: '40px'}} /></Link>: <></> }
-                                        
+                                        {user.user.discord_url ? <Link target="_blank" href={user.user.discord_url ? 'http://' + user.user.discord_url : 'http://www.discord.com'}><img src="/discord.png" style={{ height: 'auto', Width: '100%', maxWidth: '40px' }} /></Link> : <></>}
+                                        {user.user.web_url ? <Link target="_blank" href={user.user.web_url ? 'http://' + user.user.web_url : 'http://www.google.com'}><img src="/web.png" style={{ height: 'auto', Width: '100%', maxWidth: '40px' }} /></Link> : <></>}
+                                        {user.user.youtube_url ? <Link target="_blank" href={user.user.youtube_url ? 'http://' + user.user.youtube_url : 'http://www.youtube.com'}><img src="/youtube.png" style={{ height: 'auto', Width: '100%', maxWidth: '40px' }} /></Link> : <></>}
+                                        {user.user.instagram_url ? <Link target="_blank" href={user.user.instagram_url ? 'http://' + user.user.instagram_url : 'http://www.instagram.com'}><img src="/instagram.png" style={{ height: 'auto', Width: '100%', maxWidth: '40px' }} /></Link> : <></>}
+                                        {user.user.tiktok_url ? <Link target="_blank" href={user.user.tiktok_url ? 'http://' + user.user.tiktok_url : 'http://www.tiktok.com'}><img src="/tiktok.png" style={{ height: 'auto', Width: '100%', maxWidth: '40px' }} /></Link> : <></>}
+
 
                                     </ul>
                                 </div>
