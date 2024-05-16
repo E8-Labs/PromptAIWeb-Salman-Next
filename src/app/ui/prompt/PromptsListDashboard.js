@@ -20,6 +20,7 @@ import ApiPath from '../../lib/ApiPath';
 import ProfileBaseView from '../profile/Profile';
 import categories from '../../lib/categories';
 
+
 import {
   Grid,
   Card,
@@ -231,10 +232,15 @@ console.log("HasMore Props", props.hasMore)
       //console.log('Nav selected is', navSelected);
     };
     window.addEventListener("navMenuSelected", (event) => {
-      props.setSelectedMenu(event.detail)
+      // if(event.detail === "Saved"){
+      //   // props.navigation
+      // }
+      // else{
+        props.setSelectedMenu(event.detail)
+      // }
     }, []);
     return () => {
-      window.removeEventListener('newChat', handleEvent);
+      window.removeEventListener('navMenuSelected', handleEvent);
     }
   })
 
@@ -295,7 +301,7 @@ console.log("HasMore Props", props.hasMore)
       </Modal>
 
 
-      <div className='flex flex-row items-center flex-grow justify-between items-start p-4 '>
+      <div className={`flex flex-row items-center flex-grow items-start  p-4  ${props.promptListMenuSelected === "All" ? 'justify-between' : 'justify-end'}`}>
         <div className={`flex flex-grow gap-4   items-center ${(props.promptListMenuSelected === "All" && props.isPopupOpen === false) ? "" : "hidden"}`}>
           <Autocomplete
             multiple
@@ -401,9 +407,8 @@ console.log("HasMore Props", props.hasMore)
 
 
       {
-        
-          // <div> </div> 
-          <div id="scrollableDiv" style={{ height: '80vh', overflow: "auto" }}>
+          prompts.length > 0 && (
+            <div id="scrollableDiv" style={{ height: '80vh', overflow: "auto" }}>
             <InfiniteScroll
               dataLength={prompts.length}
               next={() => {
@@ -424,11 +429,10 @@ console.log("HasMore Props", props.hasMore)
               </Grid>}
             </InfiniteScroll>
           </div>
-
-        
+          )
       }
       
-      {/* {
+      {
         (!props.isLoadingPrompts && prompts.length === 0) && (
 
           <div className='flex justify-center items-center w-full' style={{ height: '70vh' }}>
@@ -438,7 +442,7 @@ console.log("HasMore Props", props.hasMore)
             </Typography>
           </div>
         )
-      } */}
+      }
 
 
       <Modal

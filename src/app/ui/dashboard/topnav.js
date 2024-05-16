@@ -36,7 +36,7 @@ export default function TopNav(props) {
 
 
     //check if path matches /dashboard
-    const isDashboard = pathname == '/dashboard';
+    const isDashboard = pathname == '/dashboard' || pathname == '/dashboard/saved' || pathname == '/dashboard/created';
     //console.log('Path is', pathname)
     //console.log('Path to show is', isDashboard)
 
@@ -141,7 +141,8 @@ export default function TopNav(props) {
                                 fontSize: "14px",
                                 fontWeight: 600
                             }} onClick={(e) => {
-                                broadcastEvent("navMenuSelected", "All")
+                                // broadcastEvent("navMenuSelected", "All")
+                                router.push("/dashboard")
                             }}
                                 onFocus={() => handleFocus("all")}
                             >
@@ -153,7 +154,9 @@ export default function TopNav(props) {
                                 fontSize: "14px",
                                 fontWeight: 600
                             }} onClick={(e) => {
-                                broadcastEvent("navMenuSelected", "Saved")
+                                // broadcastEvent("navMenuSelected", "Saved")
+                                router.push("/dashboard/saved")
+                                
                             }}
                                 onFocus={() => handleFocus("saved")}
                             >
@@ -166,7 +169,8 @@ export default function TopNav(props) {
                                 fontSize: "14px",
                                 fontWeight: 600,
                             }} onClick={(e) => {
-                                broadcastEvent("navMenuSelected", "Created")
+                                // broadcastEvent("navMenuSelected", "Created")
+                                router.push("/dashboard/created")
                             }}
                                 onFocus={() => handleFocus("created")}
                             >
