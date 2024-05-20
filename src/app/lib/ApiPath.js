@@ -30,7 +30,8 @@ const ApiPath = {
    SavePrompt: baseUrl + "users/save_prompt",
    LoadSavedPrompts: baseUrl + "users/saved_prompts",
    AdvancedSearch: baseUrl + "prompts/advanced_search",
-   UpdateProfile: baseUrl + "users/update_profile"
+   UpdateProfile: baseUrl + "users/update_profile",
+   CheckEmailAvailable: baseUrl + "users/check_email"
 }
 
 export default ApiPath;

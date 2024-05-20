@@ -328,8 +328,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         </div>
       </div>
 
-      <div className="flex items-center overflow-y-auto justify-center pb-2   w-full" style={{ width: '100%', height: "100%" }}>
-        <div className='overflow-y-auto  items-center ' style={{ width: '100%' }}>
+      <div className="flex  overflow-y-auto justify-center pb-2   w-full" style={{ width: '100%', height: "250px" }}>
+        <div className='overflow-y-auto ' style={{ width: '100%', marginTop: '30px' }}>
           {
             subprompts.map((element, index) => (
               <PromptOverViewTile key={index} user={user} prompt={element} showButton={index === subprompts.length - 1}
@@ -345,7 +345,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         </div>
       </div>
 
-      
+
       <LoadingButton onClick={() => {
         handleNextBtnTap()
       }}
@@ -354,7 +354,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         // loadingPosition="start"
         loadingIndicator="Creating...."
         startIcon={<SaveIcon />}
-        variant="contained" style={{ backgroundColor: '#00C28C', marginBottom: '10px' }}
+        variant="contained" style={{ backgroundColor: '#00C28C', marginBottom: '10px', marginTop: 20 }}
       >
         Create Prompt
       </LoadingButton>
@@ -432,7 +432,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
               >
               </Image>
             </div>
-            <div className="flex-col justify-center items-center">
+            <div className="flex-col justify-center items-center ms-2">
               <p className="cursor-pointer underline bg-gray text-white" onClick={handleLearnPromptClick}
                 style={{ fontSize: 12 }}>
                 @{user ? user.user.username : ''}
@@ -462,6 +462,9 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
             <MenuItem onClick={() => {
               editPromptAction(3, prompt)
             }}>Edit Categories</MenuItem>
+            <MenuItem>
+              Delete
+            </MenuItem>
 
           </Menu>
         </div>
@@ -476,18 +479,19 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
 
       </div>
       {/* Add Line here */}
+
       <div className='flex justify-center items-center'>
         <div style={{ width: '2px', backgroundColor: 'gray', height: '30px' }}></div>
       </div>
 
-      {
+
+      <div>{
         showButton && (
           <div className='flex w11/12 justify-center cursor-pointer'>
             <div className="flex items-center justify-center bg-appgreenlight p-2 px-5 gap-2" style={{ borderRadius: '2rem', width: "12rem" }}
               onClick={() => {
                 handleAddAction()
               }}>
-              {/* Third View */}
               <Image src={PlusIcon} width={15} height={15}></Image>
               <div className=''>
                 <p className="text-lg" >Add Prompt</p>
@@ -495,7 +499,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
             </div>
           </div>
         )
-      }
+      }</div>
     </div>
   )
 }
