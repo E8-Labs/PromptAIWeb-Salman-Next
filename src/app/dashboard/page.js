@@ -380,7 +380,7 @@ export default function Page() {
 
       {/* </div> */}
 
-      <Dialog onClose={closeModal} open={isPopupOpen}>
+      <Dialog onClose={closeModal} open={isPopupOpen} style={{}}>
         <MultiFormPopup onClose={() => {
           loadPrompts();
           setPopupOpen(false);

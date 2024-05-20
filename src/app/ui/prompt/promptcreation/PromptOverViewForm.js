@@ -269,7 +269,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   }
 
   return (
-    <div className='flex-col flex w-full p-2 b h-full overflow-hidden'>
+    <div className='flex-col flex w-full p-2 h-full overflow-hidden '>
       <ToastContainer />
       {/* Edit Prompt Popup */}
       <Modal
@@ -310,7 +310,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         message={snackMessage}
         action={action}
       />
-      <div className='flex gap-2 mt-10 items-center'>
+      <div className='flex gap-2 mt-10 items-center justify-center'>
         <h1 className='text-white' style={{ fontSize: 18, fontWeight: 'bold' }}>Stack a prompt</h1>
         <label className='text-white' style={{ fontSize: 12, }}>{"(optional)"}</label>
       </div>
@@ -328,8 +328,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         </div>
       </div>
 
-      <div className="flex items-center justify-center  w-full" style={{ width: '100%', height: "82%" }}>
-        <div className='overflow-y-auto  items-center ' style={{ width: '100%', height: '100%' }}>
+      <div className="flex items-center overflow-y-auto justify-center pb-2   w-full" style={{ width: '100%', height: "100%" }}>
+        <div className='overflow-y-auto  items-center ' style={{ width: '100%' }}>
           {
             subprompts.map((element, index) => (
               <PromptOverViewTile key={index} user={user} prompt={element} showButton={index === subprompts.length - 1}
@@ -345,16 +345,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         </div>
       </div>
 
-      {/* <div className='flex w11/12 justify-end cursor-pointer mt-2'>
-        <div className="flex items-center justify-center bg-appgreenlight p-3 px-2 gap-2" style={{ borderRadius: '2rem', width: "10rem" }} onClick={() => {
-          handleNextBtnTap()
-        }}>
-          <div className=''>
-            <p className="text-lg" >Create Prompt</p>
-          </div>
-          
-        </div>
-      </div> */}
+      
       <LoadingButton onClick={() => {
         handleNextBtnTap()
       }}
@@ -363,7 +354,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         // loadingPosition="start"
         loadingIndicator="Creating...."
         startIcon={<SaveIcon />}
-        variant="contained" style={{ backgroundColor: '#00C28C' }}
+        variant="contained" style={{ backgroundColor: '#00C28C', marginBottom: '10px' }}
       >
         Create Prompt
       </LoadingButton>
@@ -428,7 +419,7 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
 
   return (
     <div className='flex-col items-center justify-center w-full'>
-      <div className='flex flex-col p-1 rounded-3xl  border-gray-100' style={{ borderWidth: '1px', borderColor: 'gray', height: '140px' }}>
+      <div className='flex flex-col p-1 rounded-3xl  border-gray-100' style={{ borderWidth: '1px', borderColor: 'gray', height: '120px' }}>
         {/* First Row User Image and Name */}
         <div className="flex gap-1 my-1 items-center px-2 cursor-pointer justify-between" >
 
@@ -486,13 +477,13 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
       </div>
       {/* Add Line here */}
       <div className='flex justify-center items-center'>
-        <div style={{ width: '2px', backgroundColor: 'gray', height: '60px' }}></div>
+        <div style={{ width: '2px', backgroundColor: 'gray', height: '30px' }}></div>
       </div>
 
       {
         showButton && (
           <div className='flex w11/12 justify-center cursor-pointer'>
-            <div className="flex items-center justify-center bg-appgreenlight p-4 px-5 gap-2" style={{ borderRadius: '2rem', width: "12rem" }}
+            <div className="flex items-center justify-center bg-appgreenlight p-2 px-5 gap-2" style={{ borderRadius: '2rem', width: "12rem" }}
               onClick={() => {
                 handleAddAction()
               }}>
