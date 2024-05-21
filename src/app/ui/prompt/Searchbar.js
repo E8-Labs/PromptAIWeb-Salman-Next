@@ -51,6 +51,7 @@ const SearchBar = (props) => {
   }
 
   const handleSearch = () => {
+    setSuggestions(null)
     broadcastEvent("searchTextChanged", inputValue);
   }
 
@@ -123,13 +124,15 @@ const SearchBar = (props) => {
     // const newValue = typeof suggestion === 'string' ? suggestion : suggestion.username || suggestion.title;
     // setInputValue(newValue);
     setSuggestions([]);
+    const suggestionText = suggestion.username || suggestion.title || suggestion;
+    setInputValue(suggestionText);
     console.log('Suggestion clicked is', suggestion)
     const type = typeof suggestion.username === 'undefined' ? 'prompt' : 'user';
     console.log("Suggestions clicked is ", type)
     broadcastEvent("suggestionSelected", suggestion);
     // setSuggestionTypeSelected(type)
   };
-  
+
   // console.log('Value stored 2 is', SuggestionTypeSelected)
 
   //code for broadcasting selected suggestion value
@@ -173,6 +176,15 @@ const SearchBar = (props) => {
     };
   }, []);
 
+  //test code for searching result on enter key press
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault(); // Prevent form submission
+      handleSearch();
+    }
+  };
+
   return (
     <div className="relative mx-auto max-w-md">
 
@@ -184,6 +196,7 @@ const SearchBar = (props) => {
           placeholder="Search..."
           className="w-full px-4 bg-transparent focus:outline-none text-white"
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
         />
         <div>
           <IconButton onClick={handleSearch} className=' p-0'>

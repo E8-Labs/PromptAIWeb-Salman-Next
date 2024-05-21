@@ -33,7 +33,7 @@ const AddEmail = (props) => {
             // Set a new timer
             timerRef.current = setTimeout(() => {
                 checkEmailExistence(saveemail);
-            }, 750);
+            }, 500);
 
             // Cleanup function to clear the timer when component unmounts
             return () => clearTimeout(timerRef.current);
@@ -111,7 +111,7 @@ const AddEmail = (props) => {
     const handleChange = (event) => {
         event.preventDefault();
         setEmail(event.target.value);
-        setSaveemail(email);
+        setSaveemail(event.target.value);
         // console.log('Email in input is', event.target.value)
     };
 
