@@ -148,7 +148,7 @@ const PromptCategoryForm = ({ onNext, formData, updateFormData }) => {
           <PageControl selectedIndex={currentIndex} pages={6} />
         </Stack>
         {/* <div class="invisible ...">02</div> */}
-        <div className="bg-appgreenlight rounded-full p-0">
+        <div className={`${(formData.categories.length > 0) ? 'bg-appgreenlight' : 'bg-appgreen'} rounded-full p-0`}>
           <Button variant="contained" className="" endIcon={<Icons.ArrowForwardIcon />}
             sx={{
               bgcolor: '#00C28C', padding: 1.2, paddingX: 2, borderRadius: 10, ":hover": {

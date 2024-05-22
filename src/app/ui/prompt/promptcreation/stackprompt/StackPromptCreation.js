@@ -12,7 +12,7 @@ const StackMultiFormPopup = ({ onClose, addSubPrompt }) => {
     title: '',
     description: '',
     promptText: '', //prompt
-    promptQuestions: [],
+    questions: [],
     privacy: 'public',
     hint: '',
     topic: '',
@@ -40,8 +40,8 @@ const StackMultiFormPopup = ({ onClose, addSubPrompt }) => {
   };
 
   useEffect(() => {
-    //console.log("New Sub prompt is ")
-    //console.log(formData)
+    console.log("New Sub prompt is ")
+    console.log(formData)
   }, [formData])
 
   const FormComponent = forms[currentForm];

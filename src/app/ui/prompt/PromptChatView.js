@@ -45,8 +45,8 @@ const PromptChatView = (props) => {
   const [modalVisible, setModalVisible] = useState(false)
   const [user, setUser] = useState(null);
 
-  ////console.log("Showing sub prompts")
-  ////console.log(prompt.subprompts)
+  console.log("Chatting  prompt")
+  console.log(prompt)
 
   const [summary, setSummary] = useState(null);
 
@@ -454,31 +454,49 @@ const PromptChatView = (props) => {
         <div ref={bottomRef}></div>
       </div>
       <div className='flex flex-col justify-left  w-8/12 rounded-md bg-appgreen'>
-        {/* {
-          
-          prompt.subprompts.length > 0 && (
-            prompt.subprompts.map((item, index) => {
-              return (
-                <div key={item.id} className='flex justify-center items-center' onClick={() => {
-                  if (chat.stackedPromptIndexToShow >= index) {
-                    //console.log("Already submitted")
-                  }
-                  else {
-                    //console.log("Submit here",)
-                    handleSubmitSubPrompt(prompt.subprompts)
-                  }
-                }}>
-                  <div className={`flex  border-0 ${(chat && chat.stackedPromptIndexToShow >= index) ? 'bg-appgreen ' : "bg-appgreenlight cursor-pointer"}  justify-center items-center align-self-center p-2`} style={{ minWidth: '164px', height: '50px', borderRadius: '16px', borderWidth: 0 }}>
-                    <p className={`text-center text-sm ${(chat && chat.stackedPromptIndexToShow >= index) ? 'text-gray-500' : "text-white"}`}>{item.title}</p>
-                  </div>
-                  <div className={`bg-white w-10 ${index == prompt.subprompts.length - 1 ? 'hidden' : ''}`} style={{ height: '3px' }}> </div>
-                  <div className={`bg-white w-3 h-3 ${index == prompt.subprompts.length - 1 ? 'hidden' : ''}`} style={{ borderRadius: '50%' }}> </div>
-                </div>
-              )
-            })
-          )
-        } */}
         {
+
+          prompt.subprompts.length > 0 && (
+            <div className='flex flex-row justify-start items-center'>
+              {prompt.subprompts.map((item, index) => (
+                <div
+                  key={item.id}
+                  className='flex flex-row justify-left items-center mr-2'
+                  onClick={() => {
+                    let subprompts = prompt.subprompts
+                    if (chat.stackedPromptIndexToShow >= index) {
+                      //console.log("Already submitted")
+                    } else {
+                      //console.log("Submit here",)
+                      // handleSubmitSubPrompt(prompt.subprompts);
+                      setSubprompt(subprompts[chat.stackedPromptIndexToShow + 1])
+                      let c = chat
+                      c.stackedPromptIndexToShow = c.stackedPromptIndexToShow + 1
+                      setChat(c)
+                      setCanShowPromptHint(c)
+                      setModalVisible(true)
+                    }
+                  }}
+                >
+                  <div
+                    className={`flex border-0 ${(chat && chat.stackedPromptIndexToShow >= index) ? 'bg-appgreen ' : "bg-appgreenlight cursor-pointer"} justify-center items-center p-2`}
+                    style={{ minWidth: '164px', height: '50px', borderRadius: '16px', borderWidth: 0 }}
+                  >
+                    <p className={`text-center text-sm ${(chat && chat.stackedPromptIndexToShow >= index) ? 'text-gray-500' : "text-white"}`}>
+                      {item.title}
+                    </p>
+                  </div>
+                  {/* 
+                  <div className={`bg-white w-10 ${index == prompt.subprompts.length - 1 ? 'hidden' : ''}`} style={{ height: '3px' }}></div>
+                  <div className={`bg-white w-3 h-3 ${index == prompt.subprompts.length - 1 ? 'hidden' : ''}`} style={{ borderRadius: '50%' }}></div> 
+                  */}
+                </div>
+              ))}
+            </div>
+          )
+
+        }
+        {/* {
           props.prompt.subprompts.length > 0 && (
             <StackPromptsInput prompt={props.prompt} chat={chat} handleSubmitSubPrompt={(subprompts) => {
               //send stacked sub prompt here
@@ -492,7 +510,7 @@ const PromptChatView = (props) => {
 
             }} />
           )
-        }
+        } */}
         <div className=' flex flex-grow w-full justify-center items-center p-2'>
           <ChatInput className=' h-50 flex  ' handleSendMessage={handleSendMessage} ></ChatInput>
         </div>

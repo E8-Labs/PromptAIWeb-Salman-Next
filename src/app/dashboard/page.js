@@ -105,15 +105,16 @@ export default function Page() {
   };
 
   const handlePromptSelected = (prompt, chat) => {
-    //console.log("Prompt page in List " + prompt.title + " Clicked")
+    console.log("Prompt page in List ", prompt)
     setCurrentSelectedPrompt(prompt)
     setCurrentChat(chat)
     setMenuSelected("chatgpt")
     let data = { chatViewVisible: true, newChat: true, prompt: prompt, chat: chat }
     if (typeof localStorage !== 'undefined') {
       localStorage.setItem("CURRENTCHAT", JSON.stringify(data))
+      localStorage.setItem("Prompt", JSON.stringify(prompt))
     }
-    router.push("/dashboard/chat?chatid=" + chat.id)
+    router.push("/dashboard/chat")
   }
 
   const loadCurrentUser = async () => {
@@ -380,7 +381,9 @@ export default function Page() {
 
       {/* </div> */}
 
-      <Dialog onClose={closeModal} open={isPopupOpen} style={{}}>
+      <Dialog onClose={()=>{
+        // closeModal()
+      }} open={isPopupOpen} style={{}}>
         <MultiFormPopup onClose={() => {
           loadPrompts();
           setPopupOpen(false);

@@ -4,7 +4,7 @@ import { styled } from 'styled-components';
 
 const PromptChatQuestionsPopup = (props) => {
   // prompt, onClose, onPublish
-  
+  console.log("Prompt in PromptChatQuestionsPopup is ", props.prompt)
     const [currentForm, setCurrentForm] = useState(0);
     const [prompt, setPrompt] = useState(props.prompt)
     const[formComponent, setFormComponent] = useState([PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, PromptChatSingleQuestion, 
@@ -73,6 +73,11 @@ const PromptChatQuestionsPopup = (props) => {
         //console.log("ChatQuestion: Prompt changed", prompt)
         //console.log("ChatQuestion: Prompt in Prompt questionaire ", props.prompt)
       }, [prompt])
+      if(props.prompt === null){
+        return(
+          <div></div>
+        )
+      }
   return (
     <div className="multi-form-popup  flex w-11/12 xl:w-5/9 lg:w-7/12  mx-auto justify-center items-center my-auto  rounded" 
         style={{height: '70vh', borderRadius: '3rem'}}>

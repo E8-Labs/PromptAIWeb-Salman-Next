@@ -85,8 +85,8 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
   });
 
   const addSubPrompt = (p) => {
-    //console.log(`Sub Prompt ${subPromptIndex - 1} added`)
-    //console.log(prompt)
+    console.log(`Sub Prompt ${subPromptIndex - 1} added`)
+    console.log(p)
     setSubPrompts([...subprompts, p])
     setSubPromptIndex(subPromptIndex + 1)
     setPopupOpen(false)
@@ -194,14 +194,16 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         let sub = {
           title: p.title,
           prompt: p.promptText,
-          questions: prompt.promptQuestions
+          questions: p.questions
         }
-        subs.push(sub)
+        if(p.categories.length == 0){ // only main prompt has categories
+          subs.push(sub)
+        }
       }
     }
     data.subprompts = subs
-    //console.log("Prompt data")
-    //console.log(JSON.stringify(data));
+    console.log("Prompt data")
+    console.log(data);
     // setIsLoading(true)
     // return
     if (user) {
@@ -284,7 +286,9 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
         }} editPrompt={editPrompt} promptIndex={promptSelectedToEditIndex} screenIndex={screenToEdit} prompt={promptSelecteToEdit} />
       </Modal>
 
-      <Dialog onClose={closeModal} open={isPopupOpen}>
+      <Dialog onClose={()=>{
+        // closeModal()
+      }} open={isPopupOpen}>
         <StackMultiFormPopup onClose={() => {
           setPopupOpen(false)
         }} addSubPrompt={addSubPrompt} />
@@ -339,7 +343,12 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
                   handleAddNewPromptBtnTap();
                 }} editPromptAction={(screen, prompt) => {
                   handleEditPrompt(screen, prompt, index)
-                }} />
+                }} deletePromptAction={(prompt)=>{
+                  console.log("Delete Prompt", prompt)
+                  const updatedItems = subprompts.filter(item => item.title !== prompt.title && item.promptText !== prompt.promptText);
+                  console.log("Prompts after deleting ", updatedItems)
+                  setSubPrompts(updatedItems)
+                }}/>
             ))
           }
         </div>
@@ -364,7 +373,7 @@ const PromptOverview = ({ onNext, formData, updateFormData, onPublish }) => {
 
 
 
-const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAction }) => {
+const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAction, deletePromptAction }) => {
 
 
   const [user, setUser] = useState(null)
@@ -462,9 +471,15 @@ const PromptOverViewTile = ({ prompt, showButton, addPromptAction, editPromptAct
             <MenuItem onClick={() => {
               editPromptAction(3, prompt)
             }}>Edit Categories</MenuItem>
-            <MenuItem>
-              Delete
-            </MenuItem>
+            {
+              prompt.categories.length == 0 &&(
+                <MenuItem onClick={() => {
+                  deletePromptAction(prompt)
+                }}>
+                  Delete
+                </MenuItem>
+              )
+            }
 
           </Menu>
         </div>

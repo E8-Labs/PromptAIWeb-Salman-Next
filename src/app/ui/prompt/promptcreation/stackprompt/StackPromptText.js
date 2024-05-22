@@ -46,9 +46,9 @@ const StackPromptTextForm = ({ onNext, formData, updateFormData }) => {
             }
         }
 
-        //console.log("prompt questions")
-        //console.log(qs)
-        updateFormData({ promptQuestions: qs })
+        console.log("prompt questions stacked")
+        console.log(qs)
+        updateFormData({ questions: qs })
       onNext();
     };
 

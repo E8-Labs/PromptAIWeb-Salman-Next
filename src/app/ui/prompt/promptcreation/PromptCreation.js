@@ -11,6 +11,8 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { Button, IconButton } from '@mui/material';
 
 import Icons from '../../../lib/Icons'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const forms = [ PromptTitleForm, PromptDescriptionForm, PromptCategoryForm, SetPromptQuestions, PromptOverViewForm];// 
 
@@ -30,6 +32,13 @@ const MultiFormPopup = ({ onClose }) => {
   });
 
   const handleNext = () => {
+    if(currentForm === 2){
+      if(formData.categories.length == 0){
+        console.log("Categories are required")
+        toast(`Please select at least one category`);
+        return
+      }
+    }
     setCurrentForm(currentForm + 1);
   };
 
@@ -86,6 +95,7 @@ const MultiFormPopup = ({ onClose }) => {
           />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

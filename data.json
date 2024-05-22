@@ -1,0 +1,270 @@
+{
+    "chatViewVisible": true,
+    "newChat": true,
+    "prompt": {
+        "id": 44,
+        "title": "prompt 1",
+        "prompt": "Understand the user's Just arguments ",
+        "user": {
+            "id": 11,
+            "name": "Noah Developerr",
+            "username": "noah_developerr",
+            "profile_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/image1705072123781",
+            "email": "noahdeveloperr@gmail.com",
+            "instagram_url": "www.instagram.com/angus",
+            "youtube_url": null,
+            "web_url": "www.angus.com",
+            "discord_url": null,
+            "tiktok_url": null,
+            "followers": 1,
+            "following": 1,
+            "prompts": 14,
+            "amIFollowing": false,
+            "banner_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/imageBanner1715009841263"
+        },
+        "isPublic": true,
+        "description": "test",
+        "model": "gpt-3",
+        "prompt_id": null,
+        "categories": [
+            {
+                "id": 2,
+                "name": "Lifestyle",
+                "icon": null,
+                "createdAt": "2024-01-17T00:00:00.000Z",
+                "updatedAt": "2024-01-17T00:00:00.000Z"
+            }
+        ],
+        "subcategories": [],
+        "subprompts": [
+            {
+                "id": 45,
+                "title": "prompt 1",
+                "prompt": "Understand the user's #problems ",
+                "user": {
+                    "id": 11,
+                    "name": "Noah Developerr",
+                    "username": "noah_developerr",
+                    "profile_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/image1705072123781",
+                    "email": "noahdeveloperr@gmail.com",
+                    "instagram_url": "www.instagram.com/angus",
+                    "youtube_url": null,
+                    "web_url": "www.angus.com",
+                    "discord_url": null,
+                    "tiktok_url": null,
+                    "followers": 1,
+                    "following": 1,
+                    "prompts": 14,
+                    "amIFollowing": false,
+                    "banner_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/imageBanner1715009841263"
+                },
+                "isPublic": true,
+                "description": "test",
+                "model": "gpt-3",
+                "prompt_id": 44,
+                "questions": [
+                    {
+                        "id": 27,
+                        "question": "problems",
+                        "placeholder": "what are your relationship problems? ",
+                        "createdAt": "2024-05-16T19:01:19.000Z",
+                        "updatedAt": "2024-05-16T19:01:19.000Z",
+                        "PromptId": 45
+                    }
+                ],
+                "is_saved": true
+            },
+            {
+                "id": 46,
+                "title": "prompt 2",
+                "prompt": "using the problem and user #goal, create a step by step guide for the couple. ",
+                "user": {
+                    "id": 11,
+                    "name": "Noah Developerr",
+                    "username": "noah_developerr",
+                    "profile_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/image1705072123781",
+                    "email": "noahdeveloperr@gmail.com",
+                    "instagram_url": "www.instagram.com/angus",
+                    "youtube_url": null,
+                    "web_url": "www.angus.com",
+                    "discord_url": null,
+                    "tiktok_url": null,
+                    "followers": 1,
+                    "following": 1,
+                    "prompts": 14,
+                    "amIFollowing": false,
+                    "banner_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/imageBanner1715009841263"
+                },
+                "isPublic": true,
+                "description": "test",
+                "model": "gpt-3",
+                "prompt_id": 44,
+                "questions": [
+                    {
+                        "id": 28,
+                        "question": "problems",
+                        "placeholder": "what are your relationship problems? ",
+                        "createdAt": "2024-05-16T19:01:19.000Z",
+                        "updatedAt": "2024-05-16T19:01:19.000Z",
+                        "PromptId": 46
+                    }
+                ],
+                "is_saved": true
+            }
+        ],
+        "questions": [
+            {
+                "id": 26,
+                "question": "problems",
+                "placeholder": "what are your relationship problems? ",
+                "createdAt": "2024-05-16T19:01:19.000Z",
+                "updatedAt": "2024-05-16T19:01:19.000Z",
+                "PromptId": 44,
+                "answer": "Just arguments"
+            }
+        ],
+        "rank": 560,
+        "views": 122,
+        "usage": 16,
+        "likes": 0,
+        "createdAt": "2024-05-16T19:01:19.000Z",
+        "updatedAt": "2024-05-21T20:24:55.000Z",
+        "is_saved": false
+    },
+    "chat": {
+        "id": 530,
+        "lastMessage": "",
+        "stackedPromptIndexToShow": 0,
+        "PromptId": 44,
+        "Prompt": {
+            "id": 44,
+            "title": "prompt 1",
+            "prompt": "Understand the user's #problems ",
+            "user": {
+                "id": 11,
+                "name": "Noah Developerr",
+                "username": "noah_developerr",
+                "profile_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/image1705072123781",
+                "email": "noahdeveloperr@gmail.com",
+                "instagram_url": "www.instagram.com/angus",
+                "youtube_url": null,
+                "web_url": "www.angus.com",
+                "discord_url": null,
+                "tiktok_url": null,
+                "followers": 1,
+                "following": 1,
+                "prompts": 14,
+                "amIFollowing": false,
+                "banner_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/imageBanner1715009841263"
+            },
+            "isPublic": true,
+            "description": "test",
+            "model": "gpt-3",
+            "prompt_id": null,
+            "categories": [
+                {
+                    "id": 2,
+                    "name": "Lifestyle",
+                    "icon": null,
+                    "createdAt": "2024-01-17T00:00:00.000Z",
+                    "updatedAt": "2024-01-17T00:00:00.000Z"
+                }
+            ],
+            "subcategories": [],
+            "subprompts": [
+                {
+                    "id": 45,
+                    "title": "prompt 1",
+                    "prompt": "Understand the user's #problems ",
+                    "user": {
+                        "id": 11,
+                        "name": "Noah Developerr",
+                        "username": "noah_developerr",
+                        "profile_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/image1705072123781",
+                        "email": "noahdeveloperr@gmail.com",
+                        "instagram_url": "www.instagram.com/angus",
+                        "youtube_url": null,
+                        "web_url": "www.angus.com",
+                        "discord_url": null,
+                        "tiktok_url": null,
+                        "followers": 1,
+                        "following": 1,
+                        "prompts": 14,
+                        "amIFollowing": false,
+                        "banner_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/imageBanner1715009841263"
+                    },
+                    "isPublic": true,
+                    "description": "test",
+                    "model": "gpt-3",
+                    "prompt_id": 44,
+                    "questions": [
+                        {
+                            "id": 27,
+                            "question": "problems",
+                            "placeholder": "what are your relationship problems? ",
+                            "createdAt": "2024-05-16T19:01:19.000Z",
+                            "updatedAt": "2024-05-16T19:01:19.000Z",
+                            "PromptId": 45
+                        }
+                    ],
+                    "is_saved": true
+                },
+                {
+                    "id": 46,
+                    "title": "prompt 2",
+                    "prompt": "using the problem and user #goal, create a step by step guide for the couple. ",
+                    "user": {
+                        "id": 11,
+                        "name": "Noah Developerr",
+                        "username": "noah_developerr",
+                        "profile_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/image1705072123781",
+                        "email": "noahdeveloperr@gmail.com",
+                        "instagram_url": "www.instagram.com/angus",
+                        "youtube_url": null,
+                        "web_url": "www.angus.com",
+                        "discord_url": null,
+                        "tiktok_url": null,
+                        "followers": 1,
+                        "following": 1,
+                        "prompts": 14,
+                        "amIFollowing": false,
+                        "banner_image": "https://promptaiappbucket.s3.us-east-2.amazonaws.com/imageBanner1715009841263"
+                    },
+                    "isPublic": true,
+                    "description": "test",
+                    "model": "gpt-3",
+                    "prompt_id": 44,
+                    "questions": [
+                        {
+                            "id": 28,
+                            "question": "problems",
+                            "placeholder": "what are your relationship problems? ",
+                            "createdAt": "2024-05-16T19:01:19.000Z",
+                            "updatedAt": "2024-05-16T19:01:19.000Z",
+                            "PromptId": 46
+                        }
+                    ],
+                    "is_saved": true
+                }
+            ],
+            "questions": [
+                {
+                    "id": 26,
+                    "question": "problems",
+                    "placeholder": "what are your relationship problems? ",
+                    "createdAt": "2024-05-16T19:01:19.000Z",
+                    "updatedAt": "2024-05-16T19:01:19.000Z",
+                    "PromptId": 44
+                }
+            ],
+            "rank": 560,
+            "views": 123,
+            "usage": 16,
+            "likes": 0,
+            "createdAt": "2024-05-16T19:01:19.000Z",
+            "updatedAt": "2024-05-21T20:24:55.000Z",
+            "is_saved": false
+        },
+        "isNew": true
+    }
+}

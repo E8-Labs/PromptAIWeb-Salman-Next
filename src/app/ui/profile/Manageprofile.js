@@ -4,6 +4,8 @@ import { useRouter } from 'next/navigation'
 import Image from 'next/image';
 import Button from '@mui/material/Button';
 import Snackbar from '@mui/material/Snackbar';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manageprofile = (props) => {
 
@@ -114,18 +116,21 @@ const Manageprofile = (props) => {
                 setName(UpdatedData.name)
                 setEmail(UpdatedData.email)
                 setUsername(UpdatedData.username)
-                setSnackMessage("Profile updated")
-                setShowSnack(true)
+                toast(`Profile updated`);
+                // setSnackMessage("Profile updated")
+                // setShowSnack(true)
             }
             else {
-                setSnackMessage("Error updating profile")
-                setShowSnack(true)
-                console.log('Response is not fine')
+                toast(`Error updating profile`);
+                // setSnackMessage("Error updating profile")
+                // setShowSnack(true)
+                // console.log('Response is not fine')
             }
         }
         catch (error) {
-            setSnackMessage(error.message)
-                setShowSnack(true)
+            toast(error.message);
+            // setSnackMessage(error.message)
+                // setShowSnack(true)
             console.log('Error occured is', error)
         }
         finally {
@@ -135,13 +140,14 @@ const Manageprofile = (props) => {
 
     return (
         <div>
-            <Snackbar
+            {/* <Snackbar
                 open={showSnack}
                 autoHideDuration={6000}
                 onClose={handleClose}
                 message={snackMessage}
                 // action={action}
-            />
+            /> */}
+            <ToastContainer />
             <div className='flex flex-grow flex-row w-full overflow-y-auto ' style={{ maxHeight: 'calc(100vh - 300px)' }}>
                 <div className='bg-[#00C28C30]  w-60 ms-10 ms-3 w-1/4 flex justify-center rounded-2xl' style={{ height: '53vh' }}>
                     <div className='w-10/12 pb-5' >

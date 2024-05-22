@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 const SetStackPromptQuestions = ({formData, updateFormData, onPublish }) => {
-  const { promptQuestions } = formData;
+  const { questions } = formData;
 
   const [privacy, setPrivacy] = useState('Public')
 
@@ -15,8 +15,8 @@ const SetStackPromptQuestions = ({formData, updateFormData, onPublish }) => {
   };
 
   const questionUpdated = (question, index, placeholder) => {
-    promptQuestions[index].placeholder = placeholder;
-    updateFormData({promptQuestions: promptQuestions})
+    questions[index].placeholder = placeholder;
+    updateFormData({questions: questions})
     // updateFormData({ hint: e.target.value })}
   }
 
@@ -28,7 +28,7 @@ const SetStackPromptQuestions = ({formData, updateFormData, onPublish }) => {
         <div className='flex flex-col    overflow-none w-11/12 mt-8'>
             <div className="flex-col  h-50 overflow-scroll   justify-center gap-8  items-center justify-center">
                 {
-                    promptQuestions.map((item, index) => {
+                    questions.map((item, index) => {
                         return(
                         <div className='flex flex-col p-1 px-2 mt-5' key={index} style={{ borderRadius: '15px', borderWidth: '2px', borderColor: '#00C28C' }}>
                             <label className='flex-none text-rubik font-medium text-base mb-1 text-appgreenlight'  style={{ fontSize: '10px', marginBottom: '0.25rem' }}>

@@ -6,6 +6,7 @@ import { TextField, Radio, Stack, Button } from '@mui/material';
 import { CustomTextField } from '../../customcomponents/CustomTextField';
 import { PageControl } from '../../customcomponents/PageControl';
 import Icons from '@/app/lib/Icons';
+import NextButton from '../../customcomponents/nextbutton'
 // import PageControl from 'react-native-page-control';
 // import { Radio } from '@mui/material';
 
@@ -136,13 +137,8 @@ const PromptTitleForm = ({ onNext, formData, updateFormData }) => {
                   <PageControl selectedIndex={0} pages={6} />
                 </Stack>
                 {/* <div class="invisible ...">02</div> */}
-                <div className="bg-appgreenlight rounded-full p-0">
-                  <Button variant="contained" className="" endIcon={<Icons.ArrowForwardIcon />}
-                    sx={{
-                      bgcolor: '#00C28C', padding: 1.2, paddingX: 2, borderRadius: 10, ":hover": {
-                        backgroundColor: "#001812"
-                      }
-                    }} onClick={handleNext}>Continue</Button>
+                <div className={`${(formData.title.length > 0 && formData.description.length > 0) ? 'bg-appgreenlight' : 'bg-appgreen'} rounded-full p-0`}>
+                 <NextButton handleNext={handleNext} selected={(formData.title.length > 0 && formData.description.length > 0)}/>
                 </div>
 
               </div>
