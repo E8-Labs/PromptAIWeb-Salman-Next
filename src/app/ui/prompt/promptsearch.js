@@ -5,6 +5,7 @@ import YoutubeProfile from './../customcomponents/YoutubeProfile'
 import Image from 'next/image';
 import { CircularProgress } from '@mui/material';
 import InfiniteScroll from "react-infinite-scroll-component";
+import UsersProfile from "./../customcomponents/UsersProfile";
 
 import {
   Grid,
@@ -53,6 +54,8 @@ function Promptsearch(props) {
 
   const [currentSelectedPrompt, setCurrentSelectedPrompt] = useState(false)
   const [promptQuestionDialogueVisible, setPromptQuestionDeialogueVisible] = useState(false)
+  //test code for user array
+  const [UsersNUmber, setUsersNUmber] = useState(null);
 
   const router = useRouter();
 
@@ -77,6 +80,7 @@ function Promptsearch(props) {
       //console.log("Event Received Search screen", event.detail)
       // var user = null
       setSearch(event.detail)
+      console.log("Value of event is :", event.detail);
     });
 
     window.addEventListener("suggestionSelected", (event) => {
@@ -85,10 +89,10 @@ function Promptsearch(props) {
       // var user = null
       let suggestion = event.detail;
       const type = typeof suggestion.username === 'undefined' ? 'prompt' : 'user';
-      if(type === "prompt"){
+      if (type === "prompt") {
         setSearch(suggestion.title)
       }
-      else{
+      else {
         setSearch(`userid=${suggestion.id}`)
       }
     });
@@ -182,7 +186,7 @@ function Promptsearch(props) {
     }
 
     let route = ApiPath.AdvancedSearch + `?offset=${offset}${search != '' ? `&search=${search}` : ''}`;
-    if(search.includes("userid=")){
+    if (search.includes("userid=")) {
       route = ApiPath.AdvancedSearch + `?offset=${offset}&${search}`;
     }
     console.log("route of search is ")
@@ -191,7 +195,8 @@ function Promptsearch(props) {
     axios.get(route, config)
       .then(res => {
         setLoading(false)
-        console.log("Data is ")
+        console.log("Data is ", res.data.data)
+        setUsersNUmber(res.data.data.users)
         console.log(res.data.data)
         console.log(typeof res.data.data)
         // setMessages(res.data.data)
@@ -337,16 +342,41 @@ function Promptsearch(props) {
     setSearch(text)
   }
 
-
+  const renderUsersCard = (prompt, index) => {
+    if (UsersNUmber.length > 1) {
+      return (
+        <div style={{ width: '20vw', marginTop: 10, overflowX: 'auto', height: '20vh', }}>
+          <div style={{ width: '18vw' }}>
+            {/*<YoutubeProfile user={prompt} />*/}
+            <UsersProfile user={prompt} />
+          </div>
+        </div>
+      )
+    } else if (UsersNUmber.length === 1) {
+      return (
+        <div style={{ width: '100vw', marginTop: 10, overflowX: 'auto' }}>
+          <div style={{ width: '80vw', }}>
+            <YoutubeProfile user={prompt} />
+            {/*<UsersProfile user={prompt} />*/}
+          </div>
+        </div>
+      )
+    }
+  }
 
   const renderCards = (prompt, index) => {
 
-    if(typeof prompt.username !== 'undefined'){
-      return(
-          <YoutubeProfile  user={prompt}/>
-      )
+    if (typeof prompt.username !== 'undefined') {
+
+      // return (
+      //   <div style={{ width: '100%', marginTop: 10, marginLeft: 45, overflowX: 'auto' }}>
+      //     <div style={{ border: '2px solid red', width: '100%', }}>
+      //       <YoutubeProfile user={prompt} />
+      //     </div>
+      //   </div>
+      // )
     }
-    else{
+    else {
       return (
         <Grid key={prompt.id} item xs={12} sm={6} md={4} lg={4}>
           <div className="rounded bg-appgreen p-0 " >
@@ -364,13 +394,13 @@ function Promptsearch(props) {
                 props.setPromptSaved(prompt, index)
               }}
             ></PromptItem>
-  
-  
+
+
           </div>
         </Grid>
       );
     }
-    
+
   };
 
 
@@ -406,13 +436,27 @@ function Promptsearch(props) {
 
           )
         }
+        <div style={{ color: 'red', height: '30vh', overflow: 'auto', flexDirection: 'row', width: '80vw', display: 'flex', marginTop: 20 }}>
+          <div style={{ display: 'flex', flexDirection: 'row', width: '1000vw', height: '25vh' }}>
+            {prompts.map((prompt, index) => renderUsersCard(prompt, index))}
+          </div>
+        </div>
+
+        {/*
+          UsersNUmber.length > 1 && (
+            <div style={{ height: '80vh', overflowX: 'auto', width: '80vw', display: 'flex', flexDirection: 'row' }}>
+              {prompts.map((prompt, index) => renderCards(prompt, index))}
+            </div>
+          )
+        */}
 
         <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 gap-4 mt-5 " >
 
           {/* Salman's code for displaying search if no items then show no prompt or loading  */}
+
           {
             prompts.length > 0 && (
-              <div className=' overflow-y-auto  mt-3 pr-2 py-6' style={{ height: '80vh', width: '80vw' }}>
+              <div className='mt-3 overflow-y-auto pr-2 py-6' style={{ height: '50vh', width: '80vw' }}>
                 <InfiniteScroll
                   dataLength={prompts.length}
                   next={() => {
@@ -424,13 +468,16 @@ function Promptsearch(props) {
                   // Let's get rid of second scroll bar
                   style={{ overflow: "unset" }}
                 >
-                  <Grid container spacing={4} className=''>
+                  <Grid container spacing={4} className=''
+                  // style={{ height: '80vh', width: '80vw', border: '2px solid green', overflowX: 'auto', overflowY: 'hidden' }}
+                  >
                     {prompts.map((prompt, index) => renderCards(prompt, index))}
                   </Grid>
                 </InfiniteScroll>
               </div>
             )
           }
+
           {/*
             (prompts.length === 0 && !loading) && (
               <div className='flex flex-col h-full w-full justify-center items-center '>
